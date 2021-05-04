@@ -29,6 +29,7 @@ CREATE TABLE `chat` (
   `creation_time` datetime NOT NULL,
   `source_id` int NOT NULL,
   `target_id` int NOT NULL,
+  `profile_id` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -54,7 +55,7 @@ CREATE TABLE `chat_message` (
   `creation_time` datetime NOT NULL,
   `text` varchar(10000) COLLATE utf8_bin DEFAULT NULL,
   `person_id` varchar(45) COLLATE utf8_bin NOT NULL,
-  `received` tinyint NOT NULL,
+  `sent` tinyint NOT NULL,
   `read` tinyint NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -108,7 +109,8 @@ CREATE TABLE `group_request` (
   `creation_time` datetime NOT NULL,
   `learngroup_id` int NOT NULL,
   `source_id` int NOT NULL,
-  `target_id` int NOT NULL
+  `target_id` int NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,6 +164,7 @@ CREATE TABLE `learnprofile` (
   `prev_knowledge` varchar(10000) COLLATE utf8_bin NOT NULL,
   `extroversion` tinyint NOT NULL DEFAULT '0',
   `profile_id` int NOT NULL,
+  `name` varchar(45) COLLATE utf8_bin DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -213,8 +216,6 @@ CREATE TABLE `profile` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
   `age` int NOT NULL,
-  `adress` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '-',
-  `semester` int NOT NULL,
   `degree_course` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `pre_knowledge` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '-',
   `person_id` int NOT NULL,
@@ -265,4 +266,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-02 14:07:31
+-- Dump completed on 2021-05-04 16:44:20

@@ -1,7 +1,7 @@
-from server.nbo.LearningGroup import LearningGroup
+from server.bo.LearnGroup import LearnGroup
 from server.db.DBMapper import Mapper
 
-class LearningGroup (Mapper):
+class LearnGroup (Mapper):
     """Mapper-Klasse, die Student-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -18,15 +18,15 @@ class LearningGroup (Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from learning_group")
+        cursor.execute("SELECT * from learngroup")
         tuples = cursor.fetchall()
 
         for (id, creation_date, name) in tuples:
-            learning_group = LearningGroup()
-            learning_group.set_id(id)
-            learning_group.set_creation_date(creation_date)
-            learning_group.set_name(name)
-            result.append(learning_group)
+            learngroup = LearnGroup()
+            learngroup.set_id(id)
+            learngroup.set_creation_date(creation_date)
+            learngroup.set_name(name)
+            result.append(learngroup)
 
         self._cnx.commit()
         cursor.close()
@@ -43,18 +43,18 @@ class LearningGroup (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name FROM learning_group WHERE id={}".format(key)
+        command = "SELECT id, creation_date, name FROM learngroup WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
             (id, creation_date,name) = tuples[0]
-            learning_group = LearningGroup()
-            learning_group.set_id(id)
-            learning_group.set_creation_date(creation_date)
-            learning_group.set_name(name)
+            learngroup = LearnGroup()
+            learngroup.set_id(id)
+            learngroup.set_creation_date(creation_date)
+            learngroup.set_name(name)
 
-        result = learning_group
+        result = learngroup
 
         self._cnx.commit()
         cursor.close()
@@ -73,17 +73,17 @@ class LearningGroup (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name FROM learning_group WHERE name LIKE '{}'".format(name)
+        command = "SELECT id, creation_date, name FROM learngroup WHERE name LIKE '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         for (id, creation_date, name) in tuples:
-            learning_group = LearningGroup()
-            learning_group.set_id(id)
-            learning_group.set_creation_date(creation_date)
-            learning_group.set_name(name)
+            learngroup = LearnGroup()
+            learngroup.set_id(id)
+            learngroup.set_creation_date(creation_date)
+            learngroup.set_name(name)
 
-        result = learning_group
+        result = learngroup
 
         self._cnx.commit()
         cursor.close()
@@ -91,33 +91,33 @@ class LearningGroup (Mapper):
         return result
 
 
-    def insert(self, learning_group):
+    def insert(self, learngroup):
         """Anlegen einer Rolle"""
         pass
 
 
-    def update(self, learning_group):
+    def update(self, learngroup):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
-        :param learning_group das Objekt, das in die DB geschrieben werden soll
+        :param learngroup das Objekt, das in die DB geschrieben werden soll
         """
 
         cursor = self._cnx.cursor()
 
-        command = ("UPDATE learning_group" + "SET name=%s WHERE id=%s")
-        data = (learning_group.get_id(),
-                learning_group.get_name())
+        command = ("UPDATE learngroup" + "SET name=%s WHERE id=%s")
+        data = (learngroup.get_id(),
+                learngroup.get_name())
         cursor.execute(command, data)
         cursor.close()
 
 
-    def delete(self, learning_group):
+    def delete(self, learngroup):
         """Löschen des Objekts in der Datenbank
-        :param learning_group das zu löschende "Objekt"
+        :param learngroup das zu löschende "Objekt"
         """
 
         cursor = self._cnx.cursor()
 
-        command = ("DELETE FROM learning_group WHERE id={}".format(learning_group.get_id()))
+        command = ("DELETE FROM learngroup WHERE id={}".format(learngroup.get_id()))
         cursor.execute(command)
 
         self._cnx.commit()
