@@ -12,13 +12,13 @@ class Suggestion(nbo):
         self._person_id = person_id
 
     def get_person_id(self):
-        self._person_id
+        return self._person_id
 
     def set_learn_group_id(self, learn_group_id):
         self._learn_group_id = learn_group_id
 
     def get_learn_group_id(self):
-        self._learn_group_id
+        return self._learn_group_id
 
 
 @staticmethod
