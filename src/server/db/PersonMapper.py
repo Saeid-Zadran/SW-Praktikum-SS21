@@ -1,4 +1,4 @@
-from server.nbo.Person import Person
+from server.bo.Person import Person
 from server.db.DBMapper import Mapper
 
 class PersonMapper (Mapper):
@@ -12,16 +12,16 @@ class PersonMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, creation_date, name, role_id, email, google_user_id from person")
+        cursor.execute("SELECT * from person")
         tuples = cursor.fetchall()
 
-        for (id, creation_date, name, role_id, email, google_user_id) in tuples:
+        for (id, creation_time, google_mail, google_user_id, first_name, last_name) in tuples:
             person = Person()
             person.set_id(id)
-            person.set_creation_date(creation_date)
-            person.set_name(name)
-            person.set_role_id(role_id)
-            person.set_email(email)
+            person.set_creation_time(creation_time)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
+            person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
             result.append(person)
 
@@ -34,18 +34,18 @@ class PersonMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name, role_id, email, google_user_id FROM person WHERE id={}".format(key)
+        command = "SELECT * FROM person WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_date, name, role_id, email, google_user_id) = tuples[0]
+            (id, creation_time, google_mail, google_user_id, first_name, last_name) = tuples[0]
             person = Person()
             person.set_id(id)
-            person.set_creation_date(creation_date)
-            person.set_name(name)
-            person.set_role_id(role_id)
-            person.set_email(email)
+            person.set_creation_time(creation_time)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
+            person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
 
         result = person
@@ -67,9 +67,10 @@ class PersonMapper (Mapper):
                 person.set_id(1)
 
 
-        command = "INSERT INTO person (id, creation_date, name, role_id, email, google_user_id) VALUES (%s,%s,%s,%s,%s,%s)"# student_id
-        data = (person.get_id(), person.get_creation_date(), person.get_name(), person.get_role_id(), person.get_email(),
-                person.get_google_user_id())
+        command = "INSERT INTO person (id, creation_time, google_mail, google_user_id, first_name, last_name) " \
+                  "VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_time, person.get_google_mail, person.get_google_user_id,
+                person.get_first_name, person.get_last_name)
 
 
         cursor.execute(command, data)
@@ -82,8 +83,9 @@ class PersonMapper (Mapper):
     def update(self, person):
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person " + "SET name=%s, email=%s, google_user_id=%s WHERE id=%s"
-        data = (person.get_name(), person.get_email(), person.get_google_user_id(), person.get_id())
+        command = "UPDATE person " + "SET first_name=%s, last_name=%s, google_mail=%s WHERE id=%s"
+        data = (person.get_first_name(),person.get_last_name(), person.get_google_mail(),
+                person.get_google_user_id(), person.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -103,19 +105,18 @@ class PersonMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name, role_id, email, google_user_id FROM person WHERE google_user_id LIKE '{}'".format(
-            google_user_id)
+        command = "SELECT * WHERE google_user_id LIKE '{}'".format(google_user_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_date, name, role_id, email, google_user_id) = tuples[0]
+            (id, creation_time, google_mail, google_user_id, first_name, last_name) = tuples[0]
             person = Person()
             person.set_id(id)
-            person.set_creation_date(creation_date)
-            person.set_name(name)
-            person.set_role_id(role_id)
-            person.set_email(email)
+            person.set_creation_time(creation_time)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
+            person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
             result = person
         except IndexError:

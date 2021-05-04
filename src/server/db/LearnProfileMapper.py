@@ -1,7 +1,7 @@
-from server.nbo.LearningPreferences import LearningPreferences
+from server.bo.LearnProfile import LearnProfile
 from server.db.DBMapper import Mapper
 
-class LearningPreferencesMapper (Mapper):
+class LearnProfileMapper (Mapper):
     """Mapper-Klasse, die Student-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -18,16 +18,16 @@ class LearningPreferencesMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from learning_preferences")
+        cursor.execute("SELECT * from learnprofile")
         tuples = cursor.fetchall()
 
         for (id, weekly_flag, name, ) in tuples:
-            learning_preferences = LearningPreferences()
-            learning_preferences.set_id(id)
+            learnprofile = LearnProfile()
+            learnprofile.set_id(id)
 
-            learning_preferences.set_()
+            learnprofile.set_()
 
-            result.append(learning_preferences)
+            result.append(learnprofile)
 
         self._cnx.commit()
         cursor.close()
@@ -45,20 +45,22 @@ class LearningPreferencesMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learning_preferences WHERE id={}".format(key)
+        command = "SELECT * FROM learnprofile WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, weekly_flag, name,  ) = tuples[0]
-            learning_preferences = LearningPreferences()
-            learning_preferences.set_id(id)
-            learning_preferences.set_weekly_flag(weekly_flag)
-            learning_preferences.set_name(name)
+            (id, study_status, frequency, profile_id, name, prev_knowledge) = tuples[0]
+            learnprofile = LearnProfile()
+            learnprofile.set_id(id)
+            learnprofile.set_study_status(study_status)
+            learnprofile.set_frequency(frequency)
+            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_name(name)
+            learnprofile.set_prev_knowledge(prev_knowledge)
 
-            learning_preferences.set_()
 
-        result = learning_preferences
+        result = learnprofile
 
         self._cnx.commit()
         cursor.close()
@@ -75,20 +77,20 @@ class LearningPreferencesMapper (Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learning_preferences WHERE person_id={}".format(person_id)
+        command = "SELECT * FROM learnprofile WHERE person_id={}".format(person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for(id, weekly_flag, name ) in tuples:
-            learning_preferences = LearningPreferences()
-            learning_preferences.set_id(id)
-            learning_preferences.set_weekly_flag(weekly_flag)
-            learning_preferences.set_name(name)
-            learning_preferences.set_creation_date(creation_date)
+        for(id, study_status, frequency, profile_id, name, prev_knowledge) in tuples:
+            learnprofile = LearnProfile()
+            learnprofile.set_id(id)
+            learnprofile.set_study_status(study_status)
+            learnprofile.set_frequency(frequency)
+            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_name(name)
+            learnprofile.set_prev_knowledge(prev_knowledge)
 
-            learning_preferences.set_()
-
-            result.append(learning_preferences)
+            result.append(learnprofile)
 
         self._cnx.commit()
         cursor.close()
@@ -96,46 +98,47 @@ class LearningPreferencesMapper (Mapper):
         return result
 
 
-    def insert(self, learning_preferences):
+    def insert(self, learnprofile):
         """Einfügen eines Projekt-Objekts in die Datenbank.
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
         berichtigt.
-        :param learning_preferences das zu speichernde Objekt
+        :param learnprofile das zu speichernde Objekt
         :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
         """
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM learning_preferences ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM learnprofile ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
                 um 1 hoch und weisen diesen Wert als ID dem User-Objekt zu."""
-                learning_preferences.set_id(maxid[0] + 1)
+                learnprofile.set_id(maxid[0] + 1)
             else:
                 """Wenn wir keine maximale ID feststellen konnten, dann gehen wir
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
-                learning_preferences.set_id(1)
+                learnprofile.set_id(1)
 
-        command = "INSERT INTO learning_preferences (id, weekly_flag, name, creation_date " \
-                  "VALUES (%s,%s,%s,%s)"
-        data = (learning_preferences.get_id(), learning_preferences.get_weekly_flag(), learning_preferences.get_name(), learning_preferences.get_creation_date())
+        command = "INSERT INTO learnprofile (id, study_status, frequency, profile_id, name, prev_knowledge) " \
+                  "VALUES (%s,%s,%s,%s,%s,%s)"
+        data = (learnprofile.get_id(), learnprofile.get_study_status, learnprofile.get_frequency,
+                learnprofile.get_profile_id, learnprofile.get_name, learnprofile.get_prev_knowledge)
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
-        return learning_preferences
+        return learnprofile
 
 
-    def update(self, learning_preferences):
+    def update(self, learnprofile):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
-        :param learning_preferences das Objekt, das in die DB geschrieben werden soll
+        :param learnprofile das Objekt, das in die DB geschrieben werden soll
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE learning_preferences " + "SET weekly_flag=%s, name=%s WHERE id=%s"
-        data = (learning_preferences.get_weekly_flag(), learning_preferences.get_name(),
-                learning_preferences.get_prefered_block_days(),learning_preferences.get_id())
+        command = "UPDATE learnprofile " + "SET study_status=%s, frequency=%s, prev_knowledge=%s WHERE id=%s"
+        data = (learnprofile.get_id(), learnprofile.get_study_status, learnprofile.get_frequency,
+                learnprofile.get_prev_knowledge)
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -144,19 +147,19 @@ class LearningPreferencesMapper (Mapper):
 
 
 
-    def delete(self, learning_preferences):
+    def delete(self, learnprofile):
         """Löschen der Daten eines Projekt-Objekts aus der Datenbank.
-        :param learning_preferences das aus der DB zu löschende "Objekt"
+        :param learnprofile das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM learning_preferences WHERE id={}".format(learning_preferences.get_id())
+        command = "DELETE FROM learnprofile WHERE id={}".format(learnprofile.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
         cursor.close()
 
-        return learning_preferences
+        return learnprofile
 
     def find_by_name(self, name):
         """Auslesen aller Projekte anhand des Projektnamens.
@@ -168,19 +171,20 @@ class LearningPreferencesMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, weekly_flag, name, creation_date FROM learning_preferences WHERE name LIKE '{}'".format(
-            name)
+        command = "SELECT * FROM learnprofile WHERE name LIKE '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, weekly_flag, name, creation_date ) in tuples:
-            learning_preferences = LearningPreferences()
-            learning_preferences.set_id(id)
-            learning_preferences.set_weekly_flag(weekly_flag)
-            learning_preferences.set_name(name)
-            learning_preferences.set_creation_date(creation_date)
+        for (id, study_status, frequency, profile_id, name, prev_knowledge) in tuples:
+            learnprofile = LearnProfile()
+            learnprofile.set_id(id)
+            learnprofile.set_study_status(study_status)
+            learnprofile.set_frequency(frequency)
+            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_name(name)
+            learnprofile.set_prev_knowledge(prev_knowledge)
 
-        result = learning_preferences
+            result.append(learnprofile)
 
         self._cnx.commit()
         cursor.close()
