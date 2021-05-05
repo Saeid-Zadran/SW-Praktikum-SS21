@@ -15,11 +15,9 @@ class BusinessObject(ABC):
         self._creation_time = datetime.now()
 
     def get_id(self):
-        """Auslesen der ID."""
-        return self._id
+         return self._id
 
     def set_id(self, value):
-        """Setzen der ID."""
         self._id = value
 
     def get_creation_time(self):
