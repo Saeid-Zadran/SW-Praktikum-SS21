@@ -6,7 +6,7 @@ from flask_restx import Api, Resource, fields
 from flask_cors import CORS
 '''Wir greifen natürlich auf unsere Applikationslogik inkl. BusinessObject-Klassen zurück'''
 
-from server.ProjectAdministration import ProjectAdministration
+from server.Administration import Administration
 from server.bo.Chat import Chat
 from server.bo.ChatMessage import ChatMessage
 from server.bo.LearnGroup import LearnGroup
@@ -115,10 +115,8 @@ learngroup = api.inherit('LearnGroup', nbo, {
 #BusinessObjekts
 
 chat = api.inherit('Chat', bo, {
-    'chat_id': fields.Integer(attribute='_chat_id',
-                                 description='ID des Chats'),
-    'is_accepted': fields.Boolean(attribute='_is_accepted',
-                                description='Anfragestatus eines Chats'),  # richtig?
+    'chat_id': fields.Integer(attribute='_chat_id',description='ID des Chats'),
+    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),  # richtig?
     'source_id': fields.Integer(attribute='_source_id',
                                  description='Absender der Nachricht'),
     'target_id': fields.Integer(attribute='_target_id',
@@ -215,11 +213,11 @@ class ProfileOperations(Resource):
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = Administration()
-        persons = adm.get_all_profiles()
+        profiles = adm.get_all_profiles()
         return profiles
 
-    @studymatch.marshal_with(profiles, code=200)
-    @studymatch.expect(profiles)  #Wir erwarten ein Profile-Objekt von Client-Seite.
+    @studymatch.marshal_with(profile, code=200)
+    @studymatch.expect(profile)  #Wir erwarten ein Profile-Objekt von Client-Seite.
     @secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
@@ -236,7 +234,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profiles(proposal.get_age(), proposal.get_adress(), proposal.get_semsester(), proposal.get_degree_course, proposal.get_pre_knowledge, proposal.get_person_id())
+            p = adm.create_profile(proposal.get_age(), proposal.get_adress(), proposal.get_semsester(), proposal.get_degree_course, proposal.get_pre_knowledge, proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

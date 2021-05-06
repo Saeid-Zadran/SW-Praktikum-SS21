@@ -28,12 +28,10 @@ class Administration(object):
 
     """person-spezifische Methoden"""
 
-    def create_person(self, first_name,last_name, google_mail, google_user_id):
+    def create_person(self, google_mail, google_user_id):
         """Eine Person anlegen"""
         p = Person()
         p.set_id(1)
-        p.set_first_name(first_name)
-        p.set_last_name(last_name)
         p.set_google_mail(google_mail)
         p.set_google_user_id(google_user_id)
 
@@ -62,17 +60,18 @@ class Administration(object):
         with PersonMapper() as mapper:
             return mapper.find_by_email(google_mail)
 
-    def get_all_person(self):
+    def get_all_persons(self):
         """Alle Personen auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_all()
 
-    def save_person(self, person):
+    def save_person_by_id(self, p):
         """Die gegebene Person speichern."""
         with PersonMapper() as mapper:
-            return mapper.update(person)
+            return mapper.update(p)
 
-    def delete_person(self, person):
+
+    def delete_person(self, person)
         """Die gegebenen Person aus unserem System löschen."""
         with PersonMapper() as mapper:
             mapper.delete(person)
@@ -91,6 +90,26 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
 
+    def get_all_profiles(self):
+        with ProfileMapper() as mapper:
+            return mapper.find_all()
+
+    def save_profile_by_id(self, id):
+        """das gebebene Profil speichern."""
+        with ProfileMapper() as mapper:
+            return mapper.update(id)
+
+
+    def delete_profie(self, p):
+
+        with ProfileMapper() as mapper:
+            mapper.delete(p)
+
+
+    def get_profile_by_id(self, id):
+        with ProfileMapper() as mapper:
+            return mapper.find_by_id(id)
+
     def create_learn_profile(self, study_status, frequency, prev_knowledge, extroversion, person_id):
         """Ein Modul anlegen"""
         learn_profile = Profile()
@@ -103,6 +122,10 @@ class Administration(object):
 
         with ProfileMapper() as mapper:
             return mapper.insert(learn_profile)
+
+
+
+
 
 
     def get_learn_profile_by_person_id(self, person_id):
@@ -128,5 +151,9 @@ class Administration(object):
 
 
     def get_learn_profile_by_matching(self,):
+
+
+
+
 
 
