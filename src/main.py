@@ -24,11 +24,11 @@ app = Flask(__name__)
 """Flask-Erweiterung für Cross-Origin Resource Sharing"""
 CORS(app, resources=r'/app/*')
 
-api = Api(app, version='1.0', title='Prochecked api', #Name?
+api = Api(app, version='1.0', title='Studymatch api', #Name?
           description='Eine rudimentäre Demo-API für Listenerstellung.')
 
 """Namespaces"""
-prochecked = api.namespace('app', description="Funktionen der App") #Name der App?
+studymatch = api.namespace('app', description="Funktionen der App") #Name der App?
 
 """Nachfolgend werden analog zu unseren BusinessObject-Klassen transferierbare Strukturen angelegt.
 
@@ -135,3 +135,138 @@ chatmessage = api.inherit('_ChatMessage', bo, {
     'read': fields.Date(attribute= '_read',
                             description ='Nachricht gelesen oder nicht')
 })
+
+# Person related
+@studymatch.route('/persons')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class PersonOperations(Resource):
+    @studymatch.marshal_list_with(person)
+    @secured
+    def get(self):
+        """Auslesen aller Person-Objekte.
+        Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        persons = adm.get_all_persons()
+        return persons
+
+    @studymatch.marshal_with(person, code=200)
+    @studymatch.expect(person)  #Wir erwarten ein Person-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Person-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = Person.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_person(proposal.get_first_name(), proposal.get_google_user_id(), proposal.get_google_email())
+            return p, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+    @studymatch.marshal_with(person, code=200)
+    @studymatch.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Person-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        p = Person.from_dict(api.payload)
+        if p is not None:
+            adm.save_person_by_id(p)
+            return p, 200
+        else:
+            return '', 500
+    
+@studymatch.route('/persons/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des Person-Objekts')
+class PersonDeleteOperation(Resource):
+    @studymatch.marshal_with(person)
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Person-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        pers = adm.get_person_by_id(id)
+        adm.delete_person(pers)
+        return '', 200
+
+
+
+
+#Profile related
+@studymatch.route('/profiles')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProfileOperations(Resource):
+    @studymatch.marshal_list_with(profiles)
+    @secured
+    def get(self):
+        """Auslesen aller Person-Objekte.
+        Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        persons = adm.get_all_profiles()
+        return profiles
+
+    @studymatch.marshal_with(profiles, code=200)
+    @studymatch.expect(profiles)  #Wir erwarten ein Profile-Objekt von Client-Seite.
+    @secured
+    def post(self):
+        """Anlegen eines neuen Person-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = Profile.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            p = adm.create_profiles(proposal.get_age(), proposal.get_adress(), proposal.get_semsester(), proposal.get_degree_course, proposal.get_pre_knowledge, proposal.get_person_id())
+            return p, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+    @studymatch.marshal_with(profile, code=200)
+    @studymatch.expect(profile)  # Wir erwarten ein Profile-Objekt von Client-Seite.
+    @secured
+    def put(self):
+        """Update eines bestimmten Profile-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        p = Profile.from_dict(api.payload)
+        if p is not None:
+            adm.save_profile_by_id(p)
+            return p, 200
+        else:
+            return '', 500
+    
+@studymatch.route('/profiles/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des Person-Objekts')
+class PersonDeleteOperation(Resource):
+    @studymatch.marshal_with(profile)
+    @secured
+    def delete(self, id):
+        """Löschen eines bestimmten Profile-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        p = adm.get_profile_by_id(id)
+        adm.delete_profie(p)
+        return '', 200
