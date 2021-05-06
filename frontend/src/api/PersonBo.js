@@ -4,36 +4,14 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class PersonBO extends NamedBusinessObject {
 
   
-  constructor(aFirstname, aLastname, aGoogleMail, aGoogleUserId) {
+  constructor(aGoogleMail, aGoogleUserId) {
     super();
-    this.first_name = aFirstname;
-    this.last_name = aLastname;
     this.google_mail = aGoogleMail;
     this.google_user_id = aGoogleUserId;
 
   }
 
  
-  setFirstName(aFirstname) {
-    this.first_name = aFirstname;
-  }
-
-  
-  getFirstName() {
-    return this.first_name;
-  }
-
- 
-  setLastName(aLastname) {
-    this.last_name = aLastname;
-  }
-
-  
-  getLastName() {
-    return this.last_name;
-  }
-
-  
   setGoogleMail(aGoogleMail) {
     this.google_mail = aGoogleMail;
   }

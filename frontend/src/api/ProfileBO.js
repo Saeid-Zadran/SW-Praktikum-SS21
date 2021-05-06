@@ -4,7 +4,7 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class ProfileBO extends NamedBusinessObject {
 
   
-  constructor(aAge, aAdress, aSemester, aDegreeCourse, aPreKnowledge, aPersonId) {
+  constructor(aAge, aAdress, aSemester, aDegreeCourse, aPreKnowledge, aPersonId, aFirstname, aLastname) {
     super();
     this.age = aAge;
     this.adress = aAdress;
@@ -12,6 +12,8 @@ export default class ProfileBO extends NamedBusinessObject {
     this.degree_course = aDegreeCourse;
     this.pre_knowledge = aPreKnowledge;
     this.person_id = aPersonId;
+    this.first_name = aFirstname;
+    this.last_name = aLastname;
   }
 
   
@@ -71,6 +73,25 @@ export default class ProfileBO extends NamedBusinessObject {
   
   getPersonId() {
     return this.person_id;
+  }
+
+  setFirstName(aFirstname) {
+    this.first_name = aFirstname;
+  }
+
+  
+  getFirstName() {
+    return this.first_name;
+  }
+
+ 
+  setLastName(aLastname) {
+    this.last_name = aLastname;
+  }
+
+  
+  getLastName() {
+    return this.last_name;
   }
 
 
