@@ -3,9 +3,9 @@ from server.bo.NamedBusinessObject import NamedBusinessObject as nbo
 class Profile(nbo):
     def __init__(self):
         super().__init__()
-        self._age = None
+        self._age = 0
         self._adress = ""
-        self._semester = None
+        self._semester = 0
         self._degree_course = ""
         self._pre_knowledge = ""
         self._person_id = None

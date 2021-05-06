@@ -4,7 +4,7 @@ class LearnProfile(nbo):
     def __init__(self):
         super().__init__()
         self._study_status = 0
-        self._frequency = None
+        self._frequency = 0
         self._prev_knowledge = ""
         self._extroversion = 0
         self._profile_id = None
