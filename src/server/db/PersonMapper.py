@@ -123,6 +123,21 @@ class PersonMapper (Mapper):
         return result
 
 
+    def update_google_user(self, person):
+
+        cursor = self._cnx.cursor()
+
+        command = "UPDATE person SET name=%s, email=%s, google_user_id=%s WHERE id=%s"
+        data = (person.get_name(), person.get_email(), person.get_google_user_id(), person.get_id())
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
+
+
+
+
 
 if (__name__ == "__main__"):
     with PersonMapper() as mapper:

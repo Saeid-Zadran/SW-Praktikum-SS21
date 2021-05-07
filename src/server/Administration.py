@@ -11,9 +11,9 @@ from server.db.PersonMapper import PersonMapper
 from server.db.ChatMapper import ChatMapper
 from server.db.ChatMessageMapper import ChatMessageMapper
 from server.db.PersonMapper import PersonMapper
-from server.db.Profile import Profile
-from server.db.Suggestion import Suggestion
-from server.bo.LearnGroup import LearnGroup
+from server.db.ProfileMapper import ProfileMapper
+from server.db.SuggestionMapper import SuggestionMapper
+from server.bo.LearnGroupMapper import LearnGroupMapper
 
 
 
@@ -71,7 +71,7 @@ class Administration(object):
             return mapper.update(p)
 
 
-    def delete_person(self, person)
+    def delete_person(self, person):
         """Die gegebenen Person aus unserem System löschen."""
         with PersonMapper() as mapper:
             mapper.delete(person)
@@ -100,7 +100,7 @@ class Administration(object):
             return mapper.update(id)
 
 
-    def delete_profie(self, p):
+    def delete_profile(self, p):
 
         with ProfileMapper() as mapper:
             mapper.delete(p)
@@ -128,32 +128,47 @@ class Administration(object):
 
 
 
-    def get_learn_profile_by_person_id(self, person_id):
-        with LearnProfileMapper() as mapper:
-           return mapper.find_by_person_id(person_id)
+    #def get_learn_profile_by_person_id(self, person_id):
+       #with LearnProfileMapper() as mapper:
+          # return mapper.find_by_person_id(person_id)
 
-    def match(self, profile_id_a, profile_id__b):
+    #def match(self, profile_id_a, profile_id__b):
         #beide profile aus der Datebank holen
         #get_learn_profile_by_id
         #learnprofile_frequency von profil a mit profil b vergleichen
         #frequency felder vergleichen, jede überinstimmung eine 1 zurückgeben
 
-        count= 0
-        total = 4
+        #count= 0
+        #total = 4
 
-        if afreqquenc == bfrequency:
+        #if afreqquenc == bfrequency:
 
-            count++
+            #count++
 
         #...
-        return count/total*100
+        #return count/total*100
 
 
 
-    def get_learn_profile_by_matching(self,):
+   #def get_learn_profile_by_matching(self,):
 
 
+    """User erstellt"""
 
+    def create_user(self, name, email, google_user_id):
+        p = Person()
+        p.set_id(1)
+        p.set_name(name)
+        p.set_email(email)
+        p.set_google_user_id(google_user_id)
+        with PersonMapper() as mapper:
+            return mapper.insert_google_user(p)
+
+    """User speichern"""
+    def save_user(self, user):
+        """Den gegebenen Benutzer speichern."""
+        with PersonMapper() as mapper:
+            mapper.update_google_user(user)
 
 
 
