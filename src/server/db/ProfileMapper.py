@@ -22,11 +22,13 @@ class ProfileMapper (Mapper):
         cursor.execute("SELECT * from profile")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, age, degree_course, preferences, person_id) in tuples:
+        for (id, creation_time, age, adress, semester, degree_course, preferences, person_id) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
             profile.set_age(age)
+            profile.set_adress(adress)
+            profile.set_semester(semester)
             profile.set_degree_course(degree_course)
             profile.set_preferences(preferences)
             profile.set_person_id(person_id)
@@ -37,7 +39,7 @@ class ProfileMapper (Mapper):
 
         return result
 
-    def find_by_key(self, key):
+    def find_by_id(self, id):
         """Auslesen aller Benotungen anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -47,16 +49,18 @@ class ProfileMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM profile WHERE id={}".format(key)
+        command = "SELECT * FROM profile WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id,creation_time, age, degree_course, preferences, person_id) = tuples[0]
+            (id,creation_time, age, adress, semester, degree_course, preferences, person_id) = tuples[0]
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
             profile.set_age(age)
+            profile.set_adress(adress)
+            profile.set_semester(semester)
             profile.set_degree_course(degree_course)
             profile.set_preferences(preferences)
             profile.set_person_id(person_id)
@@ -81,11 +85,13 @@ class ProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,creation_time, age, degree_course, preferences, person_id) in tuples:
+        for (id,creation_time, age,adress,semester, degree_course, preferences, person_id) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
             profile.set_age(age)
+            profile.set_adress(adress)
+            profile.set_semester(semester)
             profile.set_degree_course(degree_course)
             profile.set_preferences(preferences)
             profile.set_person_id(person_id)
@@ -119,9 +125,9 @@ class ProfileMapper (Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 profile.set_id(1)
 
-        command = "INSERT INTO profile (id, creation_time, age, degree_course, preferences, person_id) VALUES (%s,%s,%s,%s,%s)"
-        data = (profile.get_id(), profile.get_creation_time(), profile.get_age(),
-                profile.get_person_id(), profile.get_degree_course(), profile.get_preferences())
+        command = "INSERT INTO profile (id, creation_time, age,adress, semester, degree_course, preferences, person_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+        data = (profile.get_id(), profile.get_creation_time(),profile.get_age(), profile.get_adress(), profile.get_semester(),
+               profile.get_degree_course(), profile.get_preferences(),profile.get_person_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -133,8 +139,8 @@ class ProfileMapper (Mapper):
         :param profile das Objekt, das in die DB geschrieben werden soll
         """
         cursor = self._cnx.cursor()
-        command = "UPDATE profile " + "SET preferences=%s, degree_course=%s  WHERE id=%s"
-        data = (profile.get_preferences(), profile.get_degree_course(), profile.get_id())
+        command = "UPDATE profile " + "SET creation_time=%s, age=%s, adress=%s, semester=%s, preferences=%s, degree_course=%s  WHERE id=%s"
+        data = (profile.get_creation_time(),profile.get_age(),profile.get_adress(),profile.get_semester(),profile.get_preferences(), profile.get_degree_course(), profile.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -154,7 +160,7 @@ class ProfileMapper (Mapper):
 
 if (__name__ == "__main__"):
     with ProfileMapper() as mapper:
-        result = mapper.find_by_person_id('0')
+        result = mapper.find_all()
         print(result)
 
 

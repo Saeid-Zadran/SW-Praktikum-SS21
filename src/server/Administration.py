@@ -7,13 +7,13 @@ from server.bo.Suggestion import Suggestion
 from server.bo.LearnGroup import LearnGroup
 
 
-from server.db.PersonMapper import PersonMapper
-from server.db.ChatMapper import ChatMapper
-from server.db.ChatMessageMapper import ChatMessageMapper
+#from server.db.PersonMapper import PersonMapper
+#from server.db.ChatMapper import ChatMapper
+#from server.db.ChatMessageMapper import ChatMessageMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProfileMapper import ProfileMapper
-from server.db.SuggestionMapper import SuggestionMapper
-from server.bo.LearnGroupMapper import LearnGroupMapper
+#from server.db.SuggestionMapper import SuggestionMapper
+#from server.bo.LearnGroupMapper import LearnGroupMapper
 
 
 
@@ -39,10 +39,7 @@ class Administration(object):
         with PersonMapper() as mapper:
             return mapper.insert(p)
 
-    def get_person_by_first_name(self, first_name):
-        """"Alle Personen mit Namen name auslesen."""
-        with PersonMapper() as mapper:
-            return mapper.find_by_first_name(first_name)
+
 
     def get_person_by_id(self, id):
         """Die Person mit der gegebenen ID auslesen."""
@@ -65,7 +62,7 @@ class Administration(object):
         with PersonMapper() as mapper:
             return mapper.find_all()
 
-    def save_person_by_id(self, p):
+    def save_person(self, p):
         """Die gegebene Person speichern."""
         with PersonMapper() as mapper:
             return mapper.update(p)
@@ -94,7 +91,7 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.find_all()
 
-    def save_profile_by_id(self, id):
+    def save_profile(self, id):
         """das gebebene Profil speichern."""
         with ProfileMapper() as mapper:
             return mapper.update(id)
