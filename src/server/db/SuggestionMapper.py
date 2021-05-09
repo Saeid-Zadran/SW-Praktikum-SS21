@@ -1,4 +1,4 @@
-from server.nbo.Suggestion import Suggestion
+from server.bo.Suggestion import Suggestion
 from server.db.DBMapper import Mapper
 
 class SuggestionMapper (Mapper):

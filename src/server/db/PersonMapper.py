@@ -1,6 +1,7 @@
 from server.bo.Person import Person
 from server.db.DBMapper import Mapper
 
+
 class PersonMapper (Mapper):
 
     def __init__(self):
@@ -28,11 +29,11 @@ class PersonMapper (Mapper):
 
         return result
 
-    def find_by_key(self, key):
+    def find_by_id(self, id):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM person WHERE id={}".format(key)
+        command = "SELECT * FROM person WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -64,8 +65,8 @@ class PersonMapper (Mapper):
 
 
         command = "INSERT INTO person (id, creation_time, google_mail, google_user_id) " \
-                  "VALUES (%s,%s,%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_creation_time, person.get_google_mail, person.get_google_user_id)
+                  "VALUES (%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_time(), person.get_google_mail(), person.get_google_user_id())
 
 
         cursor.execute(command, data)
@@ -79,7 +80,7 @@ class PersonMapper (Mapper):
         cursor = self._cnx.cursor()
 
         command = "UPDATE person " + "SET google_mail = %s, google_user_id=%s WHERE id=%s"
-        data = (person.person.get_google_mail(),
+        data = (person.get_google_mail(),
                 person.get_google_user_id(), person.get_id())
         cursor.execute(command, data)
 
@@ -139,12 +140,11 @@ class PersonMapper (Mapper):
 
 
 
-if (__name__ == "__main__"):
+"""if (__name__ == "__main__"):
     with PersonMapper() as mapper:
-        result = mapper.find_by_role_id('3')
-        for l in result:
-            print(l)
-
+        result = mapper.find_all()
+        for p in result:
+            print(p)"""
 
 
 

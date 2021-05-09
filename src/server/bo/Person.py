@@ -29,9 +29,8 @@ class Person(nbo):
         obj = Person()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_creation_time(dictionary["creation_time"])
-        obj.set_name(dictionary["name"])
-        obj.set_learn_google_mail(dictionary["google_mail"])
+        #obj.set_creation_time(dictionary["creation_time"])
+        obj.set_google_mail(dictionary["google_mail"])
         obj.set_google_user_id(dictionary["google_user_id"])
 
         return obj
