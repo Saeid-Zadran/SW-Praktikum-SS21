@@ -35,7 +35,6 @@ class Administration(object):
         p.set_google_mail(google_mail)
         p.set_google_user_id(google_user_id)
 
-
         with PersonMapper() as mapper:
             return mapper.insert(p)
 
@@ -62,10 +61,10 @@ class Administration(object):
         with PersonMapper() as mapper:
             return mapper.find_all()
 
-    def save_person(self, p):
+    def save_person(self, person):
         """Die gegebene Person speichern."""
         with PersonMapper() as mapper:
-            return mapper.update(p)
+            return mapper.update(person)
 
 
     def delete_person(self, person):
@@ -75,13 +74,15 @@ class Administration(object):
 
 
 
-    def create_profile(self, age , adress, semester,degree_course):
+    def create_profile(self, age , adress, semester,degree_course,preferences,person_id):
         """Ein Modul anlegen"""
         profile = Profile()
         profile.set_age(age)
         profile.set_adress(adress)
         profile.set_semester(semester)
         profile.set_degree_course(degree_course)
+        profile.set_preferences(preferences)
+        profile.set_person_id(person_id)
         profile.set_id(1)
 
         with ProfileMapper() as mapper:
@@ -91,16 +92,16 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.find_all()
 
-    def save_profile(self, id):
+    def save_profile(self,profile):
         """das gebebene Profil speichern."""
         with ProfileMapper() as mapper:
-            return mapper.update(id)
+            return mapper.update(profile)
 
 
-    def delete_profile(self, p):
+    def delete_profile(self, profile):
 
         with ProfileMapper() as mapper:
-            mapper.delete(p)
+            mapper.delete(profile)
 
 
     def get_profile_by_id(self, id):

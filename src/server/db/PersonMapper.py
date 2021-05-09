@@ -1,6 +1,7 @@
 from server.bo.Person import Person
 from server.db.DBMapper import Mapper
 
+
 class PersonMapper (Mapper):
 
     def __init__(self):
@@ -139,11 +140,11 @@ class PersonMapper (Mapper):
 
 
 
-if (__name__ == "__main__"):
+"""if (__name__ == "__main__"):
     with PersonMapper() as mapper:
         result = mapper.find_all()
         for p in result:
-            print(p)
+            print(p)"""
 
 
 

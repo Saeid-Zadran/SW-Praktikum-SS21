@@ -52,7 +52,7 @@ nbo = api.inherit('NamedBusinessObjects', bo, {
 
 
 
-person = api.inherit('Person', bo, {
+person = api.inherit('Person', nbo, {
     'google_user_id': fields.String(attribute='_google_user_id', description='Google User ID einer Person'),
     'google_mail': fields.String(attribute='_google_mail', description='Google Mail einer Person')
 })
@@ -104,15 +104,15 @@ chatmessage = api.inherit('_ChatMessage', bo, {
 # Person related
 @studymatch.route('/persons')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-class PersonOperations(Resource):
+class PersonListOperations(Resource):
     @studymatch.marshal_list_with(person)
     #@secured
     def get(self):
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = Administration()
-        persons = adm.get_all_persons()
-        return persons
+        pers = adm.get_all_persons()
+        return pers
 
     @studymatch.marshal_with(person, code=200)
     @studymatch.expect(person)  #Wir erwarten ein Person-Objekt von Client-Seite.
@@ -138,6 +138,7 @@ class PersonOperations(Resource):
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
             return '', 500
 
+
     @studymatch.marshal_with(person, code=200)
     @studymatch.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
     #@secured
@@ -149,28 +150,17 @@ class PersonOperations(Resource):
         if p is not None:
             adm.save_person(p)
             return p, 200
+
         else:
             return '', 500
-    
-@studymatch.route('/persons/<int:id>')
+
+
+
+@studymatch.route('/person/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'id des Person-Objekts')
 class PersonDeleteOperation(Resource):
-    @studymatch.marshal_with(person)
-   #@secured
-    def delete(self, id):
-        """Löschen eines bestimmten Person-Objekts.
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = Administration()
-        pers = adm.get_person_by_id(id)
-        adm.delete_person(pers)
-        return '', 200
 
-@studymatch.route('/persons/<int:id>')
-@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@studymatch.param('id', 'Die ID des Project-Objekts')
-class PersonOperations(Resource):
     @studymatch.marshal_with(person)
     #@secured
     def get(self, id):
@@ -181,6 +171,23 @@ class PersonOperations(Resource):
         adm = Administration()
         pers = adm.get_person_by_id(id)
         return pers
+
+
+
+    @studymatch.marshal_with(person)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten Person-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        pers = adm.get_person_by_id(id)
+        adm.delete_person(pers)
+        return '', 200
+
+
+
+
 
 
 #Profile related
@@ -214,7 +221,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profile(proposal.get_creation_time(),proposal.get_age(), proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course, proposal.get_preferences, proposal.get_person_id())
+            p = adm.create_profile(proposal.get_age(), proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -222,23 +229,38 @@ class ProfileOperations(Resource):
 
     @studymatch.marshal_with(profile, code=200)
     @studymatch.expect(profile)  # Wir erwarten ein Profile-Objekt von Client-Seite.
-   #@secured
-    def put(self,id):
+    #@secured
+    def put(self):
         """Update eines bestimmten Profile-Objekts."""
         adm = Administration()
         print(api.payload)
         p = Profile.from_dict(api.payload)
         if p is not None:
-            p.set_id(id)
-            adm.save_profile(id)
+            adm.save_profile(p)
             return p, 200
         else:
             return '', 500
-    
-@studymatch.route('/profiles/<int:id>')
+
+
+@studymatch.route('/profile/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'id des Person-Objekts')
 class ProfileDeleteOperation(Resource):
+
+
+    @studymatch.marshal_with(profile)
+    #@secured
+    def get(self, id):
+        """Auslesen eines bestimmten Projekts.
+
+        Auszulesende Projekt wird durch id bestimmt.
+        """
+        adm = Administration()
+        prof = adm.get_profile_by_id(id)
+        return prof
+
+
+
     @studymatch.marshal_with(profile)
     #@secured
     def delete(self, id):
