@@ -14,10 +14,11 @@ class ProfileForm extends Component {
   constructor(props) {
     super(props);
 
-    let n = '', a = '', s = '', c = '', p = '', r = '' ;
+    let n = '', a = '', d = '', s = '', c = '', p = '', r = '' ;
     if (props.profile) {
       n = props.profile.getName();
       a = props.profile.getAge();
+      d = props.adress.getAdress();
       s = props.profile.getSemester();
       c = props.profile.getDegreeCourse();
       p = props.profile.getPreferences();
@@ -33,6 +34,9 @@ class ProfileForm extends Component {
       age: a,
       ageValidationFailed: false,
       ageEdited: false,
+      adress: c,
+      adressValidationFailed: false,
+      adressEdited: false,
       semester: s,
       semesterValidationFailed: false,
       semesterEdited: false,
@@ -59,10 +63,12 @@ class ProfileForm extends Component {
     let newProfile = new ProfileBO();
     newProfile.setName(this.state.name)
     newProfile.setAge(this.state.age)
+    newProfile.setAdress(this.state.adress)
     newProfile.setSemester(this.state.semester)
     newProfile.setDegreeCourse(this.state.degreeCourse)
     newProfile.setPreferences(this.state.preferences)
     newProfile.setPersonId(this.state.personId)
+   
 
     AppApi.getAPI().addProfile(newProfile).then(profile => {
       
@@ -87,6 +93,7 @@ class ProfileForm extends Component {
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
     updateProfile.setName(this.state.name);
     updateProfile.setAge(this.state.age);
+    updateProfile.setAdress(this.state.adress);
     updateProfile.setSemester(this.state.semester);
     updateProfile.setDegreeCourse(this.state.degreeCourse);
     updateProfile.setPreferences(this.state.preferences);
@@ -99,6 +106,7 @@ class ProfileForm extends Component {
       });
       this.baseState.name = this.state.name;
       this.baseState.age = this.state.age;
+      this.baseState.adress = this.state.adress;
       this.baseState.semester = this.state.semester;
       this.baseState.degreeCourse = this.state.degreeCourse;
       this.baseState.preferences = this.state.preferences;
@@ -141,8 +149,8 @@ class ProfileForm extends Component {
 
   render() {
     const { classes, profile, show } = this.props;
-    const { name, nameValidationFailed, nameEdited, age, ageValidationFailed, ageEdited,
-    semester, semesterValidationFailed, semesterEdited, degreeCourse, degreeCourseFailed, degreeCourseEdited,
+    const { name, nameValidationFailed, nameEdited, age, ageValidationFailed, ageEdited, adress, adressValidationFailed, adressEdited,
+    semester, semesterValidationFailed, semesterEdited, degreeCourse, degreeCourseValidationFailed, degreeCourseEdited,
     preferences, preferencesValidationFailed, preferencesEdited, personId, personIdValidationFailed, personIdEdited, 
     addingInProgress, addingError, updatingInProgress, updatingError } = this.state;
     let title = '';
@@ -174,7 +182,10 @@ class ProfileForm extends Component {
               <TextField type='text' required fullWidth margin='normal' id='age' label='Age:' value={age}
                 onChange={this.textFieldValueChange} error={ageValidationFailed}
                 helperText={ageValidationFailed ? 'The Age must contain at least one character' : ' '} />
-               <TextField type='text' required fullWidth margin='normal' id='semester' label='Semester:' value={semester}
+              <TextField autoFocus type='text' required fullWidth margin='normal' id='adress' label='Adress:' value={adress}
+                onChange={this.textFieldValueChange} error={adressValidationFailed}
+                helperText={adressValidationFailed ? 'The adress must contain at least one character' : ' '} />
+              <TextField type='text' required fullWidth margin='normal' id='semester' label='Semester:' value={semester}
                 onChange={this.textFieldValueChange} error={semesterValidationFailed}
                 helperText={semesterValidationFailed ? 'The semester must contain at least one character' : ' '} />
               <TextField autoFocus type='text' required fullWidth margin='normal' id='degreeCourse' label='DegreeCourse:' value={degreeCourse}
@@ -201,10 +212,10 @@ class ProfileForm extends Component {
             </Button>
             {
               profile ?
-                <Button disabled={nameValidationFailed || ageValidationFailed || semesterValidationFailed || degreeCourseValidationFailed || preferencesValidationFailed || personIdValidationFailed} variant='contained' onClick={this.updateProfile} color='primary'>
+                <Button disabled={nameValidationFailed || ageValidationFailed || adressValidationFailed || semesterValidationFailed || degreeCourseValidationFailed || preferencesValidationFailed || personIdValidationFailed} variant='contained' onClick={this.updateProfile} color='primary'>
                   Update
               </Button>
-                : <Button disabled={nameValidationFailed || !nameEdited || ageValidationFailed || !ageEdited || semesterValidationFailed || !semesterEdited || degreeCourseValidationFailed || !degreeCourseEdited || preferencesValidationFailed || !preferencesEdited || personIdValidationFailed || !personIdEdited } variant='contained' onClick={this.addProfile} color='primary'>
+                : <Button disabled={nameValidationFailed || !nameEdited || ageValidationFailed || !ageEdited || adressValidationFailed || !adressEdited || semesterValidationFailed || !semesterEdited || degreeCourseValidationFailed || !degreeCourseEdited || preferencesValidationFailed || !preferencesEdited || personIdValidationFailed || !personIdEdited } variant='contained' onClick={this.addProfile} color='primary'>
                   Add
              </Button>
             }
