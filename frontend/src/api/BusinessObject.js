@@ -1,9 +1,11 @@
+
+
 export default class BusinessObject {
 
 
     constructor() {
       this.id = 0;
-      this.creation_time = dateTime.now();
+      this.creation_time = null
     }
 
 
