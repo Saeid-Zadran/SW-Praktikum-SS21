@@ -4,9 +4,9 @@ import Button from "@material-ui/core/Button";
 
 function App() {
   return (
-    <Button variant="contained" color="primary" disableElevation>
-      Disable elevation
-    </Button>
+    <center>
+      <h1>StudyMatch</h1>
+    </center>
   );
 }
 

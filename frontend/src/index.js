@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import CreateProfile from "./components/CreateProfile";
 
 ReactDOM.render(
   <React.StrictMode>
