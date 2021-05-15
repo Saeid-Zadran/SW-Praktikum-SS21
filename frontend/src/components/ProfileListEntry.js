@@ -5,6 +5,9 @@ import { Button, ButtonGroup } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ProfileForm from './dialogs/ProfileForm';
 import ProfileDeleteDialog from './dialogs/ProfileDeleteDialog';
+import CssBaseline from "@material-ui/core/CssBaseline";
+
+
 
 
 
@@ -71,12 +74,12 @@ class ProfileListEntry extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>
-                  Name:           {Profile.getName()},<br></br>
-                  Adresse:        {Profile.getAdress()},<br></br>
-                  Semester:       {Profile.getSemester()}<br></br>
-                  DegreeCourse:   {Profile.getDegreeCourse()}<br></br>
-                  Preferenzen:    {Profile.getPreferences()}<br></br>
-                  PersonId:       {Profile.getPersonId()}<br></br>
+                  Name:           {profile.getName()},<br></br>
+                  Adresse:        {profile.getAdress()},<br></br>
+                  Semester:       {profile.getSemester()}<br></br>
+                  DegreeCourse:   {profile.getDegreeCourse()}<br></br>
+                  Preferenzen:    {profile.getPreferences()}<br></br>
+                  PersonId:       {profile.getPersonId()}<br></br>
 
 
 

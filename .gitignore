@@ -1,9 +1,2 @@
 # Created by .ignore support plugin (hsz.mobi)
-frontend/package.json
-frontend/package-lock.json
-src/server/bo/__pycache__
-src/server/db/__pycache__/DBMapper.cpython-38.pyc
-src/server/db/__pycache__/PersonMapper.cpython-38.pyc
-src/server/db/__pycache__/ProfileMapper.cpython-38.pyc
-src/server/db/__pycache__/__init__.cpython-38.pyc
-src/server/__pycache__/Administration.cpython-38.pyc
+__pycache__
