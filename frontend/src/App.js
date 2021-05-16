@@ -123,7 +123,7 @@ class App extends React.Component {
                     <SignIn />
                   </Route>
                   <Route path="/ProfileList">
-                    <profile />
+                    <ProfileList />
                   </Route>
                 </>
               ) : (
