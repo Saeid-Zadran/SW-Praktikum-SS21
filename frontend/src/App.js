@@ -11,8 +11,12 @@ import SignIn from "./components/pages/SignIn";
 import ProfileList from "./components/ProfileList";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
+<<<<<<< HEAD
 import AppApi from "./api/AppApi"; 
 
+=======
+import Start from "./components/pages/Start";
+>>>>>>> Saeid
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
   #firebaseConfig = {
@@ -127,18 +131,10 @@ class App extends React.Component {
               // Is a user signed in?
               currentUser ? (
                 <>
-                  <Redirect from="/" to="SignIn" />
-                  <Route exact path="/SignIn">
-                    <SignIn />
-                  </Route>
-                  <Route path="/ProfileList">
-                    <ProfileList />
-                  </Route>
                 </>
               ) : (
                 // else show the sign in page
                 <>
-                  <Redirect to="/index.html" />
                   <SignIn onSignIn={this.handleSignIn} />
                 </>
               )
