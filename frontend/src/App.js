@@ -131,10 +131,21 @@ class App extends React.Component {
               // Is a user signed in?
               currentUser ? (
                 <>
+                  <Redirect from='/' to='start' />
+									<Route exact path='/start'>
+										<Start />
+									</Route>
+									<Route path='/profile'>
+										<ProfileList/>
+                    <Route path='/student/profiles'>
+										<ProfileList currentUserMail={currentUser.email}/>
+									</Route>
+									</Route>
                 </>
               ) : (
                 // else show the sign in page
                 <>
+                  <Redirect to="/SignIn" />
                   <SignIn onSignIn={this.handleSignIn} />
                 </>
               )
