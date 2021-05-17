@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { Container, ThemeProvider, CssBaseline } from "@material-ui/core";
+import { Container, ThemeProvider, CssBaseline, Paper } from "@material-ui/core";
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
@@ -11,9 +11,18 @@ import SignIn from "./components/pages/SignIn";
 import ProfileList from "./components/ProfileList";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
+import AppApi from "./api/AppApi"; 
 
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
+  #firebaseConfig = {
+    apiKey: "AIzaSyDKW0LRef6MNcjDTyEre_W_BsJ3Gvc6aWw",
+    authDomain: "sw-praktikum-studymatch.firebaseapp.com",
+    projectId: "sw-praktikum-studymatch",
+    storageBucket: "sw-praktikum-studymatch.appspot.com",
+    messagingSenderId: "770470355902",
+    appId: "1:770470355902:web:4e88c0b5a8b0063ec18fef"
+  };
   constructor(props) {
     super(props);
 
