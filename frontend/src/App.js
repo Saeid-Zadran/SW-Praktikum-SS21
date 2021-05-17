@@ -11,7 +11,7 @@ import SignIn from "./components/pages/SignIn";
 import ProfileList from "./components/ProfileList";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
-
+import Start from "./components/pages/Start";
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
   constructor(props) {
@@ -118,18 +118,21 @@ class App extends React.Component {
               // Is a user signed in?
               currentUser ? (
                 <>
-                  <Redirect from="/" to="SignIn" />
-                  <Route exact path="/SignIn">
-                    <SignIn />
-                  </Route>
-                  <Route path="/ProfileList">
-                    <ProfileList />
-                  </Route>
+                  <Redirect from='/' to='start' />
+									<Route exact path='/start'>
+										<Start />
+									</Route>
+									<Route path='/profile'>
+										<ProfileList/>
+                    <Route path='/student/profiles'>
+										<ProfileList currentUserMail={currentUser.email}/>
+									</Route>
+									</Route>
                 </>
               ) : (
                 // else show the sign in page
                 <>
-                  <Redirect to="/index.html" />
+                  <Redirect to="/SignIn" />
                   <SignIn onSignIn={this.handleSignIn} />
                 </>
               )
