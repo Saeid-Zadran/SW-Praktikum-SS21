@@ -22,13 +22,15 @@ class Start extends Component {
     return (
       <div>
         <center>
-          <Typography>Wählen Sie Ihre Rolle:</Typography>
+          <Typography>Erstellen Sie ein neues Profil: </Typography>
           <Link
             to={{
               pathname: "/ProfileList",
             }}
           >
-            <Button>Profile</Button>
+            <Button variant="contained" color="primary">
+              Profil erstellen
+            </Button>
           </Link>
         </center>
       </div>
