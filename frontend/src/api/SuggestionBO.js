@@ -36,7 +36,7 @@ export default class SuggestionBO extends NamedBusinessObject {
   static fromJSON(suggestions) {
     let result = [];
 
-    if (Array.isArray(chats)) {
+    if (Array.isArray(suggestions)) {
         suggestions.forEach((s) => {
         Object.setPrototypeOf(s, SuggestionBO.prototype);
         result.push(s);

@@ -91,15 +91,15 @@ class ProfileForm extends Component {
   
   updateProfile = () => {
     let updatedProfile = Object.assign(new ProfileBO(), this.props.profile);
-    updateProfile.setName(this.state.name);
-    updateProfile.setAge(this.state.age);
-    updateProfile.setAdress(this.state.adress);
-    updateProfile.setSemester(this.state.semester);
-    updateProfile.setDegreeCourse(this.state.degreeCourse);
-    updateProfile.setPreferences(this.state.preferences);
-    updateProfile.setPersonId(this.state.personId);
+    updatedProfile.setName(this.state.name);
+    updatedProfile.setAge(this.state.age);
+    updatedProfile.setAdress(this.state.adress);
+    updatedProfile.setSemester(this.state.semester);
+    updatedProfile.setDegreeCourse(this.state.degreeCourse);
+    updatedProfile.setPreferences(this.state.preferences);
+    updatedProfile.setPersonId(this.state.personId);
 
-    AppApi.getAPI().updateProfile(updateProfile).then(profile => {
+    AppApi.getAPI().updateProfile(updatedProfile).then(profile => {
       this.setState({
         updatingInProgress: false,              
         updatingError: null                     
@@ -112,7 +112,7 @@ class ProfileForm extends Component {
       this.baseState.preferences = this.state.preferences;
       this.baseState.personId = this.state.personId;
 
-      this.props.onClose(updateProfile);     
+      this.props.onClose(updatedProfile);
     }).catch(e =>
       this.setState({
         updatingInProgress: false,              
