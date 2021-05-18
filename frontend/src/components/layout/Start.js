@@ -23,7 +23,11 @@ class Start extends Component {
       <div>
         <center>
           <Typography>Wählen Sie ihr Profil aus:</Typography>
-          <Link to="/Start/ProfileList">
+          <Link
+            to={{
+              pathname: "/ProfileList",
+            }}
+          >
             <Button>Profile</Button>
           </Link>
         </center>
