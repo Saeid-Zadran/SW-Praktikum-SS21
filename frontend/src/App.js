@@ -1,6 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import { Container, ThemeProvider, CssBaseline, Paper } from "@material-ui/core";
+import {
+  Container,
+  ThemeProvider,
+  CssBaseline,
+  Paper,
+} from "@material-ui/core";
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
@@ -20,7 +25,7 @@ class App extends React.Component {
     projectId: "sw-praktikum-studymatch",
     storageBucket: "sw-praktikum-studymatch.appspot.com",
     messagingSenderId: "770470355902",
-    appId: "1:770470355902:web:4e88c0b5a8b0063ec18fef"
+    appId: "1:770470355902:web:4e88c0b5a8b0063ec18fef",
   };
   constructor(props) {
     super(props);
@@ -126,16 +131,16 @@ class App extends React.Component {
               // Is a user signed in?
               currentUser ? (
                 <>
-                  <Redirect from='/' to='start' />
-									<Route exact path='/start'>
-										<Start />
-									</Route>
-									<Route path='/profile'>
-										<ProfileList/>
-                    <Route path='/student/profiles'>
-										<ProfileList currentUserMail={currentUser.email}/>
-									</Route>
-									</Route>
+                  <Redirect from="/" to="start" />
+                  <Route exact path="/start">
+                    <Start />
+                  </Route>
+                  <Route path="/profile">
+                    <ProfileList />
+                    <Route path="/student/profiles">
+                      <ProfileList currentUserMail={currentUser.email} />
+                    </Route>
+                  </Route>
                 </>
               ) : (
                 // else show the sign in page
