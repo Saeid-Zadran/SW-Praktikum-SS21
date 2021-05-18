@@ -17,6 +17,8 @@ import ProfileList from "./components/ProfileList";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
+// import CreateProfile from "./components/pages/CreateProfile";
+
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
   #firebaseConfig = {
@@ -127,6 +129,8 @@ class App extends React.Component {
         {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
         <Router basename={process.env.PUBLIC_URL}>
           <Container>
+            <Route exact path="/ProfileList" component={ProfileList} />
+
             {
               // Is a user signed in?
               currentUser ? (
@@ -134,12 +138,6 @@ class App extends React.Component {
                   <Redirect from="/" to="start" />
                   <Route exact path="/start">
                     <Start />
-                  </Route>
-                  <Route path="/profile">
-                    <ProfileList />
-                    <Route path="/student/profiles">
-                      <ProfileList currentUserMail={currentUser.email} />
-                    </Route>
                   </Route>
                 </>
               ) : (
