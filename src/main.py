@@ -58,7 +58,7 @@ person = api.inherit('Person', nbo, {
     'google_mail': fields.String(attribute='_google_mail', description='Google Mail einer Person')
 })
 
-profile = api.inherit('Profile', bo, {
+profile = api.inherit('Profile', bo,nbo, {
     'age': fields.Integer(attribute='_age', description='Alter einer Person'),
     'adress': fields.String(attribute='_adress', description='Anschrift einer Person'),
     'semester': fields.Integer(attribute='_semester', description='Semester einer Person'),
