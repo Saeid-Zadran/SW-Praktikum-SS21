@@ -34,13 +34,14 @@ class ProfileList extends Component {
   getProfile = () => {
     AppApi.getApi()
       .getProfiles()
-      .then((profileBOs) =>
+      .then((profileBOs) =>{ console.log(profileBOs)
         this.setState({
           profile: profileBOs,
           filteredProfile: [...profileBOs],
           loadingInProgress: false,
           error: null,
-        })
+        }) }
+     
       )
       .catch((e) =>
         this.setState({
