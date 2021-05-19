@@ -28,11 +28,10 @@ class ProfileForm extends Component {
       c = "",
       p = "",
       r = "";
-
     if (props.profile) {
       n = props.profile.getName();
       a = props.profile.getAge();
-      d = props.profile.getAdress();
+      d = props.adress.getAdress();
       s = props.profile.getSemester();
       c = props.profile.getDegreeCourse();
       p = props.profile.getPreferences();
@@ -47,7 +46,7 @@ class ProfileForm extends Component {
       age: a,
       ageValidationFailed: false,
       ageEdited: false,
-      adress: d,
+      adress: c,
       adressValidationFailed: false,
       adressEdited: false,
       semester: s,
@@ -110,7 +109,7 @@ class ProfileForm extends Component {
     updatedProfile.setPreferences(this.state.preferences);
     updatedProfile.setPersonId(this.state.personId);
 
-    AppApi.getApi()
+    AppApi.getAPI()
       .updateProfile(updatedProfile)
       .then((profile) => {
         this.setState({
@@ -125,7 +124,7 @@ class ProfileForm extends Component {
         this.baseState.preferences = this.state.preferences;
         this.baseState.personId = this.state.personId;
 
-        this.props.onClose(profile);
+        this.props.onClose(updatedProfile);
       })
       .catch((e) =>
         this.setState({
