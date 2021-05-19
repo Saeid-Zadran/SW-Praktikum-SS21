@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Grid, Typography, withStyles} from "@material-ui/core";
+import { Button, Grid, Typography, withStyles } from "@material-ui/core";
 import grey from "@material-ui/core/colors/grey";
 
 /**
@@ -28,7 +28,7 @@ class SignIn extends Component {
           style={{ color: "white" }}
           variant="h6"
         >
-          Willkomen auf der Projekt-Management Seite der HdM
+          Willkomen auf der Matchmaking Seite für Lerngruppen der HdM
         </Typography>
         <Typography
           className={classes.root}
@@ -42,7 +42,7 @@ class SignIn extends Component {
           align="center"
           style={{ color: "white" }}
         >
-          Melden Sie sich bitte an um "ProChecked" mit all seinen Funktionen
+          Melden Sie sich bitte an um "StudyMatch" mit all seinen Funktionen
           nutzen zu können.{" "}
         </Typography>
         <Grid container justify="center">
@@ -83,4 +83,3 @@ SignIn.propTypes = {
 };
 
 export default withStyles(styles)(SignIn);
-

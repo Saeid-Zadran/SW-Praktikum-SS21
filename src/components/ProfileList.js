@@ -24,7 +24,7 @@ class ProfileList extends Component {
   }
 
   getProfile = () => {
-    AppApi.getAPI()
+    AppApi.getApi()
       .getProfiles()
       .then((profileBOs) =>{ console.log(profileBOs)
         this.setState({
