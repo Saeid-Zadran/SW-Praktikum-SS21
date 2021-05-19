@@ -1,4 +1,5 @@
 '''Unser Service basiert auf Flask'''
+from re import S
 from flask import Flask
 '''Auf Flask aufbauend nutzen wir RestX'''
 from flask_restx import Api, Resource, fields
@@ -57,7 +58,7 @@ person = api.inherit('Person', nbo, {
     'google_mail': fields.String(attribute='_google_mail', description='Google Mail einer Person')
 })
 
-profile = api.inherit('Profile', bo, {
+profile = api.inherit('Profile', bo,nbo, {
     'age': fields.Integer(attribute='_age', description='Alter einer Person'),
     'adress': fields.String(attribute='_adress', description='Anschrift einer Person'),
     'semester': fields.Integer(attribute='_semester', description='Semester einer Person'),
@@ -272,7 +273,261 @@ class ProfileDeleteOperation(Resource):
         adm.delete_profile(p)
         return '', 200
 
+#Suggestion related
+@studymatch.route('/suggestions')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class SuggestionListOperations(Resource):
+    @studymatch.marshal_list_with(suggestion)
+    #@secured
+    def get(self):
+        """Auslesen aller suggestion-Objekte.
+        Sollten keine suggestion-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        s = adm.get_all_suggestions()
+        return s
 
+    @studymatch.marshal_with(suggestion, code=200)
+    @studymatch.expect(suggestion)  #Wir erwarten ein suggestion-Objekt von Client-Seite.
+    #@secured
+    def post(self):
+        """Anlegen eines neuen suggestion-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = Suggestion.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            s = adm.create_suggestion(proposal.get_person_id(), proposal.learn_group_id())
+            return s, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+
+    @studymatch.marshal_with(suggestion, code=200)
+    @studymatch.expect(suggestion)  # Wir erwarten ein suggestion-Objekt von Client-Seite.
+    #@secured
+    def put(self):
+        """Update eines bestimmten suggestion-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        s = Suggestion.from_dict(api.payload)
+        if s is not None:
+            adm.save_suggestion(s)
+            return s, 200
+
+        else:
+            return '', 500
+
+
+
+@studymatch.route('/suggestion/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des Suggestion-Objekts')
+class SuggestionDeleteOperation(Resource):
+
+    @studymatch.marshal_with(suggestion)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten Suggestion.
+
+        Auszulesende Suggestion wird durch id bestimmt.
+        """
+        adm = Administration()
+        s = adm.get_suggestion_by_id(id)
+        return s
+
+
+
+    @studymatch.marshal_with(suggestion)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten Person-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        s = adm.get_suggestion_by_id(id)
+        adm.delete_suggestion(s)
+        return '', 200
+
+
+#Learnprofile related
+@studymatch.route('/learnprofiles')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class LearnProfileListOperations(Resource):
+    @studymatch.marshal_list_with(learnprofile)
+    #@secured
+    def get(self):
+        """Auslesen aller learnprofile-Objekte.
+        Sollten keine learnprofile-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        lp = adm.get_all_learnprofiles()
+        return lp
+
+    @studymatch.marshal_with(learnprofile, code=200)
+    @studymatch.expect(learnprofile)  #Wir erwarten ein learnprofile-Objekt von Client-Seite.
+    #@secured
+    def post(self):
+        """Anlegen eines neuen learnprofile-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = LearnProfile.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            lp = adm.create_learnprofile(proposal.get_study_status(), proposal.get_frequency(), 
+            proposal.get_prev_knowledge(), proposal.get_prev_knowledge(), proposal.get_extroversion(), proposal.get_profile_id())
+            return lp, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+
+    @studymatch.marshal_with(learnprofile, code=200)
+    @studymatch.expect(learnprofile)  # Wir erwarten ein learnprofile-Objekt von Client-Seite.
+    #@secured
+    def put(self):
+        """Update eines bestimmten learnprofile-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        lp = LearnProfile.from_dict(api.payload)
+        if lp is not None:
+            adm.save_learnprofile(lp)
+            return lp, 200
+
+        else:
+            return '', 500
+
+
+
+@studymatch.route('/learnprofile/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des LearnProfile-Objekts')
+class LearnProfileDeleteOperation(Resource):
+
+    @studymatch.marshal_with(learnprofile)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten learnprofile.
+
+        Auszulesende learnprofile wird durch id bestimmt.
+        """
+        adm = Administration()
+        lp = adm.get_learnprofile_by_id(id)
+        return lp
+
+
+
+    @studymatch.marshal_with(learnprofile)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten learnprofile-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        lp = adm.get_learnprofile_by_id(id)
+        adm.delete_learnprofile(lp)
+        return '', 200
+
+
+#Chat related
+@studymatch.route('/chats')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ChatOperations(Resource):
+    @studymatch.marshal_list_with(chat)
+    #@secured
+    def get(self):
+        """Auslesen aller chat-Objekte.
+        Sollten keine chat-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        c = adm.get_all_chats()
+        return c
+
+    @studymatch.marshal_with(chat, code=200)
+    @studymatch.expect(chat)  #Wir erwarten ein chat-Objekt von Client-Seite.
+    #@secured
+    def post(self):
+        """Anlegen eines neuen chat-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = Chat.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            c = adm.create_chat(proposal.get_source_id(), proposal.get_target_id(), 
+            proposal.get_is_accepted())
+            return c, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+
+    @studymatch.marshal_with(chat, code=200)
+    @studymatch.expect(chat)  # Wir erwarten ein chat-Objekt von Client-Seite.
+    #@secured
+    def put(self):
+        """Update eines bestimmten chat-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        c = Chat.from_dict(api.payload)
+        if c is not None:
+            adm.save_chat(c)
+            return c, 200
+
+        else:
+            return '', 500
+
+
+
+@studymatch.route('/chat/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des Chat-Objekts')
+class ChatDeleteOperation(Resource):
+
+    @studymatch.marshal_with(chat)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten chat.
+
+        Auszulesende chat wird durch id bestimmt.
+        """
+        adm = Administration()
+        c = adm.get_chat_by_id(id)
+        return c
+
+
+
+    @studymatch.marshal_with(chat)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten chat-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        c = adm.get_chat_by_id(id)
+        adm.delete_chat(c)
+        return '', 200
 
 if __name__ == '__main__':
     app.run(debug=True)
