@@ -25,7 +25,7 @@ class ProfileDeleteDialog extends Component {
 
   /** Delete the Profile */
   deleteProfile = () => {
-    AppApi.getAPI().deleteProfile(this.props.profile.getID()).then(profile => {
+    AppApi.getApi().deleteProfile(this.props.profile.getID()).then(profile => {
       this.setState({
         deletingInProgress: false,              // disable loading indicator
         deletingError: null                     // no error message

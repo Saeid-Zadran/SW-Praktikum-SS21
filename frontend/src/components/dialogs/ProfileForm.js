@@ -81,7 +81,7 @@ class ProfileForm extends Component {
     newProfile.setPersonId(this.state.personId);
 
     AppApi.getApi()
-      .createProfile(newProfile)
+      .addProfile(newProfile)
       .then((profile) => {
         this.setState(this.baseState);
         this.props.onClose(profile);
@@ -109,7 +109,7 @@ class ProfileForm extends Component {
     updatedProfile.setPreferences(this.state.preferences);
     updatedProfile.setPersonId(this.state.personId);
 
-    AppApi.getAPI()
+    AppApi.getApi()
       .updateProfile(updatedProfile)
       .then((profile) => {
         this.setState({
