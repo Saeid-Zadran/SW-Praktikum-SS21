@@ -19,8 +19,11 @@ import ProfileList from "./components/ProfileList";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
+<<<<<<< HEAD
+=======
 // import CreateProfile from "./components/pages/CreateProfile";
 
+>>>>>>> main
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
   #firebaseConfig = {
