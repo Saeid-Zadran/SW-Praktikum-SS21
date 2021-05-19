@@ -154,7 +154,7 @@ export default class AppApi {
    * @public
    */
 
-  createProfile(profile) {
+  addProfile(profile) {
     return this.#fetchAdvanced(this.#addProfileURL(), {
       method: "POST",
       headers: {

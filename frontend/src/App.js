@@ -11,12 +11,13 @@ import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
 import Theme from "./Theme";
 import Header from "./components/layout/Header";
-import About from "./components/pages/About";
 import SignIn from "./components/pages/SignIn";
 import ProfileList from "./components/ProfileList";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
+import AllProfileList from "./components/AllProfileList";
+import ProfileDropDown from "./components/dialogs/ProfileDropDown";
 // import CreateProfile from "./components/pages/CreateProfile";
 
 class App extends React.Component {
@@ -63,7 +64,7 @@ class App extends React.Component {
         .getIdToken()
         .then((token) => {
           // Add the token to the browser's cookies. The server will then be
-          // able to verify the token against the API.
+          // able to verify the token against the Api.
           // SECURITY NOTE: As cookies can easily be modified, only put the
           // token (which is verified server-side) in a cookie; do not add other
           // user information.
@@ -128,8 +129,11 @@ class App extends React.Component {
       <ThemeProvider theme={Theme}>
         {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
         <Router basename={process.env.PUBLIC_URL}>
-          <Container>
+          <Container maxWidth="md">
+            <Header />
             <Route exact path="/ProfileList" component={ProfileList} />
+            <Route exact path="/AllProfileList" component={AllProfileList} />
+            <Route exact path="/ProfileDropDown" component={ProfileDropDown} />
 
             {
               // Is a user signed in?

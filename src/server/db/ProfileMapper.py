@@ -1,3 +1,4 @@
+from os import name
 from server.bo.Profile import Profile
 from server.db.DBMapper import Mapper
 
@@ -22,10 +23,11 @@ class ProfileMapper (Mapper):
         cursor.execute("SELECT * from profile")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, age, adress, semester, degree_course, preferences, person_id) in tuples:
+        for (id, creation_time, name, age, adress, semester, degree_course, preferences, person_id) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
+            profile.set_name(name)
             profile.set_age(age)
             profile.set_adress(adress)
             profile.set_semester(semester)

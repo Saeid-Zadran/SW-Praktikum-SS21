@@ -29,7 +29,7 @@ def secured(function):
 
         if id_token:
             try:
-                # Verify the token against the Firebase Auth API. This example
+                # Verify the token against the Firebase Auth Api. This example
                 # verifies the token on each page load. For improved performance,
                 # some applications may wish to cache results in an encrypted
                 # session store (see for instance
