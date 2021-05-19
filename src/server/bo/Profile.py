@@ -53,7 +53,7 @@ class Profile(nbo):
         obj = Profile()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_name(dictionary["name"])
+        #obj.set_name(dictionary["name"])
         obj.set_age(dictionary["age"])
         obj.set_adress(dictionary["adress"])
         obj.set_semester(dictionary["semester"])
