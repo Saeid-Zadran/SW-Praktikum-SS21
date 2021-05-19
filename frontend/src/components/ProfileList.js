@@ -32,7 +32,7 @@ class ProfileList extends Component {
   }
 
   getProfile = () => {
-    AppApi.getAPI()
+    AppApi.getApi()
       .getProfiles()
       .then((profileBOs) =>
         this.setState({
