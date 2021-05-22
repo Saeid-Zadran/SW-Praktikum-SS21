@@ -8,12 +8,13 @@ from server.bo.LearnGroup import LearnGroup
 
 
 #from server.db.PersonMapper import PersonMapper
-#from server.db.ChatMapper import ChatMapper
-#from server.db.ChatMessageMapper import ChatMessageMapper
+from server.db.ChatMapper import ChatMapper
+from server.db.ChatMessageMapper import ChatMessageMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProfileMapper import ProfileMapper
-#from server.db.SuggestionMapper import SuggestionMapper
+from server.db.SuggestionMapper import SuggestionMapper
 #from server.bo.LearnGroupMapper import LearnGroupMapper
+from server.db.LearnProfileMapper import LearnProfileMapper
 
 
 
@@ -108,7 +109,7 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.find_by_id(id)
 
-    def create_learn_profile(self, study_status, frequency, prev_knowledge, extroversion, person_id):
+    def create_learnprofile(self, study_status, frequency, prev_knowledge, extroversion, person_id):
         """Ein Modul anlegen"""
         learn_profile = Profile()
         learn_profile.set_study_status(study_status)
@@ -121,8 +122,103 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.insert(learn_profile)
 
+    def create_suggestion(self, person_id, learn_group_id):
+        """Ein Vorschlag anlegen"""
+        suggestion = Suggestion()
+        suggestion.set_learn_group_id()
+        suggestion.set_person_id(person_id)
+        suggestion.set_id(1)
+
+        with SuggestionMapper() as mapper:
+            return mapper.insert(suggestion)
+
+    def save_suggestion(self,suggestion):
+        """den gebebene Vorschlag speichern."""
+        with SuggestionMapper() as mapper:
+            return mapper.update(suggestion)
+
+    def get_all_suggestions(self):
+        with SuggestionMapper() as mapper:
+            return mapper.find_all()
+
+    def get_suggestion_by_id(self, id):
+        with SuggestionMapper() as mapper:
+            return mapper.find_by_key(key)
+
+    def delete_suggestion(self, profile):
+
+        with SuggestionMapper() as mapper:
+            mapper.delete(suggestion)
 
 
+    def get_all_learnprofiles(self):
+        with LearnProfileMapper() as mapper:
+            return mapper.find_all()
+
+    def save_learnprofile(self):
+        with LearnProfileMapper() as mapper:
+            return mapper.update(learnprofile)
+
+    def get_learnprofile_by_id(self, id):
+        with LearnProfileMapper() as mapper:
+            return mapper.find_by_key(key)
+
+    def delete_learnprofile(self):
+        with LearnProfileMapper() as mapper:
+            mapper.delete(learnprofile)
+
+    def get_all_chats(self):
+        with ChatMapper() as mapper:
+            return mapper.find_all()
+
+    def create_chat(self, source_id, target_id, is_accepted):
+        chat = Chat()
+        chat.set_source_id(source_id)
+        chat.set_target_id(target_id)
+        chat.set_is_accepted(is_accepted)
+        chat.set_id(1)
+
+        with ChatMapper() as mapper:
+            return mapper.insert(chat)
+
+    def save_chat(self):
+        with ChatMapper() as mapper:
+            return mapper.update(chat)
+
+    def get_chat_by_id(self, id):
+        with ChatMapper() as mapper:
+            return mapper.find_by_key(key)
+
+    def delete_chat(self):
+        with ChatMapper() as mapper:
+            mapper.delete(chat)
+
+
+    def get_all_chatmessages(self):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_all()
+
+    def create_chatmessage(self, text, person_id, received, read):
+        chatmessage = ChatMessage()
+        chat.set_text(text)
+        chat.set_person_id(person_id)
+        chat.set_received(received)
+        chat:set_read(read)
+
+        with ChatMapper() as mapper:
+            return mapper.insert(chat)
+
+    def save_chatmessage(self):
+        with ChatMessageMapper() as mapper:
+            return mapper.update(chatmessage)
+
+    def get_chatmessage_by_id(self, id):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_by_key(key)
+
+    def delete_chatmessage(self):
+        with ChatMessageMapper() as mapper:
+            mapper.delete(chatmessage)
 
 
 
