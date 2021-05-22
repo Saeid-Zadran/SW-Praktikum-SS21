@@ -19,19 +19,19 @@ class ChatMessageMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from chat_message")
+        cursor.execute("SELECT * from chatmessage")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, text, person_id, sent, read) in tuples:
-            chat_message = ChatMessage()
-            chat_message.set_id(id)
-            chat_message.set_creation_time(creation_time)
-            chat_message.set_text(text)
-            chat_message.set_person_id(person_id)
-            chat_message.set_sent(sent)
-            chat_message.set_read(read)
+        for (id, creation_time, text, person_id, received, read) in tuples:
+            chatmessage = ChatMessage()
+            chatmessage.set_id(id)
+            chatmessage.set_creation_time(creation_time)
+            chatmessage.set_text(text)
+            chatmessage.set_person_id(person_id)
+            chatmessage.set_received(received)
+            chatmessage.set_read(read)
 
-            result.append(chat_message)
+            result.append(chatmessage)
 
         self._cnx.commit()
         cursor.close()
@@ -43,99 +43,99 @@ class ChatMessageMapper(Mapper):
         """Auslesen aller Studierenden anhand der message ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
-        :return chat_message-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+        :return chatmessage-Objekt, das dem übergebenen Schlüssel entspricht, None bei
         nicht vorhandenem DB-Tupel
         """
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM chat_message WHERE id={}".format(key)
+        command = "SELECT * FROM chatmessage WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, text, person_id, sent, read)  = tuples[0]
-            chat_message = ChatMessage()
-            chat_message.set_id(id)
-            chat_message.set_creation_time(creation_time)
-            chat_message.set_text(text)
-            chat_message.set_person_id(person_id)
-            chat_message.set_sent(sent)
-            chat_message.set_read(read)
+            (id, creation_time, text, person_id, received, read) = tuples[0]
+            chatmessage = ChatMessage()
+            chatmessage.set_id(id)
+            chatmessage.set_creation_time(creation_time)
+            chatmessage.set_text(text)
+            chatmessage.set_person_id(person_id)
+            chatmessage.set_received(received)
+            chatmessage.set_read(read)
 
-        result = chat_message
+        result = chatmessage
 
         self._cnx.commit()
         cursor.close()
 
         return result
 
-    def insert(self, chat_message):
-        """Einfügen eines chat_message-Objekts in die Datenbank.
+    def insert(self, chatmessage):
+        """Einfügen eines chatmessage-Objekts in die Datenbank.
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
         berichtigt.
 
-        :param chat_message das zu speichernde Objekt
+        :param chatmessage das zu speichernde Objekt
         :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
         """
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM chat_message ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM chatmessage ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
                 um 1 hoch und weisen diesen Wert als ID dem User-Objekt zu."""
-                chat_message.set_id(maxid[0] + 1)
+                chatmessage.set_id(maxid[0] + 1)
             else:
                 """Wenn wir keine maximale ID feststellen konnten, dann gehen wir
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
-                chat_message.set_id(1)
+                chatmessage.set_id(1)
 
-        command = "INSERT INTO chat_message (id, creation_time, text, person_id, sent, read)" \
+        command = "INSERT INTO chatmessage (id, creation_time, text, person_id, received, read)" \
                   " VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (chat_message.get_id(), chat_message.get_text(), chat_message.get_person_id,
-                chat_message.get_sent(), chat_message.get_read())
+        data = (chatmessage.get_id(), chatmessage.get_text(), chatmessage.get_person_id,
+                chatmessage.get_received(), chatmessage.get_read())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
-        return chat_message
+        return chatmessage
 
 
-    def update(self, chat_message):
+    def update(self, chatmessage):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
-        :param chat_message das Objekt, das in die DB geschrieben werden soll
+        :param chatmessage das Objekt, das in die DB geschrieben werden soll
         """
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chat_message " + "SET text=%s, person_id=%s WHERE id=%s"
-        data = (chat_message.get_text(), chat_message.get_id(), chat_message.get_person_id())
+        command = "UPDATE chatmessage " + "SET text=%s, person_id=%s WHERE id=%s"
+        data = (chatmessage.get_text(), chatmessage.get_id(), chatmessage.get_person_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
-        return chat_message
+        return chatmessage
 
 
 
-    def delete(self, chat_message):
+    def delete(self, chatmessage):
         """Löschen der Daten eines message-Objekts aus der Datenbank.
-        :param chat_message das aus der DB zu löschende "Objekt"
+        :param chatmessage das aus der DB zu löschende "Objekt"
         """
 
         cursor = self._cnx.cursor()
-        command = "DELETE FROM chat_message WHERE id={}".format(chat_message.get_id()) #Primary
+        command = "DELETE FROM chatmessage WHERE id={}".format(chatmessage.get_id()) #Primary
         cursor.execute(command)
 
         self._cnx.commit()
 
         cursor.close()
 
-        return chat_message
+        return chatmessage
 
 
 
