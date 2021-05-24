@@ -22,11 +22,10 @@ class ChatMapper(Mapper):
         cursor.execute("SELECT * from chat")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, profile_id, source_id, target_id) in tuples:
+        for (id, creation_time, source_id, target_id) in tuples:
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
-            chat.set_profile_id(profile_id)
             chat.set_source_id(source_id)
             chat.set_target_id(target_id)
             result.append(chat)
@@ -51,11 +50,10 @@ class ChatMapper(Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, profile_id, source_id, target_id) = tuples[0]
+            (id, creation_time, source_id, target_id) = tuples[0]
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
-            chat.set_profile_id(profile_id)
             chat.set_source_id(source_id)
             chat.set_target_id(target_id)
 
@@ -88,8 +86,8 @@ class ChatMapper(Mapper):
                 chat.set_id(1)
 
 
-        command = "INSERT INTO chat (id, creation_time, profile_id, source_id, target_id) VALUES (%s,%s,%s,%s,%s)"
-        data = (chat.get_id(), chat.get_creation_time(), chat.get_profile_id(), chat.get_source_id(), chat.get_target_id())
+        command = "INSERT INTO chat (id, creation_time, source_id, target_id) VALUES (%s,%s,%s,%s)"
+        data = (chat.get_id(), chat.get_creation_time(), chat.get_source_id(), chat.get_target_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -103,8 +101,8 @@ class ChatMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chat " + "SET profile_id=%s, source_id=%s, target_id=%s WHERE id=%s"
-        data = (chat.get_profile_id(), chat.get_target_id(), chat.get_source_id())
+        command = "UPDATE chat " + "SET source_id=%s, target_id=%s WHERE id=%s"
+        data = (chat.get_target_id(), chat.get_source_id(), chat.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
