@@ -525,7 +525,89 @@ class ChatDeleteOperation(Resource):
         adm.delete_chat(c)
         return '', 200
 
+#ChatMessage related
+@studymatch.route('/chatmessages')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ChatMessageListOperations(Resource):
+    @studymatch.marshal_list_with(chatmessage)
+    #@secured
+    def get(self):
+        """Auslesen aller chatmessage-Objekte.
+        Sollten keine chatmessage-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        cm = adm.get_all_chatmessages()
+        return cm
 
+    @studymatch.marshal_with(chatmessage, code=200)
+    @studymatch.expect(chatmessage)  #Wir erwarten ein chatmessage-Objekt von Client-Seite.
+    #@secured
+    def post(self):
+        """Anlegen eines neuen chatmessage-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = ChatMessage.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), 
+            proposal.get_received(), proposal.get_read())
+            return cm, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+
+    @studymatch.marshal_with(chatmessage, code=200)
+    @studymatch.expect(chatmessage)  # Wir erwarten ein chatmessage-Objekt von Client-Seite.
+    #@secured
+    def put(self):
+        """Update eines bestimmten chatmessage-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        cm = ChatMessage.from_dict(api.payload)
+        if cm is not None:
+            adm.save_chatmessage(cm)
+            return cm, 200
+
+        else:
+            return '', 500
+
+
+
+@studymatch.route('/chatmessage/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des ChatMessage-Objekts')
+class ChatMessageDeleteOperation(Resource):
+
+    @studymatch.marshal_with(chatmessage)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten chatmessage.
+        Auszulesende learnprofile wird durch id bestimmt.
+        """
+        adm = Administration()
+        cm = adm.get_chatmessage_by_id(id)
+        return cm
+
+
+
+    @studymatch.marshal_with(chatmessage)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten learnprofile-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        cm = adm.get_chatmessage_by_id(id)
+        adm.delete_chatmessage(cm)
+        return '', 200
 
 if __name__ == '__main__':
     app.run(debug=True)
