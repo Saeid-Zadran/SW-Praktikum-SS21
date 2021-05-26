@@ -36,8 +36,7 @@ BusinessObject dient als Basisklasse."""
 
 bo = api.model('BusinessObjects', {
     'id': fields.Integer(attribute='_id',description='Der Unique Identifier eines Business Object'),
-    'creation_date': fields.DateTime(attribute='_creation_date',description='Erstellungsdatum des BOs wird durch Unix Time Stamp ermittlet',
-                                     dt_format='iso8601'),
+    'creation_time': fields.DateTime(attribute='_creation_time',description='Erstellungsdatum des BOs wird durch Unix Time Stamp ermittlet')
 
 })
 
@@ -71,12 +70,12 @@ suggestion = api.inherit('Suggestion', nbo, {
     'learn_group_id': fields.Integer(attribute='_learn_group_id',description='ID einer Learngroup'),
 })
 
-learnprofile = api.inherit('LearnProfile', nbo, {
+learnprofile = api.inherit('LearnProfile', bo, {
     'study_status': fields.Boolean(attribute='_study_status', description='Zeigt den Status einer Person an'),
-    'frequency': fields.String(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
+    'frequency': fields.Integer(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
     'prev_knowledge': fields.String(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
     'extroversion': fields.Boolean(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
-    'person_id': fields.Integer(attribute='_person_id', description='ID einer Person')
+    'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')
 })
 
 learngroup = api.inherit('LearnGroup', nbo, {
@@ -153,8 +152,31 @@ class PersonListOperations(Resource):
 
         else:
             return '', 500
+@studymatch.route('/person/<string:email>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('email', 'Die Mail des Person-Objekts')
+class PersonOperations(Resource):
+    @studymatch.marshal_with(person)
+    #@secured
+    def get(self, email):
+        """Auslesen einer bestimmten Person-BO.
 
+        Objekt wird durch die id in bestimmt.
+        """
+        adm = Administration()
+        pers = adm.get_person_by_google_mail(email)
+        return pers
 
+@studymatch.route('/person-by-google-user-id/<string:google_user_id>')
+@studymatch.response(500, 'when server has problems')
+class UserGoogleOperations(Resource):
+    @studymatch.marshal_with(person)
+    def get(self, google_user_id):
+        """Reading out user objects that are determined by the google id.
+        The objects to be read out are determined by '' google_id '' in the URI."""
+        adm = Administration()
+        persons = adm.get_person_by_google_user_id(google_user_id)
+        return persons
 
 @studymatch.route('/person/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -190,6 +212,8 @@ class PersonDeleteOperation(Resource):
 
 
 
+
+
 #Profile related
 @studymatch.route('/profiles')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -201,6 +225,7 @@ class ProfileOperations(Resource):
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = Administration()
         profiles = adm.get_all_profiles()
+        #print(profiles.get__all_profiles())
         return profiles
 
     @studymatch.marshal_with(profile, code=200)
@@ -387,8 +412,8 @@ class LearnProfileListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            lp = adm.create_learnprofile(proposal.get_study_status(), proposal.get_frequency(), 
-            proposal.get_prev_knowledge(), proposal.get_prev_knowledge(), proposal.get_extroversion(), proposal.get_profile_id())
+            lp = adm.create_learnprofile(proposal.get_creation_time(),proposal.get_study_status(), proposal.get_frequency(),
+            proposal.get_prev_knowledge(), proposal.get_extroversion(), proposal.get_profile_id())
             return lp, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

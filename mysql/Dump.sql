@@ -44,7 +44,7 @@ UNLOCK TABLES;
 -- Table structure for table `chat_message`
 --
 
-DROP TABLE IF EXISTS `chatmessage`;
+DROP TABLE IF EXISTS `chat_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chat_message` (
@@ -154,12 +154,12 @@ DROP TABLE IF EXISTS `learnprofile`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `learnprofile` (
   `id` int NOT NULL,
-  `creation_time` datetime NOT NULL,
+  `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `study_status` tinyint NOT NULL DEFAULT '0',
   `frequency` int NOT NULL,
   `prev_knowledge` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `extroversion` tinyint NOT NULL DEFAULT '0',
-  `profile_id` int NOT NULL,
+  `profile_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -170,6 +170,7 @@ CREATE TABLE `learnprofile` (
 
 LOCK TABLES `learnprofile` WRITE;
 /*!40000 ALTER TABLE `learnprofile` DISABLE KEYS */;
+INSERT INTO `learnprofile` VALUES (1,'2021-01-16 23:00:00',1,3,'mathe',0,6);
 /*!40000 ALTER TABLE `learnprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +183,7 @@ DROP TABLE IF EXISTS `person`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `person` (
   `id` int NOT NULL,
-  `creation_time` datetime NOT NULL,
+  `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'neu',
   `google_user_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `google_mail` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
@@ -195,7 +196,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'2021-01-17 15:29:36','3','123@gmail.com');
+INSERT INTO `person` VALUES (1,'2021-01-17 14:29:36','3','123@gmail.com'),(2,'2021-05-08 14:41:28','psf21','krank@123.de');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,11 +210,12 @@ DROP TABLE IF EXISTS `profile`;
 CREATE TABLE `profile` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
+  `name` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '-',
   `age` int NOT NULL,
-  `adress` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '-',
+  `adress` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
   `semester` int NOT NULL,
   `degree_course` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `pre_knowledge` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '-',
+  `preferences` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
   `person_id` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
@@ -225,6 +227,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
+INSERT INTO `profile` VALUES (1,'2021-01-17 15:29:36','',2,'awgwag',2,'1','afffaw',2),(2,'2021-05-18 23:12:34','-',8,'string',0,'string','string',0),(3,'2021-05-18 23:12:37','-',8,'string',0,'string','string',0),(4,'2021-05-19 16:29:42','-',0,'string',1,'string','string',6),(5,'2021-05-25 21:31:50','-',15,'string',0,'string','swhsler',0),(6,'2021-05-26 00:30:37','-',0,'string',0,'string','string',0);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,4 +265,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-08 15:53:15
+-- Dump completed on 2021-05-26  1:38:53

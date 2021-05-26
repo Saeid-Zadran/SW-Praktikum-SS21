@@ -75,7 +75,7 @@ class Administration(object):
 
 
 
-    def create_profile(self, age , adress, semester,degree_course,preferences,person_id):
+    def create_profile(self, age ,adress, semester,degree_course,preferences,person_id):
         """Ein Modul anlegen"""
         profile = Profile()
         profile.set_age(age)
@@ -109,23 +109,41 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.find_by_id(id)
 
-    def create_learnprofile(self, study_status, frequency, prev_knowledge, extroversion, person_id):
-        """Ein Modul anlegen"""
-        learn_profile = Profile()
-        learn_profile.set_study_status(study_status)
-        learn_profile.set_frequency(frequency)
-        learn_profile.set_prev_knowledge(prev_knowledge)
-        learn_profile.set_extroversion(extroversion)
-        learn_profile.set_person_id(person_id)
-        learn_profile.set_id(1)
+    def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, extroversion, profile_id):
+        """Ein lernprofil anlegen"""
+        learnprofile = LearnProfile()
+        learnprofile.set_creation_time(creation_time)
+        learnprofile.set_study_status(study_status)
+        learnprofile.set_frequency(frequency)
+        learnprofile.set_prev_knowledge(prev_knowledge)
+        learnprofile.set_extroversion(extroversion)
+        learnprofile.set_profile_id(profile_id)
+        learnprofile.set_id(1)
 
-        with ProfileMapper() as mapper:
-            return mapper.insert(learn_profile)
+        with LearnProfileMapper() as mapper:
+            return mapper.insert(learnprofile)
+
+
+    def get_all_learnprofiles(self):
+        with LearnProfileMapper() as mapper:
+            return mapper.find_all()
+
+    def save_learnprofile(self,learnprofile):
+        with LearnProfileMapper() as mapper:
+            return mapper.update(learnprofile)
+
+    def get_learnprofile_by_id(self, id):
+        with LearnProfileMapper() as mapper:
+            return mapper.find_by_id(id)
+
+    def delete_learnprofile(self,learnprofile):
+        with LearnProfileMapper() as mapper:
+            mapper.delete(learnprofile)
 
     def create_suggestion(self, person_id, learn_group_id):
         """Ein Vorschlag anlegen"""
         suggestion = Suggestion()
-        suggestion.set_learn_group_id()
+        suggestion.set_learn_group_id(learn_group_id)
         suggestion.set_person_id(person_id)
         suggestion.set_id(1)
 
@@ -143,29 +161,15 @@ class Administration(object):
 
     def get_suggestion_by_id(self, id):
         with SuggestionMapper() as mapper:
-            return mapper.find_by_key(key)
+            return mapper.find_by_id(id)
 
-    def delete_suggestion(self, profile):
+    def delete_suggestion(self, suggestion):
 
         with SuggestionMapper() as mapper:
             mapper.delete(suggestion)
 
 
-    def get_all_learnprofiles(self):
-        with LearnProfileMapper() as mapper:
-            return mapper.find_all()
 
-    def save_learnprofile(self):
-        with LearnProfileMapper() as mapper:
-            return mapper.update(learnprofile)
-
-    def get_learnprofile_by_id(self, id):
-        with LearnProfileMapper() as mapper:
-            return mapper.find_by_key(key)
-
-    def delete_learnprofile(self):
-        with LearnProfileMapper() as mapper:
-            mapper.delete(learnprofile)
 
     def get_all_chats(self):
         with ChatMapper() as mapper:
@@ -187,7 +191,7 @@ class Administration(object):
 
     def get_chat_by_id(self, id):
         with ChatMapper() as mapper:
-            return mapper.find_by_key(key)
+            return mapper.find_by_id(id)
 
     def delete_chat(self):
         with ChatMapper() as mapper:
