@@ -40,7 +40,6 @@ class ChatMessage(bo):
         obj = ChatMessage()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_creation_time(dictionary["creation_time"])
         obj.set_text(dictionary["text"])
         obj.set_person_id(dictionary["person_id"])
         obj.set_received(dictionary["received"])

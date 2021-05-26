@@ -44,7 +44,7 @@ UNLOCK TABLES;
 -- Table structure for table `chat_message`
 --
 
-DROP TABLE IF EXISTS `chat_message`;
+DROP TABLE IF EXISTS `chatmessage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `chat_message` (
@@ -62,7 +62,7 @@ CREATE TABLE `chat_message` (
 -- Dumping data for table `chat_message`
 --
 
-LOCK TABLES `chat_message` WRITE;
+LOCK TABLES `chatmessage` WRITE;
 /*!40000 ALTER TABLE `chat_message` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chat_message` ENABLE KEYS */;
 UNLOCK TABLES;

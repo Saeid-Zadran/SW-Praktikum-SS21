@@ -80,7 +80,7 @@ class ChatMessageMapper(Mapper):
         """
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM chatmessage ")
+        cursor.execute("SELECT MAX (id) AS maxid FROM chatmessage")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
