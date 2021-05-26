@@ -581,8 +581,8 @@ class ChatMessageListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), 
-            proposal.get_received(), proposal.get_read())
+            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), \
+                                        proposal.get_received(), proposal.get_read())
             return cm, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

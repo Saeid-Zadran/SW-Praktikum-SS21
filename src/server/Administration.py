@@ -161,7 +161,7 @@ class Administration(object):
 
     def get_suggestion_by_id(self, id):
         with SuggestionMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
     def delete_suggestion(self, suggestion):
 
@@ -191,7 +191,7 @@ class Administration(object):
 
     def get_chat_by_id(self, id):
         with ChatMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
     def delete_chat(self):
         with ChatMapper() as mapper:
@@ -204,13 +204,13 @@ class Administration(object):
 
     def create_chatmessage(self, text, person_id, received, read):
         chatmessage = ChatMessage()
-        chat.set_text(text)
-        chat.set_person_id(person_id)
-        chat.set_received(received)
-        chat:set_read(read)
+        chatmessage.set_text(text)
+        chatmessage.set_person_id(person_id)
+        chatmessage.set_received(received)
+        chatmessage.set_read(read)
 
-        with ChatMapper() as mapper:
-            return mapper.insert(chat)
+        with ChatMessageMapper() as mapper:
+            return mapper.insert(chatmessage)
 
     def save_chatmessage(self):
         with ChatMessageMapper() as mapper:
@@ -218,7 +218,7 @@ class Administration(object):
 
     def get_chatmessage_by_id(self, id):
         with ChatMessageMapper() as mapper:
-            return mapper.find_by_key(key)
+            return mapper.find_by_key(id)
 
     def delete_chatmessage(self):
         with ChatMessageMapper() as mapper:
