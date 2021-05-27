@@ -63,6 +63,7 @@ export default class AppApi {
   getPersons() {
     return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
       let PersonBOs = PersonBO.fromJSON(responseJSON);
+      console.log(responseJSON)
       return new Promise(function (resolve) {
         resolve(PersonBOs);
       });
