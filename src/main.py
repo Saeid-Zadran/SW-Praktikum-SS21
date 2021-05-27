@@ -65,9 +65,9 @@ profile = api.inherit('Profile', bo, nbo, {
     'person_id': fields.Integer(attribute='_person_id', description='ID einer Person')
 })
 
-suggestion = api.inherit('Suggestion', nbo, {
+suggestion = api.inherit('Suggestion', bo, {
     'person_id': fields.Integer(attribute='_person_id', description='ID einer Person'),
-    'learn_group_id': fields.Integer(attribute='_learn_group_id',description='ID einer Learngroup'),
+    'learn_group_id': fields.Integer(attribute='_learn_group_id',description='ID einer Learngroup')
 })
 
 learnprofile = api.inherit('LearnProfile', bo, {
@@ -81,7 +81,7 @@ learnprofile = api.inherit('LearnProfile', bo, {
 learngroup = api.inherit('LearnGroup', nbo, {
     'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
     'profile_id': fields.Integer(attribute='_profile_id', description='ID eines Profils'),
-    'learn_profile_id': fields.Integer(attribute='_learn_group_id', description='ID eines Lernprofils'),
+    'learn_profile_id': fields.Integer(attribute='_learn_profile_id', description='ID eines Lernprofils'),
 })
 
 #BusinessObjekts
@@ -172,8 +172,6 @@ class PersonOperations(Resource):
 class UserGoogleOperations(Resource):
     @studymatch.marshal_with(person)
     def get(self, google_user_id):
-        """Reading out user objects that are determined by the google id.
-        The objects to be read out are determined by '' google_id '' in the URI."""
         adm = Administration()
         persons = adm.get_person_by_google_user_id(google_user_id)
         return persons
@@ -328,7 +326,7 @@ class SuggestionListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            s = adm.create_suggestion(proposal.get_person_id(), proposal.learn_group_id())
+            s = adm.create_suggestion(proposal.get_creation_time(),proposal.get_person_id(),proposal.learn_group_id())
             return s, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -341,7 +339,6 @@ class SuggestionListOperations(Resource):
     def put(self):
         """Update eines bestimmten suggestion-Objekts."""
         adm = Administration()
-        print(api.payload)
         s = Suggestion.from_dict(api.payload)
         if s is not None:
             adm.save_suggestion(s)
