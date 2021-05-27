@@ -88,15 +88,16 @@ learngroup = api.inherit('LearnGroup', nbo, {
 
 chat = api.inherit('Chat', bo, {
     'chat_id': fields.Integer(attribute='_chat_id',description='ID des Chats'),
-    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),  # richtig?
     'source_id': fields.Integer(attribute='_source_id', description='Absender der Nachricht'),
     'target_id': fields.Integer(attribute='_target_id', description='Empfänger der Nachricht'),
+    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats')
+
 })
 
 chatmessage = api.inherit('_ChatMessage', bo, {
     'text': fields.String(attribute='_text', description= 'Inhalt der Nachricht'),
     'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person'),
-    'received': fields.Date(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
+    'received': fields.Boolean(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
     'read': fields.Date(attribute= '_read', description ='Nachricht gelesen oder nicht')
 })
 

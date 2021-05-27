@@ -93,10 +93,9 @@ class ChatMessageMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 chatmessage.set_id(1)
 
-        command = "INSERT INTO chatmessage (id, creation_time, text, person_id, received, read)" \
-                  " VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (chatmessage.get_id(), chatmessage.get_text(), chatmessage.get_person_id,
-                chatmessage.get_received(), chatmessage.get_read())
+        command = "INSERT INTO chatmessage (id, creation_time, text, person_id, received, read) VALUES (%s,%s,%s,%s,%s,%s)"
+        data = (chatmessage.get_id(),chatmessage.get_creation_time(), chatmessage.get_text(), chatmessage.get_person_id(),
+                chatmessage.get_received(),chatmessage.get_read())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -111,8 +110,8 @@ class ChatMessageMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chatmessage " + "SET text=%s, person_id=%s WHERE id=%s"
-        data = (chatmessage.get_text(), chatmessage.get_id(), chatmessage.get_person_id())
+        command = "UPDATE chatmessage SET text=%s, person_id=%s, received=%s,read=%s WHERE id=%s"
+        data = (chatmessage.get_text(),chatmessage.get_person_id(),chatmessage.get_received(),chatmessage.get_read(),chatmessage.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()

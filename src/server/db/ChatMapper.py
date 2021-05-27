@@ -22,12 +22,13 @@ class ChatMapper(Mapper):
         cursor.execute("SELECT * from chat")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, source_id, target_id) in tuples:
+        for (id, creation_time, source_id, target_id, is_accepted) in tuples:
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
             chat.set_source_id(source_id)
             chat.set_target_id(target_id)
+            chat.set_is_accepted(is_accepted)
             result.append(chat)
 
         self._cnx.commit()
@@ -35,7 +36,7 @@ class ChatMapper(Mapper):
 
         return result
 
-    def find_by_key(self, key):
+    def find_by_id(self, id):
         """Auslesen aller conversation anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -45,17 +46,18 @@ class ChatMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM chat WHERE id={}".format(key)
+        command = "SELECT * FROM chat WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, source_id, target_id) = tuples[0]
+            (id, creation_time, source_id, target_id,is_accepted) = tuples[0]
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
             chat.set_source_id(source_id)
             chat.set_target_id(target_id)
+            chat.set_is_accepted(is_accepted)
 
         result = chat
 
@@ -86,8 +88,8 @@ class ChatMapper(Mapper):
                 chat.set_id(1)
 
 
-        command = "INSERT INTO chat (id, creation_time, source_id, target_id) VALUES (%s,%s,%s,%s)"
-        data = (chat.get_id(), chat.get_creation_time(), chat.get_source_id(), chat.get_target_id())
+        command = "INSERT INTO chat (id, creation_time, source_id, target_id,is_accepted) VALUES (%s,%s,%s,%s,%s)"
+        data = (chat.get_id(), chat.get_creation_time(), chat.get_source_id(), chat.get_target_id(),chat.get_is_accepted())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -101,8 +103,8 @@ class ChatMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chat " + "SET source_id=%s, target_id=%s WHERE id=%s"
-        data = (chat.get_target_id(), chat.get_source_id(), chat.get_id())
+        command = "UPDATE chat  SET source_id=%s, target_id=%s, is_accepted=%s WHERE id=%s"
+        data = (chat.get_target_id(), chat.get_source_id(),chat.get_is_accepted(), chat.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
