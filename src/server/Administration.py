@@ -29,12 +29,11 @@ class Administration(object):
 
     """person-spezifische Methoden"""
 
-    def create_person(self, google_mail, google_user_id):
+    def create_person(self, person): #warum hat Person keinen Namen?
         """Eine Person anlegen"""
         p = Person()
-        p.set_id(1)
-        p.set_google_mail(google_mail)
-        p.set_google_user_id(google_user_id)
+        p.set_google_mail(person.get_google_mail())
+        p.set_google_user_id(person.get_google_user_id())
 
         with PersonMapper() as mapper:
             return mapper.insert(p)
@@ -75,16 +74,16 @@ class Administration(object):
 
 
 
-    def create_profile(self, age ,adress, semester,degree_course,preferences,person_id):
-        """Ein Modul anlegen"""
+    def create_profile(self, age, name, adress, semester,degree_course,preferences,person_id):
+        """Ein Profil anlegen"""
         profile = Profile()
         profile.set_age(age)
+        profile.set_name(name)
         profile.set_adress(adress)
         profile.set_semester(semester)
         profile.set_degree_course(degree_course)
         profile.set_preferences(preferences)
         profile.set_person_id(person_id)
-        profile.set_id(1)
 
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
