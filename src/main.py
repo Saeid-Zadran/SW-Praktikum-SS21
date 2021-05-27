@@ -58,6 +58,7 @@ person = api.inherit('Person', nbo, {
 
 profile = api.inherit('Profile', bo, nbo, {
     'age': fields.Integer(attribute='_age', description='Alter einer Person'),
+    'name': fields.String(attribute='_name', description='Name eines Profils'),
     'adress': fields.String(attribute='_adress', description='Anschrift einer Person'),
     'semester': fields.Integer(attribute='_semester', description='Semester einer Person'),
     'degree_course': fields.String(attribute='_degree_course', description='Kurs einer Person'),
@@ -245,7 +246,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profile(proposal.get_age(), proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
+            p = adm.create_profile(proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

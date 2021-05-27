@@ -87,10 +87,11 @@ class ProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,creation_time, age,adress,semester, degree_course, preferences, person_id) in tuples:
+        for (id,creation_time, name, age,adress,semester, degree_course, preferences, person_id) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
+            profile.set_name(name)
             profile.set_age(age)
             profile.set_adress(adress)
             profile.set_semester(semester)
@@ -127,8 +128,8 @@ class ProfileMapper (Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 profile.set_id(1)
 
-        command = "INSERT INTO profile (id, creation_time, age,adress, semester, degree_course, preferences, person_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        data = (profile.get_id(), profile.get_creation_time(),profile.get_age(), profile.get_adress(), profile.get_semester(),
+        command = "INSERT INTO profile (id, creation_time,name, age,adress, semester, degree_course, preferences, person_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        data = (profile.get_id(), profile.get_creation_time(),profile.get_name(),profile.get_age(), profile.get_adress(), profile.get_semester(),
                profile.get_degree_course(), profile.get_preferences(),profile.get_person_id())
         cursor.execute(command, data)
 
