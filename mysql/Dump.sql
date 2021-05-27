@@ -47,7 +47,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `chatmessage`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat_message` (
+CREATE TABLE `chatmessage` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
   `text` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
@@ -63,8 +63,8 @@ CREATE TABLE `chat_message` (
 --
 
 LOCK TABLES `chatmessage` WRITE;
-/*!40000 ALTER TABLE `chat_message` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chat_message` ENABLE KEYS */;
+/*!40000 ALTER TABLE `chatmessage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatmessage` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

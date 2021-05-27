@@ -36,7 +36,7 @@ class ChatMapper(Mapper):
 
         return result
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
         """Auslesen aller conversation anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -46,7 +46,7 @@ class ChatMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM chat WHERE id={}".format(id)
+        command = "SELECT * FROM chat WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

@@ -36,7 +36,7 @@ class SuggestionMapper (Mapper):
         return result
 
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
         """Auslesen aller Projekttypen anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -47,7 +47,7 @@ class SuggestionMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM suggestion WHERE id={}".format(id)
+        command = "SELECT * FROM suggestion WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -132,15 +132,15 @@ class SuggestionMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, creation_date, sws, ects FROM suggestion WHERE name LIKE '{}'".format(name)
+        command = "SELECT id, name, creation_time, sws, ects FROM suggestion WHERE name LIKE '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, name, creation_date, sws, ects) = tuples[0]
+            (id, name, creation_time, sws, ects) = tuples[0]
             suggestion = Suggestion()
             suggestion.set_id(id)
-            suggestion.set_creation_date(creation_date)
+            suggestion.set_creation_time(creation_time)
             suggestion.set_name(name)
             suggestion.set_ects(ects)
             suggestion.set_sws(sws)

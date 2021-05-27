@@ -21,10 +21,10 @@ class LearnGroup (Mapper):
         cursor.execute("SELECT * from learngroup")
         tuples = cursor.fetchall()
 
-        for (id, creation_date, name) in tuples:
+        for (id, creation_time, name) in tuples:
             learngroup = LearnGroup()
             learngroup.set_id(id)
-            learngroup.set_creation_date(creation_date)
+            learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
             result.append(learngroup)
 
@@ -43,15 +43,15 @@ class LearnGroup (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name FROM learngroup WHERE id={}".format(key)
+        command = "SELECT id, creation_time, name FROM learngroup WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_date,name) = tuples[0]
+            (id, creation_time,name) = tuples[0]
             learngroup = LearnGroup()
             learngroup.set_id(id)
-            learngroup.set_creation_date(creation_date)
+            learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
 
         result = learngroup
@@ -73,14 +73,14 @@ class LearnGroup (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_date, name FROM learngroup WHERE name LIKE '{}'".format(name)
+        command = "SELECT id, creation_time, name FROM learngroup WHERE name LIKE '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, creation_date, name) in tuples:
+        for (id, creation_time, name) in tuples:
             learngroup = LearnGroup()
             learngroup.set_id(id)
-            learngroup.set_creation_date(creation_date)
+            learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
 
         result = learngroup

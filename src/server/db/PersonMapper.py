@@ -29,11 +29,11 @@ class PersonMapper (Mapper):
 
         return result
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM person WHERE id={}".format(id)
+        command = "SELECT * FROM person WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
