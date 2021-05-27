@@ -143,9 +143,10 @@ class Administration(object):
     def create_suggestion(self, person_id, learn_group_id):
         """Ein Vorschlag anlegen"""
         suggestion = Suggestion()
-        suggestion.set_learn_group_id(learn_group_id)
         suggestion.set_person_id(person_id)
+        suggestion.set_learn_group_id(learn_group_id)
         suggestion.set_id(1)
+
 
         with SuggestionMapper() as mapper:
             return mapper.insert(suggestion)
@@ -185,7 +186,7 @@ class Administration(object):
         with ChatMapper() as mapper:
             return mapper.insert(chat)
 
-    def save_chat(self):
+    def save_chat(self,chat):
         with ChatMapper() as mapper:
             return mapper.update(chat)
 
@@ -193,7 +194,7 @@ class Administration(object):
         with ChatMapper() as mapper:
             return mapper.find_by_key(id)
 
-    def delete_chat(self):
+    def delete_chat(self,chat):
         with ChatMapper() as mapper:
             mapper.delete(chat)
 
@@ -212,7 +213,7 @@ class Administration(object):
         with ChatMessageMapper() as mapper:
             return mapper.insert(chatmessage)
 
-    def save_chatmessage(self):
+    def save_chatmessage(self,chatmessage):
         with ChatMessageMapper() as mapper:
             return mapper.update(chatmessage)
 
@@ -220,7 +221,7 @@ class Administration(object):
         with ChatMessageMapper() as mapper:
             return mapper.find_by_key(id)
 
-    def delete_chatmessage(self):
+    def delete_chatmessage(self,chatmessage):
         with ChatMessageMapper() as mapper:
             mapper.delete(chatmessage)
 
