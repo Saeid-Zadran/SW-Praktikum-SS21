@@ -39,7 +39,7 @@ class LearnProfileMapper (Mapper):
         return result
 
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
         """Auslesen aller Projekte anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -49,7 +49,7 @@ class LearnProfileMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learnprofile WHERE id={}".format(id)
+        command = "SELECT * FROM learnprofile WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

@@ -41,10 +41,10 @@ class Administration(object):
 
 
 
-    def get_person_by_id(self, id):
+    def get_person_by_id(self, id):  #Die Methode heißt find_by_key, das ist richtig. Bitte nicht zu find_by_id ändern
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
 
     def get_person_by_google_user_id(self, google_id):
@@ -107,7 +107,7 @@ class Administration(object):
 
     def get_profile_by_id(self, id):
         with ProfileMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
     def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, extroversion, profile_id):
         """Ein lernprofil anlegen"""
@@ -134,7 +134,7 @@ class Administration(object):
 
     def get_learnprofile_by_id(self, id):
         with LearnProfileMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
     def delete_learnprofile(self,learnprofile):
         with LearnProfileMapper() as mapper:

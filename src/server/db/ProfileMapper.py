@@ -41,7 +41,7 @@ class ProfileMapper (Mapper):
 
         return result
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
         """Auslesen aller Benotungen anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -51,7 +51,7 @@ class ProfileMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM profile WHERE id={}".format(id)
+        command = "SELECT * FROM profile WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
