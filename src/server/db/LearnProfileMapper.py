@@ -146,9 +146,9 @@ class LearnProfileMapper (Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE learnprofile " + "SET creation_time= %s, study_status=%s, frequency=%s, prev_knowledge=%s WHERE id=%s"
-        data = (learnprofile.get_id(), learnprofile.get_creation_time(), learnprofile.get_study_status, learnprofile.get_frequency,
-                learnprofile.get_prev_knowledge)
+        command = "UPDATE learnprofile SET creation_time= %s, study_status=%s, frequency=%s, prev_knowledge=%s, extroversion=%s,profile_id=%s WHERE id=%s"
+        data = (learnprofile.get_id(), learnprofile.get_creation_time(), learnprofile.get_study_status(), learnprofile.get_frequency(),
+                learnprofile.get_prev_knowledge(),learnprofile.get_extroversion(),learnprofile.get_profile_id())
         cursor.execute(command, data)
 
         self._cnx.commit()

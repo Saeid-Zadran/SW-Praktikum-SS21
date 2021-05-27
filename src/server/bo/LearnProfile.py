@@ -48,7 +48,7 @@ class LearnProfile(bo):
         obj = LearnProfile()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_creation_time(dictionary["creation_time"])
+        #obj.set_creation_time(dictionary["creation_time"])
         obj.set_study_status(dictionary["study_status"])
         obj.set_frequency(dictionary["frequency"])
         obj.set_prev_knowledge(dictionary["prev_knowledge"])

@@ -36,7 +36,7 @@ class SuggestionMapper (Mapper):
         return result
 
 
-    def find_by_key(self, key):
+    def find_by_id(self, id):
         """Auslesen aller Projekttypen anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -47,7 +47,7 @@ class SuggestionMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM suggestion WHERE id={}".format(key)
+        command = "SELECT * FROM suggestion WHERE id={}".format(id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -89,7 +89,7 @@ class SuggestionMapper (Mapper):
                 suggestion.set_id(1)
 
         command = "INSERT INTO suggestion (id, creation_time, person_id, learn_group_id) VALUES (%s,%s,%s,%s)"
-        data = (suggestion.get_id(), suggestion.get_person_id(), suggestion.get_creation_time(), suggestion.get_learn_group_id())
+        data = (suggestion.get_id(), suggestion.get_creation_time(),suggestion.get_person_id(), suggestion.get_learn_group_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
