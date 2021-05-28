@@ -3,7 +3,7 @@ from server.bo.Profile import Profile
 from server.db.DBMapper import Mapper
 
 
-class ProfileMapper (Mapper):
+class ProfileMapper(Mapper):
     """Mapper-Klasse, die Profil-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und

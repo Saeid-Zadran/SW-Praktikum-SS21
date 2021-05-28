@@ -29,14 +29,15 @@ class Administration(object):
 
     """person-spezifische Methoden"""
 
-    def create_person(self, person): #warum hat Person keinen Namen?
+    def create_person(self, name, google_mail, google_user_id): #warum hat Person keinen Namen?
         """Eine Person anlegen"""
-        p = Person()
-        p.set_google_mail(person.get_google_mail())
-        p.set_google_user_id(person.get_google_user_id())
+        person = Person()
+        person.set_name(name)
+        person.set_google_mail(google_mail)
+        person.set_google_user_id(google_user_id)
 
         with PersonMapper() as mapper:
-            return mapper.insert(p)
+            return mapper.insert(person)
 
 
 
