@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.21, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sw-project
 -- ------------------------------------------------------
--- Server version	8.0.24
+-- Server version	8.0.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,8 +27,9 @@ CREATE TABLE `chat` (
   `creation_time` datetime NOT NULL,
   `source_id` int NOT NULL,
   `target_id` int NOT NULL,
+  `is_accepted` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,33 +39,6 @@ CREATE TABLE `chat` (
 LOCK TABLES `chat` WRITE;
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `chat_message`
---
-
-DROP TABLE IF EXISTS `chatmessage`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chatmessage` (
-  `id` int NOT NULL,
-  `creation_time` datetime NOT NULL,
-  `text` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `person_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `received` tinyint NOT NULL,
-  `read` tinyint NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `chat_message`
---
-
-LOCK TABLES `chatmessage` WRITE;
-/*!40000 ALTER TABLE `chatmessage` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chatmessage` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -82,7 +56,7 @@ CREATE TABLE `chat_request` (
   `source_id` int NOT NULL,
   `target_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +66,33 @@ CREATE TABLE `chat_request` (
 LOCK TABLES `chat_request` WRITE;
 /*!40000 ALTER TABLE `chat_request` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chat_request` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `chatmessage`
+--
+
+DROP TABLE IF EXISTS `chatmessage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `chatmessage` (
+  `id` int NOT NULL,
+  `creation_time` datetime NOT NULL,
+  `text` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `person_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `received` tinyint NOT NULL,
+  `read` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `chatmessage`
+--
+
+LOCK TABLES `chatmessage` WRITE;
+/*!40000 ALTER TABLE `chatmessage` DISABLE KEYS */;
+/*!40000 ALTER TABLE `chatmessage` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -107,7 +108,7 @@ CREATE TABLE `group_request` (
   `learngroup_id` int NOT NULL,
   `source_id` int NOT NULL,
   `target_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +134,7 @@ CREATE TABLE `learngroup` (
   `profile_id` int NOT NULL,
   `learn_profile_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,14 +155,14 @@ DROP TABLE IF EXISTS `learnprofile`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `learnprofile` (
   `id` int NOT NULL,
-  `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creation_time` datetime DEFAULT NULL,
   `study_status` tinyint NOT NULL DEFAULT '0',
   `frequency` int NOT NULL,
   `prev_knowledge` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `extroversion` tinyint NOT NULL DEFAULT '0',
   `profile_id` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +171,7 @@ CREATE TABLE `learnprofile` (
 
 LOCK TABLES `learnprofile` WRITE;
 /*!40000 ALTER TABLE `learnprofile` DISABLE KEYS */;
-INSERT INTO `learnprofile` VALUES (1,'2021-01-16 23:00:00',1,3,'mathe',0,6);
+INSERT INTO `learnprofile` VALUES (1,'2021-01-17 00:00:00',1,3,'mathe',0,6),(2,'2021-05-06 00:00:00',1,0,'string',1,0),(3,'2021-05-06 00:00:00',1,0,'string',1,0),(4,'2021-05-06 00:00:00',1,0,'string',1,0),(5,'2021-05-12 00:00:00',1,0,'string',1,0),(6,'2021-05-26 15:53:13',1,0,'string',1,0);
 /*!40000 ALTER TABLE `learnprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,10 +185,11 @@ DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
   `id` int NOT NULL,
   `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'neu',
+  `name` varchar(100) COLLATE utf8_bin NOT NULL,
   `google_user_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `google_mail` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +198,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'2021-01-17 14:29:36','3','123@gmail.com'),(2,'2021-05-08 14:41:28','psf21','krank@123.de');
+INSERT INTO `person` VALUES (1,'2021-01-17 14:29:36','','3','123@gmail.com'),(2,'2021-05-08 14:41:28','','psf21','krank@123.de');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +212,7 @@ DROP TABLE IF EXISTS `profile`;
 CREATE TABLE `profile` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
-  `name` varchar(45) COLLATE utf8_bin NOT NULL DEFAULT '-',
+  `name` varchar(100) COLLATE utf8_bin NOT NULL,
   `age` int NOT NULL,
   `adress` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
   `semester` int NOT NULL,
@@ -218,7 +220,7 @@ CREATE TABLE `profile` (
   `preferences` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
   `person_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +229,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES (1,'2021-01-17 15:29:36','',2,'awgwag',2,'1','afffaw',2),(2,'2021-05-18 23:12:34','-',8,'string',0,'string','string',0),(3,'2021-05-18 23:12:37','-',8,'string',0,'string','string',0),(4,'2021-05-19 16:29:42','-',0,'string',1,'string','string',6),(5,'2021-05-25 21:31:50','-',15,'string',0,'string','swhsler',0),(6,'2021-05-26 00:30:37','-',0,'string',0,'string','string',0);
+INSERT INTO `profile` VALUES (1,'2021-01-17 15:29:36','',2,'awgwag',2,'1','afffaw',2),(2,'2021-05-18 23:12:34','',8,'string',0,'string','string',0),(3,'2021-05-18 23:12:37','',8,'string',0,'string','string',0),(4,'2021-05-19 16:29:42','',0,'string',1,'string','string',6),(5,'2021-05-25 21:31:50','',15,'string',0,'string','swhsler',0),(6,'2021-05-26 00:30:37','',0,'string',0,'string','string',0);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -244,7 +246,7 @@ CREATE TABLE `suggestion` (
   `person_id` int NOT NULL,
   `learn_group_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -265,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-26  1:38:53
+-- Dump completed on 2021-05-28 22:20:44
