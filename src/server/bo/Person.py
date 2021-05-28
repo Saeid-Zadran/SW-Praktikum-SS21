@@ -7,9 +7,6 @@ class Person(nbo):
         self._google_mail = ""
         self._google_user_id = ""
 
-
-
-
     def set_google_mail(self, google_mail):
         self._google_mail = google_mail
 
@@ -29,7 +26,7 @@ class Person(nbo):
         obj = Person()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        #obj.set_creation_time(dictionary["creation_time"])
+        obj.set_name(["name"])
         obj.set_google_mail(dictionary["google_mail"])
         obj.set_google_user_id(dictionary["google_user_id"])
 
