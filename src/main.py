@@ -634,6 +634,90 @@ class ChatMessageDeleteOperation(Resource):
         adm.delete_chatmessage(cm)
         return '', 200
 
+#LearnGroup related
+@studymatch.route('/learngroups')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class LearnGroupListOperations(Resource):
+    @studymatch.marshal_list_with(learngroup)
+    #@secured
+    def get(self):
+        """Auslesen aller LearnGroup-Objekte.
+        Sollten keine LearnGroup-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        lp = adm.get_all_learngroups()
+        return lp
+
+    @studymatch.marshal_with(learngroup, code=200)
+    @studymatch.expect(learngroup)  #Wir erwarten ein learngroup-Objekt von Client-Seite.
+    #@secured
+    def post(self):
+        """Anlegen eines neuen learngroup-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = LearnGroup.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            lg = adm.learngroup(proposal.get_creation_time(),proposal.get_participant(), proposal.get_profile_id(),
+            proposal.get_learn_profile_id())
+            return lg, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+
+    @studymatch.marshal_with(learngroup, code=200)
+    @studymatch.expect(learngroup)  # Wir erwarten ein learngroup-Objekt von Client-Seite.
+    #@secured
+    def put(self):
+        """Update eines bestimmten learngroup-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        lg = LearnGroup.from_dict(api.payload)
+        if lg is not None:
+            adm.save_learngroup(lg)
+            return lg, 200
+
+        else:
+            return '', 500
+
+
+
+@studymatch.route('/learngroup/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des LearnGroup-Objekts')
+class LearnGroupDeleteOperation(Resource):
+
+    @studymatch.marshal_with(learngroup)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten learngroup.
+        Auszulesende learngroup wird durch id bestimmt.
+        """
+        adm = Administration()
+        lg = adm.get_learngroup_by_id(id)
+        return lg
+
+
+
+    @studymatch.marshal_with(learngroup)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten learngroup-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        lg = adm.get_learngroup_by_id(id)
+        adm.delete_learngroup(lg)
+        return '', 200
+        
 if __name__ == '__main__':
     app.run(debug=True)
 
