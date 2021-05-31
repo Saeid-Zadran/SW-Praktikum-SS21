@@ -1,7 +1,7 @@
 from server.bo.LearnGroup import LearnGroup
 from server.db.DBMapper import Mapper
 
-class LearnGroup (Mapper):
+class LearnGroupMapper (Mapper):
     """Mapper-Klasse, die Student-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -21,11 +21,14 @@ class LearnGroup (Mapper):
         cursor.execute("SELECT * from learngroup")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, name) in tuples:
+        for (id, creation_time, name, participant, profile_id,learn_profile_id) in tuples:
             learngroup = LearnGroup()
             learngroup.set_id(id)
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
+            learngroup.set_participant(participant)
+            learngroup.set_profile_id(profile_id)
+            learngroup.set_learn_profile_id(learn_profile_id)
             result.append(learngroup)
 
         self._cnx.commit()
@@ -48,11 +51,14 @@ class LearnGroup (Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time,name) = tuples[0]
+            (id, creation_time,name,participant, profile_id,learn_profile_id) = tuples[0]
             learngroup = LearnGroup()
             learngroup.set_id(id)
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
+            learngroup.set_participant(participant)
+            learngroup.set_profile_id(profile_id)
+            learngroup.set_learn_profile_id(learn_profile_id)
 
         result = learngroup
 
@@ -77,11 +83,14 @@ class LearnGroup (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, creation_time, name) in tuples:
+        for (id, creation_time, name,participant, profile_id,learn_profile_id) in tuples:
             learngroup = LearnGroup()
             learngroup.set_id(id)
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
+            learngroup.set_participant(participant)
+            learngroup.set_profile_id(profile_id)
+            learngroup.set_learn_profile_id(learn_profile_id)
 
         result = learngroup
 
@@ -92,9 +101,36 @@ class LearnGroup (Mapper):
 
 
     def insert(self, learngroup):
-        """Anlegen einer Rolle"""
-        pass
+        """Einfügen eines profile-Objekts in die Datenbank.
+        Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
+        berichtigt.
+        :param profile das zu speichernde Objekt
+        :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
+        """
+        cursor = self._cnx.cursor()
+        cursor.execute("SELECT MAX(id) AS maxid FROM learngroup ")
+        tuples = cursor.fetchall()
 
+        for (maxid) in tuples:
+            if maxid[0] is not None:
+                """Wenn wir eine maximale ID festellen konnten, zählen wir diese
+                um 1 hoch und weisen diesen Wert als ID dem User-Objekt zu."""
+                learngroup.set_id(maxid[0] + 1)
+            else:
+                """Wenn wir keine maximale ID feststellen konnten, dann gehen wir
+                davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
+                learngroup.set_id(1)
+
+        command = "INSERT INTO learngroup (id, creation_time,name,participant, profile_id,learn_profile_id) VALUES " \
+                  "(%s,%s,%s,%s,%s,%s)"
+        data = (learngroup.get_id(),learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_participant(),
+                learngroup.get_profile_id(), learngroup.get_learn_profile_id())
+
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+        return learngroup
 
     def update(self, learngroup):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -103,9 +139,11 @@ class LearnGroup (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = ("UPDATE learngroup" + "SET name=%s WHERE id=%s")
-        data = (learngroup.get_id(),
-                learngroup.get_name())
+        command = ("UPDATE learngroup SET creation_time=%s, name=%s,participant=%s, profile_id=%s, "
+                   "learn_profil_id=%s  WHERE id=%s")
+        data = (learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_participant(),
+                learngroup.get_profile_id(), learngroup.get_learn_profile_id(),learngroup.get_id())
+
         cursor.execute(command, data)
         cursor.close()
 
@@ -122,3 +160,17 @@ class LearnGroup (Mapper):
 
         self._cnx.commit()
         cursor.close()
+
+
+if (__name__ == "__main__"):
+    with LearnGroupMapper() as mapper:
+        learngroup  = LearnGroup()
+        learngroup.set_name("Studymatch")
+        learngroup.set_participant(1)
+        learngroup.set_profile_id(2)
+        learngroup.set_learn_profile_id(1)
+        mapper.insert(learngroup )
+
+
+        #mapper.find_by_group_name("profile")
+        print(mapper)

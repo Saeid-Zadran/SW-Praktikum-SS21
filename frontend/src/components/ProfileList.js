@@ -14,11 +14,20 @@ class ProfileList extends Component {
   constructor(props) {
     super(props);
 
+    let expandedID = null;
+
+        if (this.props.location.expandProfile) {
+          expandedID = this.props.location.expandProfile.getID();
+        }
+
     // Init an empty state
     this.state = {
       profile: [],
+      filteredProfile: [],
+      ProfileFilter: '',
       error: null,
       loadingInProgress: false,
+      expandedProfileID: expandedID,
       showProfileForm: false,
     };
   }
@@ -26,7 +35,7 @@ class ProfileList extends Component {
   getProfile = () => {
     AppApi.getApi()
       .getProfiles()
-      .then((profileBOs) =>{ console.log(profileBOs)
+      .then((profileBOs) =>{
         this.setState({
           profile: profileBOs,
           filteredProfile: [...profileBOs],

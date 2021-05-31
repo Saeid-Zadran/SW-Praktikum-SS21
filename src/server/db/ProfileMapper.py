@@ -51,7 +51,7 @@ class ProfileMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM profile WHERE id={}".format(key)
+        command = "SELECT id,creation_time, age, adress, semester, degree_course, preferences, person_id FROM profile WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

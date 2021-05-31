@@ -52,7 +52,6 @@ nbo = api.inherit('NamedBusinessObjects', bo, {
 
 
 person = api.inherit('Person', nbo, {
-    'name' : fields.String(attribute='_name', description='Name der Person'),
     'google_user_id': fields.String(attribute='_google_user_id', description='Google User ID einer Person'),
     'google_mail': fields.String(attribute='_google_mail', description='Google Mail einer Person')
 })
@@ -134,7 +133,7 @@ class PersonListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_google_user_id(), proposal.get_name(), proposal.get_google_mail())
+            p = adm.create_person(proposal.get_name(),proposal.get_google_user_id(), proposal.get_google_mail())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -665,8 +664,8 @@ class LearnGroupListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            lg = adm.learngroup(proposal.get_creation_time(),proposal.get_participant(), proposal.get_profile_id(),
-            proposal.get_learn_profile_id())
+            lg = adm.create_learngroup(proposal.get_creation_time(), proposal.get_participant(),
+                                       proposal.get_profile_id(), proposal.get_learn_profile_id())
             return lg, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

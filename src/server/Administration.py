@@ -7,13 +7,13 @@ from server.bo.Suggestion import Suggestion
 from server.bo.LearnGroup import LearnGroup
 
 
-#from server.db.PersonMapper import PersonMapper
+
 from server.db.ChatMapper import ChatMapper
 from server.db.ChatMessageMapper import ChatMessageMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProfileMapper import ProfileMapper
 from server.db.SuggestionMapper import SuggestionMapper
-#from server.bo.LearnGroupMapper import LearnGroupMapper
+from server.db.LearnGroupMapper import LearnGroupMapper
 from server.db.LearnProfileMapper import LearnProfileMapper
 
 
@@ -226,6 +226,36 @@ class Administration(object):
             mapper.delete(chatmessage)
 
 
+    def create_learngroup(self,creation_time, participant, profile_id,learn_profile_id):
+        """Eine Lerngruppe anlegen"""
+        learngroup = LearnGroup()
+        learngroup.set_creation_time(creation_time)
+        learngroup.set_participant(participant)
+        learngroup.set_profile_id(profile_id)
+        learngroup.set_learn_profile_id(learn_profile_id)
+        learngroup.set_id(1)
+
+        with LearnGroupMapper() as mapper:
+            return mapper.insert(learngroup)
+
+    def get_all_learngroups(self):
+        with LearnGroupMapper() as mapper:
+            return mapper.find_all()
+
+
+    def save_learngroup(self,learngroup):
+        with LearnGroupMapper() as mapper:
+            return mapper.update(learngroup)
+
+    def get_learngroup_by_id(self, id):
+        with LearnGroupMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def delete_learngroup(self,learngroup):
+        with LearnGroupMapper() as mapper:
+            mapper.delete(learngroup)
+
+
 
     #def get_learn_profile_by_person_id(self, person_id):
        #with LearnProfileMapper() as mapper:
@@ -268,6 +298,11 @@ class Administration(object):
         """Den gegebenen Benutzer speichern."""
         with PersonMapper() as mapper:
             mapper.update_google_user(user)
+
+    def learngroup(self, param, param1, param2, param3):
+        pass
+
+
 
 
 

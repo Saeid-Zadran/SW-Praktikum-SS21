@@ -5,9 +5,9 @@ class LearnGroup(nbo):
 
     def __init__(self):
         super().__init__()
-        self._participant = None
-        self._profile_id = None
-        self._learn_profile_id = None
+        self._participant = 0
+        self._profile_id = 0
+        self._learn_profile_id = 0
 
     def get_participant(self):
         return self._participant
