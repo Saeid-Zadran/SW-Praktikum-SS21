@@ -553,7 +553,7 @@ export default class AppApi {
    * @public
    */
 
-  addLearnGroup(learnproup) {
+  addLearnGroup(learngroup) {
     return this.#fetchAdvanced(this.#addLearnGroupURL(), {
       method: "POST",
       headers: {
