@@ -19,19 +19,19 @@ class ChatMessageMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from chat_message")
+        cursor.execute("SELECT id, creation_time, text, person_id, received, read from chatmessage")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, text, person_id, sent, read) in tuples:
-            chat_message = ChatMessage()
-            chat_message.set_id(id)
-            chat_message.set_creation_time(creation_time)
-            chat_message.set_text(text)
-            chat_message.set_person_id(person_id)
-            chat_message.set_sent(sent)
-            chat_message.set_read(read)
+        for (id, creation_time, text, person_id, received, read) in tuples:
+            chatmessage = ChatMessage()
+            chatmessage.set_id(id)
+            chatmessage.set_creation_time(creation_time)
+            chatmessage.set_text(text)
+            chatmessage.set_person_id(person_id)
+            chatmessage.set_received(received)
+            chatmessage.set_read(read)
 
-            result.append(chat_message)
+            result.append(chatmessage)
 
         self._cnx.commit()
         cursor.close()
@@ -49,76 +49,75 @@ class ChatMessageMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM chat_message WHERE id={}".format(key)
+        command = "SELECT * FROM chatmessage WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, text, person_id, sent, read)  = tuples[0]
-            chat_message = ChatMessage()
-            chat_message.set_id(id)
-            chat_message.set_creation_time(creation_time)
-            chat_message.set_text(text)
-            chat_message.set_person_id(person_id)
-            chat_message.set_sent(sent)
-            chat_message.set_read(read)
+            (id, creation_time, text, person_id, received, read) = tuples[0]
+            chatmessage = ChatMessage()
+            chatmessage.set_id(id)
+            chatmessage.set_creation_time(creation_time)
+            chatmessage.set_text(text)
+            chatmessage.set_person_id(person_id)
+            chatmessage.set_received(received)
+            chatmessage.set_read(read)
 
-        result = chat_message
+        result = chatmessage
 
         self._cnx.commit()
         cursor.close()
 
         return result
 
-    def insert(self, chat_message):
+    def insert(self, chatmessage):
         """Einfügen eines chat_message-Objekts in die Datenbank.
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
         berichtigt.
 
-        :param chat_message das zu speichernde Objekt
+        :param chatmessage das zu speichernde Objekt
         :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
         """
 
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM chat_message ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM chatmessage ")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
             if maxid[0] is not None:
                 """Wenn wir eine maximale ID festellen konnten, zählen wir diese
                 um 1 hoch und weisen diesen Wert als ID dem User-Objekt zu."""
-                chat_message.set_id(maxid[0] + 1)
+                chatmessage.set_id(maxid[0] + 1)
             else:
                 """Wenn wir keine maximale ID feststellen konnten, dann gehen wir
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
-                chat_message.set_id(1)
+                chatmessage.set_id(1)
 
-        command = "INSERT INTO chat_message (id, creation_time, text, person_id, sent, read)" \
-                  " VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (chat_message.get_id(), chat_message.get_text(), chat_message.get_person_id,
-                chat_message.get_sent(), chat_message.get_read())
+        command = "INSERT INTO chatmessage (id, creation_time, text, person_id, received, read) VALUES (%s,%s,%s,%s,%s,%s)"
+        data = (chatmessage.get_id(),chatmessage.get_creation_time(), chatmessage.get_text(), chatmessage.get_person_id(),
+                chatmessage.get_received(),chatmessage.get_read())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
-        return chat_message
+        return chatmessage
 
 
-    def update(self, chat_message):
+    def update(self, chatmessage):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
         :param chat_message das Objekt, das in die DB geschrieben werden soll
         """
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chat_message " + "SET text=%s, person_id=%s WHERE id=%s"
-        data = (chat_message.get_text(), chat_message.get_id(), chat_message.get_person_id())
+        command = "UPDATE chat_message SET text=%s, person_id=%s, received=%s,read=%s WHERE id=%s"
+        data = (chatmessage.get_text(),chatmessage.get_person_id(),chatmessage.get_received(),chatmessage.get_read(),chatmessage.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
 
-        return chat_message
+        return chatmessage
 
 
 

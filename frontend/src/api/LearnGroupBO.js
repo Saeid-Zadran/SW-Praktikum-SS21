@@ -12,32 +12,32 @@ export default class LearnGroupBO extends NamedBusinessObject {
   }
 
 
-  setFirstName(aParticipant) {
+  setParticipant(aParticipant) {
     this.participant = aParticipant;
   }
 
 
-  getFirstName() {
+  getParticipant() {
     return this.participant;
   }
 
 
-  setLastName(aProfileId) {
+  setProfileId(aProfileId) {
     this.profile_id = aProfileId;
   }
 
 
-  getLastName() {
+  getProfileId() {
     return this.profile_id;
   }
 
 
-  setLastName(aLearnProfileId) {
+  LearnProfileId(aLearnProfileId) {
     this.learn_profile_id = aLearnProfileId;
   }
 
 
-  getLastName() {
+  getLearnProfileId() {
     return this.learn_profile_id;
   }
 

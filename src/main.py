@@ -36,8 +36,7 @@ BusinessObject dient als Basisklasse."""
 
 bo = api.model('BusinessObjects', {
     'id': fields.Integer(attribute='_id',description='Der Unique Identifier eines Business Object'),
-    'creation_date': fields.DateTime(attribute='_creation_date',description='Erstellungsdatum des BOs wird durch Unix Time Stamp ermittlet',
-                                     dt_format='iso8601'),
+    'creation_time': fields.DateTime(attribute='_creation_time',description='Erstellungsdatum des BOs wird durch Unix Time Stamp ermittlet')
 
 })
 
@@ -59,6 +58,7 @@ person = api.inherit('Person', nbo, {
 
 profile = api.inherit('Profile', bo, nbo, {
     'age': fields.Integer(attribute='_age', description='Alter einer Person'),
+    'name': fields.String(attribute='_name', description='Name eines Profils'),
     'adress': fields.String(attribute='_adress', description='Anschrift einer Person'),
     'semester': fields.Integer(attribute='_semester', description='Semester einer Person'),
     'degree_course': fields.String(attribute='_degree_course', description='Kurs einer Person'),
@@ -66,39 +66,40 @@ profile = api.inherit('Profile', bo, nbo, {
     'person_id': fields.Integer(attribute='_person_id', description='ID einer Person')
 })
 
-suggestion = api.inherit('Suggestion', nbo, {
+suggestion = api.inherit('Suggestion', bo, {
     'person_id': fields.Integer(attribute='_person_id', description='ID einer Person'),
-    'learn_group_id': fields.Integer(attribute='_learn_group_id',description='ID einer Learngroup'),
+    'learn_group_id': fields.Integer(attribute='_learn_group_id',description='ID einer Learngroup')
 })
 
-learnprofile = api.inherit('LearnProfile', nbo, {
+learnprofile = api.inherit('LearnProfile', bo, {
     'study_status': fields.Boolean(attribute='_study_status', description='Zeigt den Status einer Person an'),
-    'frequency': fields.String(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
+    'frequency': fields.Integer(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
     'prev_knowledge': fields.String(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
     'extroversion': fields.Boolean(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
-    'person_id': fields.Integer(attribute='_person_id', description='ID einer Person')
+    'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')
 })
 
 learngroup = api.inherit('LearnGroup', nbo, {
     'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
     'profile_id': fields.Integer(attribute='_profile_id', description='ID eines Profils'),
-    'learn_profile_id': fields.Integer(attribute='_learn_group_id', description='ID eines Lernprofils'),
+    'learn_profile_id': fields.Integer(attribute='_learn_profile_id', description='ID eines Lernprofils'),
 })
 
 #BusinessObjekts
 
 chat = api.inherit('Chat', bo, {
     'chat_id': fields.Integer(attribute='_chat_id',description='ID des Chats'),
-    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),  # richtig?
     'source_id': fields.Integer(attribute='_source_id', description='Absender der Nachricht'),
     'target_id': fields.Integer(attribute='_target_id', description='Empfänger der Nachricht'),
+    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats')
+
 })
 
 chatmessage = api.inherit('_ChatMessage', bo, {
     'text': fields.String(attribute='_text', description= 'Inhalt der Nachricht'),
     'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person'),
-    'received': fields.Date(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
-    'read': fields.Date(attribute= '_read', description ='Nachricht gelesen oder nicht')
+    'received': fields.Boolean(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
+    'read': fields.DateTime(attribute= '_read', description ='Nachricht gelesen oder nicht')
 })
 
 # Person related
@@ -132,7 +133,7 @@ class PersonListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_google_user_id(), proposal.get_google_mail())
+            p = adm.create_person(proposal.get_name(),proposal.get_google_user_id(), proposal.get_google_mail())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -153,8 +154,29 @@ class PersonListOperations(Resource):
 
         else:
             return '', 500
+@studymatch.route('/person/<string:email>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('email', 'Die Mail des Person-Objekts')
+class PersonOperations(Resource):
+    @studymatch.marshal_with(person)
+    #@secured
+    def get(self, email):
+        """Auslesen einer bestimmten Person-BO.
 
+        Objekt wird durch die id in bestimmt.
+        """
+        adm = Administration()
+        pers = adm.get_person_by_google_mail(email)
+        return pers
 
+@studymatch.route('/person-by-google-user-id/<string:google_user_id>')
+@studymatch.response(500, 'when server has problems')
+class UserGoogleOperations(Resource):
+    @studymatch.marshal_with(person)
+    def get(self, google_user_id):
+        adm = Administration()
+        persons = adm.get_person_by_google_user_id(google_user_id)
+        return persons
 
 @studymatch.route('/person/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -190,6 +212,8 @@ class PersonDeleteOperation(Resource):
 
 
 
+
+
 #Profile related
 @studymatch.route('/profiles')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -201,6 +225,7 @@ class ProfileOperations(Resource):
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = Administration()
         profiles = adm.get_all_profiles()
+        #print(profiles.get__all_profiles())
         return profiles
 
     @studymatch.marshal_with(profile, code=200)
@@ -221,7 +246,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profile(proposal.get_age(), proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
+            p = adm.create_profile(proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -303,7 +328,7 @@ class SuggestionListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            s = adm.create_suggestion(proposal.get_person_id(), proposal.learn_group_id())
+            s = adm.create_suggestion(proposal.get_creation_time(),proposal.get_person_id(),proposal.learn_group_id())
             return s, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -316,7 +341,6 @@ class SuggestionListOperations(Resource):
     def put(self):
         """Update eines bestimmten suggestion-Objekts."""
         adm = Administration()
-        print(api.payload)
         s = Suggestion.from_dict(api.payload)
         if s is not None:
             adm.save_suggestion(s)
@@ -387,8 +411,8 @@ class LearnProfileListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            lp = adm.create_learnprofile(proposal.get_study_status(), proposal.get_frequency(), 
-            proposal.get_prev_knowledge(), proposal.get_prev_knowledge(), proposal.get_extroversion(), proposal.get_profile_id())
+            lp = adm.create_learnprofile(proposal.get_creation_time(),proposal.get_study_status(), proposal.get_frequency(),
+            proposal.get_prev_knowledge(), proposal.get_extroversion(), proposal.get_profile_id())
             return lp, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -556,8 +580,8 @@ class ChatMessageListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), 
-            proposal.get_received(), proposal.get_read())
+            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), \
+                                        proposal.get_received(), proposal.get_read())
             return cm, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -609,6 +633,90 @@ class ChatMessageDeleteOperation(Resource):
         adm.delete_chatmessage(cm)
         return '', 200
 
+#LearnGroup related
+@studymatch.route('/learngroups')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class LearnGroupListOperations(Resource):
+    @studymatch.marshal_list_with(learngroup)
+    #@secured
+    def get(self):
+        """Auslesen aller LearnGroup-Objekte.
+        Sollten keine LearnGroup-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        lp = adm.get_all_learngroups()
+        return lp
+
+    @studymatch.marshal_with(learngroup, code=200)
+    @studymatch.expect(learngroup)  #Wir erwarten ein learngroup-Objekt von Client-Seite.
+    #@secured
+    def post(self):
+        """Anlegen eines neuen learngroup-Objekts.
+        **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
+        So ist zum Beispiel die Vergabe der ID nicht Aufgabe des Clients.
+        Selbst wenn der Client eine ID in dem Proposal vergeben sollte, so
+        liegt es an der Administration (Businesslogik), eine korrekte ID
+        zu vergeben. *Das korrigierte Objekt wird schließlich zurückgegeben.*
+        """
+        adm = Administration()
+        proposal = LearnGroup.from_dict(api.payload)
+        """RATSCHLAG: Prüfen Sie stets die Referenzen auf valide Werte, bevor Sie diese verwenden!"""
+        if proposal is not None:
+            """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
+            wird auch dem Client zurückgegeben. 
+            """
+            lg = adm.create_learngroup(proposal.get_creation_time(), proposal.get_participant(),
+                                       proposal.get_profile_id(), proposal.get_learn_profile_id())
+            return lg, 200
+        else:
+            ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
+            return '', 500
+
+
+    @studymatch.marshal_with(learngroup, code=200)
+    @studymatch.expect(learngroup)  # Wir erwarten ein learngroup-Objekt von Client-Seite.
+    #@secured
+    def put(self):
+        """Update eines bestimmten learngroup-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        lg = LearnGroup.from_dict(api.payload)
+        if lg is not None:
+            adm.save_learngroup(lg)
+            return lg, 200
+
+        else:
+            return '', 500
+
+
+
+@studymatch.route('/learngroup/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des LearnGroup-Objekts')
+class LearnGroupDeleteOperation(Resource):
+
+    @studymatch.marshal_with(learngroup)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten learngroup.
+        Auszulesende learngroup wird durch id bestimmt.
+        """
+        adm = Administration()
+        lg = adm.get_learngroup_by_id(id)
+        return lg
+
+
+
+    @studymatch.marshal_with(learngroup)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten learngroup-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        lg = adm.get_learngroup_by_id(id)
+        adm.delete_learngroup(lg)
+        return '', 200
+        
 if __name__ == '__main__':
     app.run(debug=True)
 
