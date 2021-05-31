@@ -9,7 +9,7 @@ class Profile(nbo):
         self._degree_course = ""
         self._preferences = ""
         self._person_id = None
-    
+
 
     def set_age(self, age):
         self._age = age
@@ -47,13 +47,19 @@ class Profile(nbo):
     def get_person_id(self):
         return self._person_id
 
+
+    # def __str__(self): #age adress semester degree_course preferences person_id
+    #     """Erzeugen einer einfachen textuellen Darstellung der jeweiligen Instanz."""
+    #     return "Profil: {}, {}, {}, Semester: {}, Studiengang: {} , {}".format(self.get_id(),self.get_name(), self.get_age(), self.get_adress(),
+    #                                                 self.get_creation_time(), self.get_degree_course(),
+    #                                                 self.get_preferences(), self.get_person_id())
     @staticmethod
     def from_dict(dictionary=dict()):
         """Umwandeln eines Python dict() in ein Rating()."""
         obj = Profile()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        #obj.set_name(dictionary["name"])
+        obj.set_name(dictionary["name"])
         obj.set_age(dictionary["age"])
         obj.set_adress(dictionary["adress"])
         obj.set_semester(dictionary["semester"])
@@ -62,6 +68,3 @@ class Profile(nbo):
         obj.set_person_id(dictionary["person_id"])
 
         return obj
-
-
-       

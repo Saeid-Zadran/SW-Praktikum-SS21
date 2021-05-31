@@ -1,8 +1,9 @@
+from os import name
 from server.bo.Person import Person
 from server.db.DBMapper import Mapper
 
 
-class PersonMapper (Mapper):
+class PersonMapper(Mapper):
 
     def __init__(self):
         super().__init__()
@@ -16,10 +17,11 @@ class PersonMapper (Mapper):
         cursor.execute("SELECT * from person")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, google_mail, google_user_id) in tuples:
+        for (id, creation_time, name, google_mail, google_user_id) in tuples:
             person = Person()
             person.set_id(id)
             person.set_creation_time(creation_time)
+            person.get_name(name)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
             result.append(person)
@@ -29,18 +31,20 @@ class PersonMapper (Mapper):
 
         return result
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
+
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM person WHERE id={}".format(id)
+        command = "SELECT * FROM person WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, google_mail, google_user_id) = tuples[0]
+            (id, creation_time, name, google_mail, google_user_id) = tuples[0]
             person = Person()
             person.set_id(id)
+            person.get_name(name)
             person.set_creation_time(creation_time)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
@@ -59,21 +63,20 @@ class PersonMapper (Mapper):
 
         for (maxid) in tuples:
             if maxid[0] is not None:
+                """Wenn wir eine maximale ID festellen konnten, zählen wir diese
+                um 1 hoch und weisen diesen Wert als ID dem User-Objekt zu."""
                 person.set_id(maxid[0] + 1)
             else:
+                """Wenn wir keine maximale ID feststellen konnten, dann gehen wir
+                davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-
-        command = "INSERT INTO person (id, creation_time, google_mail, google_user_id) " \
-                  "VALUES (%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_creation_time(), person.get_google_mail(), person.get_google_user_id())
-
-
-        cursor.execute(command, data)
+        command = "INSERT INTO person (id, creation_time,name,google_mail, google_user_id) VALUES (%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_time(), person.get_name(), person.get_google_mail(), person.get_google_user_id())
+        cursor.execute(command,data)
 
         self._cnx.commit()
         cursor.close()
-
         return person
 
     def update(self, person):
@@ -106,10 +109,11 @@ class PersonMapper (Mapper):
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_time, google_mail, google_user_id) = tuples[0]
+            (id, creation_time, name, google_mail, google_user_id) = tuples[0]
             person = Person()
             person.set_id(id)
             person.set_creation_time(creation_time)
+            person.get_name(name)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
             result = person
@@ -140,11 +144,11 @@ class PersonMapper (Mapper):
 
 
 
-"""if (__name__ == "__main__"):
+if (__name__ == "__main__"):
     with PersonMapper() as mapper:
-        result = mapper.find_all()
+        result = mapper.insert( 0)
         for p in result:
-            print(p)"""
+            print(p)
 
 
 
