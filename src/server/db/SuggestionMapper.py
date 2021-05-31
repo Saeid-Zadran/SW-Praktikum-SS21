@@ -21,11 +21,12 @@ class SuggestionMapper (Mapper):
         cursor.execute("SELECT * from suggestion")
         tuples = cursor.fetchall()
 
-        for (id, name, creation_date, sws, ects) in tuples:
+        for (id, creation_time, person_id, learn_group_id) in tuples:
             suggestion = Suggestion()
             suggestion.set_id(id)
-            suggestion.set_name(name)
-            suggestion.set_creation_date(creation_date)
+            suggestion.set_creation_time(creation_time)
+            suggestion.set_person_id(person_id)
+            suggestion.set_learn_group_id(learn_group_id)
 
             result.append(suggestion)
 
@@ -51,13 +52,12 @@ class SuggestionMapper (Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, name, creation_date, ects, sws) = tuples[0]
+            (id, creation_time, person_id, learn_group_id) = tuples[0]
             suggestion = Suggestion()
             suggestion.set_id(id)
-            suggestion.set_creation_date(creation_date)
-            suggestion.set_name(name)
-            suggestion.set_ects(ects)
-            suggestion.set_sws(sws)
+            suggestion.set_creation_time(creation_time)
+            suggestion.set_person_id(person_id)
+            suggestion.set_learn_group_id(learn_group_id)
 
         result = suggestion
 
@@ -88,8 +88,8 @@ class SuggestionMapper (Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 suggestion.set_id(1)
 
-        command = "INSERT INTO suggestion (id, name, creation_date, sws, ects) VALUES (%s,%s,%s,%s,%s)"
-        data = (suggestion.get_id(), suggestion.get_name(), suggestion.get_creation_date(), suggestion.get_sws(), suggestion.get_ects())
+        command = "INSERT INTO suggestion (id, creation_time, person_id, learn_group_id) VALUES (%s,%s,%s,%s)"
+        data = (suggestion.get_id(), suggestion.get_creation_time(),suggestion.get_person_id(), suggestion.get_learn_group_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -102,8 +102,8 @@ class SuggestionMapper (Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE suggestion " + "SET name=%s, sws=%s, ects=%s WHERE id=%s"
-        data = (suggestion.get_name(), suggestion.get_sws(), suggestion.get_ects(), suggestion.get_id())
+        command = "UPDATE suggestion " + "SET person_id=%s, learn_group_id=%s WHERE id=%s"
+        data = (suggestion.get_person_id(), suggestion.get_learn_group_id(), suggestion.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -132,15 +132,15 @@ class SuggestionMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, name, creation_date, sws, ects FROM suggestion WHERE name LIKE '{}'".format(name)
+        command = "SELECT id, name, creation_time, sws, ects FROM suggestion WHERE name LIKE '{}'".format(name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, name, creation_date, sws, ects) = tuples[0]
+            (id, name, creation_time, sws, ects) = tuples[0]
             suggestion = Suggestion()
             suggestion.set_id(id)
-            suggestion.set_creation_date(creation_date)
+            suggestion.set_creation_time(creation_time)
             suggestion.set_name(name)
             suggestion.set_ects(ects)
             suggestion.set_sws(sws)

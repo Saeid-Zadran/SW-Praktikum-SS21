@@ -7,13 +7,14 @@ from server.bo.Suggestion import Suggestion
 from server.bo.LearnGroup import LearnGroup
 
 
-#from server.db.PersonMapper import PersonMapper
-#from server.db.ChatMapper import ChatMapper
-#from server.db.ChatMessageMapper import ChatMessageMapper
+
+from server.db.ChatMapper import ChatMapper
+from server.db.ChatMessageMapper import ChatMessageMapper
 from server.db.PersonMapper import PersonMapper
 from server.db.ProfileMapper import ProfileMapper
-#from server.db.SuggestionMapper import SuggestionMapper
-#from server.bo.LearnGroupMapper import LearnGroupMapper
+from server.db.SuggestionMapper import SuggestionMapper
+from server.db.LearnGroupMapper import LearnGroupMapper
+from server.db.LearnProfileMapper import LearnProfileMapper
 
 
 
@@ -28,22 +29,22 @@ class Administration(object):
 
     """person-spezifische Methoden"""
 
-    def create_person(self, google_mail, google_user_id):
+    def create_person(self, name, google_mail, google_user_id): #warum hat Person keinen Namen?
         """Eine Person anlegen"""
-        p = Person()
-        p.set_id(1)
-        p.set_google_mail(google_mail)
-        p.set_google_user_id(google_user_id)
+        person = Person()
+        person.set_name(name)
+        person.set_google_mail(google_mail)
+        person.set_google_user_id(google_user_id)
 
         with PersonMapper() as mapper:
-            return mapper.insert(p)
+            return mapper.insert(person)
 
 
 
-    def get_person_by_id(self, id):
+    def get_person_by_id(self, id):  #Die Methode heißt find_by_key, das ist richtig. Bitte nicht zu find_by_id ändern
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
 
     def get_person_by_google_user_id(self, google_id):
@@ -74,16 +75,16 @@ class Administration(object):
 
 
 
-    def create_profile(self, age , adress, semester,degree_course,preferences,person_id):
-        """Ein Modul anlegen"""
+    def create_profile(self, age, name, adress, semester,degree_course,preferences,person_id):
+        """Ein Profil anlegen"""
         profile = Profile()
         profile.set_age(age)
+        profile.set_name(name)
         profile.set_adress(adress)
         profile.set_semester(semester)
         profile.set_degree_course(degree_course)
         profile.set_preferences(preferences)
         profile.set_person_id(person_id)
-        profile.set_id(1)
 
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
@@ -106,23 +107,153 @@ class Administration(object):
 
     def get_profile_by_id(self, id):
         with ProfileMapper() as mapper:
-            return mapper.find_by_id(id)
+            return mapper.find_by_key(id)
 
-    def create_learn_profile(self, study_status, frequency, prev_knowledge, extroversion, person_id):
-        """Ein Modul anlegen"""
-        learn_profile = Profile()
-        learn_profile.set_study_status(study_status)
-        learn_profile.set_frequency(frequency)
-        learn_profile.set_prev_knowledge(prev_knowledge)
-        learn_profile.set_extroversion(extroversion)
-        learn_profile.set_person_id(person_id)
-        learn_profile.set_id(1)
+    def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, extroversion, profile_id):
+        """Ein lernprofil anlegen"""
+        learnprofile = LearnProfile()
+        learnprofile.set_creation_time(creation_time)
+        learnprofile.set_study_status(study_status)
+        learnprofile.set_frequency(frequency)
+        learnprofile.set_prev_knowledge(prev_knowledge)
+        learnprofile.set_extroversion(extroversion)
+        learnprofile.set_profile_id(profile_id)
+        learnprofile.set_id(1)
 
-        with ProfileMapper() as mapper:
-            return mapper.insert(learn_profile)
+        with LearnProfileMapper() as mapper:
+            return mapper.insert(learnprofile)
+
+
+    def get_all_learnprofiles(self):
+        with LearnProfileMapper() as mapper:
+            return mapper.find_all()
+
+    def save_learnprofile(self,learnprofile):
+        with LearnProfileMapper() as mapper:
+            return mapper.update(learnprofile)
+
+    def get_learnprofile_by_id(self, id):
+        with LearnProfileMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def delete_learnprofile(self,learnprofile):
+        with LearnProfileMapper() as mapper:
+            mapper.delete(learnprofile)
+
+    def create_suggestion(self, person_id, learn_group_id):
+        """Ein Vorschlag anlegen"""
+        suggestion = Suggestion()
+        suggestion.set_person_id(person_id)
+        suggestion.set_learn_group_id(learn_group_id)
+        suggestion.set_id(1)
+
+
+        with SuggestionMapper() as mapper:
+            return mapper.insert(suggestion)
+
+    def save_suggestion(self,suggestion):
+        """den gebebene Vorschlag speichern."""
+        with SuggestionMapper() as mapper:
+            return mapper.update(suggestion)
+
+    def get_all_suggestions(self):
+        with SuggestionMapper() as mapper:
+            return mapper.find_all()
+
+    def get_suggestion_by_id(self, id):
+        with SuggestionMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def delete_suggestion(self, suggestion):
+
+        with SuggestionMapper() as mapper:
+            mapper.delete(suggestion)
 
 
 
+
+    def get_all_chats(self):
+        with ChatMapper() as mapper:
+            return mapper.find_all()
+
+    def create_chat(self, source_id, target_id, is_accepted):
+        chat = Chat()
+        chat.set_source_id(source_id)
+        chat.set_target_id(target_id)
+        chat.set_is_accepted(is_accepted)
+        chat.set_id(1)
+
+        with ChatMapper() as mapper:
+            return mapper.insert(chat)
+
+    def save_chat(self,chat):
+        with ChatMapper() as mapper:
+            return mapper.update(chat)
+
+    def get_chat_by_id(self, id):
+        with ChatMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def delete_chat(self,chat):
+        with ChatMapper() as mapper:
+            mapper.delete(chat)
+
+
+    def get_all_chatmessages(self):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_all()
+
+    def create_chatmessage(self, text, person_id, received, read):
+        chatmessage = ChatMessage()
+        chatmessage.set_text(text)
+        chatmessage.set_person_id(person_id)
+        chatmessage.set_received(received)
+        chatmessage.set_read(read)
+
+        with ChatMessageMapper() as mapper:
+            return mapper.insert(chatmessage)
+
+    def save_chatmessage(self,chatmessage):
+        with ChatMessageMapper() as mapper:
+            return mapper.update(chatmessage)
+
+    def get_chatmessage_by_id(self, id):
+        with ChatMessageMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def delete_chatmessage(self,chatmessage):
+        with ChatMessageMapper() as mapper:
+            mapper.delete(chatmessage)
+
+
+    def create_learngroup(self,creation_time, participant, profile_id,learn_profile_id):
+        """Eine Lerngruppe anlegen"""
+        learngroup = LearnGroup()
+        learngroup.set_creation_time(creation_time)
+        learngroup.set_participant(participant)
+        learngroup.set_profile_id(profile_id)
+        learngroup.set_learn_profile_id(learn_profile_id)
+        learngroup.set_id(1)
+
+        with LearnGroupMapper() as mapper:
+            return mapper.insert(learngroup)
+
+    def get_all_learngroups(self):
+        with LearnGroupMapper() as mapper:
+            return mapper.find_all()
+
+
+    def save_learngroup(self,learngroup):
+        with LearnGroupMapper() as mapper:
+            return mapper.update(learngroup)
+
+    def get_learngroup_by_id(self, id):
+        with LearnGroupMapper() as mapper:
+            return mapper.find_by_key(id)
+
+    def delete_learngroup(self,learngroup):
+        with LearnGroupMapper() as mapper:
+            mapper.delete(learngroup)
 
 
 
@@ -167,6 +298,11 @@ class Administration(object):
         """Den gegebenen Benutzer speichern."""
         with PersonMapper() as mapper:
             mapper.update_google_user(user)
+
+    def learngroup(self, param, param1, param2, param3):
+        pass
+
+
 
 
 
