@@ -4,8 +4,8 @@ class Chat(bo):
 
     def __init__(self):
         super().__init__()
-        self._source_id = None
-        self._target_id = None
+        self._source_id = 0
+        self._target_id = 0
         self._is_accepted = 0
 
     def get_source_id(self):

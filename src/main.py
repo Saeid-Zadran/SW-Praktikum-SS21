@@ -99,7 +99,7 @@ chatmessage = api.inherit('_ChatMessage', bo, {
     'text': fields.String(attribute='_text', description= 'Inhalt der Nachricht'),
     'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person'),
     'received': fields.Boolean(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
-    'read': fields.Date(attribute= '_read', description ='Nachricht gelesen oder nicht')
+    'read': fields.DateTime(attribute= '_read', description ='Nachricht gelesen oder nicht')
 })
 
 # Person related
