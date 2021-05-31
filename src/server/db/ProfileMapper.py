@@ -1,8 +1,9 @@
+from os import name
 from server.bo.Profile import Profile
 from server.db.DBMapper import Mapper
 
 
-class ProfileMapper (Mapper):
+class ProfileMapper(Mapper):
     """Mapper-Klasse, die Profil-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -22,10 +23,11 @@ class ProfileMapper (Mapper):
         cursor.execute("SELECT * from profile")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, age, adress, semester, degree_course, preferences, person_id) in tuples:
+        for (id, creation_time, name, age, adress, semester, degree_course, preferences, person_id) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
+            profile.set_name(name)
             profile.set_age(age)
             profile.set_adress(adress)
             profile.set_semester(semester)
@@ -39,7 +41,7 @@ class ProfileMapper (Mapper):
 
         return result
 
-    def find_by_id(self, id):
+    def find_by_key(self, key):
         """Auslesen aller Benotungen anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
@@ -49,7 +51,7 @@ class ProfileMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM profile WHERE id={}".format(id)
+        command = "SELECT id,creation_time, age, adress, semester, degree_course, preferences, person_id FROM profile WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -85,10 +87,11 @@ class ProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,creation_time, age,adress,semester, degree_course, preferences, person_id) in tuples:
+        for (id,creation_time, name, age,adress,semester, degree_course, preferences, person_id) in tuples:
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
+            profile.set_name(name)
             profile.set_age(age)
             profile.set_adress(adress)
             profile.set_semester(semester)
@@ -125,8 +128,8 @@ class ProfileMapper (Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 profile.set_id(1)
 
-        command = "INSERT INTO profile (id, creation_time, age,adress, semester, degree_course, preferences, person_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        data = (profile.get_id(), profile.get_creation_time(),profile.get_age(), profile.get_adress(), profile.get_semester(),
+        command = "INSERT INTO profile (id, creation_time,name, age,adress, semester, degree_course, preferences, person_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+        data = (profile.get_id(), profile.get_creation_time(),profile.get_name(),profile.get_age(), profile.get_adress(), profile.get_semester(),
                profile.get_degree_course(), profile.get_preferences(),profile.get_person_id())
         cursor.execute(command, data)
 
