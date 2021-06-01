@@ -37,7 +37,7 @@ class CreatePerson extends Component {
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .createLearnProfile(
+      .addLearnProfile(
         study_status,
         frequency,
         prev_knowledge,

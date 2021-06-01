@@ -30,7 +30,7 @@ class ProfileDeleteDialog extends Component {
         deletingInProgress: false,              // disable loading indicator
         deletingError: null                     // no error message
       });
-      this.props.onClose(this.props.rating);  // call the parent with the deleted customer
+      this.props.onClose(this.props.profile);  // call the parent with the deleted customer
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // disable loading indicator
@@ -69,7 +69,7 @@ class ProfileDeleteDialog extends Component {
               Really delete profile {profile.getAge()} {profile.getAdress()} {profile.getSemester()} {profile.getPreferences()} {profile.getPersonId()} (ID: {profile.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`The rating '${profile.getAdress()} ${profile.getSemester() }${profile.getPreferences() }${profile.getPersonId()  }' (ID: ${profile.getID()}) could not be deleted.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`The profile '${profile.getAdress()} ${profile.getSemester() }${profile.getPreferences() }${profile.getPersonId()  }' (ID: ${profile.getID()}) could not be deleted.`}
               onReload={this.deleteProfile} />
           </DialogContent>
           <DialogActions>
