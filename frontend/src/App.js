@@ -133,7 +133,7 @@ class App extends React.Component {
             <Header />
             <Route exact path="/ProfileList" component={ProfileList} />
             <Route exact path="/AllProfileList" component={AllProfileList} />
-            <Route exact path="/CreateLearnProfile" compentent={CreateLearnProfile} />
+            <Route exact path="/CreateLearnProfile" component={CreateLearnProfile} />
 
             {
               // Is a user signed in?
