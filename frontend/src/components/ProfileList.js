@@ -12,7 +12,7 @@ import ProfileListEntry from "./ProfileListEntry";
 
 class ProfileList extends Component {
   constructor(props) {
-    super(props);
+    super(props); 
 
     let expandedID = null;
 
@@ -32,7 +32,7 @@ class ProfileList extends Component {
     };
   }
 
-  getProfile = () => {
+  getProfiles = () => {
     AppApi.getApi()
       .getProfiles()
       .then((profileBOs) =>{
@@ -59,7 +59,7 @@ class ProfileList extends Component {
   };
 
   componentDidMount() {
-    this.getProfile();
+    this.getProfiles();
   }
 
   profileDeleted = (profile) => {
@@ -168,7 +168,7 @@ class ProfileList extends Component {
         </Grid>
         {profile.map((profile) => (
           <ProfileListEntry
-            key={profile.getID()}
+            key={profile.getID()} 
             profile={profile}
             onProfileDeleted={this.profileDeleted}
           />
