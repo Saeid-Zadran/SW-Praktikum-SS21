@@ -18,7 +18,7 @@ import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
 import AllProfileList from "./components/AllProfileList";
 import ProfileDropDown from "./components/dialogs/ProfileDropDown";
-// import CreateProfile from "./components/pages/CreateProfile";
+import CreateLearnProfile from "./components/CreateLearnProfile";
 
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
@@ -133,7 +133,7 @@ class App extends React.Component {
             <Header />
             <Route exact path="/ProfileList" component={ProfileList} />
             <Route exact path="/AllProfileList" component={AllProfileList} />
-            <Route exact path="/ProfileDropDown" component={ProfileDropDown} />
+            <Route exact path="/CreateLearnProfile" compentent={CreateLearnProfile} />
 
             {
               // Is a user signed in?
