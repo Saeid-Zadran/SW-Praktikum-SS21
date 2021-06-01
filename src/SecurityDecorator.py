@@ -26,9 +26,10 @@ def secured(function):
         error_message = None
         claims = None
         objects = None
-
+        #print("token",id_token)
         if id_token:
             try:
+                
                 # Verify the token against the Firebase Auth Api. This example
                 # verifies the token on each page load. For improved performance,
                 # some applications may wish to cache results in an encrypted

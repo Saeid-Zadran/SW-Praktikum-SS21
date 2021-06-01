@@ -31,7 +31,7 @@ class ProfileForm extends Component {
     if (props.profile) {
       n = props.profile.getName();
       a = props.profile.getAge();
-      d = props.adress.getAdress();
+      //d = props.adress.getAdress();
       s = props.profile.getSemester();
       c = props.profile.getDegreeCourse();
       p = props.profile.getPreferences();

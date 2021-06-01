@@ -16,7 +16,7 @@ from server.bo.Profile import Profile
 from server.bo.Suggestion import Suggestion
 
 '''Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt'''
-"""from SecurityDecorator import secured"""
+from SecurityDecorator import secured
 
 """Hier wird Flask instanziert"""
 app = Flask(__name__)
@@ -221,6 +221,7 @@ class ProfileOperations(Resource):
     @studymatch.marshal_list_with(profile)
     #@secured
     def get(self):
+        print("blabla")
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = Administration()
