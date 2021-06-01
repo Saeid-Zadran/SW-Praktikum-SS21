@@ -27,7 +27,7 @@ class CreatePerson extends Component {
   }
 
   /** Create LearnProfile*/
-  createLearnProfile(
+  addLearnProfile(
     study_status,
     frequency,
     prev_knowledge,
@@ -36,8 +36,7 @@ class CreatePerson extends Component {
   ) {
     var api = AppApi.getApi();
     // console.log(api)
-    api
-      .createLearnProfile(
+    api.addLearnProfile(
         study_status,
         frequency,
         prev_knowledge,
@@ -60,7 +59,7 @@ class CreatePerson extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    this.createPerson(
+    this.addLearnProfile(
       this.state.study_status,
       this.state.frequency,
       this.state.prev_knowledge,
@@ -85,18 +84,18 @@ class CreatePerson extends Component {
                 <form className={classes.root} onSubmit={this.handleSubmit}>
                   <TextField
                     id="outlined-basic"
-                    label="ProfileID"
+                    label="profile_id"
                     variant="outlined"
-                    name="ProfileID"
-                    required
+                    name="profile_id"
+                    //required
                     onChange={this.handleChange}
                   />
                   <TextField
                     id="outlined-basic"
-                    label="Frequency"
+                    label="Wie oft möchtest lernen?"
                     variant="outlined"
-                    name="Frequency"
-                    required
+                    name="frequency"
+                    //required
                     onChange={this.handleChange}
                   />
                   <TextField
@@ -104,7 +103,7 @@ class CreatePerson extends Component {
                     label="prev_knowledge"
                     variant="outlined"
                     name="prev_knowledge"
-                    required
+                    //required
                     onChange={this.handleChange}
                   />
                   <TextField
@@ -112,7 +111,7 @@ class CreatePerson extends Component {
                     label="extroversion"
                     variant="outlined"
                     name="extroversion"
-                    required
+                    //required
                     onChange={this.handleChange}
                   />
                   <TextField
@@ -120,7 +119,7 @@ class CreatePerson extends Component {
                     label="prev_knowledge"
                     variant="outlined"
                     name="prev_knowledge"
-                    required
+                    //required
                     onChange={this.handleChange}
                   />
                   <Button
@@ -131,7 +130,7 @@ class CreatePerson extends Component {
                     className={classes.button}
                     startIcon={<SaveIcon />}
                   >
-                    Person anlegen
+                    Lernprofil bestätigen
                   </Button>
                 </form>
               </div>
