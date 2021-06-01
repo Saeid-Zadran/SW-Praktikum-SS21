@@ -103,8 +103,8 @@ class ChatMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chat  SET source_id=%s, target_id=%s, is_accepted=%s WHERE id=%s"
-        data = (chat.get_target_id(), chat.get_source_id(),chat.get_is_accepted(), chat.get_id())
+        command = "UPDATE chat" + "SET source_id=%s, target_id=%s WHERE id=%s"
+        data = (chat.get_source_id(), chat.get_target_id(), chat.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()

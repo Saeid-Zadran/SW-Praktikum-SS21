@@ -81,7 +81,6 @@ CREATE TABLE `chatmessage` (
   `text` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `person_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `received` tinyint NOT NULL,
-  `read` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;

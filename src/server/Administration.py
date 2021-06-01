@@ -181,7 +181,7 @@ class Administration(object):
         chat.set_source_id(source_id)
         chat.set_target_id(target_id)
         chat.set_is_accepted(is_accepted)
-        chat.set_id(1)
+        chat.set_id(0)
 
         with ChatMapper() as mapper:
             return mapper.insert(chat)
@@ -203,12 +203,11 @@ class Administration(object):
         with ChatMessageMapper() as mapper:
             return mapper.find_all()
 
-    def create_chatmessage(self, text, person_id, received, read):
+    def create_chatmessage(self, text, person_id, received):
         chatmessage = ChatMessage()
         chatmessage.set_text(text)
         chatmessage.set_person_id(person_id)
         chatmessage.set_received(received)
-        chatmessage.set_read(read)
 
         with ChatMessageMapper() as mapper:
             return mapper.insert(chatmessage)

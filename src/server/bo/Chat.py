@@ -1,5 +1,6 @@
 from server.bo.BusinessObject import BusinessObject as bo
 
+
 class Chat(bo):
 
     def __init__(self):
@@ -10,11 +11,12 @@ class Chat(bo):
 
     def get_source_id(self):
         return self._source_id
+
     def set_source_id(self, source_id):
         self._source_id = source_id
 
     def set_target_id(self, target_id):
-        self._source_id = target_id
+        self._target_id = target_id
 
     def get_target_id(self):
         return self._target_id
@@ -33,7 +35,6 @@ class Chat(bo):
         obj = Chat()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_creation_time(dictionary["creation_time"])
         obj.set_source_id(dictionary["source_id"])
         obj.set_target_id(dictionary["target_id"])
         obj.set_is_accepted(dictionary["is_accepted"])
