@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import SaveIcon from "@material-ui/icons/Save";
 import AppApi from "../api/AppApi";
-import {
-  TextField,
-  Button,
-  Grid,
-} from "@material-ui/core";
+import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 
 class CreatePerson extends Component {
@@ -21,7 +17,6 @@ class CreatePerson extends Component {
       profile_id: "",
       learnprofile: "",
       loadingInProgress: false,
-      
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -36,7 +31,8 @@ class CreatePerson extends Component {
   ) {
     var api = AppApi.getApi();
     // console.log(api)
-    api.addLearnProfile(
+    api
+      .addLearnProfile(
         study_status,
         frequency,
         prev_knowledge,
@@ -64,7 +60,7 @@ class CreatePerson extends Component {
       this.state.frequency,
       this.state.prev_knowledge,
       this.state.extroversion,
-      this.state.profile_id,
+      this.state.profile_id
     );
   };
 
@@ -78,50 +74,60 @@ class CreatePerson extends Component {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div>
-                <h1>Eine neue Person erstellen</h1>
+                <h1>Lege dein Lernprofil an:</h1>
               </div>
               <div>
                 <form className={classes.root} onSubmit={this.handleSubmit}>
-                  <TextField
-                    id="outlined-basic"
-                    label="profile_id"
-                    variant="outlined"
-                    name="profile_id"
-                    //required
-                    onChange={this.handleChange}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="Wie oft möchtest lernen?"
-                    variant="outlined"
-                    name="frequency"
-                    //required
-                    onChange={this.handleChange}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="prev_knowledge"
-                    variant="outlined"
-                    name="prev_knowledge"
-                    //required
-                    onChange={this.handleChange}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="extroversion"
-                    variant="outlined"
-                    name="extroversion"
-                    //required
-                    onChange={this.handleChange}
-                  />
-                  <TextField
-                    id="outlined-basic"
-                    label="prev_knowledge"
-                    variant="outlined"
-                    name="prev_knowledge"
-                    //required
-                    onChange={this.handleChange}
-                  />
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Gebe deine Profile ID an"
+                      variant="outlined"
+                      name="profile_id"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Study Status"
+                      variant="outlined"
+                      name="study_status"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Wie oft möchtest lernen?"
+                      variant="outlined"
+                      name="frequency"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Wie vie Vorkenntnisse hast du?"
+                      variant="outlined"
+                      name="prev_knowledge"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Extrovertiert?"
+                      variant="outlined"
+                      name="extroversion"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
                   <Button
                     type="submit"
                     variant="contained"
@@ -146,7 +152,7 @@ const styles = (theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(1),
-      width: "25ch",
+      width: "30ch",
     },
     roott: {
       flexGrow: 1,
