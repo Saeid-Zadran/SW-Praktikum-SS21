@@ -66,7 +66,7 @@ class ProfileDeleteDialog extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete profile {profile.getProject()} {profile.getAge()} {profile.getAdress()} {profile.getSemester()} {profile.getPreferences()} {profile.getPersonId()} (ID: {profile.getID()})?
+              Really delete profile {profile.getAge()} {profile.getAdress()} {profile.getSemester()} {profile.getPreferences()} {profile.getPersonId()} (ID: {profile.getID()})?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
             <ContextErrorMessage error={deletingError} contextErrorMsg={`The rating '${profile.getAdress()} ${profile.getSemester() }${profile.getPreferences() }${profile.getPersonId()  }' (ID: ${profile.getID()}) could not be deleted.`}

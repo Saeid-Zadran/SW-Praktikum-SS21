@@ -15,7 +15,7 @@ export default class AppApi {
   static #api = null;
 
   // Local Python backend
-  #AppServerBaseURL = "/app";
+  #AppServerBaseURL = "http://localhost:5000/app";
 
   // Local http-fake-backend
   // #AppServerBaseURL = '/AppApi/app';
