@@ -19,6 +19,7 @@ import Start from "./components/pages/Start";
 import AllProfileList from "./components/AllProfileList";
 import ProfileDropDown from "./components/dialogs/ProfileDropDown";
 import CreateLearnProfile from "./components/CreateLearnProfile";
+import CreateLearnGroup from "./components/CreateLearnGroup";
 
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
@@ -134,6 +135,7 @@ class App extends React.Component {
             <Route exact path="/ProfileList" component={ProfileList} />
             <Route exact path="/AllProfileList" component={AllProfileList} />
             <Route exact path="/CreateLearnProfile" component={CreateLearnProfile} />
+            <Route exact path="/CreateLearnGroup" component={CreateLearnGroup} />
 
             {
               // Is a user signed in?

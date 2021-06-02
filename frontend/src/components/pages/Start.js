@@ -51,6 +51,21 @@ class Start extends Component {
             </Link>
           </center>
         </div>
+        <div>
+          <center>
+            <Typography>Erstellen Sie eine neue Lerngruppe, </Typography>
+            <Typography>um mit Studenten zu lernen: </Typography>
+            <Link
+              to={{
+                pathname: "/CreateLearnGroup",
+              }}
+            >
+              <Button variant="contained" color="primary">
+                Lerngruppe erstellen
+              </Button>
+            </Link>
+          </center>
+        </div>
       </div>
       </CssBaseline>
     );
