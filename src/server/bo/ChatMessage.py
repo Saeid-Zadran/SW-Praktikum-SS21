@@ -7,8 +7,7 @@ class ChatMessage(bo):
         super().__init__()
         self._text = None
         self._person_id = None
-        self._received= None
-        self._read = 0
+        self._received = None
 
     def set_text(self, text):
         self._text = text
@@ -28,11 +27,6 @@ class ChatMessage(bo):
     def get_received(self):
         return self._received
 
-    def set_read(self, read):
-        self._read= read
-
-    def get_read(self):
-        return self._read
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -43,7 +37,6 @@ class ChatMessage(bo):
         obj.set_text(dictionary["text"])
         obj.set_person_id(dictionary["person_id"])
         obj.set_received(dictionary["received"])
-        obj.set_read(dictionary["read"])
         return obj
 
 

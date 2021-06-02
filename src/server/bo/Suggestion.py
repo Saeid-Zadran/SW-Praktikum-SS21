@@ -27,7 +27,6 @@ class Suggestion(bo):
         """Umwandeln eines Python dict() in ein Suggestion()."""
         obj = Suggestion()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_creation_time(dictionary["creation_time"])  # Teil von BO
         #obj.set_name(dictionary["name"])                    # Teil von BO
         obj.set_person_id(dictionary["person_id"])
         obj.set_learn_group_id(dictionary["learn_group_id"])

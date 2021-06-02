@@ -88,7 +88,6 @@ learngroup = api.inherit('LearnGroup', nbo, {
 #BusinessObjekts
 
 chat = api.inherit('Chat', bo, {
-    'chat_id': fields.Integer(attribute='_chat_id',description='ID des Chats'),
     'source_id': fields.Integer(attribute='_source_id', description='Absender der Nachricht'),
     'target_id': fields.Integer(attribute='_target_id', description='Empfänger der Nachricht'),
     'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats')
@@ -99,7 +98,6 @@ chatmessage = api.inherit('_ChatMessage', bo, {
     'text': fields.String(attribute='_text', description= 'Inhalt der Nachricht'),
     'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person'),
     'received': fields.Boolean(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
-    'read': fields.DateTime(attribute= '_read', description ='Nachricht gelesen oder nicht')
 })
 
 # Person related
@@ -469,6 +467,7 @@ class LearnProfileDeleteOperation(Resource):
 #Chat related
 @studymatch.route('/chats')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des Chat-Objekts')
 class ChatOperations(Resource):
     @studymatch.marshal_list_with(chat)
     #@secured
@@ -508,15 +507,17 @@ class ChatOperations(Resource):
     @studymatch.marshal_with(chat, code=200)
     @studymatch.expect(chat)  # Wir erwarten ein chat-Objekt von Client-Seite.
     #@secured
-    def put(self):
+    def put(self, id):
         """Update eines bestimmten chat-Objekts."""
-        adm = Administration()
-        print(api.payload)
-        c = Chat.from_dict(api.payload)
-        if c is not None:
-            adm.save_chat(c)
-            return c, 200
 
+        adm = Administration()
+        c = Chat.from_dict(api.payload)
+
+        if c is not None:
+
+            c.set_id(id)
+            adm.save_chat(c)
+            return '', 200
         else:
             return '', 500
 
@@ -551,8 +552,9 @@ class ChatDeleteOperation(Resource):
         return '', 200
 
 #ChatMessage related
-@studymatch.route('/chatmessages')
+@studymatch.route('/chatmessages/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'ID der Nachricht')
 class ChatMessageListOperations(Resource):
     @studymatch.marshal_list_with(chatmessage)
     #@secured
@@ -582,7 +584,7 @@ class ChatMessageListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), \
-                                        proposal.get_received(), proposal.get_read())
+                                        proposal.get_received())
             return cm, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -592,14 +594,16 @@ class ChatMessageListOperations(Resource):
     @studymatch.marshal_with(chatmessage, code=200)
     @studymatch.expect(chatmessage)  # Wir erwarten ein chatmessage-Objekt von Client-Seite.
     #@secured
-    def put(self):
+    def put(self,id):
         """Update eines bestimmten chatmessage-Objekts."""
         adm = Administration()
-        print(api.payload)
         cm = ChatMessage.from_dict(api.payload)
+
         if cm is not None:
+
+            cm.set_id(id)
             adm.save_chatmessage(cm)
-            return cm, 200
+            return '', 200
 
         else:
             return '', 500
