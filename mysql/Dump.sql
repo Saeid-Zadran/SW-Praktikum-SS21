@@ -95,13 +95,13 @@ LOCK TABLES `chatmessage` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `group_request`
+-- Table structure for table `grouprequest`
 --
 
-DROP TABLE IF EXISTS `group_request`;
+DROP TABLE IF EXISTS `grouprequest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group_request` (
+CREATE TABLE `grouprequest` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
   `learngroup_id` int NOT NULL,
@@ -111,12 +111,12 @@ CREATE TABLE `group_request` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group_request`
+-- Dumping data for table `grouprequest`
 --
 
-LOCK TABLES `group_request` WRITE;
-/*!40000 ALTER TABLE `group_request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_request` ENABLE KEYS */;
+LOCK TABLES `grouprequest` WRITE;
+/*!40000 ALTER TABLE `grouprequest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grouprequest` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -129,7 +129,7 @@ DROP TABLE IF EXISTS `learngroup`;
 CREATE TABLE `learngroup` (
   `id` int NOT NULL,
   `creation_time` datetime DEFAULT NULL,
-  `name` varchar(45) COLLATE utf8_bin NOT NULL,
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `participant` int NOT NULL,
   `profile_id` int NOT NULL,
   `learn_profile_id` int NOT NULL,
@@ -267,4 +267,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-31  1:50:44
+-- Dump completed on 2021-06-02 23:19:43

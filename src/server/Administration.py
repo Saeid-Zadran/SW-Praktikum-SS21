@@ -5,6 +5,7 @@ from server.bo.LearnProfile import LearnProfile
 from server.bo.Profile import Profile
 from server.bo.Suggestion import Suggestion
 from server.bo.LearnGroup import LearnGroup
+from server.bo.GroupRequest import GroupRequest
 
 
 
@@ -15,6 +16,7 @@ from server.db.ProfileMapper import ProfileMapper
 from server.db.SuggestionMapper import SuggestionMapper
 from server.db.LearnGroupMapper import LearnGroupMapper
 from server.db.LearnProfileMapper import LearnProfileMapper
+from server.db.GroupRequestMapper import GroupRequestMapper
 
 
 
@@ -47,10 +49,10 @@ class Administration(object):
             return mapper.find_by_key(id)
 
 
-    def get_person_by_google_user_id(self, google_id):
+    def get_person_by_google_user_id(self,google_user_id):
         """Die Person mit der gegebenen Google ID auslesen."""
         with PersonMapper() as mapper:
-            return mapper.find_by_google_user_id(google_id)
+            return mapper.find_by_google_user_id(google_user_id)
 
     def get_person_by_google_mail(self, google_mail):
         """Die Person mit der gegebenen Google ID auslesen."""
@@ -254,6 +256,49 @@ class Administration(object):
         with LearnGroupMapper() as mapper:
             mapper.delete(learngroup)
 
+    """GroupRequest-Methoden"""
+
+    def create_grouprequest(self,learngroup_id ,source_id,target_id, is_accepted,):
+        grouprequest = GroupRequest()
+        grouprequest.set_source_id(source_id)
+        grouprequest.set_target_id(target_id)
+        grouprequest.set_learngroup_id(learngroup_id)
+        grouprequest.set_is_accepted(is_accepted)
+        grouprequest.set_id(1)
+
+        with GroupRequestMapper() as mapper:
+            return mapper.insert(grouprequest)
+    
+    def get_all_grouprequests(self):
+        with GroupRequestMapper() as mapper:
+            return mapper.find_all()
+
+    def save_grouprequest(self, grouprequest):
+        with GroupRequestMapper() as mapper:
+            mapper.update(grouprequest)
+
+    def delete_grouprequest(self, grouprequest):
+  
+        with GroupRequestMapper() as mapper:
+            mapper.delete(grouprequest)
+
+    def get_grouprequest_by_id(self,id):
+        with GroupRequestMapper() as mapper:
+            return mapper.find_by_key(id)
+    
+    def get_grouprequest_by_learn_group_id(self, learngroup_id):
+        with GroupRequestMapper() as mapper:
+            return mapper.find_all_grouprequests_by_LearnGroup(learngroup_id)
+
+    def get_grouprequests_by_source_id(self, source_id):
+        with GroupRequestMapper() as mapper:
+            return mapper.find_all_group_grouprequests_by_source_id(source_id)
+
+    def get_grouprequests_by_target_id(self, target_id):
+        with GroupRequestMapper() as mapper:
+            return mapper.find_all_group_grouprequests_by_target_id(target_id)
+
+
 
 
     #def get_learn_profile_by_person_id(self, person_id):
@@ -290,16 +335,15 @@ class Administration(object):
         p.set_email(email)
         p.set_google_user_id(google_user_id)
         with PersonMapper() as mapper:
-            return mapper.insert_google_user(p)
+            return mapper.insert_google_user_id(p)
 
-    """User speichern"""
-    def save_user(self, user):
+    """user speichern"""
+    def save_user(self, id):
         """Den gegebenen Benutzer speichern."""
         with PersonMapper() as mapper:
-            mapper.update_google_user(user)
+            mapper.update_google_user_id(id)
 
-    def learngroup(self, param, param1, param2, param3):
-        pass
+    
 
 
 
