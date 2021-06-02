@@ -5,47 +5,34 @@ import AppApi from "../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 
-class CreateLearnProfile extends Component {
+class CreateLearnGroup extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      study_status: "",
-      frequency: "",
-      prev_knowledge: "",
-      extroversion: "",
+      name: "",
+      description: "",
       profile_id: "",
-      learnprofile: "",
+      learn_profile_id: "",
+      learngroup: "",
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  /** Create LearnProfile*/
-  addLearnProfile(
-    study_status,
-    frequency,
-    prev_knowledge,
-    extroversion,
-    profile_id
-  ) {
+  /** Create LearnGroupProfile*/
+  addLearnGroup(name, profile_id, learn_profile_id) {
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .addLearnProfile(
-        study_status,
-        frequency,
-        prev_knowledge,
-        extroversion,
-        profile_id
-      )
-      .then((learnprofile) => {
+      .addLearnGroup(name, profile_id, learn_profile_id)
+      .then((learngroup) => {
         // console.log(person)
         this.setState({
-          learnprofile: learnprofile,
+          learngroup: learngroup,
         });
       });
-    console.log(this.state.learnprofile);
+    console.log(this.state.learngroup);
   }
 
   handleChange(e) {
@@ -55,12 +42,10 @@ class CreateLearnProfile extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    this.addLearnProfile(
-      this.state.study_status,
-      this.state.frequency,
-      this.state.prev_knowledge,
-      this.state.extroversion,
-      this.state.profile_id
+    this.addLearnGroup(
+      this.state.name,
+      this.state.profile_id,
+      this.state.learn_profile_id
     );
   };
 
@@ -74,15 +59,37 @@ class CreateLearnProfile extends Component {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div>
-                <h1>Lege dein Lernprofil an:</h1>
+                <h1>Lege deine Lerngruppe an:</h1>
               </div>
               <div>
                 <form className={classes.root} onSubmit={this.handleSubmit}>
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Gebe deine Profile ID an"
+                      label="Wie soll die Lerngruppe heißen?"
                       variant="outlined"
+                      name="name"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Beschreibung der Lerngruppe"
+                      variant="outlined"
+                      multiline
+                      name="description"
+                      //required
+                      // onChange={this.handleChange}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Profile ID"
+                      variant="outlined"
+                      type="number"
                       name="profile_id"
                       //required
                       onChange={this.handleChange}
@@ -91,19 +98,10 @@ class CreateLearnProfile extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Study Status"
+                      label="Lernprofil ID"
                       variant="outlined"
-                      name="study_status"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Wie oft möchtest lernen?"
-                      variant="outlined"
-                      name="frequency"
+                      type="number"
+                      name="learn_profile_id"
                       //required
                       onChange={this.handleChange}
                     />
@@ -118,16 +116,6 @@ class CreateLearnProfile extends Component {
                       onChange={this.handleChange}
                     />
                   </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Extrovertiert?"
-                      variant="outlined"
-                      name="extroversion"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
                   <Button
                     type="submit"
                     variant="contained"
@@ -136,7 +124,7 @@ class CreateLearnProfile extends Component {
                     className={classes.button}
                     startIcon={<SaveIcon />}
                   >
-                    Lernprofil bestätigen
+                    Bestätigen
                   </Button>
                 </form>
               </div>
@@ -168,4 +156,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(CreateLearnProfile);
+export default withStyles(styles)(CreateLearnGroup);
