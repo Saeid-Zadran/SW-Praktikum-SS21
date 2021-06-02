@@ -14,6 +14,7 @@ from server.bo.LearnProfile import LearnProfile
 from server.bo.Person import Person
 from server.bo.Profile import Profile
 from server.bo.Suggestion import Suggestion
+from server.bo.GroupRequest import GroupRequest
 
 '''Außerdem nutzen wir einen selbstgeschriebenen Decorator, der die Authentifikation übernimmt'''
 from SecurityDecorator import secured
@@ -52,7 +53,7 @@ nbo = api.inherit('NamedBusinessObjects', bo, {
 
 
 person = api.inherit('Person', nbo, {
-    'google_user_id': fields.String(attribute='_google_user_id', description='Google User ID einer Person'),
+    'google_user_id': fields.String(attribute='_google_user_id', description='Google id ID einer Person'),
     'google_mail': fields.String(attribute='_google_mail', description='Google Mail einer Person')
 })
 
@@ -83,6 +84,12 @@ learngroup = api.inherit('LearnGroup', nbo, {
     'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
     'profile_id': fields.Integer(attribute='_profile_id', description='ID eines Profils'),
     'learn_profile_id': fields.Integer(attribute='_learn_profile_id', description='ID eines Lernprofils'),
+})
+grouprequest = api.inherit('GroupRequest', bo, {
+    'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Unique Id der Gruppe'),
+    'source_id':fields.Integer(attribute='_source_id', description='Unique Id des Chatinhabers'),
+    'target_id':fields.Integer(attribute='_target_id', description='Unique Id des Inviters'),
+    'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
 #BusinessObjekts
@@ -169,7 +176,7 @@ class PersonOperations(Resource):
 
 @studymatch.route('/person-by-google-user-id/<string:google_user_id>')
 @studymatch.response(500, 'when server has problems')
-class UserGoogleOperations(Resource):
+class idGoogleOperations(Resource):
     @studymatch.marshal_with(person)
     def get(self, google_user_id):
         adm = Administration()
@@ -721,7 +728,99 @@ class LearnGroupDeleteOperation(Resource):
         lg = adm.get_learngroup_by_id(id)
         adm.delete_learngroup(lg)
         return '', 200
+#----GroupRequest--------
+
+@studymatch.route('/grouprequests')
+@studymatch.response(500, 'when server has problems')
+class GroupRequestListOperations(Resource):
+    @studymatch.marshal_list_with(grouprequest)
+    def get(self):
+        adm = Administration()
+        grouprequests = adm.get_all_grouprequests()
+        return grouprequests
+
+    @studymatch.marshal_with(grouprequest, code=200)
+    @studymatch.expect(grouprequest)  
+    def post(self):
+     
+        adm = Administration()
+        gr = GroupRequest.from_dict(api.payload)
+ 
+        if gr is not None:
+  
+            s = adm.create_grouprequest(gr.get_learngroup_id(), gr.get_source_id(), gr.get_target_id(),gr.get_is_accepted())
+
+            return s, 200
+        else:
+       
+            return '', 500
+   
+
+
+@studymatch.route('/grouprequest/<int:id>')
+@studymatch.response(500, 'when server has problems')
+class GroupRequestnOperations(Resource):
+    @studymatch.marshal_with(grouprequest)
+    def get(self, id):
+       
+        adm = Administration()
+        grouprequest = adm.get_grouprequest_by_id(id)
+        return grouprequest
+
+    @studymatch.marshal_with(grouprequest)
+    @studymatch.expect(grouprequest, validate=True) 
+    def put(self, id):
+       
+        adm = Administration()
+        grouprequest = GroupRequest.from_dict(api.payload)
+   
+
+        if grouprequest is not None:
+           grouprequest.set_id(id)
+           adm.save_grouprequest(grouprequest)
+           return '', 200
         
+        else:
+         
+            return '', 500
+
+    def delete(self, id):
+       
+        adm = Administration()
+        grouprequest= adm.get_person_by_id(id)
+        adm.delete_grouprequest(grouprequest)
+        return '', 200
+
+
+@studymatch.route('/grouprequest-by-learngroup_id/<int:learngroup_id>')
+@studymatch.response(500, 'when server has problems')
+class ChatByTargetOperations(Resource):
+    @studymatch.marshal_list_with(grouprequest)
+    def get(self, learngroup_id):
+       
+        adm = Administration()
+        grouprequest_by_learn_group_id = adm.get_grouprequest_by_learn_group_id(learngroup_id)
+        return grouprequest_by_learn_group_id
+
+
+@studymatch.route('/grouprequest-by-target-id/<int:target_id>')
+@studymatch.response(500, 'when server has problems')
+class GroupRequestByTargetOperations(Resource):
+    @studymatch.marshal_list_with(grouprequest)
+    def get(self, target_id):
+    
+        adm = Administration()
+        grouprequest_target_id = adm.get_grouprequest_by_target_id(target_id)
+        return grouprequest_target_id
+@studymatch.route('/grouprequest-by-source-id/<int:source_id>')
+@studymatch.response(500, 'when server has problems')
+class GroupRequestBySourceOperations(Resource):
+    @studymatch.marshal_list_with(grouprequest)
+    def get(self, source_id):
+  
+        adm = Administration()
+        grouprequest_source_id = adm.get_grouprequests_by_source_id(source_id)
+        return grouprequest_source_id
 if __name__ == '__main__':
     app.run(debug=True)
 
