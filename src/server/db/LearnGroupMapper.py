@@ -46,7 +46,7 @@ class LearnGroupMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time, name FROM learngroup WHERE id={}".format(key)
+        command = "SELECT * FROM learngroup WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -139,8 +139,8 @@ class LearnGroupMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = ("UPDATE learngroup SET creation_time=%s, name=%s,participant=%s, profile_id=%s, "
-                   "learn_profil_id=%s  WHERE id=%s")
+        command = ("UPDATE learngroup SET creation_time=%s,name=%s, participant=%s, profile_id=%s, "
+                   "learn_profile_id=%s  WHERE id=%s")
         data = (learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_participant(),
                 learngroup.get_profile_id(), learngroup.get_learn_profile_id(),learngroup.get_id())
 
