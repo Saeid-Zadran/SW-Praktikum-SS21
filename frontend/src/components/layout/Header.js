@@ -1,61 +1,54 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import HomeIcon from "@material-ui/icons/Home";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
+import ProfileDropDown from '../dialogs/ProfileDropDown';
 
-import { Link } from "react-router-dom";
-import ProfileDropDown from "../dialogs/ProfileDropDown.js";
 
-class Header extends React.Component {
+class Header extends Component {
+
   constructor(props) {
     super(props);
+
+    // Init an empty state
+    this.state = {
+      tabindex: 0
+    };
   }
 
+  /** Handles onChange events of the Tabs component */
+  handleTabChange = (e, newIndex) => {
+    // console.log(newValue)
+    this.setState({
+      tabindex: newIndex
+    })
+  };
+
+  /** Renders the component */
   render() {
-    const person = this.props;
-    const classes = this.props;
+    const { user } = this.props;
+
     return (
-      <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              aria-label="menu"
-            >
-              {/* <Link to=''> */}
-              <HomeIcon fontSize="large" />
-              {/* </Link> */}
-            </IconButton>
-
-            <Typography variant="h5" className={classes.title}>
-              <div>StudyMatch - Hochschule der Medien</div>
-            </Typography>
-
-            <Button color="inherit"></Button>
-          </Toolbar>
-          <ProfileDropDown person={person} />
-        </AppBar>
-      </div>
-    );
+      <Paper variant='outlined' >
+        <ProfileDropDown user={user} />
+        <Typography variant='h3' component='h1' align='center'>
+        </Typography>
+        <Typography variant='h4' component='h2' align='center'>
+        </Typography>
+            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
+              <Tab label='Profile' component={RouterLink} to={`/ProfileList`} />
+              <Tab label='Learnprofile' component={RouterLink} to={`/LearnProfile`} />
+              <Tab label='LearnGroup' component={RouterLink} to={`/LearnGroup`} />
+            </Tabs>
+      </Paper>
+    )
   }
 }
 
-const styles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    width: "100%",
-  },
-  menuButton: {
-    marginRight: theme.spacing(25),
-  },
-  title: {
-    flexGrow: 1,
-  },
-});
+/** PropTypes */
+Header.propTypes = {
+  /** The logged in firesbase user */
+  user: PropTypes.object,
+}
 
-export default withStyles(styles)(Header);
+export default Header;
