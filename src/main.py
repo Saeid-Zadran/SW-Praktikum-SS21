@@ -52,7 +52,9 @@ nbo = api.inherit('NamedBusinessObjects', bo, {
 
 
 
-person = api.inherit('Person', nbo, {
+person = api.inherit('Person', bo, {
+    'first_name': fields.String(attribute='_first_name', description='Vorname einer Person'),
+    'last_name': fields.String(attribute='_last_name', description='Nachname einer Person'),
     'google_user_id': fields.String(attribute='_google_user_id', description='Google id ID einer Person'),
     'google_mail': fields.String(attribute='_google_mail', description='Google Mail einer Person')
 })
@@ -138,7 +140,7 @@ class PersonListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_person(proposal.get_name(),proposal.get_google_user_id(), proposal.get_google_mail())
+            p = adm.create_person(proposal.get_first_name(),proposal.get_last_name(),proposal.get_google_user_id(), proposal.get_google_mail())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -707,16 +709,29 @@ class LearnGroupListOperations(Resource):
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
             return '', 500
 
+@studymatch.route('/learngroups/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'ID der Lerngruppe')
+class LearnGroupOperations(Resource):
+    @studymatch.marshal_list_with(learngroup)
+    #@secured
+    def get(self):
+        """Auslesen aller LearnGroup-Objekte.
+        Sollten keine LearnGroup-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
+        adm = Administration()
+        lp = adm.get_learngroup_by_id()
+        return lp
 
     @studymatch.marshal_with(learngroup, code=200)
     @studymatch.expect(learngroup)  # Wir erwarten ein learngroup-Objekt von Client-Seite.
     #@secured
-    def put(self):
+    def put(self, id):
         """Update eines bestimmten learngroup-Objekts."""
         adm = Administration()
-        print(api.payload)
         lg = LearnGroup.from_dict(api.payload)
         if lg is not None:
+
+            lg.set_id(id)
             adm.save_learngroup(lg)
             return lg, 200
 

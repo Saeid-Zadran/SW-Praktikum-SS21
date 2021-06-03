@@ -58,7 +58,7 @@ class PersonMapper(Mapper):
 
     def insert(self, person):
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT MAX(id) AS maxid FROM person ")
+        cursor.execute("SELECT MAX(id) AS maxid FROM person")
         tuples = cursor.fetchall()
 
         for (maxid) in tuples:
@@ -71,12 +71,15 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id, creation_time,name,google_mail, google_user_id) VALUES (%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_creation_time(), person.get_name(), person.get_google_mail(), person.get_google_user_id())
-        cursor.execute(command,data)
+        command = "INSERT INTO person (id, creation_time, first_name, last_name, google_user_id, google_mail) VALUES (%s,%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_time(),person.get_first_name(), person.get_last_name(), person.get_google_user_id(),
+                person.get_google_mail())
+
+        cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
+
         return person
 
     def update(self, person):

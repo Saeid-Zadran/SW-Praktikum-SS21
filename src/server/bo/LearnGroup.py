@@ -33,7 +33,6 @@ class LearnGroup(nbo):
         obj = LearnGroup()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_creation_time(dictionary["creation_time"])
         obj.set_name(dictionary["name"])
         obj.set_participant(dictionary["participant"])
         obj.set_profile_id(dictionary["profile_id"])
