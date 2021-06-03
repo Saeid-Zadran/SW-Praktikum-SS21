@@ -32,6 +32,7 @@ class CreateLearnProfile extends Component {
     study_status,
     frequency,
     prev_knowledge,
+    //group_size
     extroversion,
     profile_id
   ) {
@@ -42,6 +43,7 @@ class CreateLearnProfile extends Component {
         study_status,
         frequency,
         prev_knowledge,
+        //group_size
         extroversion,
         profile_id
       )
@@ -66,6 +68,7 @@ class CreateLearnProfile extends Component {
       this.state.frequency,
       this.state.prev_knowledge,
       this.state.extroversion,
+      //group_size
       this.state.profile_id
     );
   };
@@ -254,8 +257,9 @@ class CreateLearnProfile extends Component {
                     className={classes.button}
                     startIcon={<SaveIcon />}
                   >
-                    Lernprofil bestätigen
+                    Bestätigen
                   </Button>
+
                 </form>
               </div>
             </Paper>
