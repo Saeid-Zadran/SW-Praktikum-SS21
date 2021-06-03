@@ -80,10 +80,11 @@ learnprofile = api.inherit('LearnProfile', bo, {
     'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')
 })
 
-learngroup = api.inherit('LearnGroup', nbo, {
+learngroup = api.inherit('LearnGroup', bo, {
     'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
     'profile_id': fields.Integer(attribute='_profile_id', description='ID eines Profils'),
     'learn_profile_id': fields.Integer(attribute='_learn_profile_id', description='ID eines Lernprofils'),
+    'name': fields.String(attribute='_name', description='ID eines Lernprofils'),
 })
 grouprequest = api.inherit('GroupRequest', bo, {
     'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Unique Id der Gruppe'),
@@ -700,7 +701,7 @@ class LearnGroupListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            lg = adm.create_learngroup(proposal.get_creation_time(), proposal.get_participant(),
+            lg = adm.create_learngroup(proposal.get_creation_time(),proposal.get_name(), proposal.get_participant(), 
                                        proposal.get_profile_id(), proposal.get_learn_profile_id())
             return lg, 200
         else:
