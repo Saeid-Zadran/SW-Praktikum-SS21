@@ -112,7 +112,7 @@ class CreateLearnProfile extends Component {
                         <FormControlLabel
                           value="1"
                           control={<Radio />}
-                          label="Online/Virtuell"
+                          label="Online (Zoom, Discord, Skype, etc)"
                         />
                         <FormControlLabel
                           value="2"
@@ -269,8 +269,8 @@ class CreateLearnProfile extends Component {
 const styles = (theme) => ({
   root: {
     "& > *": {
-      margin: theme.spacing(1),
-      width: "30ch",
+      margin: theme.spacing(3),
+      width: "50ch",
     },
     roott: {
       flexGrow: 1,
@@ -278,9 +278,9 @@ const styles = (theme) => ({
     button: {
       margin: theme.spacing(1),
     },
-    group: {
-      margin: `${theme.spacing.unit}px 0`,
-    },
+    // group: {
+    //   margin: `${theme.spacing.unit}px 0`,
+    // },
     paper: {
       padding: theme.spacing(2),
       textAlign: "center",
