@@ -83,7 +83,7 @@ class CreateLearnProfile extends Component {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div>
-                <h1>Lege dein Lernprofil an:</h1>
+                <center><h1>Lege dein Lernprofil an:</h1></center>
               </div>
               <div>
                 <form className={classes.root} onSubmit={this.handleSubmit}>
