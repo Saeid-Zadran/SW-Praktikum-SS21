@@ -104,7 +104,7 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * WHERE google_user_id LIKE '{}'".format(google_user_id)
+        command = "SELECT id, creation_time, name, google_mail, google_user_id FROM person WHERE google_user_id LIKE '{}'".format(google_user_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

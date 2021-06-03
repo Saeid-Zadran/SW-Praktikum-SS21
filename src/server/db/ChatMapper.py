@@ -105,6 +105,7 @@ class ChatMapper(Mapper):
 
         command = "UPDATE chat" + "SET source_id=%s, target_id=%s WHERE id=%s"
         data = (chat.get_source_id(), chat.get_target_id(), chat.get_id())
+
         cursor.execute(command, data)
 
         self._cnx.commit()

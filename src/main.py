@@ -475,7 +475,7 @@ class LearnProfileDeleteOperation(Resource):
 @studymatch.route('/chats')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'id des Chat-Objekts')
-class ChatOperations(Resource):
+class ChatListOperations(Resource):
     @studymatch.marshal_list_with(chat)
     #@secured
     def get(self):
@@ -511,9 +511,24 @@ class ChatOperations(Resource):
             return '', 500
 
 
+@studymatch.route('/chats/<int:id>')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+@studymatch.param('id', 'id des Chat-Objekts')
+class ChatOperation(Resource):
+
+    @studymatch.marshal_with(chat)
+    #@secured
+    def get(self, id):
+        """Auslesen einer bestimmten chat.
+        Auszulesende chat wird durch id bestimmt.
+        """
+        adm = Administration()
+        c = adm.get_chat_by_id(id)
+        return c
+
     @studymatch.marshal_with(chat, code=200)
     @studymatch.expect(chat)  # Wir erwarten ein chat-Objekt von Client-Seite.
-    #@secured
+    # @secured
     def put(self, id):
         """Update eines bestimmten chat-Objekts."""
 
@@ -524,11 +539,9 @@ class ChatOperations(Resource):
 
             c.set_id(id)
             adm.save_chat(c)
-            return '', 200
+            return 'c', 200
         else:
             return '', 500
-
-
 
 @studymatch.route('/chat/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -559,9 +572,8 @@ class ChatDeleteOperation(Resource):
         return '', 200
 
 #ChatMessage related
-@studymatch.route('/chatmessages/<int:id>')
+@studymatch.route('/chatmessages')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@studymatch.param('id', 'ID der Nachricht')
 class ChatMessageListOperations(Resource):
     @studymatch.marshal_list_with(chatmessage)
     #@secured
@@ -596,6 +608,18 @@ class ChatMessageListOperations(Resource):
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
             return '', 500
+
+@studymatch.route('/chatmessages/<int:id>')
+@studymatch.response(500, 'Im Falle eines Server-seritigen Fehlers.')
+@studymatch.param('id', 'ID der Nachricht')
+class ChatMessageOperations(Resource):
+    @studymatch.marshal_with(chatmessage)
+    #@secured
+    def get(self,id):
+        """Auslesen eines ChatMessage Objekts anhand seiner ID"""
+        adm = Administration()
+        cm = adm.get_chatmessage_by_id(id)
+        return cm
 
 
     @studymatch.marshal_with(chatmessage, code=200)
