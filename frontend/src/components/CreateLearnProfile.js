@@ -4,6 +4,12 @@ import SaveIcon from "@material-ui/icons/Save";
 import AppApi from "../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 
 class CreateLearnProfile extends Component {
   constructor(props) {
@@ -89,44 +95,156 @@ class CreateLearnProfile extends Component {
                     />
                   </div>
                   <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Study Status"
-                      variant="outlined"
-                      name="study_status"
-                      //required
-                      onChange={this.handleChange}
-                    />
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">
+                        Wie möchtest du lernen?
+                      </FormLabel>
+                      <RadioGroup
+                        aria-label="study_status"
+                        name="study_status"
+                        className={classes.group}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                      >
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="Online/Virtuell"
+                        />
+                        <FormControlLabel
+                          value="2"
+                          control={<Radio />}
+                          label="Offline/Präsenz"
+                        />
+                        <FormControlLabel
+                          value="3"
+                          control={<Radio />}
+                          label="Egal"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+
+                  <div>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">
+                        Wie viele Tage in der Woche möchtest du lernen?
+                      </FormLabel>
+                      <RadioGroup
+                        aria-label="frequency"
+                        name="frequency"
+                        className={classes.group}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                      >
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="1-2 Tage"
+                        />
+                        <FormControlLabel
+                          value="2"
+                          control={<Radio />}
+                          label="3-5 Tage"
+                        />
+                        <FormControlLabel
+                          value="3"
+                          control={<Radio />}
+                          label="5-7 Tage"
+                        />
+                      </RadioGroup>
+                    </FormControl>
+                  </div>
+
+                  <div>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">
+                        Hast du bereits Vorkenntnise?
+                      </FormLabel>
+                      <RadioGroup
+                        aria-label="prev_knowledge"
+                        name="prev_knowledge"
+                        className={classes.group}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                      >
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="JA"
+                        />
+                        <FormControlLabel
+                          value="2"
+                          control={<Radio />}
+                          label="NEIN"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </div>
                   <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Wie oft möchtest lernen?"
-                      variant="outlined"
-                      name="frequency"
-                      //required
-                      onChange={this.handleChange}
-                    />
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">
+                        Wie groß sollte die Lerngruppe sein?
+                      </FormLabel>
+                      <RadioGroup
+                        aria-label="Gruppengröße"
+                        name="group_size"
+                        className={classes.group}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                      >
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="kleine Gruppe (2-3 Personen)"
+                        />
+                        <FormControlLabel
+                          value="2"
+                          control={<Radio />}
+                          label="größere Gruppe (über 4 Personen)"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </div>
                   <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Wie vie Vorkenntnisse hast du?"
-                      variant="outlined"
-                      name="prev_knowledge"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Extrovertiert?"
-                      variant="outlined"
-                      name="extroversion"
-                      //required
-                      onChange={this.handleChange}
-                    />
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">
+                        Bist du eher Extrovertiert oder Introvertiert?
+                      </FormLabel>
+                      <RadioGroup
+                        aria-label="extrovertiert oder introvertiert"
+                        name="extroversion"
+                        className={classes.group}
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                      >
+                        <FormControlLabel
+                          value="1"
+                          control={<Radio />}
+                          label="eher Extrovertiert"
+                        />
+                        <FormControlLabel
+                          value="2"
+                          control={<Radio />}
+                          label="eher Introvertiert"
+                        />
+                      </RadioGroup>
+                    </FormControl>
                   </div>
                   <Button
                     type="submit"
@@ -159,6 +277,9 @@ const styles = (theme) => ({
     },
     button: {
       margin: theme.spacing(1),
+    },
+    group: {
+      margin: `${theme.spacing.unit}px 0`,
     },
     paper: {
       padding: theme.spacing(2),
