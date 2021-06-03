@@ -1,11 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import {
-  Container,
-  ThemeProvider,
-  CssBaseline,
-  Paper,
-} from "@material-ui/core";
+import {Container,ThemeProvider,CssBaseline,Paper,} from "@material-ui/core";
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
@@ -132,10 +127,13 @@ class App extends React.Component {
         <Router basename={process.env.PUBLIC_URL}>
           <Container maxWidth="md">
             <Header />
+            <Redirect from ='/' to ='/ProfileList' />
+            <Route exact path = 'ProfileList'>
+              <ProfileList/>
+            </Route>
             <Route exact path="/ProfileList" component={ProfileList} />
-            <Route exact path="/AllProfileList" component={AllProfileList} />
-            <Route exact path="/CreateLearnProfile" component={CreateLearnProfile} />
-            <Route exact path="/CreateLearnGroup" component={CreateLearnGroup} />
+            <Route exact path="/LearnProfile" component={CreateLearnProfile} />
+            <Route exact path="/LearnGroup" component={CreateLearnGroup} />
 
             {
               // Is a user signed in?
