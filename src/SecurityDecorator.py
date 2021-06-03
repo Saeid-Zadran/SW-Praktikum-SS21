@@ -26,7 +26,7 @@ def secured(function):
         error_message = None
         claims = None
         objects = None
-        #print("token",id_token)
+        print("token",id_token)
         if id_token:
             try:
                 
@@ -45,22 +45,22 @@ def secured(function):
                     email = claims.get("email")
                     name = claims.get("name")
 
-                    user = adm.get_person_by_google_user_id(google_user_id)
-                    if user is not None:
+                    person = adm.get_person_by_google_user_id(google_user_id)
+                    if person is not None:
                         """Fall: Der Benutzer ist unserem System bereits bekannt.
                         Wir gehen davon aus, dass die google_user_id sich nicht ändert.
                         Wohl aber können sich der zugehörige Klarname (name) und die
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
-                        user.set_name(name)
-                        user.set_email(email)
-                        adm.save_user(user)
+                        person.set_name(name)
+                        person.set_email(email)
+                        adm.save_person(person)
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        user = adm.create_user(name, email, google_user_id)
+                        person = adm.create_person(name, email, google_user_id)
 
                     print(request.method, request.path, "angefragt durch:", name, email)
 

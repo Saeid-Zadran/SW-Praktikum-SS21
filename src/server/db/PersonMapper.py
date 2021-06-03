@@ -14,14 +14,15 @@ class PersonMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT * from person")
+        cursor.execute("SELECT id, creation_time, first_name, last_name, google_user_id, google_mail  from person")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, name, google_mail, google_user_id) in tuples:
+        for (id, creation_time, first_name, last_name, google_user_id, google_mail) in tuples:
             person = Person()
             person.set_id(id)
             person.set_creation_time(creation_time)
-            person.get_name(name)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
             result.append(person)
@@ -36,15 +37,16 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM person WHERE id={}".format(key)
+        command = "SELECT id, creation_time, first_name, last_name, google_user_id, google_mail  FROM person WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, name, google_mail, google_user_id) = tuples[0]
+            (id, creation_time, first_name, last_name, google_user_id, google_mail) = tuples[0]
             person = Person()
             person.set_id(id)
-            person.get_name(name)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
             person.set_creation_time(creation_time)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
@@ -107,19 +109,22 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time, name, google_mail, google_user_id FROM person WHERE google_user_id LIKE '{}'".format(google_user_id)
+        command = "SELECT id, creation_time, first_name, last_name, google_user_id, google_mail FROM person WHERE google_user_id LIKE '{}'".format(google_user_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_time, name, google_mail, google_user_id) = tuples[0]
+            (id, creation_time, first_name, last_name, google_user_id, google_mail) = tuples[0]
             person = Person()
             person.set_id(id)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
             person.set_creation_time(creation_time)
-            person.get_name(name)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
             result = person
+            
+
         except IndexError:
             """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
             keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""

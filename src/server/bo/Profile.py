@@ -1,7 +1,7 @@
-from server.bo.BusinessObject import BusinessObject as bo
+from server.bo.NamedBusinessObject import NamedBusinessObject as nbo
 
 
-class Profile(bo):
+class Profile(nbo):
     def __init__(self):
         super().__init__()
         self._name = ""
@@ -12,11 +12,7 @@ class Profile(bo):
         self._preferences = ""
         self._person_id = None
 
-    def set_name(self, name):
-        self._name = name
-
-    def get_name(self):
-        return self._name
+   
 
     def set_age(self, age):
         self._age = age

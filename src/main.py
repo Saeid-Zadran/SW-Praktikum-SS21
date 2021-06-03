@@ -347,7 +347,7 @@ class SuggestionListOperations(Resource):
     @studymatch.marshal_with(suggestion, code=200)
     @studymatch.expect(suggestion)  # Wir erwarten ein suggestion-Objekt von Client-Seite.
     #@secured
-    def put(self):
+    def put(self,id):
         """Update eines bestimmten suggestion-Objekts."""
         adm = Administration()
         s = Suggestion.from_dict(api.payload)
@@ -788,7 +788,7 @@ class GroupRequestListOperations(Resource):
  
         if gr is not None:
   
-            s = adm.create_grouprequest(gr.get_learngroup_id(), gr.get_source_id(), gr.get_target_id(),gr.get_is_accepted())
+            s = adm.create_grouprequest(gr.get_learn_group_id(), gr.get_source_id(), gr.get_target_id(),gr.get_is_accepted())
 
             return s, 200
         else:

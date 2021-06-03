@@ -40,8 +40,14 @@ class Administration(object):
         person.set_google_mail(google_mail)
 
 
-        with PersonMapper() as mapper:
-            return mapper.insert(person)
+        adm = ProjectAdministration()
+        person_exists = adm.get_person_by_google_id(google_id)
+
+        if person_exists is not None:
+            adm.save_person(person)
+        else:
+            with PersonMapper() as mapper:
+                return mapper.insert(person)
 
 
 
@@ -172,6 +178,10 @@ class Administration(object):
 
         with SuggestionMapper() as mapper:
             mapper.delete(suggestion)
+    def get_suggestion_by_person_id(self,person_id):
+        
+        with SuggestionMapper() as mapper:
+            return mapper.find_by_person_id(person_id)
 
 
 
