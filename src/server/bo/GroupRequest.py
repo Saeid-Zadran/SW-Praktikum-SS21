@@ -8,7 +8,7 @@ class GroupRequest(bo):
         self.learngroup_id = 0
         self._source_id = None
         self._target_id = None
-        self._is_accepted = True
+        self._is_accepted = False
 
     def get_learngroup_id(self):
         return self.learngroup_id

@@ -101,7 +101,7 @@ ProfileDeleteDialog.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be deleted */
-  rating: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   /** If true, the dialog is rendered */
   show: PropTypes.bool.isRequired,
   /**
