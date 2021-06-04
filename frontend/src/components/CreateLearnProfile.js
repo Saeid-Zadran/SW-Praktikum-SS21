@@ -19,6 +19,7 @@ class CreateLearnProfile extends Component {
       study_status: "",
       frequency: "",
       prev_knowledge: "",
+      group_size:"",
       extroversion: "",
       profile_id: "",
       learnprofile: "",
@@ -32,7 +33,7 @@ class CreateLearnProfile extends Component {
     study_status,
     frequency,
     prev_knowledge,
-    //group_size
+    group_size,
     extroversion,
     profile_id
   ) {
@@ -43,7 +44,7 @@ class CreateLearnProfile extends Component {
         study_status,
         frequency,
         prev_knowledge,
-        //group_size
+        group_size,
         extroversion,
         profile_id
       )
@@ -67,8 +68,8 @@ class CreateLearnProfile extends Component {
       this.state.study_status,
       this.state.frequency,
       this.state.prev_knowledge,
+      this.state.group_size,
       this.state.extroversion,
-      //group_size
       this.state.profile_id
     );
   };
