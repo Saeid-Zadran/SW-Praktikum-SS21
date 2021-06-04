@@ -15,6 +15,7 @@ import AllProfileList from "./components/AllProfileList";
 import ProfileDropDown from "./components/dialogs/ProfileDropDown";
 import CreateLearnProfile from "./components/CreateLearnProfile";
 import CreateLearnGroup from "./components/CreateLearnGroup";
+import AppApi from "./api/AppApi";
 
 class App extends React.Component {
   /** Constructor of the app, which initializes firebase  */
@@ -71,6 +72,7 @@ class App extends React.Component {
             authError: null,
             authLoading: false,
           });
+          this.getPersonByGoogleId(person.uid);
         })
         .catch((e) => {
           this.setState({
@@ -109,6 +111,19 @@ class App extends React.Component {
    *
    * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
    */
+
+   getPersonByGoogleId = (google_id) => {
+    var api = AppApi.getApi();
+    // console.log(api)
+    api.getPersonByGoogleId(google_id).then((person) => {
+      this.setState(
+        {
+          person: person,
+        },
+      );
+    });
+  };
+
 
   componentDidMount() {
     firebase.initializeApp(firebaseConfig);

@@ -39,15 +39,8 @@ class Administration(object):
         person.set_google_user_id(google_user_id)
         person.set_google_mail(google_mail)
 
-
-        adm = ProjectAdministration()
-        person_exists = adm.get_person_by_google_id(google_id)
-
-        if person_exists is not None:
-            adm.save_person(person)
-        else:
-            with PersonMapper() as mapper:
-                return mapper.insert(person)
+        with PersonMapper() as mapper:
+            return mapper.insert(person)
 
 
 
