@@ -10,6 +10,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import LearnProfileBO from '../api/LearnProfileBO';
+
+
 
 class CreateLearnProfile extends Component {
   constructor(props) {
@@ -22,33 +25,32 @@ class CreateLearnProfile extends Component {
       group_size:"",
       extroversion: "",
       profile_id: "",
-      learnprofile: "",
+      learnprofile: null, //Für addLearnProfile
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   /** Create LearnProfile*/
-  addLearnProfile(
-    study_status,
-    frequency,
-    prev_knowledge,
-    group_size,
-    extroversion,
-    profile_id
-  ) {
+  addLearnProfile( study_status,frequency,prev_knowledge, group_size, extroversion,profile_id) {
+    
+    var learnprofile = new LearnProfileBO
+    learnprofile.setStudyStatus(study_status)
+    learnprofile.setFrequency(frequency)
+    learnprofile.setPrevKnowledge(prev_knowledge)
+    learnprofile.setGroupSize(group_size)
+    learnprofile.setExtroversion(extroversion)
+    learnprofile.setProfileId(profile_id)
+
+
+
+
+    
+    
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .addLearnProfile(
-        study_status,
-        frequency,
-        prev_knowledge,
-        group_size,
-        extroversion,
-        profile_id
-      )
-      .then((learnprofile) => {
+      .addLearnProfile(learnprofile).then((learnprofile) => {
         // console.log(person)
         this.setState({
           learnprofile: learnprofile,
