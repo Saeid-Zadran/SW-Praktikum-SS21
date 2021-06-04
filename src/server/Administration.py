@@ -119,13 +119,14 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.find_by_key(id)
 
-    def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, extroversion, profile_id):
+    def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, group_size,extroversion, profile_id):
         """Ein lernprofil anlegen"""
         learnprofile = LearnProfile()
         learnprofile.set_creation_time(creation_time)
         learnprofile.set_study_status(study_status)
         learnprofile.set_frequency(frequency)
         learnprofile.set_prev_knowledge(prev_knowledge)
+        learnprofile.set_group_size(group_size)
         learnprofile.set_extroversion(extroversion)
         learnprofile.set_profile_id(profile_id)
         learnprofile.set_id(1)

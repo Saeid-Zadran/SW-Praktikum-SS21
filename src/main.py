@@ -75,10 +75,11 @@ suggestion = api.inherit('Suggestion', bo, {
 })
 
 learnprofile = api.inherit('LearnProfile', bo, {
-    'study_status': fields.Boolean(attribute='_study_status', description='Zeigt den Status einer Person an'),
+    'study_status': fields.Integer(attribute='_study_status', description='Zeigt den Status einer Person an'),
     'frequency': fields.Integer(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
-    'prev_knowledge': fields.String(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
-    'extroversion': fields.Boolean(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
+    'prev_knowledge': fields.Integer(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
+    'group_size': fields.Integer(attribute='_group_size',description='Gruppengrößen Vorliebe einer Person'),
+    'extroversion': fields.Integer(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
     'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')
 })
 
@@ -421,7 +422,7 @@ class LearnProfileListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             lp = adm.create_learnprofile(proposal.get_creation_time(),proposal.get_study_status(), proposal.get_frequency(),
-            proposal.get_prev_knowledge(), proposal.get_extroversion(), proposal.get_profile_id())
+            proposal.get_prev_knowledge(),proposal.get_group_size(), proposal.get_extroversion(), proposal.get_profile_id())
             return lp, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

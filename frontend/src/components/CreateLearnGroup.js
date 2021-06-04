@@ -4,6 +4,8 @@ import SaveIcon from "@material-ui/icons/Save";
 import AppApi from "../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
+import LearnGroup from '../api/LearnGroupBO'
+import LearnGroupBO from "../api/LearnGroupBO";
 
 class CreateLearnGroup extends Component {
   constructor(props) {
@@ -11,21 +13,29 @@ class CreateLearnGroup extends Component {
 
     this.state = {
       name: "",
-      description: "",
+      participant: "",
       profile_id: "",
       learn_profile_id: "",
-      learngroup: "",
+      learngroup: null, //für addLearnGroup
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   /** Create LearnGroupProfile*/
-  addLearnGroup(name, profile_id, learn_profile_id) {
+  addLearnGroup(name, participant, profile_id, learn_profile_id) {
+
+    var learngroup = new LearnGroupBO
+    learngroup.setName(name)
+    learngroup.setParticipant(participant)
+    learngroup.setProfileId(profile_id)
+    learngroup.setLearnProfileId(learn_profile_id)
+
+
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .addLearnGroup(name, profile_id, learn_profile_id)
+      .addLearnGroup(learngroup)
       .then((learngroup) => {
         // console.log(person)
         this.setState({
@@ -44,6 +54,7 @@ class CreateLearnGroup extends Component {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
     this.addLearnGroup(
       this.state.name,
+      this.state.participant,
       this.state.profile_id,
       this.state.learn_profile_id
     );
@@ -76,12 +87,12 @@ class CreateLearnGroup extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Beschreibung der Lerngruppe"
+                      label="Wie viele Teilnehmer hat die Gruppe?"
                       variant="outlined"
-                      multiline
-                      name="description"
+                      name="participant"
+                      type="number"
                       //required
-                      // onChange={this.handleChange}
+                      onChange={this.handleChange}
                     />
                   </div>
                   <div>
@@ -102,16 +113,6 @@ class CreateLearnGroup extends Component {
                       variant="outlined"
                       type="number"
                       name="learn_profile_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Wie vie Vorkenntnisse hast du?"
-                      variant="outlined"
-                      name="prev_knowledge"
                       //required
                       onChange={this.handleChange}
                     />

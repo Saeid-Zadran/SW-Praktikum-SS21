@@ -4,11 +4,12 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class LearnProfileBO extends NamedBusinessObject {
 
 
-  constructor(aStudyStatus, aFrequency, aPrevKnowledge, aExtroversion, aProfileId) {
+  constructor(aStudyStatus, aFrequency, aPrevKnowledge,aGroupSize, aExtroversion, aProfileId) {
     super();
     this.study_status = aStudyStatus;
     this.frequency = aFrequency;
     this.prev_knowledge = aPrevKnowledge;
+    this.group_size = aGroupSize;
     this.extroversion = aExtroversion;
     this.profile_id = aProfileId;
   }
@@ -43,11 +44,17 @@ export default class LearnProfileBO extends NamedBusinessObject {
     return this.prev_knowledge;
   }
 
+  setGroupSize(aGroupSize) {
+    this.group_size = aGroupSize;
+  }
+
+  getGroupSize() {
+    return this.group_size;
+  }
 
   setExtroversion(aExtroversion) {
     this.extroversion = aExtroversion;
   }
-
 
   getExtroversion() {
     return this.extroversion;
