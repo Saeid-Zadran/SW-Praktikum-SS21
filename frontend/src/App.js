@@ -31,8 +31,7 @@ class App extends React.Component {
 
     // Init an empty state
     this.state = {
-      currentUser: null,
-      currentUserRole: null,
+      person: null,
       appError: null,
       authError: null,
       authLoading: false,
@@ -50,13 +49,13 @@ class App extends React.Component {
   }
 
   /** Handles firebase users logged in state changes  */
-  handleAuthStateChange = (user) => {
-    if (user) {
+  handleAuthStateChange = (person) => {
+    if (person) {
       this.setState({
         authLoading: true,
       });
       // The user is signed in
-      user
+      person
         .getIdToken()
         .then((token) => {
           // Add the token to the browser's cookies. The server will then be
@@ -68,7 +67,7 @@ class App extends React.Component {
 
           // Set the user not before the token arrived
           this.setState({
-            currentUser: user,
+            person: person,
             authError: null,
             authLoading: false,
           });
@@ -85,7 +84,7 @@ class App extends React.Component {
 
       // Set the logged out user to null
       this.setState({
-        currentUser: null,
+        person: null,
         authLoading: false,
       });
     }
@@ -119,7 +118,7 @@ class App extends React.Component {
 
   /** Renders the whole app */
   render() {
-    const { currentUser, appError, authError, authLoading } = this.state;
+    const { person, appError, authError, authLoading } = this.state;
 
     return (
       <ThemeProvider theme={Theme}>
@@ -137,7 +136,7 @@ class App extends React.Component {
 
             {
               // Is a user signed in?
-              currentUser ? (
+              person ? (
                 <>
                   <Redirect from="/" to="start" />
                   <Route exact path="/start">
