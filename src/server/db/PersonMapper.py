@@ -147,7 +147,35 @@ class PersonMapper(Mapper):
         self._cnx.commit()
         cursor.close()
 
+    def find_by_email(self, email):
+        result = None
 
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_time, first_name, last_name, google_user_id, google_mail FROM person WHERE google_mail LIKE '{}'".format(email)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_time, first_name, last_name, google_user_id, google_mail) = tuples[0]
+            person = Person()
+            person.set_id(id)
+            person.set_first_name(first_name)
+            person.set_last_name(last_name)
+            person.set_creation_time(creation_time)
+            person.set_google_mail(google_mail)
+            person.set_google_user_id(google_user_id)
+            result = person
+
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 
 
