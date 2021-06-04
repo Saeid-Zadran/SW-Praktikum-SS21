@@ -32,7 +32,7 @@ export default class LearnGroupBO extends NamedBusinessObject {
   }
 
 
-  LearnProfileId(aLearnProfileId) {
+  setLearnProfileId(aLearnProfileId) {
     this.learn_profile_id = aLearnProfileId;
   }
 
