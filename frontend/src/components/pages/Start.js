@@ -11,15 +11,24 @@ class Start extends Component {
       
         <div>
           <center>
-            <Typography>Willkommen auf der Lern Matching  </Typography>
-            <Link
-              to={{
-                pathname: "/ProfileList",
-              }}
-            >
-              <Button variant="contained" color="primary">
-                Profil erstellen
-              </Button>
+            <Typography>Willkommen auf der Lern Matching </Typography>
+            <Typography>Angemeldet ? Nein  </Typography>
+            <Link to='/StartPage'>
+                <Button variant="contained" color="primary" >
+                  Create Profile
+                </Button>
+            </Link><br></br>
+            <Typography>Angemeldet ? Ja   </Typography>
+            <Link to='/SecondPage'>
+                <Button variant="contained" color="primary" >
+                  Further Use
+                </Button>
+            
+            
+                
+              
+            
+              
             </Link>
           </center>
         </div>

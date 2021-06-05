@@ -56,7 +56,7 @@ class AllProfileList extends Component {
           <ProfileDetails
             key={profile.getID()}
             profileID={profile.getName().toString()}
-            //profileID={profile.getID().toString()}
+            profileID={profile.getID().toString()}
           />
         ))}
         <LoadingProgress show={loadingInProgress} />
