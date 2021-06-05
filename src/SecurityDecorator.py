@@ -26,6 +26,7 @@ def secured(function):
         error_message = None
         claims = None
         objects = None
+        person = None
         print("token",id_token)
         if id_token:
             try:

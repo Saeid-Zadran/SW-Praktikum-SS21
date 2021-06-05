@@ -69,6 +69,11 @@ class Administration(object):
         """Die gegebene Person speichern."""
         with PersonMapper() as mapper:
             return mapper.update(person)
+    
+    def save_person(self, person):
+        """Den gegebenen Benutzer speichern."""
+        with PersonMapper() as mapper:
+            mapper.update_google_user(person)
 
 
     def delete_person(self, person):
