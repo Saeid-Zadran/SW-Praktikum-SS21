@@ -1,16 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  withStyles,
-  Button,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-} from "@material-ui/core";
+import {withStyles,Button,IconButton,Dialog,DialogTitle,DialogContent,DialogContentText,DialogActions,TextField,} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import AppApi from "../../api/AppApi";
 import ProfileBO from "../../api/ProfileBO";
@@ -22,16 +12,16 @@ class ProfileForm extends Component {
     super(props);
 
     let n = "",
-      a = "",
-      d = "",
-      s = "",
-      c = "",
-      p = "",
-      r = "";
+        a = "",
+        d = "",
+        s = "",
+        c = "",
+        p = "",
+        r = "";
     if (props.profile) {
       n = props.profile.getName();
       a = props.profile.getAge();
-      //d = props.adress.getAdress();
+      d = props.profile.getAdress();
       s = props.profile.getSemester();
       c = props.profile.getDegreeCourse();
       p = props.profile.getPreferences();
@@ -46,7 +36,7 @@ class ProfileForm extends Component {
       age: a,
       ageValidationFailed: false,
       ageEdited: false,
-      adress: c,
+      adress: d,
       adressValidationFailed: false,
       adressEdited: false,
       semester: s,
@@ -111,7 +101,7 @@ class ProfileForm extends Component {
 
     AppApi.getApi()
       .updateProfile(updatedProfile)
-      .then((profile) => {
+      .then(profile => {
         this.setState({
           updatingInProgress: false,
           updatingError: null,
