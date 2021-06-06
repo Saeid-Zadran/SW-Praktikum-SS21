@@ -4,44 +4,52 @@ import SaveIcon from "@material-ui/icons/Save";
 import AppApi from "../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import LearnGroupBO from "../api/LearnGroupBO";
+import ProfileBO from "../api/ProfileBO";
 
-class CreateLearnGroup extends Component {
+
+
+class CreateProfile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: "",
-      participant: "",
-      profile_id: "",
-      learn_profile_id: "",
-      learngroup: null, //für addLearnGroup
+      name:"",
+      age: "",
+      adress: "",
+      semester: "",
+      degree_course:"",
+      preferences: "",
+      person_id: null, 
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  /** Create LearnGroupProfile*/
-  addLearnGroup(name, participant, profile_id, learn_profile_id) {
+  addProfile( name,age,adress,semester, degree_course,person_id) {
+    
+    var profile = new ProfileBO
+    profile.setAge(name)
+    profile.setAge(age)
+    profile.setAdress(adress)
+    profile.setSemester(semester)
+    profile.setDegreeCourse(degree_course)
+    profile.setPersonId(person_id)
 
-    var learngroup = new LearnGroupBO
-    learngroup.setName(name)
-    learngroup.setParticipant(participant)
-    learngroup.setProfileId(profile_id)
-    learngroup.setLearnProfileId(learn_profile_id)
 
 
+
+    
+    
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .addLearnGroup(learngroup)
-      .then((learngroup) => {
+      .addProfile(profile).then((profile) => {
         // console.log(person)
         this.setState({
-          learngroup: learngroup,
+          profile: profile,
         });
       });
-    console.log(this.state.learngroup);
+    console.log(this.state.profile);
   }
 
   handleChange(e) {
@@ -51,11 +59,13 @@ class CreateLearnGroup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    this.addLearnGroup(
+    this.addProfile(
       this.state.name,
-      this.state.participant,
-      this.state.profile_id,
-      this.state.learn_profile_id
+      this.state.age,
+      this.state.adress,
+      this.state.semester,
+      this.state.degree_course,
+      this.state.person_id
     );
   };
 
@@ -69,26 +79,27 @@ class CreateLearnGroup extends Component {
           <Grid item xs={12}>
             <Paper className={classes.paper}>
               <div>
-                <h1>Lege deine Lerngruppe an:</h1>
+                <h1>Lege dein Profil an:</h1>
               </div>
               <div>
                 <form className={classes.root} onSubmit={this.handleSubmit}>
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Wie soll die Lerngruppe heißen?"
+                      label="Name"
                       variant="outlined"
                       name="name"
-                      //required
+                      type="string"
+                      
                       onChange={this.handleChange}
                     />
                   </div>
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Wie viele Teilnehmer hat die Gruppe?"
+                      label="Age"
                       variant="outlined"
-                      name="participant"
+                      name="age"
                       type="number"
                       //required
                       onChange={this.handleChange}
@@ -97,10 +108,10 @@ class CreateLearnGroup extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Profile ID"
+                      label="Adresse"
                       variant="outlined"
-                      type="number"
-                      name="profile_id"
+                      type="string"
+                      name="adress"
                       //required
                       onChange={this.handleChange}
                     />
@@ -108,10 +119,34 @@ class CreateLearnGroup extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Lernprofil ID"
+                      label="Semester"
                       variant="outlined"
                       type="number"
-                      name="learn_profile_id"
+                      name="semester"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Degree Course"
+                      variant="outlined"
+                      type="string"
+                      name="degree_course"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Person ID"
+                      variant="outlined"
+                      type="number"
+                      name="person_id"
                       //required
                       onChange={this.handleChange}
                     />
@@ -156,4 +191,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(CreateLearnGroup);
+export default withStyles(styles)(CreateProfile);

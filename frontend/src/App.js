@@ -6,7 +6,7 @@ import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
 import Theme from "./Theme";
 import SignIn from "./components/pages/SignIn";
-import ProfileList from "./components/ProfileList";
+import CreateProfile from "./components/CreateProfile";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
@@ -127,8 +127,8 @@ class App extends React.Component {
                   <Route path='/StartPage'>
 										<HeaderCreateProfile/>
 									</Route>
-                  <Route path='/StartPage/ProfileList'>
-                    <ProfileList/>
+                  <Route path='/StartPage/CreateProfile'>
+                    <CreateProfile/>
                   </Route>
 
                   <Route path='/SecondPage'>

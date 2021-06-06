@@ -32,7 +32,7 @@ class HeaderCreateProfile extends Component {
         </Typography>
        
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab label='Profile' component={RouterLink} to={`/StartPage/ProfileList`} />
+              <Tab label='Profile' component={RouterLink} to={`/StartPage/CreateProfile`} />
               
             </Tabs>
       </Paper>
