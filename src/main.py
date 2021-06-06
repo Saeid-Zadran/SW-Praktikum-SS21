@@ -271,35 +271,8 @@ class ProfileOperations(Resource):
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
             return '', 500
 
-@studymatch.route('/profile/<int:id>')
-@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@studymatch.param('id', 'id des Person-Objekts')
-class ProfileListOperation(Resource):
 
-    @studymatch.marshal_with(profile)
-    # @secured
-    def get(self, id):
-        """Auslesen eines bestimmten Projekts.
-
-        Auszulesende Projekt wird durch id bestimmt.
-        """
-        adm = Administration()
-        prof = adm.get_profile_by_id(id)
-        return prof
-    @studymatch.marshal_with(profile, code=200)
-    @studymatch.expect(profile)  # Wir erwarten ein Profile-Objekt von Client-Seite.
-    #@secured
-    def put(self, id):
-        """Update eines bestimmten Profile-Objekts."""
-        adm = Administration()
-        print(api.payload)
-        p = Profile.from_dict(api.payload)
-        if p is not None:
-            p.set_id(id)
-            adm.save_profile(p)
-            return p, 200
-        else:
-            return '', 500
+   
 
 
 @studymatch.route('/profile/<int:id>')
@@ -317,7 +290,21 @@ class ProfileDeleteOperation(Resource):
         adm = Administration()
         prof = adm.get_profile_by_id(id)
         return prof
-
+    
+    @studymatch.marshal_with(profile, code=200)
+    @studymatch.expect(profile)  # Wir erwarten ein Profile-Objekt von Client-Seite.
+    # @secured
+    def put(self, id ):
+        """Update eines bestimmten Profile-Objekts."""
+        adm = Administration()
+        print(api.payload)
+        p = Profile.from_dict(api.payload)
+        if p is not None:
+            p.set_id(id)
+            adm.save_profile(p)
+            return p, 200
+        else:
+            return '', 500
 
 
     @studymatch.marshal_with(profile)
@@ -330,7 +317,7 @@ class ProfileDeleteOperation(Resource):
         p = adm.get_profile_by_id(id)
         adm.delete_profile(p)
         return '', 200
-
+    
 #Suggestion related
 @studymatch.route('/suggestions')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')

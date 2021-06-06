@@ -30,8 +30,8 @@ export default class AppApi {
   //Profile
   #getProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
   #addProfileURL = () => `${this.#AppServerBaseURL}/profiles`;
-  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profiles`;
-  #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profiles/${id}`;
+  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
 
   //Suggestion
   #getSuggestionsURL = () => `${this.#AppServerBaseURL}/suggestions`;

@@ -86,7 +86,7 @@ class App extends React.Component {
 
  
 
-   getPersonByGoogleId = (google_id) => {
+  getPersonByGoogleId = (google_id) => {
     var api = AppApi.getApi();
     api.getPersonByGoogleId(google_id).then((person) => {
       this.setState(

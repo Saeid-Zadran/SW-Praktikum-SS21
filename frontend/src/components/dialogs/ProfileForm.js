@@ -58,6 +58,8 @@ class ProfileForm extends Component {
     };
     // save this state for canceling
     this.baseState = this.state;
+    
+
   }
 
   addProfile = () => {
@@ -102,6 +104,7 @@ class ProfileForm extends Component {
     AppApi.getApi()
       .updateProfile(updatedProfile)
       .then(profile => {
+
         this.setState({
           updatingInProgress: false,
           updatingError: null,
@@ -116,7 +119,7 @@ class ProfileForm extends Component {
 
         this.props.onClose(updatedProfile);
       })
-      .catch((e) =>
+      .catch(e =>
         this.setState({
           updatingInProgress: false,
           updatingError: e,
