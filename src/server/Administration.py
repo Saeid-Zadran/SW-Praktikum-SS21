@@ -93,6 +93,7 @@ class Administration(object):
         profile.set_degree_course(degree_course)
         profile.set_preferences(preferences)
         profile.set_person_id(person_id)
+        #set ID fehlt?
 
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
@@ -194,7 +195,7 @@ class Administration(object):
         chat.set_source_id(source_id)
         chat.set_target_id(target_id)
         chat.set_is_accepted(is_accepted)
-        chat.set_id(0)
+        chat.set_id(0) # Warum 0? 1 Richtig?
 
         with ChatMapper() as mapper:
             return mapper.insert(chat)

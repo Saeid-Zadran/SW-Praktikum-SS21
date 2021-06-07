@@ -29,7 +29,7 @@ export default class AppApi {
 
   //Profile
   #getProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
-  #addProfileURL = () => `${this.#AppServerBaseURL}/profiles`;
+  #addProfileURL = () => `${this.#AppServerBaseURL}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
 
@@ -199,14 +199,14 @@ export default class AppApi {
    * @public
    */
 
-  addProfile(ProfileBO) {
+  addProfile(profile) {
     return this.#fetchAdvanced(this.#addProfileURL(), {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain",
         "Content-type": "application/json",
       },
-      body: JSON.stringify(ProfileBO),
+      body: JSON.stringify(profile),
     }).then((responseJSON) => {
       console.log(responseJSON);
       // We always get an array of ProfileBOs.fromJSON, but only need one object

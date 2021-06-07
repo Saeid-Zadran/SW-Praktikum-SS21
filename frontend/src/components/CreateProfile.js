@@ -25,7 +25,7 @@ class CreateProfile extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  addProfile( name,age,adress,semester, degree_course,person_id) {
+  addProfile( name, age, adress,semester, degree_course, preferences, person_id) {
     
     var profile = new ProfileBO
     profile.setName(name)
@@ -33,6 +33,7 @@ class CreateProfile extends Component {
     profile.setAdress(adress)
     profile.setSemester(semester)
     profile.setDegreeCourse(degree_course)
+    profile.setPreferences(preferences)
     profile.setPersonId(person_id)
 
 
@@ -64,6 +65,7 @@ class CreateProfile extends Component {
       this.state.adress,
       this.state.semester,
       this.state.degree_course,
+      this.state.preferences,
       this.state.person_id
     );
   };
@@ -96,7 +98,7 @@ class CreateProfile extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Age"
+                      label="Alter"
                       variant="outlined"
                       name="age"
                       type="number"
@@ -130,10 +132,22 @@ class CreateProfile extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Degree Course"
+                      label="Studiengang"
                       variant="outlined"
                       type="string"
                       name="degree_course"
+                      //required
+                      onChange={this.handleChange}
+                    />
+                  </div>
+
+                  <div>
+                    <TextField
+                      id="outlined-basic"
+                      label="Vorlieben"
+                      variant="outlined"
+                      type="string"
+                      name="preferences"
                       //required
                       onChange={this.handleChange}
                     />

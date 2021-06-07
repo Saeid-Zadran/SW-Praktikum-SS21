@@ -75,11 +75,11 @@ suggestion = api.inherit('Suggestion', bo, {
 })
 
 learnprofile = api.inherit('LearnProfile', bo, {
-    'study_status': fields.Boolean(attribute='_study_status', description='Zeigt den Status einer Person an'),
+    'study_status': fields.Integer(attribute='_study_status', description='Zeigt den Status einer Person an'),
     'frequency': fields.Integer(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
-    'prev_knowledge': fields.String(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
+    'prev_knowledge': fields.Integer(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
     'group_size': fields.Integer(attribute='_group_size',description='Gruppengrößen Vorliebe einer Person'),
-    'extroversion': fields.Boolean(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
+    'extroversion': fields.Integer(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
     'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')
 })
 
@@ -268,7 +268,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profile(proposal.get_id(),proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
+            p = adm.create_profile(proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
