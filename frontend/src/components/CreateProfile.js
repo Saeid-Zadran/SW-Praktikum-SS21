@@ -42,8 +42,7 @@ class CreateProfile extends Component {
     
     var api = AppApi.getApi();
     // console.log(api)
-    api
-      .addProfile(profile).then((profile) => {
+    api.addProfile(profile).then((profile) => {
         // console.log(person)
         this.setState({
           profile: profile,

@@ -199,21 +199,21 @@ export default class AppApi {
    * @public
    */
 
-  addProfile(profile) {
+  addProfile(ProfileBO) {
     return this.#fetchAdvanced(this.#addProfileURL(), {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain",
         "Content-type": "application/json",
       },
-      body: JSON.stringify(profile),
+      body: JSON.stringify(ProfileBO),
     }).then((responseJSON) => {
       console.log(responseJSON);
       // We always get an array of ProfileBOs.fromJSON, but only need one object
       let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
       // console.info(ProfileBOs);
       return new Promise(function (resolve) {
-        resolve(responseProfileBO);
+        resolve(responseProfileBO)
       });
     });
   }

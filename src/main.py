@@ -247,9 +247,12 @@ class ProfileOperations(Resource):
         #print(profiles.get__all_profiles())
         return profiles
 
+@studymatch.route('/profile')
+@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
+class ProfileOperations(Resource):
     @studymatch.marshal_with(profile, code=200)
-    @studymatch.expect(profile)  #Wir erwarten ein Profile-Objekt von Client-Seite.
-    #@secured
+    @studymatch.expect(profile)
+        #@secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -265,7 +268,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profile(proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
+            p = adm.create_profile(proposal.get_id(),proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_preferences(), proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
