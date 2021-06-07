@@ -28,7 +28,7 @@ class CreateProfile extends Component {
   addProfile( name,age,adress,semester, degree_course,person_id) {
     
     var profile = new ProfileBO
-    profile.setAge(name)
+    profile.setName(name)
     profile.setAge(age)
     profile.setAdress(adress)
     profile.setSemester(semester)
