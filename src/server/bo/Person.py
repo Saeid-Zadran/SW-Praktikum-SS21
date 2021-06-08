@@ -1,26 +1,21 @@
-from server.bo.BusinessObject import BusinessObject as bo
+from server.bo.NamedBusinessObject import NamedBusinessObject as nbo
 
 
-class Person(bo):
+class Person(nbo):
 
     def __init__(self):
         super().__init__()
-        self._first_name = ""
-        self._last_name = ""
+        self._name = ""
         self._google_mail = ""
         self._google_user_id = ""
 
-    def set_first_name(self, first_name):
-        self._first_name = first_name
+    def set_name(self, name):
+        self._name = name
 
-    def get_first_name(self):
-        return self._first_name
+    def get_name(self):
+        return self._name
 
-    def set_last_name(self, last_name):
-        self._last_name = last_name
 
-    def get_last_name(self):
-        return self._last_name
 
     def set_google_mail(self, google_mail):
         self._google_mail = google_mail
@@ -40,8 +35,7 @@ class Person(bo):
         """Umwandeln eines Python dict() in ein Rating()."""
         obj = Person()
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
-        obj.set_first_name(dictionary["first_name"])
-        obj.set_last_name(dictionary["last_name"])
+        obj.set_name(dictionary["name"])
         obj.set_google_user_id(dictionary["google_user_id"])
         obj.set_google_mail(dictionary["google_mail"])
 
