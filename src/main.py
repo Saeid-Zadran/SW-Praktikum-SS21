@@ -116,7 +116,7 @@ chatmessage = api.inherit('_ChatMessage', bo, {
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
     @studymatch.marshal_list_with(person)
-    #@secured
+    @secured
     def get(self):
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -126,7 +126,7 @@ class PersonListOperations(Resource):
 
     @studymatch.marshal_with(person, code=200)
     @studymatch.expect(person)  #Wir erwarten ein Person-Objekt von Client-Seite.
-    #@secured
+    @secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -153,7 +153,7 @@ class PersonListOperations(Resource):
 @studymatch.param('id', 'ID der Person')
 class PersonOperations(Resource):
     @studymatch.marshal_list_with(person)
-    # @secured
+    @secured
     def get(self):
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -163,7 +163,7 @@ class PersonOperations(Resource):
 
     @studymatch.marshal_with(person, code=200)
     @studymatch.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
-    #@secured
+    @secured
     def put(self, id):
         """Update eines bestimmten Person-Objekts."""
         adm = Administration()
@@ -183,7 +183,7 @@ class PersonOperations(Resource):
 @studymatch.param('email', 'Die Mail des Person-Objekts')
 class PersonOperations(Resource):
     @studymatch.marshal_with(person)
-    #@secured
+    @secured
     def get(self, email):
         """Auslesen einer bestimmten Person-BO.
 
@@ -197,6 +197,7 @@ class PersonOperations(Resource):
 @studymatch.response(500, 'when server has problems')
 class idGoogleOperations(Resource):
     @studymatch.marshal_with(person)
+    @secured
     def get(self, google_user_id):
         adm = Administration()
         persons = adm.get_person_by_google_user_id(google_user_id)
@@ -208,7 +209,7 @@ class idGoogleOperations(Resource):
 class PersonDeleteOperation(Resource):
 
     @studymatch.marshal_with(person)
-    #@secured
+    @secured
     def get(self, id):
         """Auslesen eines bestimmten Projekts.
 
@@ -221,7 +222,7 @@ class PersonDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(person)
-    #@secured
+    @secured
     def delete(self, id):
         """Löschen eines bestimmten Person-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.

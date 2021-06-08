@@ -17,14 +17,7 @@ import AppApi from "./api/AppApi";
 import HeaderCreateProfile from "./components/pages/HeaderCreateProfile";
 import HeaderX from "./components/pages/HeaderX";
 class App extends React.Component {
-  #firebaseConfig = {
-    apiKey: "AIzaSyDKW0LRef6MNcjDTyEre_W_BsJ3Gvc6aWw",
-    authDomain: "sw-praktikum-studymatch.firebaseapp.com",
-    projectId: "sw-praktikum-studymatch",
-    storageBucket: "sw-praktikum-studymatch.appspot.com",
-    messagingSenderId: "770470355902",
-    appId: "1:770470355902:web:4e88c0b5a8b0063ec18fef",
-  };
+ 
   constructor(props) {
     super(props);
 
@@ -57,7 +50,7 @@ class App extends React.Component {
             authError: null,
             authLoading: false,
           });
-          this.getPersonByGoogleId(person.uid);
+        
         })
         .catch((e) => {
           this.setState({
@@ -85,17 +78,6 @@ class App extends React.Component {
   };
 
  
-
-  getPersonByGoogleId = (google_id) => {
-    var api = AppApi.getApi();
-    api.getPersonByGoogleId(google_id).then((person) => {
-      this.setState(
-        {
-          person: person,
-        },
-      );
-    });
-  };
 
 
   componentDidMount() {

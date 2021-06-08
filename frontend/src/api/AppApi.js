@@ -22,9 +22,9 @@ export default class AppApi {
 
   //Person Related
   #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
-  #getPersonURL = (google_id) => `${this.#AppServerBaseURL}/person-by-google-user-id/${google_id}`;
+  #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person-by-google-user-id/${google_user_id}`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-  #updatePersonURL = (google_id) =>`${this.#AppServerBaseURL}/persons/${google_id}`;
+  #updatePersonURL = (google_user_id) =>`${this.#AppServerBaseURL}/persons/${google_user_id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
 
   //Profile
@@ -107,13 +107,13 @@ export default class AppApi {
    * @public
    */
 
-   getPersonByGoogleId(google_id) {
-    //console.log(google_id)
-    return this.#fetchAdvanced(this.#getPersonURL(google_id)).then((responseJSON) => {
+   getPersonByGoogleId(person) {
+    //console.log(google_user_id)
+    return this.#fetchAdvanced(this.#getPersonURL(person)).then((responseJSON) => {
       // console.log(responseJSON)
       
       // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responsePersonBO = PersonBO.fromJSON(responseJSON)[0];
+      let responsePersonBO = PersonBO.fromJSON(responseJSON);
       // console.info(responsePersonBO);
       return new Promise(function (resolve) {
         resolve(responsePersonBO);
