@@ -8,7 +8,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 
 
 
-class ProfileListEntry extends Component {
+class LearnGroupListEntry extends Component {
 
   constructor(props) {
     super(props);
@@ -68,4 +68,4 @@ ProfileListEntry.propTypes = {
   profile: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(ProfileListEntry);
+export default withStyles(styles)(LearnGroupListEntry);
