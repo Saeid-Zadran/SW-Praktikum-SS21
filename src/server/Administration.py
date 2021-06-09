@@ -92,6 +92,7 @@ class Administration(object):
         profile.set_degree_course(degree_course)
         profile.set_preferences(preferences)
         profile.set_person_id(person_id)
+        profile.set_id(1)
         #set ID fehlt?
 
         with ProfileMapper() as mapper:

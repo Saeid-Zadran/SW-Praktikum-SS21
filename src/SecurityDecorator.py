@@ -53,7 +53,7 @@ def secured(function):
                         Wohl aber können sich der zugehörige Klarname (name) und die
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
-                        person.set_first_name(name)
+                        person.set_name(name)
                         person.set_google_mail(email)
                         adm.save_person(person)
                     else:
@@ -61,7 +61,7 @@ def secured(function):
                         Wir legen daher ein neues User-Objekt an, um dieses ggf. später
                         nutzen zu können.
                         """
-                        person = adm.create_person(name, email, google_user_id)
+                        person = adm.create_person(name, google_user_id, email)
 
                     print(request.method, request.path, "angefragt durch:", name, email)
 
