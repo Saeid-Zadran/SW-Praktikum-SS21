@@ -22,15 +22,16 @@ export default class AppApi {
 
   //Person Related
   #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
+  #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person-by-google-user-id/${google_user_id}`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-  #updatePersonURL = (google_id) =>`${this.#AppServerBaseURL}/persons/${google_id}`;
+  #updatePersonURL = (google_user_id) =>`${this.#AppServerBaseURL}/persons/${google_user_id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
 
   //Profile
   #getProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
-  #addProfileURL = () => `${this.#AppServerBaseURL}/profiles`;
-  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profiles`;
-  #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profiles/${id}`;
+  #addProfileURL = () => `${this.#AppServerBaseURL}/profile`;
+  #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
 
   //Suggestion
   #getSuggestionsURL = () => `${this.#AppServerBaseURL}/suggestions`;
@@ -105,6 +106,20 @@ export default class AppApi {
    * @param {Number} personID to be retrieved
    * @public
    */
+
+   getPersonByGoogleId(person) {
+    //console.log(google_user_id)
+    return this.#fetchAdvanced(this.#getPersonURL(person)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responsePersonBO = PersonBO.fromJSON(responseJSON);
+      // console.info(responsePersonBO);
+      return new Promise(function (resolve) {
+        resolve(responsePersonBO);
+      })
+    })
+  }
 
   createPerson(GoogleMail, GoogleUserId) {
     let p = new PersonBO();
@@ -198,7 +213,7 @@ export default class AppApi {
       let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
       // console.info(ProfileBOs);
       return new Promise(function (resolve) {
-        resolve(responseProfileBO);
+        resolve(responseProfileBO)
       });
     });
   }

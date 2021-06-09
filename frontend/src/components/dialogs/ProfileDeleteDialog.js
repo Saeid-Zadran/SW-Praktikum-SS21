@@ -66,10 +66,10 @@ class ProfileDeleteDialog extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete profile {profile.getAge()} {profile.getAdress()} {profile.getSemester()} {profile.getPreferences()} {profile.getPersonId()} (ID: {profile.getID()})?
+              Do you Really want to delete  {profile.getName()} <br></br> ID: {profile.getPersonId()} ?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`The profile '${profile.getAdress()} ${profile.getSemester() }${profile.getPreferences() }${profile.getPersonId()  }' (ID: ${profile.getID()}) could not be deleted.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`The profile '${profile.getName()} ID:${profile.getPersonId()} '  could not be deleted.`}
               onReload={this.deleteProfile} />
           </DialogContent>
           <DialogActions>

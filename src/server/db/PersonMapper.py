@@ -14,17 +14,17 @@ class PersonMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, creation_time, first_name, last_name, google_user_id, google_mail  from person")
+        cursor.execute("SELECT id, creation_time,name, google_user_id, google_mail  from person")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, first_name, last_name, google_user_id, google_mail) in tuples:
+        for (id, creation_time, name, google_user_id, google_mail) in tuples:
             person = Person()
             person.set_id(id)
             person.set_creation_time(creation_time)
-            person.set_first_name(first_name)
-            person.set_last_name(last_name)
-            person.set_google_mail(google_mail)
+            person.set_name(name)
             person.set_google_user_id(google_user_id)
+            person.set_google_mail(google_mail)
+         
             result.append(person)
 
         self._cnx.commit()
@@ -37,16 +37,15 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time, first_name, last_name, google_user_id, google_mail  FROM person WHERE id={}".format(key)
+        command = "SELECT id, creation_time, name, google_user_id, google_mail  FROM person WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, first_name, last_name, google_user_id, google_mail) = tuples[0]
+            (id, creation_time, name, google_user_id, google_mail) = tuples[0]
             person = Person()
             person.set_id(id)
-            person.set_first_name(first_name)
-            person.set_last_name(last_name)
+            person.set_name(name)
             person.set_creation_time(creation_time)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
@@ -73,8 +72,8 @@ class PersonMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 person.set_id(1)
 
-        command = "INSERT INTO person (id, creation_time, first_name, last_name, google_user_id, google_mail) VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (person.get_id(), person.get_creation_time(),person.get_first_name(), person.get_last_name(), person.get_google_user_id(),
+        command = "INSERT INTO person (id, creation_time, name, google_user_id, google_mail) VALUES (%s,%s,%s,%s,%s)"
+        data = (person.get_id(), person.get_creation_time(),person.get_name(), person.get_google_user_id(),
                 person.get_google_mail())
 
         cursor.execute(command, data)
@@ -109,16 +108,15 @@ class PersonMapper(Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time, first_name, last_name, google_user_id, google_mail FROM person WHERE google_user_id LIKE '{}'".format(google_user_id)
+        command = "SELECT id, creation_time, name, google_user_id, google_mail FROM person WHERE google_user_id LIKE '{}'".format(google_user_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
         try:
-            (id, creation_time, first_name, last_name, google_user_id, google_mail) = tuples[0]
+            (id, creation_time,name, google_user_id, google_mail) = tuples[0]
             person = Person()
             person.set_id(id)
-            person.set_first_name(first_name)
-            person.set_last_name(last_name)
+            person.set_name(name)
             person.set_creation_time(creation_time)
             person.set_google_mail(google_mail)
             person.set_google_user_id(google_user_id)
@@ -140,8 +138,8 @@ class PersonMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE person SET name=%s, email=%s, google_user_id=%s WHERE id=%s"
-        data = (person.get_name(), person.get_email(), person.get_google_user_id(), person.get_id())
+        command = "UPDATE person SET  name=%s, google_user_id=%s, google_mail=%s WHERE id=%s"
+        data = (person.get_name(), person.get_google_mail(), person.get_google_user_id(), person.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()

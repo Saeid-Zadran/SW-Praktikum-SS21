@@ -26,6 +26,7 @@ def secured(function):
         error_message = None
         claims = None
         objects = None
+        person = None
         print("token",id_token)
         if id_token:
             try:
@@ -52,8 +53,8 @@ def secured(function):
                         Wohl aber können sich der zugehörige Klarname (name) und die
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
-                        person.set_name(name)
-                        person.set_email(email)
+                        person.set_first_name(name)
+                        person.set_google_mail(email)
                         adm.save_person(person)
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 

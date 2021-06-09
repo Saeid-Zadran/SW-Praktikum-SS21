@@ -5,31 +5,27 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
 import Theme from "./Theme";
-import Header from "./components/layout/Header";
 import SignIn from "./components/pages/SignIn";
-import ProfileList from "./components/ProfileList";
+import CreateProfile from "./components/CreateProfile";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
-import AllProfileList from "./components/AllProfileList";
 import ProfileDropDown from "./components/dialogs/ProfileDropDown";
 import CreateLearnProfile from "./components/CreateLearnProfile";
 import CreateLearnGroup from "./components/CreateLearnGroup";
+import AppApi from "./api/AppApi";
+import HeaderCreateProfile from "./components/pages/HeaderCreateProfile";
+import HeaderX from "./components/pages/HeaderX";
+import ProfileList from "./components/ProfileList";
+import LearnProfileList from "./components/LearnProfileList";
+import LearnGroupList from "./components/LearnGroupList";
+
 
 class App extends React.Component {
-  /** Constructor of the app, which initializes firebase  */
-  #firebaseConfig = {
-    apiKey: "AIzaSyDKW0LRef6MNcjDTyEre_W_BsJ3Gvc6aWw",
-    authDomain: "sw-praktikum-studymatch.firebaseapp.com",
-    projectId: "sw-praktikum-studymatch",
-    storageBucket: "sw-praktikum-studymatch.appspot.com",
-    messagingSenderId: "770470355902",
-    appId: "1:770470355902:web:4e88c0b5a8b0063ec18fef",
-  };
+ 
   constructor(props) {
     super(props);
 
-    // Init an empty state
     this.state = {
       person: null,
       appError: null,
@@ -38,39 +34,28 @@ class App extends React.Component {
     };
   }
 
-  /**
-   * Create an error boundary for this app and recieve all errors from below the component tree.
-   *
-   * @See See Reacts [Error Boundaries](https://reactjs.org/docs/error-boundaries.html)
-   */
+  
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
     return { appError: error };
   }
 
-  /** Handles firebase users logged in state changes  */
   handleAuthStateChange = (person) => {
     if (person) {
       this.setState({
         authLoading: true,
       });
-      // The user is signed in
       person
         .getIdToken()
         .then((token) => {
-          // Add the token to the browser's cookies. The server will then be
-          // able to verify the token against the Api.
-          // SECURITY NOTE: As cookies can easily be modified, only put the
-          // token (which is verified server-side) in a cookie; do not add other
-          // user information.
+         
           document.cookie = `token=${token};path=/`;
 
-          // Set the user not before the token arrived
           this.setState({
             person: person,
             authError: null,
             authLoading: false,
           });
+        
         })
         .catch((e) => {
           this.setState({
@@ -79,10 +64,8 @@ class App extends React.Component {
           });
         });
     } else {
-      // User has logged out, so clear the id token
       document.cookie = "token=;path=/";
 
-      // Set the logged out user to null
       this.setState({
         person: null,
         authLoading: false,
@@ -90,11 +73,7 @@ class App extends React.Component {
     }
   };
 
-  /**
-   * Handles the sign in request of the SignIn component uses the firebase.auth() component to sign in.
-   * @see See Google [firebase.auth()](https://firebase.google.com/docs/reference/js/firebase.auth.Auth)
-   * @see See Google [firebase.auth().signInWithRedirect](https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signinwithredirect)
-   */
+  
   handleSignIn = () => {
     this.setState({
       authLoading: true,
@@ -103,12 +82,8 @@ class App extends React.Component {
     firebase.auth().signInWithRedirect(provider);
   };
 
-  /**
-   * Lifecycle method, which is called when the component gets inserted into the browsers DOM.
-   * Initializes the firebase SDK.
-   *
-   * @see See Googles [firebase init process](https://firebase.google.com/docs/web/setup)
-   */
+ 
+
 
   componentDidMount() {
     firebase.initializeApp(firebaseConfig);
@@ -125,14 +100,7 @@ class App extends React.Component {
         {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
         <Router basename={process.env.PUBLIC_URL}>
           <Container maxWidth="md">
-            <Header />
-            <Redirect from ='/' to ='/ProfileList' />
-            <Route exact path = 'ProfileList'>
-              <ProfileList/>
-            </Route>
-            <Route exact path="/ProfileList" component={ProfileList} />
-            <Route exact path="/LearnProfile" component={CreateLearnProfile} />
-            <Route exact path="/LearnGroup" component={CreateLearnGroup} />
+            
 
             {
               // Is a user signed in?
@@ -142,6 +110,36 @@ class App extends React.Component {
                   <Route exact path="/start">
                     <Start />
                   </Route>
+
+                  <Route path='/StartPage'>
+										<HeaderCreateProfile/>
+									</Route>
+                  <Route path='/StartPage/CreateProfile'>
+                    <CreateProfile/>
+                  </Route>
+
+                  <Route path='/SecondPage'>
+										<HeaderX/>
+									</Route>
+                  <Route path='/SecondPage/CreateLearnGroup'>
+                    <CreateLearnGroup/>
+                  </Route>
+                  <Route path='/SecondPage/CreateLearnProfile'>
+                    <CreateLearnProfile/>
+                  </Route>
+                  <Route path='/SecondPage/ProfileList'>
+                    <ProfileList/>
+                  </Route>
+                  <Route path='/SecondPage/LearnProfileList'>
+                    <LearnProfileList/>
+                  </Route>
+                  <Route path='/SecondPage/LearnGroupList'>
+                    <LearnGroupList/>
+                  </Route>
+                 
+                 
+
+
                 </>
               ) : (
                 // else show the sign in page

@@ -31,23 +31,15 @@ class Administration(object):
 
     """Person-Spezifische Methoden"""
 
-    def create_person(self, first_name, last_name, google_user_id, google_mail):
+    def create_person(self, name, google_user_id, google_mail):
         """Eine Person anlegen"""
         person = Person()
-        person.set_first_name(first_name)
-        person.set_last_name(last_name)
+        person.set_name(name)
         person.set_google_user_id(google_user_id)
         person.set_google_mail(google_mail)
 
-
-        adm = ProjectAdministration()
-        person_exists = adm.get_person_by_google_id(google_id)
-
-        if person_exists is not None:
-            adm.save_person(person)
-        else:
-            with PersonMapper() as mapper:
-                return mapper.insert(person)
+        with PersonMapper() as mapper:
+            return mapper.insert(person)
 
 
 
@@ -76,6 +68,11 @@ class Administration(object):
         """Die gegebene Person speichern."""
         with PersonMapper() as mapper:
             return mapper.update(person)
+    
+    def save_person(self, person):
+        """Den gegebenen Benutzer speichern."""
+        with PersonMapper() as mapper:
+            mapper.update_google_user(person)
 
 
     def delete_person(self, person):
@@ -95,6 +92,7 @@ class Administration(object):
         profile.set_degree_course(degree_course)
         profile.set_preferences(preferences)
         profile.set_person_id(person_id)
+        #set ID fehlt?
 
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
@@ -197,7 +195,7 @@ class Administration(object):
         chat.set_source_id(source_id)
         chat.set_target_id(target_id)
         chat.set_is_accepted(is_accepted)
-        chat.set_id(0)
+        chat.set_id(0) # Warum 0? 1 Richtig?
 
         with ChatMapper() as mapper:
             return mapper.insert(chat)

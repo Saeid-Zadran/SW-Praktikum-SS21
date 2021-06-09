@@ -7,9 +7,9 @@ import { withRouter } from "react-router-dom";
 import AppApi from "../api/AppApi";
 import ContextErrorMessage from "./dialogs/ContextErrorMessage";
 import LoadingProgress from "./dialogs/LoadingProgress";
-import ProfileListEntry from "./ProfileListEntry";
+import LearnGroupListEntry from "./LearnGroupListEntry";
 
-class ProfileList extends Component {
+class LearnGroupList extends Component {
   constructor(props) {
     super(props); 
 
@@ -158,4 +158,4 @@ ProfileList.propTypes = {
   location: PropTypes.object.isRequired,
 };
 
-export default withRouter(withStyles(styles)(ProfileList));
+export default withRouter(withStyles(styles)(LearnGroupList));

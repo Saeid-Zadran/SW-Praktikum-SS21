@@ -1,14 +1,7 @@
 import NamedBusinessObject from "./NamedBusinessObject";
 
 export default class ProfileBO extends NamedBusinessObject {
-  constructor(
-    aAge,
-    aAdress,
-    aSemester,
-    aDegreeCourse,
-    aPreferences,
-    aPersonId
-  ) {
+  constructor(aAge,aAdress,aSemester,aDegreeCourse,aPreferences,aPersonId) {
     super();
     this.age = aAge;
     this.adress = aAdress;
