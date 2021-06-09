@@ -15,15 +15,15 @@ class LearnGroupList extends Component {
 
     let expandedID = null;
 
-        if (this.props.location.expandProfile) {
-          expandedID = this.props.location.expandProfile.getID();
+        if (this.props.location.expandLearnGroup) {
+          expandedID = this.props.location.expandLearnGroup.getID();
         }
 
     // Init an empty state
     this.state = {
-      profile: [],
-      filteredProfile: [],
-      ProfileFilter: '',
+      learngroup: [],
+      filteredLearngroup: [],
+      Learngroup: '',
       error: null,
       loadingInProgress: false,
       expandedProfileID: expandedID,
@@ -31,13 +31,13 @@ class LearnGroupList extends Component {
     };
   }
 
-  getProfiles = () => {
+  getLearnGroups = () => {
     AppApi.getApi()
-      .getProfiles()
-      .then((profileBOs) =>{
+      .getLearnGroups()
+      .then((learngroupBOs) =>{
         this.setState({
-          profile: profileBOs,
-          filteredProfile: [...profileBOs],
+          learngroup: learngroupBOs,
+          filteredLearngroup: [...learngroupBOs],
           loadingInProgress: false,
           error: null,
         }) }
@@ -45,7 +45,7 @@ class LearnGroupList extends Component {
       )
       .catch((e) =>
         this.setState({
-          profile: [],
+          learngroup: [],
           loadingInProgress: false,
           error: e,
         })
@@ -58,7 +58,7 @@ class LearnGroupList extends Component {
   };
 
   componentDidMount() {
-    this.getProfiles();
+    this.getLearnGroups();
   }
 
 
@@ -66,57 +66,38 @@ class LearnGroupList extends Component {
   filterFieldValueChange = (event) => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredProfile: this.state.profile.filter((profile) => {
-        let AgeContainsValue = profile.getAge().toLowerCase().includes(value);
-        let AdressContainsValue = profile
-          .getAdress()
-          .toLowerCase()
-          .includes(value);
-        let SemesterContainsValue = profile
-          .getSemester()
-          .toLowerCase()
-          .includes(value);
-        let DegreeCourseContainsValue = profile
-          .getDegreeCourse()
-          .toLowerCase()
-          .includes(value);
-        let PreferencesContainsValue = profile
-          .getPreferences()
-          .toLowerCase()
-          .includes(value);
-        let PersonIdContainsValue = profile
-          .getPersonId()
-          .toLowerCase()
-          .includes(value);
+      filteredProfile: this.state.learngroup.filter((learngroup) => {
+        let NameContainsValue = learngroup.getName().toLowerCase().includes(value);
+        let ParticipationContainsValue = learngroup.getAdress().toLowerCase().includes(value);
+        let ProfileIDContainsValue = learngroup.getSemester().toLowerCase().includes(value);
+        let LearnProfileIDContainsValue = learngroup.getDegreeCourse().toLowerCase().includes(value);
 
         return (
-          AgeContainsValue ||
-          AdressContainsValue ||
-          SemesterContainsValue ||
-          DegreeCourseContainsValue ||
-          PreferencesContainsValue ||
-          PersonIdContainsValue
+          NameContainsValue ||
+          ParticipationContainsValue ||
+          ProfileIDContainsValue ||
+          LearnProfileIDContainsValue
         );
       }),
-      profileFilter: value,
+      learngroupFilter: value,
     });
   };
 
   clearFilterFieldButtonClicked = () => {
     this.setState({
-      filterProfile: [...this.state.profile],
-      profileFilter: "",
+      filterLearngroup: [...this.state.learngroup],
+      learngroupFilter: "",
     });
   };
 
   render() {
     const { classes } = this.props;
-    const { profile, loadingInProgress, error} = this.state;
+    const { learngroup, loadingInProgress, error} = this.state;
 
     return (
       <div className={classes.root}>
         <Grid
-          className={classes.profileFilter}
+          className={classes.learngroupFilter}
           container
           spacing={1}
           justify="flex-start"
@@ -126,17 +107,17 @@ class LearnGroupList extends Component {
           <Grid item>
           </Grid>
         </Grid>
-        {profile.map((profile) => (
-          <ProfileListEntry
-            key={profile.getID()} 
-            profile={profile}
+        {learngroup.map((learngroup) => (
+          <LearnGroupListEntry
+            key={learngroup.getID()} 
+            learngroup={learngroup}
           />
         ))}
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage
           error={error}
-          contextErrorMsg={`The list of profile could not be loaded.`}
-          onReload={this.getProfile}
+          contextErrorMsg={`The list of learngroups could not be loaded.`}
+          onReload={this.getLearnGroup}
         />
       </div>
     );
@@ -153,7 +134,7 @@ const styles = (theme) => ({
   },
 });
 
-ProfileList.propTypes = {
+  LearnGroupList.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 };
