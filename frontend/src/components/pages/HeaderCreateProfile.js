@@ -23,11 +23,11 @@ class HeaderCreateProfile extends Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { person } = this.props;
 
     return (
       <Paper variant='outlined' >
-        <ProfileDropDown user={user} />
+        <ProfileDropDown person={person} />
         <Typography variant='h3' component='h1' align='center'>
         </Typography>
        
@@ -41,7 +41,7 @@ class HeaderCreateProfile extends Component {
 }
 
 HeaderCreateProfile.propTypes = {
-  user: PropTypes.object,
+  person: PropTypes.object,
 }
 
 export default HeaderCreateProfile;

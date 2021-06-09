@@ -339,23 +339,6 @@ class Administration(object):
    #def get_learn_profile_by_matching(self,):
 
 
-    """User erstellt"""
-
-    def create_user(self, name, email, google_user_id):
-        p = Person()
-        p.set_id(1)
-        p.set_name(name)
-        p.set_email(email)
-        p.set_google_user_id(google_user_id)
-        with PersonMapper() as mapper:
-            return mapper.insert_google_user_id(p)
-
-    """user speichern"""
-    def save_user(self, id):
-        """Den gegebenen Benutzer speichern."""
-        with PersonMapper() as mapper:
-            mapper.update_google_user_id(id)
-
     
 
 

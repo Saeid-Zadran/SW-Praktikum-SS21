@@ -67,19 +67,19 @@ class ProfileDropDown extends Component {
     firebase.auth().signOut();
   };
 
-  /** Renders the profile drop down if a loggin user is given as a prop */
+  /** Renders the profile drop down if a loggin person is given as a prop */
   render() {
-    const { classes, user } = this.props;
+    const { classes, person } = this.props;
     const { open } = this.state;
 
-    return user ? (
+    return person ? (
       <div>
         <IconButton
           className={classes.avatarButton}
           ref={this.#avatarButtonRef}
           onClick={this.handleAvatarButtonClick}
         >
-          <Avatar src={user.photoURL} />
+          <Avatar src={person.photoURL} />
         </IconButton>
 
         <Popover
@@ -100,10 +100,10 @@ class ProfileDropDown extends Component {
               <Typography align="center">Hello</Typography>
               <Divider className={classes.divider} />
               <Typography align="center" variant="body2">
-                {user.displayName}
+                {person.displayName}
               </Typography>
               <Typography align="center" variant="body2">
-                {user.email}
+                {person.email}
               </Typography>
               <Divider className={classes.divider} />
               <Grid container justify="center">
@@ -142,8 +142,8 @@ const styles = (theme) => ({
 ProfileDropDown.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
-  /** The logged in firesbase user */
-  user: PropTypes.object,
+  /** The logged in firesbase person */
+  person: PropTypes.object,
 };
 
 export default withStyles(styles)(ProfileDropDown);
