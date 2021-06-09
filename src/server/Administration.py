@@ -29,7 +29,7 @@ class Administration(object):
     def __init__(self):
         pass
 
-    """person-spezifische Methoden"""
+    """Person-Spezifische Methoden"""
 
     def create_person(self, name, google_user_id, google_mail):
         """Eine Person anlegen"""
@@ -43,7 +43,7 @@ class Administration(object):
 
 
 
-    def get_person_by_id(self, id):  #Die Methode heißt find_by_key, das ist richtig. Bitte nicht zu find_by_id ändern
+    def get_person_by_id(self, id):
         """Die Person mit der gegebenen ID auslesen."""
         with PersonMapper() as mapper:
             return mapper.find_by_key(id)
@@ -186,6 +186,7 @@ class Administration(object):
 
 
     def get_all_chats(self):
+        """Auslesen aller Chats"""
         with ChatMapper() as mapper:
             return mapper.find_all()
 
