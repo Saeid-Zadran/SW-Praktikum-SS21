@@ -8,7 +8,7 @@ import { Button, ButtonGroup } from '@material-ui/core';
 
 
 
-class ProfileListEntry extends Component {
+class LearnProfileListEntry extends Component {
 
   constructor(props) {
     super(props);
@@ -25,7 +25,7 @@ class ProfileListEntry extends Component {
 
   render() {
     const { classes} = this.props;
-    const { profile } = this.state;
+    const { learnprofile } = this.state;
 
     return (
       <div>
@@ -34,12 +34,12 @@ class ProfileListEntry extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>
-                  Name:           {profile.getName()}<br></br>
-                  Alter:          {profile.getAge()}<br></br>
-                  Adresse:        {profile.getAdress()}<br></br>
-                  Semester:       {profile.getSemester()}<br></br>
-                  Studiengang:    {profile.getDegreeCourse()}<br></br>
-                  Vorlieben:      {profile.getPreferences()}<br></br>
+                  Lernstatus:           {learnprofile.getStudyStatus()}<br></br>
+                  Häufigkeit:           {learnprofile.getFrequency()}<br></br>
+                  Vorwissen:            {learnprofile.getPrevKnowledge()}<br></br>
+                  Gruppengröße:         {learnprofile.getGroupSize()}<br></br>
+                  Extrovertiert:        {learnprofile.getExtroversion()}<br></br>
+                  ProfileId:            {learnprofile.getProfileId()}<br></br>
                   {/* PersonId:       {profile.getPersonId()}<br></br> */}
 
 
@@ -63,9 +63,9 @@ const styles = theme => ({
   }
 });
 
-ProfileListEntry.propTypes = {
+LearnProfileListEntry.propTypes = {
   classes: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(ProfileListEntry);
+export default withStyles(styles)(LearnProfileListEntry);
