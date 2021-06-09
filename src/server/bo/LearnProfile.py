@@ -1,13 +1,14 @@
 from server.bo.BusinessObject import BusinessObject as bo
 
+
 class LearnProfile(bo):
     def __init__(self):
         super().__init__()
-        self._study_status = True
+        self._study_status = 0
         self._frequency = 0
-        self._prev_knowledge = ""
+        self._prev_knowledge = 0
         self._groupsize = 0
-        self._extroversion = False
+        self._extroversion = 0
         self._profile_id = 0
 
 

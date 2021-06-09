@@ -15,7 +15,7 @@ class LearnGroupListEntry extends Component {
 
     // Init the state
     this.state = {
-      profile: props.profile,
+      learngroup: props.learngroup,
     };
   }
 
@@ -25,7 +25,7 @@ class LearnGroupListEntry extends Component {
 
   render() {
     const { classes} = this.props;
-    const { profile } = this.state;
+    const { learngroup } = this.state;
 
     return (
       <div>
@@ -34,15 +34,10 @@ class LearnGroupListEntry extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>
-                  Name:           {profile.getName()}<br></br>
-                  Alter:          {profile.getAge()}<br></br>
-                  Adresse:        {profile.getAdress()}<br></br>
-                  Semester:       {profile.getSemester()}<br></br>
-                  Studiengang:    {profile.getDegreeCourse()}<br></br>
-                  Vorlieben:      {profile.getPreferences()}<br></br>
-                  {/* PersonId:       {profile.getPersonId()}<br></br> */}
-
-
+                  Name:           {learngroup.getName()}<br></br>
+                  Teilnehmer:     {learngroup.getParticipant()}<br></br>
+                  ProfileID:      {learngroup.getLearnProfileId()}<br></br>
+                  LearnProfileID: {learngroup.getLearnProfileId()}<br></br>
 
                 </Typography>
               </Grid>
@@ -63,9 +58,9 @@ const styles = theme => ({
   }
 });
 
-ProfileListEntry.propTypes = {
+LearnGroupListEntry.propTypes = {
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
+  learngroup: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(LearnGroupListEntry);
