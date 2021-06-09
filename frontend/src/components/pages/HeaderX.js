@@ -32,8 +32,11 @@ class HeaderX extends Component {
         </Typography>
        
             <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
-              <Tab label='LearnGroup' component={RouterLink} to={`/SecondPage/CreateLearnGroup`} />
-              <Tab label='LearnProfile' component={RouterLink} to={`/SecondPage/CreateLearnProfile`} />
+              <Tab label='Lerngruppe erstellen' component={RouterLink} to={`/SecondPage/CreateLearnGroup`} />
+              <Tab label='Lernprofil erstellen' component={RouterLink} to={`/SecondPage/CreateLearnProfile`} />
+              <Tab label='Lernprofile' component={RouterLink} to={`/SecondPage/LearnProfileList`} />
+              <Tab label='Lerngruppen' component={RouterLink} to={`/SecondPage/LearnGroupList`} />
+              <Tab label='Alle Profile' component={RouterLink} to={`/SecondPage/ProfileList`} />
 
               
             </Tabs>

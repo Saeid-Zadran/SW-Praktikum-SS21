@@ -16,6 +16,11 @@ import CreateLearnGroup from "./components/CreateLearnGroup";
 import AppApi from "./api/AppApi";
 import HeaderCreateProfile from "./components/pages/HeaderCreateProfile";
 import HeaderX from "./components/pages/HeaderX";
+import ProfileList from "./components/ProfileList";
+import LearnProfileList from "./components/LearnProfileList";
+import LearnGroupList from "./components/LearnGroupList";
+
+
 class App extends React.Component {
  
   constructor(props) {
@@ -121,6 +126,15 @@ class App extends React.Component {
                   </Route>
                   <Route path='/SecondPage/CreateLearnProfile'>
                     <CreateLearnProfile/>
+                  </Route>
+                  <Route path='/SecondPage/ProfileList'>
+                    <ProfileList/>
+                  </Route>
+                  <Route path='/SecondPage/LearnProfileList'>
+                    <LearnProfileList/>
+                  </Route>
+                  <Route path='/SecondPage/LearnGroupList'>
+                    <LearnGroupList/>
                   </Route>
                  
                  
