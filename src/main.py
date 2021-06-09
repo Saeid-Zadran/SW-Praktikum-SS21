@@ -77,7 +77,7 @@ suggestion = api.inherit('Suggestion', bo, {
 learnprofile = api.inherit('LearnProfile', bo, {
     'study_status': fields.Integer(attribute='_study_status', description='Zeigt den Status einer Person an'),
     'frequency': fields.Integer(attribute='_frequency', description='Zeigt an wie häufig eine Person lernt'),
-    'prev_knowledge': fields.Integer(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
+    'prev_knowledge': fields.String(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
     'group_size': fields.Integer(attribute='_group_size',description='Gruppengrößen Vorliebe einer Person'),
     'extroversion': fields.Integer(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
     'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')

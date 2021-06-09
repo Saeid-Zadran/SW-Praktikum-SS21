@@ -34,10 +34,10 @@ class LearnProfileList extends Component {
   getLearnProfiles = () => {
     AppApi.getApi()
       .getLearnProfiles()
-      .then((learnProfileBOs) =>{
+      .then((LearnProfileBOs) =>{
         this.setState({
-          learnprofile: learnProfileBOs,
-          filteredLearnProfile: [...learnProfileBOs],
+          learnProfile: LearnProfileBOs,
+          filteredLearnProfile: [...LearnProfileBOs],
           loadingInProgress: false,
           error: null,
         }) }
@@ -45,7 +45,7 @@ class LearnProfileList extends Component {
       )
       .catch((e) =>
         this.setState({
-          profile: [],
+          learnProfile: [],
           loadingInProgress: false,
           error: e,
         })
@@ -132,7 +132,7 @@ const styles = (theme) => ({
   root: {
     width: "100%",
   },
-  learnProfileFilter: {
+  LearnProfileFilter: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(1),
   },

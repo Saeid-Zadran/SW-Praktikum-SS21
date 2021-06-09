@@ -15,7 +15,7 @@ class LearnProfileListEntry extends Component {
 
     // Init the state
     this.state = {
-      profile: props.profile,
+      learnProfile: props.learnProfile,
     };
   }
 
@@ -25,7 +25,7 @@ class LearnProfileListEntry extends Component {
 
   render() {
     const { classes} = this.props;
-    const { learnprofile } = this.state;
+    const { learnProfile } = this.state;
 
     return (
       <div>
@@ -34,12 +34,12 @@ class LearnProfileListEntry extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>
-                  Lernstatus:           {learnprofile.getStudyStatus()}<br></br>
-                  Häufigkeit:           {learnprofile.getFrequency()}<br></br>
-                  Vorwissen:            {learnprofile.getPrevKnowledge()}<br></br>
-                  Gruppengröße:         {learnprofile.getGroupSize()}<br></br>
-                  Extrovertiert:        {learnprofile.getExtroversion()}<br></br>
-                  ProfileId:            {learnprofile.getProfileId()}<br></br>
+                  Lernstatus:           {learnProfile.getStudyStatus()}<br></br>
+                  Häufigkeit:           {learnProfile.getFrequency()}<br></br>
+                  Vorwissen:            {learnProfile.getPrevKnowledge()}<br></br>
+                  Gruppengröße:         {learnProfile.getGroupSize()}<br></br>
+                  Extrovertiert:        {learnProfile.getExtroversion()}<br></br>
+                  ProfileId:            {learnProfile.getProfileId()}<br></br>
                   {/* PersonId:       {profile.getPersonId()}<br></br> */}
 
 
@@ -65,7 +65,7 @@ const styles = theme => ({
 
 LearnProfileListEntry.propTypes = {
   classes: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
+  learnProfile: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(LearnProfileListEntry);
