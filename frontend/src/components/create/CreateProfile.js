@@ -18,14 +18,13 @@ class CreateProfile extends Component {
       adress: "",
       semester: "",
       degree_course:"",
-      preferences: "",
       person_id: null, 
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  addProfile( name, age, adress,semester, degree_course, preferences, person_id) {
+  addProfile( name, age, adress,semester, degree_course,person_id) {
     
     var profile = new ProfileBO
     profile.setName(name)
@@ -33,7 +32,6 @@ class CreateProfile extends Component {
     profile.setAdress(adress)
     profile.setSemester(semester)
     profile.setDegreeCourse(degree_course)
-    profile.setPreferences(preferences)
     profile.setPersonId(person_id)
 
 
@@ -65,7 +63,6 @@ class CreateProfile extends Component {
       this.state.adress,
       this.state.semester,
       this.state.degree_course,
-      this.state.preferences,
       this.state.person_id
     );
   };
@@ -141,17 +138,7 @@ class CreateProfile extends Component {
                     />
                   </div>
 
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Vorlieben"
-                      variant="outlined"
-                      type="string"
-                      name="preferences"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
+                  
 
                   <div>
                     <TextField

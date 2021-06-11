@@ -80,10 +80,7 @@ class ProfileList extends Component {
           .getDegreeCourse()
           .toLowerCase()
           .includes(value);
-        let PreferencesContainsValue = profile
-          .getPreferences()
-          .toLowerCase()
-          .includes(value);
+       
         let PersonIdContainsValue = profile
           .getPersonId()
           .toLowerCase()
@@ -94,7 +91,6 @@ class ProfileList extends Component {
           AdressContainsValue ||
           SemesterContainsValue ||
           DegreeCourseContainsValue ||
-          PreferencesContainsValue ||
           PersonIdContainsValue
         );
       }),

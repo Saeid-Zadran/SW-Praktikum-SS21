@@ -15,6 +15,7 @@ class SendMessage extends Component {
       text: "",
       person_id: "",
       chat_id: "",
+      received:Boolean,
       chatmessage: null, //für addLearnGroup
       loadingInProgress: false,
     };
@@ -22,12 +23,15 @@ class SendMessage extends Component {
   }
 
   /** Create ChatMessage*/
-  addChatMessage(text, person_id, chat_id) {
+  addChatMessage(text, person_id, chat_id,received) {
 
     var chatmessage = new ChatMessageBO
     chatmessage.setText(text)
     chatmessage.setPersonId(person_id)
     chatmessage.setChatId(chat_id)
+    chatmessage.setReceived(received)
+
+
     
 
 
@@ -55,6 +59,9 @@ class SendMessage extends Component {
       this.state.text,
       this.state.person_id,
       this.state.chat_id,
+      this.state.received,
+
+
     );
   };
 

@@ -4,33 +4,25 @@ import BusinessObject from './BusinessObject';
 export default class ChatBO extends BusinessObject {
 
 
-  constructor(aSourceId, aTargetId, aIsAccepted) {
+  constructor(aLearnGroupId,aIsAccepted) {
     super();
-    this.source_id = aSourceId;
-    this.target_id = aTargetId;
+    this.learngroup_id = aLearnGroupId;
+    
     this.is_accepted = aIsAccepted;
   }
 
 
-  setSourceId(aSourceId) {
-    this.source_id = aSourceId;
+  setLearnGroupId(aLearnGroupId) {
+    this.learngroup_id = aLearnGroupId;
   }
 
 
-  getSourceId() {
-    return this.source_id;
+  getLearnGroupId() {
+    return this.learngroup_id;
   }
 
 
-  setTargetId(aTargetId) {
-    this.target_id = aTargetId;
-  }
-
-
-  getTargetId() {
-    return this.target_id;
-  }
-
+  
 
   setIsAccepted(aIsAccepted) {
     this.is_accepted = aIsAccepted;

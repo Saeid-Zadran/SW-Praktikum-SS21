@@ -4,11 +4,12 @@ import BusinessObject from './BusinessObject';
 export default class ChatMessageBO extends BusinessObject {
 
 
-  constructor(aText, aPersonId, aChatId) {
+  constructor(aText, aPersonId, aChatId, aReceived) {
     super();
     this.text = aText;
     this.person_id = aPersonId;
     this.chat_id = aChatId;
+    this.received = aReceived
   }
 
 
@@ -39,6 +40,16 @@ export default class ChatMessageBO extends BusinessObject {
 
   getChatId() {
     return this.chat_id;
+  }
+
+  
+  setReceived(aReceived) {
+    this.received = aReceived;
+  }
+
+
+  getReceived() {
+    return this.received;
   }
 
 

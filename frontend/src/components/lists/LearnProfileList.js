@@ -101,7 +101,7 @@ class LearnProfileList extends Component {
     return (
       <div className={classes.root}>
         <Grid
-          className={classes.learnProfileFilter}
+          className={classes.LearnProfileFilter}
           container
           spacing={1}
           justify="flex-start"

@@ -21,9 +21,9 @@ class LearnGroupList extends Component {
 
     // Init an empty state
     this.state = {
-      learngroup: [],
-      filteredLearngroup: [],
-      Learngroup: '',
+      learnGroup: [],
+      filteredLearnGroup: [],
+      LearnGroupFilter: '',
       error: null,
       loadingInProgress: false,
       expandedProfileID: expandedID,
@@ -34,10 +34,10 @@ class LearnGroupList extends Component {
   getLearnGroups = () => {
     AppApi.getApi()
       .getLearnGroups()
-      .then((learngroupBOs) =>{
+      .then((learnGroupBOs) =>{
         this.setState({
-          learngroup: learngroupBOs,
-          filteredLearngroup: [...learngroupBOs],
+          learnGroup: learnGroupBOs,
+          filteredLearnGroup: [...learnGroupBOs],
           loadingInProgress: false,
           error: null,
         }) }
@@ -45,7 +45,7 @@ class LearnGroupList extends Component {
       )
       .catch((e) =>
         this.setState({
-          learngroup: [],
+          learnGroup: [],
           loadingInProgress: false,
           error: e,
         })
@@ -66,38 +66,38 @@ class LearnGroupList extends Component {
   filterFieldValueChange = (event) => {
     const value = event.target.value.toLowerCase();
     this.setState({
-      filteredProfile: this.state.learngroup.filter((learngroup) => {
-        let NameContainsValue = learngroup.getName().toLowerCase().includes(value);
-        let ParticipationContainsValue = learngroup.getAdress().toLowerCase().includes(value);
-        let ProfileIDContainsValue = learngroup.getSemester().toLowerCase().includes(value);
-        let LearnProfileIDContainsValue = learngroup.getDegreeCourse().toLowerCase().includes(value);
+      filteredLearnGroup: this.state.learnGroup.filter((learnGroup) => {
+        let NameContainsValue = learnGroup.getName().toLowerCase().includes(value);
+        let ParticipantContainsValue = learnGroup.getParticipant().toLowerCase().includes(value);
+        let ProfileIDContainsValue = learnGroup.getProfileId().toLowerCase().includes(value);
+        let GroupRequestLearnProfileIDContainsValue = learnGroup.getGroupRequestLearnProfileId().toLowerCase().includes(value);
 
         return (
           NameContainsValue ||
-          ParticipationContainsValue ||
+          ParticipantContainsValue ||
           ProfileIDContainsValue ||
-          LearnProfileIDContainsValue
+          GroupRequestLearnProfileIDContainsValue
         );
       }),
-      learngroupFilter: value,
+      learnGroupFilter: value,
     });
   };
 
   clearFilterFieldButtonClicked = () => {
     this.setState({
-      filterLearngroup: [...this.state.learngroup],
-      learngroupFilter: "",
+      filteredLearnGroup: [...this.state.learnGroup],
+      LearnGroupFilter: "",
     });
   };
 
   render() {
     const { classes } = this.props;
-    const { learngroup, loadingInProgress, error} = this.state;
+    const { learnGroup, loadingInProgress, error} = this.state;
 
     return (
       <div className={classes.root}>
         <Grid
-          className={classes.learngroupFilter}
+          className={classes.LearnGroupFilter}
           container
           spacing={1}
           justify="flex-start"
@@ -107,16 +107,16 @@ class LearnGroupList extends Component {
           <Grid item>
           </Grid>
         </Grid>
-        {learngroup.map((learngroup) => (
+        {learnGroup.map((learnGroup) => (
           <LearnGroupListEntry
-            key={learngroup.getID()} 
-            learngroup={learngroup}
+            key={learnGroup.getID()} 
+            learnGroup={learnGroup}
           />
         ))}
         <LoadingProgress show={loadingInProgress} />
         <ContextErrorMessage
           error={error}
-          contextErrorMsg={`The list of learngroups could not be loaded.`}
+          contextErrorMsg={`The list of learnGroups could not be loaded.`}
           onReload={this.getLearnGroup}
         />
       </div>

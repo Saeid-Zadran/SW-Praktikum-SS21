@@ -14,34 +14,35 @@ class CreateLearnGroup extends Component {
       name: "",
       participant: "",
       profile_id: "",
-      learn_profile_id: "",
-      learngroup: null, //für addLearnGroup
+      group_request_learn_profile_id: "",
+      learnGroup: null, //für addLearnGroup
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   /** Create LearnGroupProfile*/
-  addLearnGroup(name, participant, profile_id, learn_profile_id) {
+  addLearnGroup(name, participant, profile_id, grouprequest_learnprofile_id) {
 
-    var learngroup = new LearnGroupBO
-    learngroup.setName(name)
-    learngroup.setParticipant(participant)
-    learngroup.setProfileId(profile_id)
-    learngroup.setLearnProfileId(learn_profile_id)
+    var learnGroup = new LearnGroupBO
+    learnGroup.setName(name)
+    learnGroup.setParticipant(participant)
+    learnGroup.setProfileId(profile_id)
+    learnGroup.setGroupRequestLearnProfileId(grouprequest_learnprofile_id)
+
 
 
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .addLearnGroup(learngroup)
-      .then((learngroup) => {
+      .addLearnGroup(learnGroup)
+      .then((learnGroup) => {
         // console.log(person)
         this.setState({
-          learngroup: learngroup,
+          learnGroup: learnGroup,
         });
       });
-    console.log(this.state.learngroup);
+    console.log(this.state.learnGroup);
   }
 
   handleChange(e) {
@@ -55,7 +56,7 @@ class CreateLearnGroup extends Component {
       this.state.name,
       this.state.participant,
       this.state.profile_id,
-      this.state.learn_profile_id
+      this.state.grouprequest_learnprofile_id
     );
   };
 
@@ -108,10 +109,10 @@ class CreateLearnGroup extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Lernprofil ID"
+                      label="Group Request Lernprofile ID"
                       variant="outlined"
                       type="number"
-                      name="learn_profile_id"
+                      name="grouprequest_learnprofile_id"
                       //required
                       onChange={this.handleChange}
                     />

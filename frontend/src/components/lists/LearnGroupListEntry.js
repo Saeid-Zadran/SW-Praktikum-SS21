@@ -15,7 +15,7 @@ class LearnGroupListEntry extends Component {
 
     // Init the state
     this.state = {
-      learngroup: props.learngroup,
+      learnGroup: props.learnGroup,
     };
   }
 
@@ -25,7 +25,7 @@ class LearnGroupListEntry extends Component {
 
   render() {
     const { classes} = this.props;
-    const { learngroup } = this.state;
+    const { learnGroup } = this.state;
 
     return (
       <div>
@@ -34,10 +34,10 @@ class LearnGroupListEntry extends Component {
             <Grid container spacing={1} justify='flex-start' alignItems='center'>
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>
-                  Name:           {learngroup.getName()}<br></br>
-                  Teilnehmer:     {learngroup.getParticipant()}<br></br>
-                  ProfileID:      {learngroup.getLearnProfileId()}<br></br>
-                  LearnProfileID: {learngroup.getLearnProfileId()}<br></br>
+                  Name:           {learnGroup.getName()}<br></br>
+                  Teilnehmer:     {learnGroup.getParticipant()}<br></br>
+                  ProfileID:      {learnGroup.getProfileId()}<br></br>
+                  Gruppen Anfrage Lern Profile Id: {learnGroup.getGroupRequestLearnProfileId()}<br></br>
 
                 </Typography>
               </Grid>
@@ -60,7 +60,7 @@ const styles = theme => ({
 
 LearnGroupListEntry.propTypes = {
   classes: PropTypes.object.isRequired,
-  learngroup: PropTypes.object.isRequired,
+  learnGroup: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(LearnGroupListEntry);

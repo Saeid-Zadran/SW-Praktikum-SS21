@@ -1,13 +1,12 @@
 import NamedBusinessObject from "./NamedBusinessObject";
 
 export default class ProfileBO extends NamedBusinessObject {
-  constructor(aAge,aAdress,aSemester,aDegreeCourse,aPreferences,aPersonId) {
+  constructor(aAge,aAdress,aSemester,aDegreeCourse,aPersonId) {
     super();
     this.age = aAge;
     this.adress = aAdress;
     this.semester = aSemester;
     this.degree_course = aDegreeCourse;
-    this.preferences = aPreferences;
     this.person_id = aPersonId;
   }
 
@@ -43,13 +42,7 @@ export default class ProfileBO extends NamedBusinessObject {
     return this.degree_course;
   }
 
-  setPreferences(aPreferences) {
-    this.preferences = aPreferences;
-  }
-
-  getPreferences() {
-    return this.preferences;
-  }
+ 
 
   setPersonId(aPersonId) {
     this.person_id = aPersonId;

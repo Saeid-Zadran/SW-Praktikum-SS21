@@ -6,7 +6,7 @@ class Chat(bo):
     def __init__(self):
         super().__init__()
         self._is_accepted = 0
-        learngroup_id = 0
+        self._learngroup_id = 0
 
 
     def set_learngroup_id(self, learngroup_id):

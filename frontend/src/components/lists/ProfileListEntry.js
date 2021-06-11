@@ -39,7 +39,6 @@ class ProfileListEntry extends Component {
                   Adresse:        {profile.getAdress()}<br></br>
                   Semester:       {profile.getSemester()}<br></br>
                   Studiengang:    {profile.getDegreeCourse()}<br></br>
-                  Vorlieben:      {profile.getPreferences()}<br></br>
                   {/* PersonId:       {profile.getPersonId()}<br></br> */}
 
 

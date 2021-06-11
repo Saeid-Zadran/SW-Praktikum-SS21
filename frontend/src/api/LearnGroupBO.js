@@ -4,14 +4,24 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class LearnGroupBO extends NamedBusinessObject {
 
 
-  constructor(aParticipant, aProfileId, aLearnProfileId) {
+  constructor(aName,aParticipant, aProfileId, aGroupRequestLearnProfileId) {
     super();
+    this.name = aName;
     this.participant = aParticipant;
     this.profile_id = aProfileId;
-    this.learn_profile_id = aLearnProfileId;
+    this.grouprequest_learnprofile_id = aGroupRequestLearnProfileId;
+  }
+
+  setName(aName) {
+    this.name = aName;
   }
 
 
+  getName() {
+    return this.name;
+  }
+
+  
   setParticipant(aParticipant) {
     this.participant = aParticipant;
   }
@@ -32,13 +42,13 @@ export default class LearnGroupBO extends NamedBusinessObject {
   }
 
 
-  setLearnProfileId(aLearnProfileId) {
-    this.learn_profile_id = aLearnProfileId;
+  setGroupRequestLearnProfileId(aGroupRequestLearnProfileId) {
+    this.grouprequest_learnprofile_id = aGroupRequestLearnProfileId;
   }
 
 
-  getLearnProfileId() {
-    return this.learn_profile_id;
+  getGroupRequestLearnProfileId() {
+    return this.grouprequest_learnprofile_id;
   }
 
 
