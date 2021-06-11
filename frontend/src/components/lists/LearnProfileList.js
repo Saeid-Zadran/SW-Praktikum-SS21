@@ -4,9 +4,9 @@ import {withStyles,Button,TextField,InputAdornment,IconButton,Grid,Typography} f
 import AddIcon from "@material-ui/icons/Add";
 //import ClearIcon from "@material-ui/icons/Clear";
 import { withRouter } from "react-router-dom";
-import AppApi from "../api/AppApi";
-import ContextErrorMessage from "./dialogs/ContextErrorMessage";
-import LoadingProgress from "./dialogs/LoadingProgress";
+import AppApi from "../../api/AppApi";
+import ContextErrorMessage from "../dialogs/ContextErrorMessage";
+import LoadingProgress from "../dialogs/LoadingProgress";
 import LearnProfileListEntry from "./LearnProfileListEntry";
 
 class LearnProfileList extends Component {

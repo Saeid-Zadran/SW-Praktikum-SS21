@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Paper, Typography, Tabs, Tab } from '@material-ui/core';
+import { Paper, Typography, Tabs, Tab, AppBar } from '@material-ui/core';
 import { Link as RouterLink } from 'react-router-dom';
 import ProfileDropDown from '../dialogs/ProfileDropDown';
 
@@ -12,34 +12,45 @@ class HeaderX extends Component {
     super(props);
 
     this.state = {
-      tabindex: 0
+      value: 0
     };
   }
 
-  handleTabChange = (e, newIndex) => {
+  handleTabChange = (e, value) => {
     this.setState({
-      tabindex: newIndex
+      value
     })
   };
 
   render() {
     const { person } = this.props;
+    const { value } = this.state
 
     return (
       <Paper variant='outlined' >
         <ProfileDropDown person={person} />
         <Typography variant='h3' component='h1' align='center'>
         </Typography>
-       
-            <Tabs indicatorColor='primary' textColor='primary' centered value={this.state.tabindex} onChange={this.handleTabChange} >
+        <AppBar position="static" color="default">
+        <Tabs
+            value={value}
+            onChange={this.handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="scrollable"
+            scrollButtons="auto">
+
+
               <Tab label='Lerngruppe erstellen' component={RouterLink} to={`/SecondPage/CreateLearnGroup`} />
               <Tab label='Lernprofil erstellen' component={RouterLink} to={`/SecondPage/CreateLearnProfile`} />
               <Tab label='Lernprofile' component={RouterLink} to={`/SecondPage/LearnProfileList`} />
               <Tab label='Lerngruppen' component={RouterLink} to={`/SecondPage/LearnGroupList`} />
               <Tab label='Alle Profile' component={RouterLink} to={`/SecondPage/ProfileList`} />
+              <Tab label='Chat' component={RouterLink} to={`/SecondPage/SendMessage`} />
 
               
             </Tabs>
+          </AppBar>
       </Paper>
     )
   }

@@ -41,12 +41,6 @@ class Start extends Component {
             </Link>
             <br></br>
             <br></br>
-            <Typography>Vorschläge</Typography>
-            <Link to="/ProfileList">
-              <Button variant="contained" color="primary">
-                Vorschläge
-              </Button>
-            </Link>
           </center>
         </div>
       </CssBaseline>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import SaveIcon from "@material-ui/icons/Save";
-import AppApi from "../api/AppApi";
+import AppApi from "../../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import Radio from "@material-ui/core/Radio";
@@ -10,7 +10,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import LearnProfileBO from '../api/LearnProfileBO';
+import LearnProfileBO from '../../api/LearnProfileBO';
 
 
 

@@ -6,19 +6,20 @@ import "firebase/auth";
 import firebaseConfig from "./firebaseconfig";
 import Theme from "./Theme";
 import SignIn from "./components/pages/SignIn";
-import CreateProfile from "./components/CreateProfile";
+import CreateProfile from "./components/create/CreateProfile";
 import LoadingProgress from "./components/dialogs/LoadingProgress";
 import ContextErrorMessage from "./components/dialogs/ContextErrorMessage";
 import Start from "./components/pages/Start";
 import ProfileDropDown from "./components/dialogs/ProfileDropDown";
-import CreateLearnProfile from "./components/CreateLearnProfile";
-import CreateLearnGroup from "./components/CreateLearnGroup";
+import CreateLearnProfile from "./components/create/CreateLearnProfile";
+import CreateLearnGroup from "./components/create/CreateLearnGroup";
 import AppApi from "./api/AppApi";
 import HeaderCreateProfile from "./components/pages/HeaderCreateProfile";
 import HeaderX from "./components/pages/HeaderX";
-import ProfileList from "./components/ProfileList";
-import LearnProfileList from "./components/LearnProfileList";
-import LearnGroupList from "./components/LearnGroupList";
+import ProfileList from "./components/lists/ProfileList";
+import LearnProfileList from "./components/lists/LearnProfileList";
+import LearnGroupList from "./components/lists/LearnGroupList";
+import SendMessage from "./components/chatFunction/SendMessage";
 
 
 class App extends React.Component {
@@ -135,6 +136,9 @@ class App extends React.Component {
                   </Route>
                   <Route path='/SecondPage/LearnGroupList'>
                     <LearnGroupList/>
+                  </Route>
+                  <Route path='/SecondPage/SendMessage'>
+                    <SendMessage/>
                   </Route>
                  
                  
