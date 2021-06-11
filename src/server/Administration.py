@@ -191,10 +191,9 @@ class Administration(object):
         with ChatMapper() as mapper:
             return mapper.find_all()
 
-    def create_chat(self, source_id, target_id, is_accepted):
+    def create_chat(self, learngroup_id, is_accepted):
         chat = Chat()
-        chat.set_source_id(source_id)
-        chat.set_target_id(target_id)
+        chat.set_learngroup_id(learngroup_id)
         chat.set_is_accepted(is_accepted)
         chat.set_id(0) # Warum 0? 1 Richtig?
 
@@ -218,11 +217,13 @@ class Administration(object):
         with ChatMessageMapper() as mapper:
             return mapper.find_all()
 
-    def create_chatmessage(self, text, person_id, received):
+    def create_chatmessage(self, text,received,chat_id, person_id):
         chatmessage = ChatMessage()
         chatmessage.set_text(text)
-        chatmessage.set_person_id(person_id)
         chatmessage.set_received(received)
+        chatmessage.set_chat_id(chat_id)
+        chatmessage.set_person_id(person_id)
+        
 
         with ChatMessageMapper() as mapper:
             return mapper.insert(chatmessage)
@@ -272,11 +273,9 @@ class Administration(object):
 
     """GroupRequest-Methoden"""
 
-    def create_grouprequest(self,learngroup_id ,source_id,target_id, is_accepted,):
+    def create_grouprequest(self,learnprofile_id ,is_accepted):
         grouprequest = GroupRequest()
-        grouprequest.set_source_id(source_id)
-        grouprequest.set_target_id(target_id)
-        grouprequest.set_learngroup_id(learngroup_id)
+        grouprequest.set_learnprofile_id(learnprofile_id)
         grouprequest.set_is_accepted(is_accepted)
         grouprequest.set_id(1)
 

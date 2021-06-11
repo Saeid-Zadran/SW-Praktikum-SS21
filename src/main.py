@@ -90,25 +90,25 @@ learngroup = api.inherit('LearnGroup', bo, {
     'name': fields.String(attribute='_name', description='ID eines Lernprofils'),
 })
 grouprequest = api.inherit('GroupRequest', bo, {
-    'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Unique Id der Gruppe'),
-    'source_id':fields.Integer(attribute='_source_id', description='Unique Id des Chatinhabers'),
-    'target_id':fields.Integer(attribute='_target_id', description='Unique Id des Inviters'),
+    'learnprofile_id':fields.Integer(attribute='_learnprofile_id', description='ID des Lernprofil'),
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
 })
 
 #BusinessObjekts
 
 chat = api.inherit('Chat', bo, {
-    'source_id': fields.Integer(attribute='_source_id', description='Absender der Nachricht'),
-    'target_id': fields.Integer(attribute='_target_id', description='Empfänger der Nachricht'),
+    'learngroup_id': fields.Integer(attribute='_learngroup_id', description='ID de der lerngruppe'),
+    
     'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats')
 
 })
 
 chatmessage = api.inherit('_ChatMessage', bo, {
     'text': fields.String(attribute='_text', description= 'Inhalt der Nachricht'),
-    'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person'),
     'received': fields.Boolean(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
+    'chat_id': fields.Integer(attribute='_chat_id', description= 'Id eines Chats'),
+    'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person')
+    
 })
 
 # Person related
@@ -550,7 +550,7 @@ class ChatListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            c = adm.create_chat(proposal.get_source_id(), proposal.get_target_id(), 
+            c = adm.create_chat(proposal.get_learngroup_id(), 
             proposal.get_is_accepted())
             return c, 200
         else:
@@ -649,8 +649,8 @@ class ChatMessageListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_person_id(), \
-                                        proposal.get_received())
+            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_received(),proposal.get_chat_id(), proposal.get_person_id())
+                                       
             return cm, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -833,7 +833,7 @@ class GroupRequestListOperations(Resource):
  
         if gr is not None:
   
-            s = adm.create_grouprequest(gr.get_learn_group_id(), gr.get_source_id(), gr.get_target_id(),gr.get_is_accepted())
+            s = adm.create_grouprequest(gr.get_learnprofile_id(),gr.get_is_accepted())
 
             return s, 200
         else:
