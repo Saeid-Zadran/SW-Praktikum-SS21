@@ -7,7 +7,7 @@ class LearnGroup(bo):
         super().__init__()
         self._participant = 0
         self._profile_id = 0
-        self._learn_profile_id = 0
+        self._grouprequest_learnprofile_id = 0
         self._name= ""
     
 
@@ -23,17 +23,12 @@ class LearnGroup(bo):
     def set_participant(self, participant):
         self._participant = participant
 
-    def get_profile_id(self):
-        return self._profile_id
 
-    def set_profile_id(self, profile_id):
-        self._profile_id = profile_id
+    def get_grouprequest_learnprofile_id(self):
+        return self._grouprequest_learnprofile_id
 
-    def get_learn_profile_id(self):
-        return self._learn_profile_id
-
-    def set_learn_profile_id(self, learn_profile_id):
-        self._learn_profile_id= learn_profile_id
+    def set_grouprequest_learnprofile_id(self, grouprequest_learnprofile_id):
+        self._grouprequest_learnprofile_id= grouprequest_learnprofile_id
 
     @staticmethod
     def from_dict(dictionary=dict()):
@@ -44,7 +39,6 @@ class LearnGroup(bo):
         #obj.set_creation_time(dictionary["creation_time"])
         obj.set_name(dictionary["name"])
         obj.set_participant(dictionary["participant"])
-        obj.set_profile_id(dictionary["profile_id"])
-        obj.set_learn_profile_id(dictionary["learn_profile_id"])
+        obj.set_grouprequest_learnprofile_id(dictionary["grouprequest_learnprofile_id"])
 
         return obj

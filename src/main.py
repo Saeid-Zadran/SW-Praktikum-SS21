@@ -84,10 +84,10 @@ learnprofile = api.inherit('LearnProfile', bo, {
 })
 
 learngroup = api.inherit('LearnGroup', bo, {
-    'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
-    'profile_id': fields.Integer(attribute='_profile_id', description='ID eines Profils'),
-    'learn_profile_id': fields.Integer(attribute='_learn_profile_id', description='ID eines Lernprofils'),
     'name': fields.String(attribute='_name', description='ID eines Lernprofils'),
+    'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
+    'grouprequest_learnprofile_id': fields.Integer(attribute='_grouprequest_learnprofile_id', description='ID eines Lernprofils'),
+    
 })
 grouprequest = api.inherit('GroupRequest', bo, {
     'learnprofile_id':fields.Integer(attribute='_learnprofile_id', description='ID des Lernprofil'),
@@ -748,7 +748,7 @@ class LearnGroupListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             lg = adm.create_learngroup(proposal.get_creation_time(),proposal.get_name(), proposal.get_participant(), 
-                                       proposal.get_profile_id(), proposal.get_learn_profile_id())
+                                        proposal.get_grouprequest_learnprofile_id())
             return lg, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
