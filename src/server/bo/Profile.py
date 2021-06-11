@@ -9,7 +9,6 @@ class Profile(nbo):
         self._adress = ""
         self._semester = 0
         self._degree_course = ""
-        self._preferences = ""
         self._person_id = None
 
    
@@ -38,11 +37,6 @@ class Profile(nbo):
     def get_degree_course(self):
         return self._degree_course   
 
-    def set_preferences(self, pre_knowledge):
-        self._preferences = pre_knowledge
-
-    def get_preferences(self):
-        return self._preferences
 
     def set_person_id(self, person_id):
         self._person_id = person_id
@@ -67,7 +61,6 @@ class Profile(nbo):
         obj.set_adress(dictionary["adress"])
         obj.set_semester(dictionary["semester"])
         obj.set_degree_course(dictionary["degree_course"])
-        obj.set_preferences(dictionary["preferences"])
         obj.set_person_id(dictionary["person_id"])
 
         return obj

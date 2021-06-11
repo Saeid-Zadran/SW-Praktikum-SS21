@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sw-project
 -- ------------------------------------------------------
--- Server version	8.0.22
+-- Server version	8.0.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `chat` (
   PRIMARY KEY (`id`),
   KEY `fk_chat_learngroup1_idx` (`learngroup_id`),
   CONSTRAINT `fk_chat_learngroup1` FOREIGN KEY (`learngroup_id`) REFERENCES `learngroup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +39,7 @@ CREATE TABLE `chat` (
 
 LOCK TABLES `chat` WRITE;
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
+INSERT INTO `chat` VALUES (1,'2021-06-03 15:00:12',1,1),(2,'2021-06-11 18:46:00',0,1);
 /*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +58,7 @@ CREATE TABLE `chat_request` (
   `source_id` int NOT NULL,
   `target_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +89,7 @@ CREATE TABLE `chatmessage` (
   KEY `fk_chatmessage_person1_idx` (`person_id`),
   CONSTRAINT `fk_chatmessage_chat` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
   CONSTRAINT `fk_chatmessage_person1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,6 +98,7 @@ CREATE TABLE `chatmessage` (
 
 LOCK TABLES `chatmessage` WRITE;
 /*!40000 ALTER TABLE `chatmessage` DISABLE KEYS */;
+INSERT INTO `chatmessage` VALUES (1,'2021-06-03 15:00:12','Was geht ab ',1,1,1),(2,'2021-06-11 18:51:07','string',1,2,2);
 /*!40000 ALTER TABLE `chatmessage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +116,7 @@ CREATE TABLE `grouprequest` (
   `learnprofile_id` int NOT NULL,
   PRIMARY KEY (`learnprofile_id`),
   CONSTRAINT `fk_grouprequest_learnprofile1` FOREIGN KEY (`learnprofile_id`) REFERENCES `learnprofile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,6 +125,7 @@ CREATE TABLE `grouprequest` (
 
 LOCK TABLES `grouprequest` WRITE;
 /*!40000 ALTER TABLE `grouprequest` DISABLE KEYS */;
+INSERT INTO `grouprequest` VALUES (1,'2021-06-03 15:00:12','1',1);
 /*!40000 ALTER TABLE `grouprequest` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +145,7 @@ CREATE TABLE `learngroup` (
   PRIMARY KEY (`id`),
   KEY `fk_learngroup_grouprequest1_idx` (`grouprequest_learnprofile_id`),
   CONSTRAINT `fk_learngroup_grouprequest1` FOREIGN KEY (`grouprequest_learnprofile_id`) REFERENCES `grouprequest` (`learnprofile_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,6 +154,7 @@ CREATE TABLE `learngroup` (
 
 LOCK TABLES `learngroup` WRITE;
 /*!40000 ALTER TABLE `learngroup` DISABLE KEYS */;
+INSERT INTO `learngroup` VALUES (1,'2021-06-03 15:00:12','HDM-Lerngruppe',2,1),(2,'2021-06-11 18:50:11','string',0,1);
 /*!40000 ALTER TABLE `learngroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +177,7 @@ CREATE TABLE `learnprofile` (
   PRIMARY KEY (`id`),
   KEY `fk_learnprofile_profile1_idx` (`profile_id`),
   CONSTRAINT `fk_learnprofile_profile1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,6 +186,7 @@ CREATE TABLE `learnprofile` (
 
 LOCK TABLES `learnprofile` WRITE;
 /*!40000 ALTER TABLE `learnprofile` DISABLE KEYS */;
+INSERT INTO `learnprofile` VALUES (1,'2021-06-03 15:00:12',1,2,'awaf',2,1,1),(2,'2021-06-11 18:49:32',0,0,'string',0,0,2);
 /*!40000 ALTER TABLE `learnprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +204,7 @@ CREATE TABLE `person` (
   `google_user_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '-',
   `google_mail` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '-',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,6 +213,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
+INSERT INTO `person` VALUES (1,'2021-06-03 15:00:12','Saeid','sss','123@'),(2,'2021-06-11 18:48:16','string','string','string');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +236,7 @@ CREATE TABLE `profile` (
   PRIMARY KEY (`id`),
   KEY `fk_profile_person1_idx` (`person_id`),
   CONSTRAINT `fk_profile_person1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,6 +245,7 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
+INSERT INTO `profile` VALUES (1,'2021-06-03 15:00:12','Saeid',25,'sadafw',2,'2',1),(2,'2021-06-11 18:48:37','string',0,'string',0,'string',2);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,7 +262,7 @@ CREATE TABLE `suggestion` (
   `person_id` int NOT NULL,
   `learn_group_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,4 +283,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-10 23:08:38
+-- Dump completed on 2021-06-11 18:51:47

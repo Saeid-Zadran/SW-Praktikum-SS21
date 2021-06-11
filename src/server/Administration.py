@@ -82,7 +82,7 @@ class Administration(object):
 
 
 
-    def create_profile(self, age, name, adress, semester,degree_course,preferences,person_id):
+    def create_profile(self, age, name, adress, semester,degree_course,person_id):
         """Ein Profil anlegen"""
         profile = Profile()
         profile.set_age(age)
@@ -90,7 +90,6 @@ class Administration(object):
         profile.set_adress(adress)
         profile.set_semester(semester)
         profile.set_degree_course(degree_course)
-        profile.set_preferences(preferences)
         profile.set_person_id(person_id)
         profile.set_id(1)
         #set ID fehlt?
