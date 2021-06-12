@@ -20,6 +20,7 @@ import ProfileList from "./components/lists/ProfileList";
 import LearnProfileList from "./components/lists/LearnProfileList";
 import LearnGroupList from "./components/lists/LearnGroupList";
 import SendMessage from "./components/chatFunction/SendMessage";
+import Header from "./components/pages/Header";
 
 
 
@@ -29,7 +30,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      person: null,
+      currentUser: null,
       appError: null,
       authError: null,
       authLoading: false,
@@ -41,19 +42,19 @@ class App extends React.Component {
     return { appError: error };
   }
 
-  handleAuthStateChange = (person) => {
-    if (person) {
+  handleAuthStateChange = (user) => {
+    if (user) {
       this.setState({
         authLoading: true,
       });
-      person
+      user
         .getIdToken()
         .then((token) => {
          
           document.cookie = `token=${token};path=/`;
 
           this.setState({
-            person: person,
+            currentUser: user,
             authError: null,
             authLoading: false,
           });
@@ -69,7 +70,7 @@ class App extends React.Component {
       document.cookie = "token=;path=/";
 
       this.setState({
-        person: null,
+        currentUser: null,
         authLoading: false,
       });
     }
@@ -95,18 +96,19 @@ class App extends React.Component {
 
   /** Renders the whole app */
   render() {
-    const { person, appError, authError, authLoading } = this.state;
+    const { currentUser, appError, authError, authLoading } = this.state;
 
     return (
       <ThemeProvider theme={Theme}>
         {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
         <Router basename={process.env.PUBLIC_URL}>
           <Container maxWidth="md">
+           <Header user={currentUser} />
             
 
             {
               // Is a user signed in?
-              person ? (
+              currentUser ? (
                 <>
                   <Redirect from="/" to="start" />
                   <Route exact path="/start">
