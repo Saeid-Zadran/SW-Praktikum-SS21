@@ -51,7 +51,8 @@ def secured(function):
                         Wohl aber können sich der zugehörige Klarname (name) und die
                         E-Mail-Adresse ändern. Daher werden diese beiden Daten sicherheitshalber
                         in unserem System geupdated."""
-                        person.set_google_mail(google_mail)
+                        person.set_google_mail(email)
+                        person.set_name(name)
                         adm.save_person(person)
                     else:
                         """Fall: Der Benutzer war bislang noch nicht eingelogged. 

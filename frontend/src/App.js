@@ -22,6 +22,7 @@ import LearnGroupList from "./components/lists/LearnGroupList";
 import SendMessage from "./components/chatFunction/SendMessage";
 
 
+
 class App extends React.Component {
  
   constructor(props) {
@@ -148,7 +149,7 @@ class App extends React.Component {
               ) : (
                 // else show the sign in page
                 <>
-                  <Redirect to="/SignIn" />
+                  <Redirect to="/index.html" />
                   <SignIn onSignIn={this.handleSignIn} />
                 </>
               )
