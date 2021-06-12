@@ -19,15 +19,14 @@ class ChatMessageMapper(Mapper):
         """
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, creation_time, text,received,chat_id, person_id  from chatmessage")
+        cursor.execute("SELECT id, creation_time, text,chat_id, person_id  from chatmessage")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, text,received,chat_id, person_id) in tuples:
+        for (id, creation_time, text,chat_id, person_id) in tuples:
             chatmessage = ChatMessage()
             chatmessage.set_id(id)
             chatmessage.set_creation_time(creation_time)
             chatmessage.set_text(text)
-            chatmessage.set_received(received)
             chatmessage.set_chat_id(chat_id)
             chatmessage.set_person_id(person_id)
             
@@ -55,12 +54,11 @@ class ChatMessageMapper(Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, text,received,chat_id, person_id) = tuples[0]
+            (id, creation_time, text,chat_id, person_id) = tuples[0]
             chatmessage = ChatMessage()
             chatmessage.set_id(id)
             chatmessage.set_creation_time(creation_time)
             chatmessage.set_text(text)
-            chatmessage.set_received(received)
             chatmessage.set_chat_id(chat_id)
             chatmessage.set_person_id(person_id)
            
@@ -95,8 +93,8 @@ class ChatMessageMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 chatmessage.set_id(1)
 
-        command = "INSERT INTO chatmessage (id, creation_time, text,received,chat_id, person_id ) VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (chatmessage.get_id(),chatmessage.get_creation_time(), chatmessage.get_text(), chatmessage.get_received(),chatmessage.get_chat_id(), chatmessage.get_person_id())
+        command = "INSERT INTO chatmessage (id, creation_time, text,chat_id, person_id ) VALUES (%s,%s,%s,%s,%s)"
+        data = (chatmessage.get_id(),chatmessage.get_creation_time(), chatmessage.get_text(), chatmessage.get_chat_id(), chatmessage.get_person_id())
                 
         cursor.execute(command, data)
 
@@ -112,8 +110,8 @@ class ChatMessageMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chatmessage " + " SET text=%s,received=%s,chat_id=%s WHERE id=%s"
-        data = (chatmessage.get_text(), chatmessage.get_received(),chatmessage.get_chat_id(),chatmessage.get_id())
+        command = "UPDATE chatmessage " + " SET text=%s,chat_id=%s WHERE id=%s"
+        data = (chatmessage.get_text(), chatmessage.get_chat_id(),chatmessage.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()

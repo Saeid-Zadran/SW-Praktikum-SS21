@@ -104,7 +104,6 @@ chat = api.inherit('Chat', bo, {
 
 chatmessage = api.inherit('_ChatMessage', bo, {
     'text': fields.String(attribute='_text', description= 'Inhalt der Nachricht'),
-    'received': fields.Boolean(attribute= '_received', description ='Datum der Ankunft einer Nachricht'),
     'chat_id': fields.Integer(attribute='_chat_id', description= 'Id eines Chats'),
     'person_id': fields.Integer(attribute='_person_id', description= 'Id einer Person')
     
@@ -648,7 +647,7 @@ class ChatMessageListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            cm = adm.create_chatmessage(proposal.get_text(), proposal.get_received(),proposal.get_chat_id(), proposal.get_person_id())
+            cm = adm.create_chatmessage(proposal.get_text(),proposal.get_chat_id(), proposal.get_person_id())
                                        
             return cm, 200
         else:

@@ -6,7 +6,6 @@ class ChatMessage(bo):
     def __init__(self):
         super().__init__()
         self._text = None
-        self._received = None
         self._chat_id = None
         self._person_id = None
        
@@ -28,12 +27,6 @@ class ChatMessage(bo):
 
     def get_chat_id(self):
         return self._chat_id
-    
-    def set_received(self, received):
-        self._received = received
-
-    def get_received(self):
-        return self._received
 
 
     @staticmethod
@@ -43,7 +36,6 @@ class ChatMessage(bo):
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !
         obj.set_text(dictionary["text"])
-        obj.set_received(dictionary["received"])
         obj.set_chat_id(dictionary["chat_id"])
         obj.set_person_id(dictionary["person_id"])
         return obj

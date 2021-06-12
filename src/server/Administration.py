@@ -216,10 +216,9 @@ class Administration(object):
         with ChatMessageMapper() as mapper:
             return mapper.find_all()
 
-    def create_chatmessage(self, text,received,chat_id, person_id):
+    def create_chatmessage(self, text,chat_id, person_id):
         chatmessage = ChatMessage()
         chatmessage.set_text(text)
-        chatmessage.set_received(received)
         chatmessage.set_chat_id(chat_id)
         chatmessage.set_person_id(person_id)
         
