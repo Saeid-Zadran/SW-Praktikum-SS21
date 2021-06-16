@@ -6,8 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
+import { Link as RouterLink } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
 import ProfileDropDown from '../dialogs/ProfileDropDown.js';
 
 
@@ -26,10 +26,8 @@ class Header extends React.Component {
         
           <Toolbar>
             
-            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-              {/* <Link to=''> */}
+            <IconButton component={RouterLink} to={`/start`} edge="start" className={classes.menuButton} aria-label="menu">
                 <HomeIcon fontSize="large" />
-              {/* </Link> */}
             </IconButton>
             
             <Typography variant="h5" className={classes.title}>

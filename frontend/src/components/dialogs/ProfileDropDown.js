@@ -97,7 +97,7 @@ class ProfileDropDown extends Component {
         >
           <ClickAwayListener onClickAway={this.handleClose}>
             <Paper className={classes.profileBox}>
-              <Typography align="center">Hello</Typography>
+              <Typography align="center">Hello {getCookie("name")}</Typography>
               <Divider className={classes.divider} />
               <Typography align="center" variant="body2">
                 {person.displayName}
@@ -122,6 +122,12 @@ class ProfileDropDown extends Component {
       </div>
     ) : null;
   }
+}
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 /** Component specific styles */
