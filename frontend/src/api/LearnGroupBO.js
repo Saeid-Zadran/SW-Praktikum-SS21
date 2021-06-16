@@ -4,12 +4,10 @@ import NamedBusinessObject from './NamedBusinessObject';
 export default class LearnGroupBO extends NamedBusinessObject {
 
 
-  constructor(aName,aParticipant, aProfileId, aGroupRequestLearnProfileId) {
+  constructor(aName, aPersonId) {
     super();
     this.name = aName;
-    this.participant = aParticipant;
-    this.profile_id = aProfileId;
-    this.grouprequest_learnprofile_id = aGroupRequestLearnProfileId;
+    this.person_id = aPersonId;
   }
 
   setName(aName) {
@@ -22,35 +20,14 @@ export default class LearnGroupBO extends NamedBusinessObject {
   }
 
   
-  setParticipant(aParticipant) {
-    this.participant = aParticipant;
+  setPersonId(aPersonId) {
+    this.profile_id = aPersonId;
   }
 
 
-  getParticipant() {
-    return this.participant;
+  getPersonId() {
+    return this.person_id;
   }
-
-
-  setProfileId(aProfileId) {
-    this.profile_id = aProfileId;
-  }
-
-
-  getProfileId() {
-    return this.profile_id;
-  }
-
-
-  setGroupRequestLearnProfileId(aGroupRequestLearnProfileId) {
-    this.grouprequest_learnprofile_id = aGroupRequestLearnProfileId;
-  }
-
-
-  getGroupRequestLearnProfileId() {
-    return this.grouprequest_learnprofile_id;
-  }
-
 
 
  static fromJSON(learnGroups) {
