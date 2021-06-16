@@ -63,6 +63,7 @@ class App extends React.Component {
           {
             try
             {
+              console.log("jimmy")
               let personObj = response[0]
               if(personObj.name)
               {
@@ -71,18 +72,28 @@ class App extends React.Component {
                   authError: null,
                   authLoading: false,
                   firstTime: false,
-
+                });
+              }
+              else{
+                app.createPerson(user.displayName, user.email, user.uid, token)
+                this.setState({
+                  currentUser: user,
+                  authError: null,
+                  authLoading: false,
+                  firstTime: true
                 });
               }
             }
             catch{
+              console.log(response)
+              console.log("jimmy trunk")
+
           app.createPerson(user.displayName, user.email, user.uid, token)
                 this.setState({
                   currentUser: user,
                   authError: null,
                   authLoading: false,
                   firstTime: true
-
                 });
             }
           }
@@ -113,12 +124,16 @@ class App extends React.Component {
     });
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider);
+    
   };
 
  
 
 
   componentDidMount() {
+    this.setState({
+      authLoading: true,
+    });
     firebase.initializeApp(firebaseConfig);
     firebase.auth().languageCode = "en";
     firebase.auth().onAuthStateChanged(  this.handleAuthStateChange);
@@ -139,7 +154,7 @@ class App extends React.Component {
 
             {
               // Is a user signed in?
-              currentUser ? (
+              currentUser && !authLoading ? (
                 <>
                   <Redirect from="/" to="start" />
                   <Route exact path="/start">
@@ -175,19 +190,18 @@ class App extends React.Component {
                     <SendMessage/>
                   </Route>
                  
-                 
-
-
                 </>
-              ) : (
+              ) :
+              !currentUser && !authLoading ?  (
                 // else show the sign in page
                 <>
                   <Redirect to="/index.html" />
                   <SignIn onSignIn={this.handleSignIn} />
                 </>
-              )
+              ):
+              (            <LoadingProgress show={true} />
+                )
             }
-            <LoadingProgress show={authLoading} />
             <ContextErrorMessage
               error={authError}
               contextErrorMsg={`Something went wrong during sighn in process.`}
