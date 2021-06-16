@@ -45,17 +45,30 @@ class SignIn extends Component {
           Melden Sie sich bitte an um "StudyMatch" mit all seinen Funktionen
           nutzen zu können.{" "}
         </Typography>
-        <Grid container justify="center">
-          <Grid item>
+
+        <div>
+          <center>
+            <br></br>
             <Button
               variant="contained"
-              color="primary"
+              color="white"
               onClick={this.handleSignInButtonClicked}
             >
               Login via Google
             </Button>
-          </Grid>
-        </Grid>
+            <br></br>
+            <br></br>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={this.handleSignInButtonClicked}
+            >
+              Register via Google
+            </Button>
+            <br></br>
+            <br></br>
+          </center>
+        </div>
       </div>
     );
   }

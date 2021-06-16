@@ -43,6 +43,7 @@ class App extends React.Component {
   }
 
   handleAuthStateChange = (user) => {
+    console.log(AppApi)
     if (user) {
       this.setState({
         authLoading: true,
@@ -50,9 +51,14 @@ class App extends React.Component {
       user
         .getIdToken()
         .then((token) => {
-         
+          console.log(token);
+          console.log(user.email);
+          console.log(AppApi)
           document.cookie = `token=${token};path=/`;
-
+          document.cookie = `email=${user.email};path=/`;
+          document.cookie = `name=${user.displayName};path=/`;
+          let app = new AppApi()
+          app.createPerson(user.email, user.displayName, token)
           this.setState({
             currentUser: user,
             authError: null,
@@ -91,7 +97,8 @@ class App extends React.Component {
   componentDidMount() {
     firebase.initializeApp(firebaseConfig);
     firebase.auth().languageCode = "en";
-    firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
+    firebase.auth().onAuthStateChanged(this.handleAuthStateChange, AppApi.createPerson);
+
   }
 
   /** Renders the whole app */
