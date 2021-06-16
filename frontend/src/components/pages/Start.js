@@ -25,7 +25,7 @@ class Start extends Component {
           <center>
             <Typography>Willkommen auf der Lern Matching </Typography>
             <br></br>
-            <Typography>Angemeldet ? Nein </Typography>
+            <Typography>Willkommen, {getCookie("name")}  </Typography>
             <Link to="/StartPage">
               <Button variant="contained" color="primary">
                 Create Profile
@@ -46,6 +46,13 @@ class Start extends Component {
       </CssBaseline>
     );
   }
+}
+
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 export default Start;

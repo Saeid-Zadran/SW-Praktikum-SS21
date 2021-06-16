@@ -34,6 +34,8 @@ class App extends React.Component {
       appError: null,
       authError: null,
       authLoading: false,
+      firstTime: false,
+      profileComplete: false,
     };
   }
 
@@ -42,8 +44,7 @@ class App extends React.Component {
     return { appError: error };
   }
 
-  handleAuthStateChange = (user) => {
-    console.log(AppApi)
+  handleAuthStateChange =  async (user) => {
     if (user) {
       this.setState({
         authLoading: true,
@@ -51,19 +52,42 @@ class App extends React.Component {
       user
         .getIdToken()
         .then((token) => {
-          console.log(token);
-          console.log(user.email);
-          console.log(AppApi)
+          console.log(user)
           document.cookie = `token=${token};path=/`;
           document.cookie = `email=${user.email};path=/`;
           document.cookie = `name=${user.displayName};path=/`;
+          document.cookie = `uid=${user.uid};path=/`;
           let app = new AppApi()
-          app.createPerson(user.email, user.displayName, token)
-          this.setState({
-            currentUser: user,
-            authError: null,
-            authLoading: false,
-          });
+          /* check if user already exists if not create */ 
+          app.getPersonByGoogleId(user.uid).then((response) =>
+          {
+            try
+            {
+              let personObj = response[0]
+              if(personObj.name)
+              {
+                this.setState({
+                  currentUser: user,
+                  authError: null,
+                  authLoading: false,
+                  firstTime: false,
+
+                });
+              }
+            }
+            catch{
+          app.createPerson(user.displayName, user.email, user.uid, token)
+                this.setState({
+                  currentUser: user,
+                  authError: null,
+                  authLoading: false,
+                  firstTime: true
+
+                });
+            }
+          }
+          )
+
         
         })
         .catch((e) => {
@@ -97,7 +121,7 @@ class App extends React.Component {
   componentDidMount() {
     firebase.initializeApp(firebaseConfig);
     firebase.auth().languageCode = "en";
-    firebase.auth().onAuthStateChanged(this.handleAuthStateChange, AppApi.createPerson);
+    firebase.auth().onAuthStateChanged(  this.handleAuthStateChange);
 
   }
 

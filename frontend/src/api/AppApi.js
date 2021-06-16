@@ -84,7 +84,7 @@ export default class AppApi {
     fetch(url, init).then((res) => {
       // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
       if (!res.ok) {
-        throw Error(`${res.status} ${res.statusText} ${res}`);
+        console.log(`${res.status} ${res.statusText} ${res}`);
       }
       return res.json();
     });
@@ -121,17 +121,18 @@ export default class AppApi {
     })
   }
 
-  createPerson(googleMail, googleUserId, token) {
+  createPerson(plainName, googleMail, googleUserId, token) {
     let p = new PersonBO();
     p.setGoogleMail(googleMail);
     p.setGoogleUserId(googleUserId);
+    p.setName(plainName)
     console.log("Jimmy")
     return this.#fetchAdvanced(this.#addPersonURL(), {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain",
         "Content-type": "application/json",
-        "Set-Cookie" : {"token": token}
+        "Token" : token 
       },
       body: JSON.stringify(p),
     }).then((responseJSON) => {
