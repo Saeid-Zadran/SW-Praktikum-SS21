@@ -49,6 +49,14 @@ class Administration(object):
             return mapper.find_by_key(id)
 
 
+    def check_if_person_exists(self, uid):
+        """Überprüfe erst ob dieser Account schon angelegt ist """
+        check = self.get_person_by_id(uid)
+        if check != True:
+            """Schreibe den neuen User in die Datenbank"""
+        return check 
+        
+
     def get_person_by_google_user_id(self,google_user_id):
         """Die Person mit der gegebenen Google ID auslesen."""
         with PersonMapper() as mapper:
