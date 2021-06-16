@@ -12,9 +12,7 @@ class CreateLearnGroup extends Component {
 
     this.state = {
       name: "",
-      participant: "",
-      profile_id: "",
-      group_request_learn_profile_id: "",
+      person_id: "",
       learnGroup: null, //für addLearnGroup
       loadingInProgress: false,
     };
@@ -22,13 +20,11 @@ class CreateLearnGroup extends Component {
   }
 
   /** Create LearnGroupProfile*/
-  addLearnGroup(name, participant, profile_id, grouprequest_learnprofile_id) {
+  addLearnGroup(name, person_id) {
 
     var learnGroup = new LearnGroupBO
     learnGroup.setName(name)
-    learnGroup.setParticipant(participant)
-    learnGroup.setProfileId(profile_id)
-    learnGroup.setGroupRequestLearnProfileId(grouprequest_learnprofile_id)
+    learnGroup.setPersonId(person_id)
 
 
 
@@ -54,9 +50,7 @@ class CreateLearnGroup extends Component {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
     this.addLearnGroup(
       this.state.name,
-      this.state.participant,
-      this.state.profile_id,
-      this.state.grouprequest_learnprofile_id
+      this.state.person_id,
     );
   };
 
@@ -87,32 +81,10 @@ class CreateLearnGroup extends Component {
                   <div>
                     <TextField
                       id="outlined-basic"
-                      label="Wie viele Teilnehmer hat die Gruppe?"
-                      variant="outlined"
-                      name="participant"
-                      type="number"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Profile ID"
+                      label="Person ID"
                       variant="outlined"
                       type="number"
-                      name="profile_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Group Request Lernprofile ID"
-                      variant="outlined"
-                      type="number"
-                      name="grouprequest_learnprofile_id"
+                      name="person_id"
                       //required
                       onChange={this.handleChange}
                     />

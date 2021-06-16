@@ -7,7 +7,6 @@ export default class ChatBO extends BusinessObject {
   constructor(aLearnGroupId,aIsAccepted) {
     super();
     this.learngroup_id = aLearnGroupId;
-    
     this.is_accepted = aIsAccepted;
   }
 
