@@ -34,6 +34,8 @@ class App extends React.Component {
       appError: null,
       authError: null,
       authLoading: false,
+      firstTime: false,
+      profileComplete: false,
     };
   }
 
@@ -42,8 +44,7 @@ class App extends React.Component {
     return { appError: error };
   }
 
-  handleAuthStateChange = (user) => {
-    console.log(AppApi)
+  handleAuthStateChange =  async (user) => {
     if (user) {
       this.setState({
         authLoading: true,
@@ -51,19 +52,53 @@ class App extends React.Component {
       user
         .getIdToken()
         .then((token) => {
-          console.log(token);
-          console.log(user.email);
-          console.log(AppApi)
+          console.log(user)
           document.cookie = `token=${token};path=/`;
           document.cookie = `email=${user.email};path=/`;
           document.cookie = `name=${user.displayName};path=/`;
+          document.cookie = `uid=${user.uid};path=/`;
           let app = new AppApi()
-          app.createPerson(user.email, user.displayName, token)
-          this.setState({
-            currentUser: user,
-            authError: null,
-            authLoading: false,
-          });
+          /* check if user already exists if not create */ 
+          app.getPersonByGoogleId(user.uid).then((response) =>
+          {
+            try
+            {
+              console.log("jimmy")
+              let personObj = response[0]
+              if(personObj.name)
+              {
+                this.setState({
+                  currentUser: user,
+                  authError: null,
+                  authLoading: false,
+                  firstTime: false,
+                });
+              }
+              else{
+                app.createPerson(user.displayName, user.email, user.uid, token)
+                this.setState({
+                  currentUser: user,
+                  authError: null,
+                  authLoading: false,
+                  firstTime: true
+                });
+              }
+            }
+            catch{
+              console.log(response)
+              console.log("jimmy trunk")
+
+          app.createPerson(user.displayName, user.email, user.uid, token)
+                this.setState({
+                  currentUser: user,
+                  authError: null,
+                  authLoading: false,
+                  firstTime: true
+                });
+            }
+          }
+          )
+
         
         })
         .catch((e) => {
@@ -89,15 +124,19 @@ class App extends React.Component {
     });
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider);
+    
   };
 
  
 
 
   componentDidMount() {
+    this.setState({
+      authLoading: true,
+    });
     firebase.initializeApp(firebaseConfig);
     firebase.auth().languageCode = "en";
-    firebase.auth().onAuthStateChanged(this.handleAuthStateChange, AppApi.createPerson);
+    firebase.auth().onAuthStateChanged(  this.handleAuthStateChange);
 
   }
 
@@ -115,7 +154,7 @@ class App extends React.Component {
 
             {
               // Is a user signed in?
-              currentUser ? (
+              currentUser && !authLoading ? (
                 <>
                   <Redirect from="/" to="start" />
                   <Route exact path="/start">
@@ -151,19 +190,18 @@ class App extends React.Component {
                     <SendMessage/>
                   </Route>
                  
-                 
-
-
                 </>
-              ) : (
+              ) :
+              !currentUser && !authLoading ?  (
                 // else show the sign in page
                 <>
                   <Redirect to="/index.html" />
                   <SignIn onSignIn={this.handleSignIn} />
                 </>
-              )
+              ):
+              (            <LoadingProgress show={true} />
+                )
             }
-            <LoadingProgress show={authLoading} />
             <ContextErrorMessage
               error={authError}
               contextErrorMsg={`Something went wrong during sighn in process.`}

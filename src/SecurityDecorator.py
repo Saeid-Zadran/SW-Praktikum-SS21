@@ -22,7 +22,9 @@ def secured(function):
 
     def wrapper(*args, **kwargs):
         # Verify Firebase auth.
-        id_token = "eyJhbGciOiJSUzI1NiIsImtpZCI6ImRjNGQwMGJjM2NiZWE4YjU0NTMzMWQxZjFjOTZmZDRlNjdjNTFlODkiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQmF5Ym9yYSBHw7xsZWMiLCJwaWN0dXJlIjoiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUFUWEFKd2psSFRoRlBaQTZWTkppMFlqSkFoNG5qZWNnSlphcXA1cmZaSF89czk2LWMiLCJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vc3ctcHJha3Rpa3VtLXN0dWR5bWF0Y2giLCJhdWQiOiJzdy1wcmFrdGlrdW0tc3R1ZHltYXRjaCIsImF1dGhfdGltZSI6MTYyMzc5Mzg4NSwidXNlcl9pZCI6IkkzOVllVGFHYkVoM2ZDZU1GaWhMeDdtNDViWTIiLCJzdWIiOiJJMzlZZVRhR2JFaDNmQ2VNRmloTHg3bTQ1YlkyIiwiaWF0IjoxNjIzNzkzODg1LCJleHAiOjE2MjM3OTc0ODUsImVtYWlsIjoiYmF5Ym9yYWd1bGVjQGdvb2dsZW1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZ29vZ2xlLmNvbSI6WyIxMDM2NDg2NjMxOTgyMDgyMDExNjkiXSwiZW1haWwiOlsiYmF5Ym9yYWd1bGVjQGdvb2dsZW1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.CaDiLogtXyJm9d9gZ81wRb_E4KFc2qNklTI3Hq9L3I8BmiojLfhwJSnU4myxqa3pjDindQRfEjGtUpJhVzJ-3s4JaQIPgllmeu9xsb-6xRyLhONIEPmlzcAk8rSDQ7h8l41WP-FBXi-LN9X4xnET4B8HPtKZaa_5xmLvgRhIvCVmYwVz7wI2yasqEIf1fQxole2VkrL3M4OVaquyo1NIblElrdVqflSR9FCNqJM6S9u5mRmtF0vTrSYqVesRA-AmhZyDvwnJpLxNn7HlcH_VNKglWPVtRB4DXGXQ_qu9GLZPmjEhp1S7J3jSmOPFGwWxbA_UfstNJxS-76tWInkuAQ" #"request.cookies.get("token")"
+        print(request.headers)
+        id_token = request.headers.get("token")
+        print(id_token)
         error_message = None
         claims = None
         objects = None

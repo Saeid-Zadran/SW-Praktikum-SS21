@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, LinearProgress } from '@material-ui/core';
-
+import Typography from '@material-ui/core/Typography';
 /**
  * Shows a loading progress, if the show prop is true.
  * 
@@ -19,7 +19,11 @@ class LoadingProgress extends Component {
     return (
       show ?
         <div className={classes.root}>
-          <LinearProgress color='secondary' />
+          <Typography variant="h5" className={classes.title}>
+              <div >Du wirst mit Google eingeloggt...</div>
+                       
+            </Typography>
+                      <LinearProgress color='secondary' />
         </div>
         : null
     );

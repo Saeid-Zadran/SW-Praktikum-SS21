@@ -15,8 +15,6 @@ class Person(nbo):
     def get_name(self):
         return self._name
 
-
-
     def set_google_mail(self, google_mail):
         self._google_mail = google_mail
 
