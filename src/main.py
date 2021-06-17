@@ -84,8 +84,8 @@ learnprofile = api.inherit('LearnProfile', bo, {
 
 learngroup = api.inherit('LearnGroup', bo, {
     'name': fields.String(attribute='_name', description='ID eines Lernprofils'),
-    'participant': fields.Integer(attribute='_participant', description='Teilnehmeranzahl einer Gruppe'),
-    'grouprequest_learnprofile_id': fields.Integer(attribute='_grouprequest_learnprofile_id', description='ID eines Lernprofils'),
+    'person_id': fields.Integer(attribute='_person_id', description='Person_id einer Gruppe'),
+  
     
 })
 grouprequest = api.inherit('GroupRequest', bo, {
@@ -745,8 +745,7 @@ class LearnGroupListOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            lg = adm.create_learngroup(proposal.get_creation_time(),proposal.get_name(), proposal.get_participant(), 
-                                        proposal.get_grouprequest_learnprofile_id())
+            lg = adm.create_learngroup(proposal.get_creation_time(),proposal.get_name(), proposal.get_person_id())
             return lg, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''

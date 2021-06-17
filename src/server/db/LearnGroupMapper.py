@@ -21,13 +21,13 @@ class LearnGroupMapper (Mapper):
         cursor.execute("SELECT * from learngroup")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, name, participant,grouprequest_learnprofile_id) in tuples:
+        for (id, creation_time, name, person_id) in tuples:
             learngroup = LearnGroup()
             learngroup.set_id(id)
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
-            learngroup.set_participant(participant)
-            learngroup.set_grouprequest_learnprofile_id(grouprequest_learnprofile_id)
+            learngroup.set_person_id(person_id)
+         
             result.append(learngroup)
 
         self._cnx.commit()
@@ -50,14 +50,12 @@ class LearnGroupMapper (Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, name, participant,grouprequest_learnprofile_id) = tuples[0]
+            (id, creation_time, name, person_id) = tuples[0]
             learngroup = LearnGroup()
             learngroup.set_id(id)
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
-            learngroup.set_participant(participant)
-            learngroup.set_profile_id(profile_id)
-            learngroup.set_grouprequest_learnprofile_id(grouprequest_learnprofile_id)
+            learngroup.set_person_id(person_id)
 
         result = learngroup
 
@@ -82,13 +80,13 @@ class LearnGroupMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, creation_time, name,participant,grouprequest_learnprofile_id) in tuples:
+        for (id, creation_time, name,person_id) in tuples:
             learngroup = LearnGroup()
             learngroup.set_id(id)
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
-            learngroup.set_participant(participant)
-            learngroup.set_grouprequest_learnprofile_id(grouprequest_learnprofile_id)
+            learngroup.set_person_id(person_id)
+          
 
         result = learngroup
 
@@ -119,10 +117,10 @@ class LearnGroupMapper (Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 learngroup.set_id(1)
 
-        command = "INSERT INTO learngroup (id, creation_time,name,participant,grouprequest_learnprofile_id) VALUES " \
-                  "(%s,%s,%s,%s,%s)"
-        data = (learngroup.get_id(),learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_participant(),
-                 learngroup.get_grouprequest_learnprofile_id())
+        command = "INSERT INTO learngroup (id, creation_time,name,person_id) VALUES " \
+                  "(%s,%s,%s,%s)"
+        data = (learngroup.get_id(),learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_person_id())
+            
 
         cursor.execute(command, data)
 
@@ -137,9 +135,9 @@ class LearnGroupMapper (Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = ("UPDATE learngroup SET creation_time=%s,name=%s, participant=%s, grouprequest_learnprofile_id=%s WHERE id=%s")
-        data = (learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_participant(),
-                 learngroup.get_grouprequest_learnprofile_id(),learngroup.get_id())
+        command = ("UPDATE learngroup SET creation_time=%s,name=%s, person_id=%s WHERE id=%s")
+        data = (learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_person_id())
+             
 
         cursor.execute(command, data)
         cursor.close()
@@ -163,9 +161,7 @@ if (__name__ == "__main__"):
     with LearnGroupMapper() as mapper:
         learngroup  = LearnGroup()
         learngroup.set_name("Studymatch")
-        learngroup.set_participant(1)
-        learngroup.set_profile_id(2)
-        learngroup.set_learn_profile_id(1)
+        learngroup.set_person_id(1)
         mapper.insert(learngroup )
 
 

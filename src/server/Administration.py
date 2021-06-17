@@ -242,13 +242,12 @@ class Administration(object):
             mapper.delete(chatmessage)
 
 
-    def create_learngroup(self,creation_time,name, participant,grouprequest_learnprofile_id):
+    def create_learngroup(self,creation_time,name,person_id):
         """Eine Lerngruppe anlegen"""
         learngroup = LearnGroup()
         learngroup.set_creation_time(creation_time)
         learngroup.set_name(name)
-        learngroup.set_participant(participant)
-        learngroup.set_grouprequest_learnprofile_id(grouprequest_learnprofile_id)
+        learngroup.set_person_id(person_id)
         learngroup.set_id(1)
 
         with LearnGroupMapper() as mapper:
