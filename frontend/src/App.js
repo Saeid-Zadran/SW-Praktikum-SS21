@@ -21,6 +21,7 @@ import LearnProfileList from "./components/lists/LearnProfileList";
 import LearnGroupList from "./components/lists/LearnGroupList";
 import SendMessage from "./components/chatFunction/SendMessage";
 import Header from "./components/pages/Header";
+import MessageList from "./components/chatFunction/MessageList";
 
 
 
@@ -189,7 +190,9 @@ class App extends React.Component {
                   <Route path='/SecondPage/SendMessage'>
                     <SendMessage/>
                   </Route>
-                 
+                  <Route path='/SecondPage/MessageList'>
+                    <MessageList/>
+                  </Route>
                 </>
               ) :
               !currentUser && !authLoading ?  (

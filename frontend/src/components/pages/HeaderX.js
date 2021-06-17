@@ -47,6 +47,7 @@ class HeaderX extends Component {
               <Tab label='Lerngruppen' component={RouterLink} to={`/SecondPage/LearnGroupList`} />
               <Tab label='Alle Profile' component={RouterLink} to={`/SecondPage/ProfileList`} />
               <Tab label='Chat' component={RouterLink} to={`/SecondPage/SendMessage`} />
+              <Tab label='Nachricht' component={RouterLink} to={`/SecondPage/MessageList`} />
 
               
             </Tabs>
