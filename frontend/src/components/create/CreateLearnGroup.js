@@ -33,7 +33,6 @@ class CreateLearnGroup extends Component {
     api
       .addLearnGroup(learnGroup)
       .then((learnGroup) => {
-        // console.log(person)
         this.setState({
           learnGroup: learnGroup,
         });

@@ -14,14 +14,14 @@ class LearnGroup(bo):
     def get_name(self):
         return self._name
 
-    def set_name(self, _name):
-        self._name = _name
+    def set_name(self, name):
+        self._name = name
     
     def get_person_id(self):
         return self._person_id
 
-    def set_person_id(self, _person_id):
-        self._person_id = _person_id
+    def set_person_id(self, person_id):
+        self._person_id = person_id
 
     
 

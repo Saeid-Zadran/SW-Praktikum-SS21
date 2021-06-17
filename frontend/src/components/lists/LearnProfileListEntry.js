@@ -40,7 +40,6 @@ class LearnProfileListEntry extends Component {
                   Gruppengröße:         {learnProfile.getGroupSize()}<br></br>
                   Extrovertiert:        {learnProfile.getExtroversion()}<br></br>
                   ProfileId:            {learnProfile.getProfileId()}<br></br>
-                  {/* PersonId:       {profile.getPersonId()}<br></br> */}
 
 
 
