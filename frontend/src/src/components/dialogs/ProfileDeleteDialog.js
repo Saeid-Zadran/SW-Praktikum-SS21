@@ -30,7 +30,7 @@ class ProfileDeleteDialog extends Component {
         deletingInProgress: false,              // disable loading indicator
         deletingError: null                     // no error message
       });
-      this.props.onClose(this.props.rating);  // call the parent with the deleted customer
+      this.props.onClose(this.props.profile);  // call the parent with the deleted customer
     }).catch(e =>
       this.setState({
         deletingInProgress: false,              // disable loading indicator
@@ -66,10 +66,10 @@ class ProfileDeleteDialog extends Component {
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Really delete profile {profile.getProject()} {profile.getAge()} {profile.getAdress()} {profile.getSemester()} {profile.getPreferences()} {profile.getPersonId()} (ID: {profile.getID()})?
+              Do you Really want to delete  {profile.getName()} <br></br> ID: {profile.getPersonId()} ?
             </DialogContentText>
             <LoadingProgress show={deletingInProgress} />
-            <ContextErrorMessage error={deletingError} contextErrorMsg={`The rating '${profile.getAdress()} ${profile.getSemester() }${profile.getPreferences() }${profile.getPersonId()  }' (ID: ${profile.getID()}) could not be deleted.`}
+            <ContextErrorMessage error={deletingError} contextErrorMsg={`The profile '${profile.getName()} ID:${profile.getPersonId()} '  could not be deleted.`}
               onReload={this.deleteProfile} />
           </DialogContent>
           <DialogActions>
@@ -101,7 +101,7 @@ ProfileDeleteDialog.propTypes = {
   /** @ignore */
   classes: PropTypes.object.isRequired,
   /** The CustomerBO to be deleted */
-  rating: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   /** If true, the dialog is rendered */
   show: PropTypes.bool.isRequired,
   /**

@@ -1,46 +1,33 @@
-import NamedBusinessObject from './NamedBusinessObject';
+import BusinessObject from './BusinessObject';
 
 
-export default class LearnGroupBO extends NamedBusinessObject {
+export default class LearnGroupBO extends BusinessObject {
 
 
-  constructor(aParticipant, aProfileId, aLearnProfileId) {
+  constructor(aName, aPersonId) {
     super();
-    this.participant = aParticipant;
-    this.profile_id = aProfileId;
-    this.learn_profile_id = aLearnProfileId;
+    this.name = aName;
+    this.person_id = aPersonId;
+  }
+
+  setName(aName) {
+    this.name = aName;
   }
 
 
-  setParticipant(aParticipant) {
-    this.participant = aParticipant;
+  getName() {
+    return this.name;
+  }
+
+  
+  setPersonId(aPersonId) {
+    this.person_id = aPersonId;
   }
 
 
-  getParticipant() {
-    return this.participant;
+  getPersonId() {
+    return this.person_id;
   }
-
-
-  setProfileId(aProfileId) {
-    this.profile_id = aProfileId;
-  }
-
-
-  getProfileId() {
-    return this.profile_id;
-  }
-
-
-  LearnProfileId(aLearnProfileId) {
-    this.learn_profile_id = aLearnProfileId;
-  }
-
-
-  getLearnProfileId() {
-    return this.learn_profile_id;
-  }
-
 
 
  static fromJSON(learnGroups) {

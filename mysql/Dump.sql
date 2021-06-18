@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sw-project
 -- ------------------------------------------------------
--- Server version	8.0.24
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,11 +25,12 @@ DROP TABLE IF EXISTS `chat`;
 CREATE TABLE `chat` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
-  `source_id` int NOT NULL,
-  `target_id` int NOT NULL,
   `is_accepted` tinyint NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  `learngroup_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_chat_learngroup1_idx` (`learngroup_id`),
+  CONSTRAINT `fk_chat_learngroup1` FOREIGN KEY (`learngroup_id`) REFERENCES `learngroup` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,33 +40,6 @@ CREATE TABLE `chat` (
 LOCK TABLES `chat` WRITE;
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chat` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `chat_request`
---
-
-DROP TABLE IF EXISTS `chat_request`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `chat_request` (
-  `id` int NOT NULL,
-  `creation_time` datetime NOT NULL,
-  `chat_id` int NOT NULL,
-  `accepted` tinyint NOT NULL DEFAULT '0',
-  `source_id` int NOT NULL,
-  `target_id` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `chat_request`
---
-
-LOCK TABLES `chat_request` WRITE;
-/*!40000 ALTER TABLE `chat_request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `chat_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -79,11 +53,14 @@ CREATE TABLE `chatmessage` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
   `text` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
-  `person_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `received` tinyint NOT NULL,
-  `read` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  `chat_id` int NOT NULL,
+  `person_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_chatmessage_chat1_idx` (`chat_id`),
+  KEY `fk_chatmessage_person1_idx` (`person_id`),
+  CONSTRAINT `fk_chatmessage_chat1` FOREIGN KEY (`chat_id`) REFERENCES `chat` (`id`),
+  CONSTRAINT `fk_chatmessage_person1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,28 +73,32 @@ LOCK TABLES `chatmessage` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `group_request`
+-- Table structure for table `grouprequest`
 --
 
-DROP TABLE IF EXISTS `group_request`;
+DROP TABLE IF EXISTS `grouprequest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group_request` (
+CREATE TABLE `grouprequest` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
+  `is_accepted` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `learngroup_id` int NOT NULL,
-  `source_id` int NOT NULL,
-  `target_id` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  `learnprofile_id` int NOT NULL,
+  KEY `fk_grouprequest_learngroup1_idx` (`learngroup_id`),
+  KEY `fk_grouprequest_learnprofile1_idx` (`learnprofile_id`),
+  CONSTRAINT `fk_grouprequest_learngroup1` FOREIGN KEY (`learngroup_id`) REFERENCES `learngroup` (`id`),
+  CONSTRAINT `fk_grouprequest_learnprofile1` FOREIGN KEY (`learnprofile_id`) REFERENCES `learnprofile` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `group_request`
+-- Dumping data for table `grouprequest`
 --
 
-LOCK TABLES `group_request` WRITE;
-/*!40000 ALTER TABLE `group_request` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_request` ENABLE KEYS */;
+LOCK TABLES `grouprequest` WRITE;
+/*!40000 ALTER TABLE `grouprequest` DISABLE KEYS */;
+/*!40000 ALTER TABLE `grouprequest` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -130,12 +111,12 @@ DROP TABLE IF EXISTS `learngroup`;
 CREATE TABLE `learngroup` (
   `id` int NOT NULL,
   `creation_time` datetime DEFAULT NULL,
-  `name` varchar(45) COLLATE utf8_bin NOT NULL,
-  `participant` int NOT NULL,
-  `profile_id` int NOT NULL,
-  `learn_profile_id` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `person_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_learngroup_person1_idx` (`person_id`),
+  CONSTRAINT `fk_learngroup_person1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,10 +141,13 @@ CREATE TABLE `learnprofile` (
   `study_status` tinyint NOT NULL DEFAULT '0',
   `frequency` int NOT NULL,
   `prev_knowledge` varchar(10000) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `group_size` int NOT NULL DEFAULT '0',
   `extroversion` tinyint NOT NULL DEFAULT '0',
-  `profile_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  `profile_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_learnprofile_profile1_idx` (`profile_id`),
+  CONSTRAINT `fk_learnprofile_profile1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +156,7 @@ CREATE TABLE `learnprofile` (
 
 LOCK TABLES `learnprofile` WRITE;
 /*!40000 ALTER TABLE `learnprofile` DISABLE KEYS */;
-INSERT INTO `learnprofile` VALUES (1,'2021-01-17 00:00:00',1,3,'mathe',0,6),(2,'2021-05-06 00:00:00',1,0,'string',1,0),(3,'2021-05-06 00:00:00',1,0,'string',1,0),(4,'2021-05-06 00:00:00',1,0,'string',1,0),(5,'2021-05-12 00:00:00',1,0,'string',1,0),(6,'2021-05-26 15:53:13',1,0,'string',1,0),(7,'2021-05-30 20:04:33',1,0,'string',1,0),(8,'2021-05-30 21:48:30',1,0,'string',1,0),(9,'2021-05-31 01:16:19',1,0,'string',1,0);
+INSERT INTO `learnprofile` VALUES (1,'2021-06-16 14:30:25',1,1,'1',1,1,1);
 /*!40000 ALTER TABLE `learnprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -186,11 +170,11 @@ DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
   `id` int NOT NULL,
   `creation_time` datetime DEFAULT NULL COMMENT 'neu',
-  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `google_user_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `google_mail` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '-',
+  `google_user_id` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '-',
+  `google_mail` varchar(45) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '-',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +183,7 @@ CREATE TABLE `person` (
 
 LOCK TABLES `person` WRITE;
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'2021-01-17 15:29:36','','3','123@gmail.com'),(2,'2021-05-08 16:41:28','','psf21','krank@123.de');
+INSERT INTO `person` VALUES (1,'2021-06-16 14:27:02','','Talion 23','soccer97-10@live.de'),(2,'2021-06-16 14:27:57','','Talion 23','soccer97-10@live.de'),(3,'2021-06-16 14:28:45','','Talion 23','soccer97-10@live.de');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,10 +202,11 @@ CREATE TABLE `profile` (
   `adress` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
   `semester` int NOT NULL,
   `degree_course` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `preferences` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '-',
   `person_id` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  PRIMARY KEY (`id`),
+  KEY `fk_profile_person1_idx` (`person_id`),
+  CONSTRAINT `fk_profile_person1` FOREIGN KEY (`person_id`) REFERENCES `person` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,33 +215,8 @@ CREATE TABLE `profile` (
 
 LOCK TABLES `profile` WRITE;
 /*!40000 ALTER TABLE `profile` DISABLE KEYS */;
-INSERT INTO `profile` VALUES (1,'2021-01-17 15:29:36','',2,'awgwag',2,'1','afffaw',2),(3,'2021-05-18 23:12:37','',8,'string',0,'string','string',0),(4,'2021-05-30 19:47:33','',2,'string',0,'string','string',6),(5,'2021-05-25 21:31:50','',15,'string',0,'string','swhsler',0),(6,'2021-05-26 00:30:37','',0,'string',0,'string','string',0),(7,'2021-05-30 16:07:32','string',0,'string',0,'string','string',0),(8,'2021-05-30 19:47:18','string',0,'string',0,'string','string',0);
+INSERT INTO `profile` VALUES (1,'2021-06-16 14:29:09','Mertcan',22,'Allmandring 1',4,'Wirtschaftsinformatik',1);
 /*!40000 ALTER TABLE `profile` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `suggestion`
---
-
-DROP TABLE IF EXISTS `suggestion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `suggestion` (
-  `id` int NOT NULL,
-  `creation_time` datetime NOT NULL,
-  `person_id` int NOT NULL,
-  `learn_group_id` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `suggestion`
---
-
-LOCK TABLES `suggestion` WRITE;
-/*!40000 ALTER TABLE `suggestion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `suggestion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -268,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-05-31  1:50:44
+-- Dump completed on 2021-06-16 15:04:16

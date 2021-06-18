@@ -20,22 +20,39 @@ import {
 class Start extends Component {
   render() {
     return (
-      <div>
-        <center>
-          <Typography>Erstellen Sie ein neues Profil: </Typography>
-          <Link
-            to={{
-              pathname: "/ProfileList",
-            }}
-          >
-            <Button variant="contained" color="primary">
-              Profil erstellen
-            </Button>
-          </Link>
-        </center>
-      </div>
+      <CssBaseline>
+        <div>
+          <center>
+            <Typography>Willkommen auf der Lern Matching </Typography>
+            <br></br>
+            <Typography>Willkommen, {getCookie("name")}  </Typography>
+            <Link to="/StartPage">
+              <Button variant="contained" color="primary">
+                Create Profile
+              </Button>
+            </Link>
+            <br></br>
+            <br></br>
+            <Typography>Angemeldet ? Ja </Typography>
+            <Link to="/SecondPage">
+              <Button variant="contained" color="primary">
+                Further Use
+              </Button>
+            </Link>
+            <br></br>
+            <br></br>
+          </center>
+        </div>
+      </CssBaseline>
     );
   }
+}
+
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 export default Start;

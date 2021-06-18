@@ -1,7 +1,8 @@
 from server.bo.LearnProfile import LearnProfile
 from server.db.DBMapper import Mapper
 
-class LearnProfileMapper (Mapper):
+
+class LearnProfileMapper(Mapper):
     """Mapper-Klasse, die Student-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
     gestellt, mit deren Hilfe z.B. Objekte gesucht, erzeugt, modifiziert und
@@ -18,16 +19,17 @@ class LearnProfileMapper (Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, creation_time, study_status,frequency, prev_knowledge, extroversion, profile_id FROM learnprofile")
+        cursor.execute("SELECT id, creation_time, study_status,frequency, prev_knowledge, group_size, extroversion, profile_id FROM learnprofile")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, study_status, frequency, prev_knowledge, extroversion, profile_id) in tuples:
+        for (id, creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
             learnprofile.set_study_status(study_status)
             learnprofile.set_frequency(frequency)
             learnprofile.set_prev_knowledge(prev_knowledge)
+            learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
             learnprofile.set_profile_id(profile_id)
 
@@ -54,18 +56,16 @@ class LearnProfileMapper (Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id,creation_time, study_status, frequency, prev_knowledge, extroversion, profile_id) = tuples[0]
+            (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) = tuples[0]
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
             learnprofile.set_study_status(study_status)
             learnprofile.set_frequency(frequency)
             learnprofile.set_prev_knowledge(prev_knowledge)
+            learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
             learnprofile.set_profile_id(profile_id)
-
-
-
 
         result = learnprofile
 
@@ -73,7 +73,6 @@ class LearnProfileMapper (Mapper):
         cursor.close()
 
         return result
-
 
     def find_by_person_id(self, person_id):
         """Auslesen aller Projekte anhand der Person_ID.
@@ -88,25 +87,23 @@ class LearnProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for(id,creation_time, study_status, frequency,prev_knowledge, extroversion,profile_id) in tuples:
+        for(id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
             learnprofile.set_study_status(study_status)
             learnprofile.set_frequency(frequency)
             learnprofile.set_prev_knowledge(prev_knowledge)
+            learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
             learnprofile.set_profile_id(profile_id)
 
             result.append(learnprofile)
 
-
-
         self._cnx.commit()
         cursor.close()
 
         return result
-
 
     def insert(self, learnprofile):
         """Einfügen eines Projekt-Objekts in die Datenbank.
@@ -129,16 +126,15 @@ class LearnProfileMapper (Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 learnprofile.set_id(1)
 
-        command = "INSERT INTO learnprofile (id,creation_time, study_status, frequency, prev_knowledge,extroversion,profile_id) " \
-                  "VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        command = "INSERT INTO learnprofile (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion,profile_id) " \
+                  "VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
         data = (learnprofile.get_id(),learnprofile.get_creation_time(), learnprofile.get_study_status(), learnprofile.get_frequency(),
-                learnprofile.get_prev_knowledge(),learnprofile.get_extroversion(),learnprofile.get_profile_id())
+                learnprofile.get_prev_knowledge(), learnprofile.get_group_size() ,learnprofile.get_extroversion(),learnprofile.get_profile_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
         return learnprofile
-
 
     def update(self, learnprofile):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
@@ -146,16 +142,14 @@ class LearnProfileMapper (Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE learnprofile SET creation_time= %s, study_status=%s, frequency=%s, prev_knowledge=%s, extroversion=%s,profile_id=%s WHERE id=%s"
-        data = (learnprofile.get_id(), learnprofile.get_creation_time(), learnprofile.get_study_status(), learnprofile.get_frequency(),
-                learnprofile.get_prev_knowledge(),learnprofile.get_extroversion(),learnprofile.get_profile_id())
+        command = "UPDATE learnprofile SET study_status=%s, frequency=%s, prev_knowledge=%s, group_size=%s,extroversion=%s,profile_id=%s WHERE id=%s"
+        data = (learnprofile.get_study_status(), learnprofile.get_frequency(),
+                learnprofile.get_prev_knowledge(), learnprofile.get_group_size(),
+                learnprofile.get_extroversion(),learnprofile.get_profile_id(),learnprofile.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
         cursor.close()
-
-
-
 
     def delete(self, learnprofile):
         """Löschen der Daten eines Projekt-Objekts aus der Datenbank.
@@ -185,14 +179,15 @@ class LearnProfileMapper (Mapper):
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,creation_time, study_status, frequency, profile_id, name, prev_knowledge) in tuples:
+        for (id,creation_time, study_status, frequency, profile_id, group_size, extroversion, prev_knowledge) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
             learnprofile.set_study_status(study_status)
             learnprofile.set_frequency(frequency)
             learnprofile.set_profile_id(profile_id)
-            learnprofile.set_name(name)
+            learnprofile.set_group_size(group_size)             # Warum war hier Name???
+            learnprofile.set_extroversion(extroversion)
             learnprofile.set_prev_knowledge(prev_knowledge)
 
             result.append(learnprofile)
