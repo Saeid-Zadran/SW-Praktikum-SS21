@@ -19,10 +19,10 @@ class LearnProfileMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, creation_time, study_status,frequency, prev_knowledge, group_size, extroversion, profile_id FROM learnprofile")
+        cursor.execute("SELECT id, creation_time, study_status,frequency, prev_knowledge, group_size, extroversion, person_id FROM learnprofile")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) in tuples:
+        for (id, creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, person_id) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
@@ -31,7 +31,7 @@ class LearnProfileMapper(Mapper):
             learnprofile.set_prev_knowledge(prev_knowledge)
             learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
-            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_person_id(person_id)
 
             result.append(learnprofile)
 
@@ -56,7 +56,7 @@ class LearnProfileMapper(Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) = tuples[0]
+            (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, person_id) = tuples[0]
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
@@ -65,7 +65,7 @@ class LearnProfileMapper(Mapper):
             learnprofile.set_prev_knowledge(prev_knowledge)
             learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
-            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_person_id(person_id)
 
         result = learnprofile
 
@@ -126,10 +126,10 @@ class LearnProfileMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 learnprofile.set_id(1)
 
-        command = "INSERT INTO learnprofile (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion,profile_id) " \
+        command = "INSERT INTO learnprofile (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion,person_id) " \
                   "VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
         data = (learnprofile.get_id(),learnprofile.get_creation_time(), learnprofile.get_study_status(), learnprofile.get_frequency(),
-                learnprofile.get_prev_knowledge(), learnprofile.get_group_size() ,learnprofile.get_extroversion(),learnprofile.get_profile_id())
+                learnprofile.get_prev_knowledge(), learnprofile.get_group_size() ,learnprofile.get_extroversion(),learnprofile.get_person_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -142,10 +142,10 @@ class LearnProfileMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE learnprofile SET study_status=%s, frequency=%s, prev_knowledge=%s, group_size=%s,extroversion=%s,profile_id=%s WHERE id=%s"
+        command = "UPDATE learnprofile SET study_status=%s, frequency=%s, prev_knowledge=%s, group_size=%s,extroversion=%s,person_id=%s WHERE id=%s"
         data = (learnprofile.get_study_status(), learnprofile.get_frequency(),
                 learnprofile.get_prev_knowledge(), learnprofile.get_group_size(),
-                learnprofile.get_extroversion(),learnprofile.get_profile_id(),learnprofile.get_id())
+                learnprofile.get_extroversion(),learnprofile.get_person_id(),learnprofile.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
