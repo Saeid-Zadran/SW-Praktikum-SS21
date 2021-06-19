@@ -521,7 +521,7 @@ class ProfileByPersonIDOperations(Resource):
     #@secured
     def get(self, person_id):
         adm = Administration()
-        pe = adm.get_learnprofile_profile_id(person_id)
+        pe = adm.get_learnprofile_person_id(person_id)
         return pe
         
 
