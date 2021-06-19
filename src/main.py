@@ -79,7 +79,7 @@ learnprofile = api.inherit('LearnProfile', bo, {
     'prev_knowledge': fields.String(attribute='_prev_knowledge',description='Vorkenntnisse einer Person'),
     'group_size': fields.Integer(attribute='_group_size',description='Gruppengrößen Vorliebe einer Person'),
     'extroversion': fields.Integer(attribute='_extroversion', description='Zeigt an wie ob die Person extrovertiert ist'),
-    'profile_id': fields.Integer(attribute='profile_id', description='ID einer Person')
+    'person_id': fields.Integer(attribute='person_id', description='ID einer Person')
 })
 
 learngroup = api.inherit('LearnGroup', bo, {
@@ -514,14 +514,14 @@ class LearnProfileOperations(Resource):
 
         else:
             return '', 500
-@studymatch.route('/learnprofile/<int:profile_id>')
+@studymatch.route('/learnprofile/<int:person_id>')
 @studymatch.response(500, 'when server has problems')
 class ProfileByPersonIDOperations(Resource):
     @studymatch.marshal_with(learnprofile)
     #@secured
-    def get(self, profile_id):
+    def get(self, person_id):
         adm = Administration()
-        pe = adm.get_learnprofile_profile_id(profile_id)
+        pe = adm.get_learnprofile_profile_id(person_id)
         return pe
         
 

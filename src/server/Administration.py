@@ -150,7 +150,7 @@ class Administration(object):
     def get_learnprofile_profile_id(self,profile_id):
         """Die Person mit der person_id auslesen."""
         with LearnProfileMapper() as mapper:
-            return mapper.find_by_profile(profile_id)
+            return mapper.find_by_profile(person_id)
 
 
     def get_all_learnprofiles(self):
