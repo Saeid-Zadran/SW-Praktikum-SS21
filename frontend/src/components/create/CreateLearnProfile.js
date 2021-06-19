@@ -15,6 +15,7 @@ import LearnProfileBO from '../../api/LearnProfileBO';
 
 
 class CreateLearnProfile extends Component {
+  
   constructor(props) {
     super(props);
 
@@ -75,6 +76,20 @@ class CreateLearnProfile extends Component {
       this.state.profile_id
     );
   };
+
+  componentDidMount() {
+
+    
+    let uid = getCookie("uid")
+    
+    let app = new AppApi()
+          /* check if user already exists if not create */ 
+          app.getPersonByGoogleId(uid).then((response) =>
+          {
+          //setUid(response[0].id)
+          })
+  }
+  
 
   render() {
     const { classes } = this.props;
@@ -271,7 +286,21 @@ class CreateLearnProfile extends Component {
       </div>
     );
   }
+ 
 }
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function setUid(uid){
+  this.state = {
+    profile_id : uid
+  };
+}
+
+
 
 const styles = (theme) => ({
   root: {
@@ -295,5 +324,7 @@ const styles = (theme) => ({
     },
   },
 });
+
+
 
 export default withStyles(styles)(CreateLearnProfile);
