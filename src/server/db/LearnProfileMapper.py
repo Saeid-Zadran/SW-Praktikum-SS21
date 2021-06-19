@@ -74,7 +74,7 @@ class LearnProfileMapper(Mapper):
 
         return result
 
-    def find_by_profile(self, person_id):
+    def find_by_person(self, person_id):
         """Auslesen aller Projekte anhand der Person_ID.
         :param person_id Person_ID der zugehörigen Projekte.
         :return eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
