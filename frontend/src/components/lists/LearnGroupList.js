@@ -68,15 +68,11 @@ class LearnGroupList extends Component {
     this.setState({
       filteredLearnGroup: this.state.learnGroup.filter((learnGroup) => {
         let NameContainsValue = learnGroup.getName().toLowerCase().includes(value);
-        let ParticipantContainsValue = learnGroup.getParticipant().toLowerCase().includes(value);
-        let ProfileIDContainsValue = learnGroup.getProfileId().toLowerCase().includes(value);
-        let GroupRequestLearnProfileIDContainsValue = learnGroup.getGroupRequestLearnProfileId().toLowerCase().includes(value);
+        let PersonIDContainsValue = learnGroup.getPersonId().toLowerCase().includes(value);
 
         return (
           NameContainsValue ||
-          ParticipantContainsValue ||
-          ProfileIDContainsValue ||
-          GroupRequestLearnProfileIDContainsValue
+          PersonIDContainsValue
         );
       }),
       learnGroupFilter: value,

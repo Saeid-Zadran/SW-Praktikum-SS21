@@ -1,7 +1,7 @@
-import NamedBusinessObject from './NamedBusinessObject';
+import BusinessObject from './BusinessObject';
 
 
-export default class LearnGroupBO extends NamedBusinessObject {
+export default class LearnGroupBO extends BusinessObject {
 
 
   constructor(aName, aPersonId) {
@@ -21,7 +21,7 @@ export default class LearnGroupBO extends NamedBusinessObject {
 
   
   setPersonId(aPersonId) {
-    this.profile_id = aPersonId;
+    this.person_id = aPersonId;
   }
 
 

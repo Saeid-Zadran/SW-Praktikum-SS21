@@ -1,17 +1,15 @@
-from server.bo.NamedBusinessObject import NamedBusinessObject as nbo
+from server.bo import Person as person
 
 
-class Profile(nbo):
+class Profile(person.Person):
     def __init__(self):
         super().__init__()
-        self._name = ""
+        #self._name = ""
         self._age = 0
         self._adress = ""
         self._semester = 0
         self._degree_course = ""
         self._person_id = None
-
-   
 
     def set_age(self, age):
         self._age = age

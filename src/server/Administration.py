@@ -90,17 +90,12 @@ class Administration(object):
 
 
 
-    def create_profile(self, age, name, adress, semester,degree_course,person_id):
+    def create_profile(self, profile):
         """Ein Profil anlegen"""
-        profile = Profile()
-        profile.set_age(age)
-        profile.set_name(name)
-        profile.set_adress(adress)
-        profile.set_semester(semester)
-        profile.set_degree_course(degree_course)
-        profile.set_person_id(person_id)
-        profile.set_id(1)
-        #set ID fehlt?
+
+        with PersonMapper() as mapper:
+            p = mapper.insert(profile)
+            profile.set_person_id(p.get_id())
 
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
@@ -247,13 +242,12 @@ class Administration(object):
             mapper.delete(chatmessage)
 
 
-    def create_learngroup(self,creation_time,name, participant,grouprequest_learnprofile_id):
+    def create_learngroup(self,creation_time,name,person_id):
         """Eine Lerngruppe anlegen"""
         learngroup = LearnGroup()
         learngroup.set_creation_time(creation_time)
         learngroup.set_name(name)
-        learngroup.set_participant(participant)
-        learngroup.set_grouprequest_learnprofile_id(grouprequest_learnprofile_id)
+        learngroup.set_person_id(person_id)
         learngroup.set_id(1)
 
         with LearnGroupMapper() as mapper:
