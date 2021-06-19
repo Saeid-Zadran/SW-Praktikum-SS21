@@ -73,7 +73,7 @@ class ProfileMapper(Mapper):
         return result
 
     def find_by_person_id(self, person_id):
-        result = None
+        result = []
 
         cursor = self._cnx.cursor()
         command = " SELECT id, creation_time, name, age, adress, semester, degree_course, person_id FROM profile WHERE person_id LIKE '{}'".format(person_id)
@@ -91,6 +91,8 @@ class ProfileMapper(Mapper):
             profile.set_semester(semester)
             profile.set_degree_course(degree_course)
             profile.set_person_id(person_id)
+
+            result.append(profile)
             
 
         except IndexError:
