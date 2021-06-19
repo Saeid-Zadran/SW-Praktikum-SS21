@@ -472,7 +472,7 @@ class LearnProfileListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             lp = adm.create_learnprofile(proposal.get_creation_time(),proposal.get_study_status(), proposal.get_frequency(),
-            proposal.get_prev_knowledge(),proposal.get_group_size(), proposal.get_extroversion(), proposal.get_profile_id())
+            proposal.get_prev_knowledge(),proposal.get_group_size(), proposal.get_extroversion(), proposal.get_person_id())
             return lp, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
