@@ -74,7 +74,7 @@ class LearnProfileMapper(Mapper):
 
         return result
 
-    def find_by_person_id(self, person_id):
+    def find_by_profile(self, profile_id):
         """Auslesen aller Projekte anhand der Person_ID.
         :param person_id Person_ID der zugehörigen Projekte.
         :return eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
@@ -83,7 +83,7 @@ class LearnProfileMapper(Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learnprofile WHERE person_id={}".format(person_id)
+        command = "SELECT * FROM learnprofile WHERE profile_id={}".format(profile_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 

@@ -89,13 +89,20 @@ class Administration(object):
             mapper.delete(person)
 
 
-
-    def create_profile(self, profile):
+    def create_profile(self, age, name, adress, semester,degree_course,person_id):
         """Ein Profil anlegen"""
 
-        with PersonMapper() as mapper:
-            p = mapper.insert(profile)
-            profile.set_person_id(p.get_id())
+        profile = Profile()
+        profile.set_age(age)
+        profile.set_name(name)
+        profile.set_adress(adress)
+        profile.set_semester(semester)
+        profile.set_degree_course(degree_course)
+        profile.set_person_id(person_id)
+        profile.set_id(1)
+   
+
+       
 
         with ProfileMapper() as mapper:
             return mapper.insert(profile)
@@ -119,6 +126,11 @@ class Administration(object):
     def get_profile_by_id(self, id):
         with ProfileMapper() as mapper:
             return mapper.find_by_key(id)
+     
+    def get_profile_by_person_id(self,person_id):
+        """Das Profil mit dem Fremschlüssel person_id auslesen."""
+        with ProfileMapper() as mapper:
+            return mapper.find_by_person_id(person_id)
 
     def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, group_size,extroversion, profile_id):
         """Ein lernprofil anlegen"""
@@ -134,6 +146,11 @@ class Administration(object):
 
         with LearnProfileMapper() as mapper:
             return mapper.insert(learnprofile)
+    
+    def get_learnprofile_profile_id(self,profile_id):
+        """Die Person mit der person_id auslesen."""
+        with LearnProfileMapperMapper() as mapper:
+            return mapper.find_by_profile(profile_id)
 
 
     def get_all_learnprofiles(self):
