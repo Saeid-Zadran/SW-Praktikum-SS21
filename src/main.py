@@ -268,7 +268,7 @@ class ProfileOperations(Resource):
             """ Das serverseitig erzeugte Objekt ist das maßgebliche und 
             wird auch dem Client zurückgegeben. 
             """
-            p = adm.create_profile(proposal)
+            p = adm.create_profile(proposal.get_age(), proposal.get_name(),proposal.get_adress(), proposal.get_semester(), proposal.get_degree_course(), proposal.get_person_id())
             return p, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -294,6 +294,7 @@ class ProfileDeleteOperation(Resource):
         prof = adm.get_profile_by_id(id)
         return prof
     
+
     @studymatch.marshal_with(profile, code=200)
     @studymatch.expect(profile)  # Wir erwarten ein Profile-Objekt von Client-Seite.
     # #@secured
@@ -321,6 +322,26 @@ class ProfileDeleteOperation(Resource):
         adm.delete_profile(p)
         return '', 200
     
+    @studymatch.marshal_with(profile)
+    ##@secured
+    def get(self, id):
+        """Auslesen eines bestimmten Projekts.
+
+        Auszulesende Projekt wird durch id bestimmt.
+        """
+        adm = Administration()
+        prof = adm.get_profile_by_id(id)
+        return prof
+
+@studymatch.route('/profile-by-person-id/<int:person_id>')
+@studymatch.response(500, 'when server has problems')
+class ProfileByPersonIDOperations(Resource):
+    @studymatch.marshal_with(profile)
+    #@secured
+    def get(self, person_id):
+        adm = Administration()
+        pe = adm.get_profile_by_person_id(person_id)
+        return pe
 #Suggestion related
 @studymatch.route('/suggestions')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
@@ -485,6 +506,16 @@ class LearnProfileOperations(Resource):
 
         else:
             return '', 500
+@studymatch.route('/learnprofile/<int:profile_id>')
+@studymatch.response(500, 'when server has problems')
+class ProfileByPersonIDOperations(Resource):
+    @studymatch.marshal_with(learnprofile)
+    #@secured
+    def get(self, profile_id):
+        adm = Administration()
+        pe = adm.get_learnprofile_profile_id(profile_id)
+        return pe
+        
 
 
 
