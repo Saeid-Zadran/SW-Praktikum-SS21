@@ -67,6 +67,7 @@ export default class AppApi {
    * Get the Singelton instance
    *
    * @public
+   * 
    */
   static getApi() {
     if (this.#api == null) {
@@ -81,7 +82,7 @@ export default class AppApi {
    *  fetchAdvanced throws an Error also an server status errors
    */
   #fetchAdvanced = (url, init) =>
-    fetch(url, init).then((res) => {
+    fetch(url,{credentials: 'include'}, init).then((res) => {
       // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
       if (!res.ok) {
         console.log(`${res.status} ${res.statusText} ${res}`);
@@ -121,18 +122,16 @@ export default class AppApi {
     })
   }
 
-  createPerson(plainName, googleMail, googleUserId, token) {
+  createPerson(plainName, googleMail, googleUserId) {
     let p = new PersonBO();
     p.setGoogleMail(googleMail);
     p.setGoogleUserId(googleUserId);
     p.setName(plainName)
-    console.log("Jimmy")
     return this.#fetchAdvanced(this.#addPersonURL(), {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain",
         "Content-type": "application/json",
-        "Token" : token 
       },
       body: JSON.stringify(p),
     }).then((responseJSON) => {
@@ -202,6 +201,7 @@ export default class AppApi {
    */
 
   addProfile(profile) {
+
     return this.#fetchAdvanced(this.#addProfileURL(), {
       method: "POST",
       headers: {

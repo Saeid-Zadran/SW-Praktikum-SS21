@@ -75,7 +75,7 @@ class App extends React.Component {
                 });
               }
               else{
-                app.createPerson(user.displayName, user.email, user.uid, token)
+                app.createPerson(user.displayName, user.email, user.uid)
                 this.setState({
                   currentUser: user,
                   authError: null,
@@ -153,7 +153,7 @@ class App extends React.Component {
             
 
             {
-              // Is a user signed in?
+              //   Is a user signed in?
               currentUser && !authLoading ? (
                 <>
                   <Redirect from="/" to="start" />

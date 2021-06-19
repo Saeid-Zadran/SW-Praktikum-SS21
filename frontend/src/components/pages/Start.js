@@ -26,7 +26,7 @@ class Start extends Component {
             <Typography>Willkommen auf der Lern Matching </Typography>
             <br></br>
             <Typography>Willkommen, {getCookie("name")}  </Typography>
-            <Link to="/StartPage">
+            <Link to="/StartPage/CreateProfile">
               <Button variant="contained" color="primary">
                 Create Profile
               </Button>
