@@ -41,7 +41,6 @@ class App extends React.Component {
     };
   }
 
-  
   static getDerivedStateFromError(error) {
     return { appError: error };
   }
@@ -70,19 +69,27 @@ class App extends React.Component {
               {
                 console.log("existing", personObj)
                 let session_id = personObj.id
-
+                console.log(session_id)
                 // wenn dieser call positiv ist und ein profil erstellt folgt zweiter call
                 //app.getProfileByID(session_id).then((profiles)=>
                 //{
                  // console.log(profiles)
-                //})
-                let profilesAvailable = false
-                let learnProfilesAvailabe = false
-                this.setAuthStatePositive(user)
 
-                if(profilesAvailable)
+                this.setAuthStatePositive(user)
+                app.getLearnProfileViaUrl(session_id).then((profile)=>
+                {
+                  console.log(profile)
+                })
+                app.getProfileViaUrl(session_id).then((profile)=> 
+                {
+
+                  console.log()
+                //})
+                let learnProfilesAvailabe = false
+                  if(profile[0].adress)
                 {
                   this.setAuthStatePositive(user)
+                  
                   if(learnProfilesAvailabe)
                   {
                     history.push('/SecondPage/SendMessage');
@@ -96,6 +103,9 @@ class App extends React.Component {
 
                   history.push('/StartPage/CreateProfile');
                 }
+                }) 
+               
+                
      
               }
               else{

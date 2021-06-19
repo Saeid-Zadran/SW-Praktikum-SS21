@@ -33,6 +33,9 @@ export default class AppApi {
   #addProfileURL = () => `${this.#AppServerBaseURL}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
+  #getProfileViaURL = (id) => `${this.#AppServerBaseURL}/profile-by-person-id/${id}`;
+
+ 
 
   //Suggestion
   #getSuggestionsURL = () => `${this.#AppServerBaseURL}/suggestions`;
@@ -45,7 +48,7 @@ export default class AppApi {
   #addLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #updateLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #deleteLearnProfileURL = (id) =>`${this.#AppServerBaseURL}/learnprofiles/${id}`;
-
+  #getLearnProfileViaURL  = (id) =>`${this.#AppServerBaseURL}/learnprofile/${id}`;
   //Chat
   #getChatsURL = () => `${this.#AppServerBaseURL}/chats`;
   #addChatURL = () => `${this.#AppServerBaseURL}/chats`;
@@ -199,6 +202,31 @@ export default class AppApi {
       });
     });
   }
+
+  // Profile related
+  getProfileViaUrl(sessionId) {
+    return this.#fetchAdvanced(this.#getProfileViaURL(sessionId)).then((responseJSON) => {
+      console.log(responseJSON, "response")
+      let profileBOs = ProfileBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(profileBOs);
+      });
+    });
+  }
+
+
+  // Profile related
+  getLearnProfileViaUrl(sessionId) {
+    return this.#fetchAdvanced(this.#getLearnProfileViaURL(sessionId)).then((responseJSON) => {
+      console.log(responseJSON, "response")
+      let profileBOs = ProfileBO.fromJSON(responseJSON);
+      return new Promise(function (resolve) {
+        resolve(profileBOs);
+      });
+    });
+  }
+
+
 
   /**
    * Returns a Promise, which resolves to a ProfileBO
