@@ -132,7 +132,7 @@ class Administration(object):
         with ProfileMapper() as mapper:
             return mapper.find_by_person_id(person_id)
 
-    def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, group_size,extroversion, profile_id):
+    def create_learnprofile(self,creation_time, study_status, frequency, prev_knowledge, group_size,extroversion, person_id):
         """Ein lernprofil anlegen"""
         learnprofile = LearnProfile()
         learnprofile.set_creation_time(creation_time)
@@ -141,16 +141,16 @@ class Administration(object):
         learnprofile.set_prev_knowledge(prev_knowledge)
         learnprofile.set_group_size(group_size)
         learnprofile.set_extroversion(extroversion)
-        learnprofile.set_profile_id(profile_id)
+        learnprofile.set_person_id(person_id)
         learnprofile.set_id(1)
 
         with LearnProfileMapper() as mapper:
             return mapper.insert(learnprofile)
     
-    def get_learnprofile_profile_id(self,profile_id):
+    def get_learnprofile_person_id(self,person_id):
         """Die Person mit der person_id auslesen."""
         with LearnProfileMapper() as mapper:
-            return mapper.find_by_profile(profile_id)
+            return mapper.find_by_person(person_id)
 
 
     def get_all_learnprofiles(self):
