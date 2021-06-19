@@ -284,11 +284,7 @@ class ProfileOperations(Resource):
 class ProfileDeleteOperation(Resource):
 
     @studymatch.marshal_with(profile)
-<<<<<<< HEAD
     #@secured
-=======
-    ##@secured
->>>>>>> dfba1e9d475eb911c63f2eb2794791d7d04be36c
     def get(self, id):
         """Auslesen eines bestimmten Projekts.
 
@@ -316,11 +312,7 @@ class ProfileDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(profile)
-<<<<<<< HEAD
     #@secured
-=======
-   # #@secured
->>>>>>> dfba1e9d475eb911c63f2eb2794791d7d04be36c
     def delete(self, id):
         """Löschen eines bestimmten Profile-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
