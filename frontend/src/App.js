@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {  Router, Route, Redirect, useHistory } from "react-router-dom";
 import {Container,ThemeProvider,CssBaseline,Paper,} from "@material-ui/core";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -22,11 +22,12 @@ import LearnGroupList from "./components/lists/LearnGroupList";
 import SendMessage from "./components/chatFunction/SendMessage";
 import Header from "./components/pages/Header";
 import MessageList from "./components/chatFunction/MessageList";
-
+import history from './history'
 
 
 class App extends React.Component {
  
+
   constructor(props) {
     super(props);
 
@@ -64,19 +65,47 @@ class App extends React.Component {
           {
             try
             {
-              console.log("jimmy")
               let personObj = response[0]
               if(personObj.name)
               {
-                this.setState({
-                  currentUser: user,
-                  authError: null,
-                  authLoading: false,
-                  firstTime: false,
-                });
+                console.log("existing", personObj)
+                let session_id = personObj.id
+
+                // wenn dieser call positiv ist und ein profil erstellt folgt zweiter call
+                //app.getProfileByID(session_id).then((profiles)=>
+                //{
+                 // console.log(profiles)
+                //})
+                let profilesAvailable = false
+                let learnProfilesAvailabe = false
+                this.setAuthStatePositive(user)
+
+                if(profilesAvailable)
+                {
+                  this.setAuthStatePositive(user)
+                  if(learnProfilesAvailabe)
+                  {
+                    history.push('/SecondPage/SendMessage');
+                  }
+                  else
+                  {
+                    history.push('/SecondPage/CreateLearnProfile');
+                  }
+                }
+                else{
+
+                  history.push('/StartPage/CreateProfile');
+                }
+     
               }
               else{
-                app.createPerson(user.displayName, user.email, user.uid)
+                console.log("new created", personObj.name)
+                app.createPerson(user.displayName, user.email, user.uid).then((person)=>
+                {
+                  console.log(person)
+                }
+
+                )
                 this.setState({
                   currentUser: user,
                   authError: null,
@@ -86,10 +115,7 @@ class App extends React.Component {
               }
             }
             catch{
-              console.log(response)
-              console.log("jimmy trunk")
-
-          app.createPerson(user.displayName, user.email, user.uid, token)
+          app.createPerson(user.displayName, user.email, user.uid)
                 this.setState({
                   currentUser: user,
                   authError: null,
@@ -99,8 +125,6 @@ class App extends React.Component {
             }
           }
           )
-
-        
         })
         .catch((e) => {
           this.setState({
@@ -128,6 +152,18 @@ class App extends React.Component {
     
   };
 
+  setAuthStatePositive = (user) => {
+    this.setState({
+      currentUser: user,
+      authError: null,
+      authLoading: false,
+      firstTime: false,
+    });
+  };
+
+
+
+
  
 
 
@@ -146,9 +182,10 @@ class App extends React.Component {
     const { currentUser, appError, authError, authLoading } = this.state;
 
     return (
+      <Router history={history}>
+
       <ThemeProvider theme={Theme}>
         {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-        <Router basename={process.env.PUBLIC_URL}>
           <Container maxWidth="md">
            <Header user={currentUser} />
             
@@ -215,8 +252,8 @@ class App extends React.Component {
               contextErrorMsg={`Something went wrong inside the app. Please reload the page.`}
             />
           </Container>
-        </Router>
       </ThemeProvider>
+      </Router>
     );
   }
 }

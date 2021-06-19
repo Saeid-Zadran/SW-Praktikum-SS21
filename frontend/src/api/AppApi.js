@@ -28,6 +28,7 @@ export default class AppApi {
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
 
   //Profile
+
   #getProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
   #addProfileURL = () => `${this.#AppServerBaseURL}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
@@ -80,9 +81,15 @@ export default class AppApi {
    *  Returns a Promise which resolves to a json object.
    *  The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
    *  fetchAdvanced throws an Error also an server status errors
+   * 
+   * 
+   * add this to the decorator TODO
+   * {credentials: 'include'},
    */
+
+
   #fetchAdvanced = (url, init) =>
-    fetch(url,{credentials: 'include'}, init).then((res) => {
+    fetch(url, init).then((res) => {
       // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
       if (!res.ok) {
         console.log(`${res.status} ${res.statusText} ${res}`);
@@ -255,6 +262,7 @@ export default class AppApi {
       });
     });
   }
+
 
   // Suggestion related
   getSuggestions() {

@@ -114,7 +114,7 @@ chatmessage = api.inherit('_ChatMessage', bo, {
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class PersonListOperations(Resource):
     @studymatch.marshal_list_with(person)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -124,7 +124,7 @@ class PersonListOperations(Resource):
 
     @studymatch.marshal_with(person, code=200)
     @studymatch.expect(person)  #Wir erwarten ein Person-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -151,7 +151,7 @@ class PersonListOperations(Resource):
 @studymatch.param('id', 'ID der Person')
 class PersonOperations(Resource):
     @studymatch.marshal_list_with(person)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller Person-Objekte.
         Sollten keine Person-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -161,7 +161,7 @@ class PersonOperations(Resource):
 
     @studymatch.marshal_with(person, code=200)
     @studymatch.expect(person)  # Wir erwarten ein Person-Objekt von Client-Seite.
-    @secured
+    #@secured
     def put(self, id):
         """Update eines bestimmten Person-Objekts."""
         adm = Administration()
@@ -181,7 +181,7 @@ class PersonOperations(Resource):
 @studymatch.param('email', 'Die Mail des Person-Objekts')
 class PersonOperations(Resource):
     @studymatch.marshal_with(person)
-    @secured
+    #@secured
     def get(self, email):
         """Auslesen einer bestimmten Person-BO.
 
@@ -195,7 +195,7 @@ class PersonOperations(Resource):
 @studymatch.response(500, 'when server has problems')
 class idGoogleOperations(Resource):
     @studymatch.marshal_with(person)
-    @secured
+    #@secured
     def get(self, google_user_id):
         adm = Administration()
         persons = adm.get_person_by_google_user_id(google_user_id)
@@ -207,7 +207,7 @@ class idGoogleOperations(Resource):
 class PersonDeleteOperation(Resource):
 
     @studymatch.marshal_with(person)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines bestimmten Projekts.
 
@@ -220,7 +220,7 @@ class PersonDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(person)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten Person-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
@@ -236,7 +236,7 @@ class PersonDeleteOperation(Resource):
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ProfileOperations(Resource):
     @studymatch.marshal_list_with(profile)
-    @secured
+    #@secured
     def get(self):
         print("blabla")
         """Auslesen aller Person-Objekte.
@@ -252,7 +252,7 @@ class ProfileOperations(Resource):
 
     @studymatch.marshal_with(profile, code=200)
     @studymatch.expect(profile)
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen Person-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -284,7 +284,7 @@ class ProfileOperations(Resource):
 class ProfileDeleteOperation(Resource):
 
     @studymatch.marshal_with(profile)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen eines bestimmten Projekts.
 
@@ -296,7 +296,7 @@ class ProfileDeleteOperation(Resource):
     
     @studymatch.marshal_with(profile, code=200)
     @studymatch.expect(profile)  # Wir erwarten ein Profile-Objekt von Client-Seite.
-    # @secured
+    # #@secured
     def put(self, id ):
         """Update eines bestimmten Profile-Objekts."""
         adm = Administration()
@@ -311,7 +311,7 @@ class ProfileDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(profile)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten Profile-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
@@ -326,7 +326,7 @@ class ProfileDeleteOperation(Resource):
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class SuggestionListOperations(Resource):
     @studymatch.marshal_list_with(suggestion)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller suggestion-Objekte.
         Sollten keine suggestion-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -336,7 +336,7 @@ class SuggestionListOperations(Resource):
 
     @studymatch.marshal_with(suggestion, code=200)
     @studymatch.expect(suggestion)  #Wir erwarten ein suggestion-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen suggestion-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -364,7 +364,7 @@ class SuggestionListOperations(Resource):
 class SuggestionOperation(Resource):
 
     @studymatch.marshal_with(suggestion)
-    # @secured
+    # #@secured
     def get(self, id):
         """Auslesen einer bestimmten Suggestion.
         Auszulesende Suggestion wird durch id bestimmt.
@@ -375,7 +375,7 @@ class SuggestionOperation(Resource):
 
     @studymatch.marshal_with(suggestion, code=200)
     @studymatch.expect(suggestion)  # Wir erwarten ein suggestion-Objekt von Client-Seite.
-    @secured
+    #@secured
     def put(self,id):
         """Update eines bestimmten suggestion-Objekts."""
         adm = Administration()
@@ -396,7 +396,7 @@ class SuggestionOperation(Resource):
 class SuggestionDeleteOperation(Resource):
 
     @studymatch.marshal_with(suggestion)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer bestimmten Suggestion.
         Auszulesende Suggestion wird durch id bestimmt.
@@ -408,7 +408,7 @@ class SuggestionDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(suggestion)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten Person-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
@@ -424,7 +424,7 @@ class SuggestionDeleteOperation(Resource):
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class LearnProfileListOperations(Resource):
     @studymatch.marshal_list_with(learnprofile)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller learnprofile-Objekte.
         Sollten keine learnprofile-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -434,7 +434,7 @@ class LearnProfileListOperations(Resource):
 
     @studymatch.marshal_with(learnprofile, code=200)
     @studymatch.expect(learnprofile)  #Wir erwarten ein learnprofile-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen learnprofile-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -462,7 +462,7 @@ class LearnProfileListOperations(Resource):
 @studymatch.param('id', 'id des LearnProfile-Objekts')
 class LearnProfileOperations(Resource):
     @studymatch.marshal_list_with(learnprofile)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller learnprofile-Objekte.
         Sollten keine learnprofile-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -472,7 +472,7 @@ class LearnProfileOperations(Resource):
 
     @studymatch.marshal_with(learnprofile, code=200)
     @studymatch.expect(learnprofile)  # Wir erwarten ein learnprofile-Objekt von Client-Seite.
-    @secured
+    #@secured
     def put(self, id):
         """Update eines bestimmten learnprofile-Objekts."""
         adm = Administration()
@@ -494,7 +494,7 @@ class LearnProfileOperations(Resource):
 class LearnProfileDeleteOperation(Resource):
 
     @studymatch.marshal_with(learnprofile)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer bestimmten learnprofile.
         Auszulesende learnprofile wird durch id bestimmt.
@@ -506,7 +506,7 @@ class LearnProfileDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(learnprofile)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten learnprofile-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
@@ -523,7 +523,7 @@ class LearnProfileDeleteOperation(Resource):
 @studymatch.param('id', 'id des Chat-Objekts')
 class ChatListOperations(Resource):
     @studymatch.marshal_list_with(chat)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller chat-Objekte.
         Sollten keine chat-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -533,7 +533,7 @@ class ChatListOperations(Resource):
 
     @studymatch.marshal_with(chat, code=200)
     @studymatch.expect(chat)  #Wir erwarten ein chat-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen chat-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -563,7 +563,7 @@ class ChatListOperations(Resource):
 class ChatOperation(Resource):
 
     @studymatch.marshal_with(chat)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer bestimmten chat.
         Auszulesende chat wird durch id bestimmt.
@@ -574,7 +574,7 @@ class ChatOperation(Resource):
 
     @studymatch.marshal_with(chat, code=200)
     @studymatch.expect(chat)  # Wir erwarten ein chat-Objekt von Client-Seite.
-    # @secured
+    # #@secured
     def put(self, id):
         """Update eines bestimmten chat-Objekts."""
 
@@ -595,7 +595,7 @@ class ChatOperation(Resource):
 class ChatDeleteOperation(Resource):
 
     @studymatch.marshal_with(chat)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer bestimmten chat.
         Auszulesende chat wird durch id bestimmt.
@@ -607,7 +607,7 @@ class ChatDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(chat)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten chat-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
@@ -622,7 +622,7 @@ class ChatDeleteOperation(Resource):
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class ChatMessageListOperations(Resource):
     @studymatch.marshal_list_with(chatmessage)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller chatmessage-Objekte.
         Sollten keine chatmessage-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -632,7 +632,7 @@ class ChatMessageListOperations(Resource):
 
     @studymatch.marshal_with(chatmessage, code=200)
     @studymatch.expect(chatmessage)  #Wir erwarten ein chatmessage-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen chatmessage-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -660,7 +660,7 @@ class ChatMessageListOperations(Resource):
 @studymatch.param('id', 'ID der Nachricht')
 class ChatMessageOperations(Resource):
     @studymatch.marshal_with(chatmessage)
-    @secured
+    #@secured
     def get(self,id):
         """Auslesen eines ChatMessage Objekts anhand seiner ID"""
         adm = Administration()
@@ -670,7 +670,7 @@ class ChatMessageOperations(Resource):
 
     @studymatch.marshal_with(chatmessage, code=200)
     @studymatch.expect(chatmessage)  # Wir erwarten ein chatmessage-Objekt von Client-Seite.
-    @secured
+    #@secured
     def put(self,id):
         """Update eines bestimmten chatmessage-Objekts."""
         adm = Administration()
@@ -693,7 +693,7 @@ class ChatMessageOperations(Resource):
 class ChatMessageDeleteOperation(Resource):
 
     @studymatch.marshal_with(chatmessage)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer bestimmten chatmessage.
         Auszulesende learnprofile wird durch id bestimmt.
@@ -705,7 +705,7 @@ class ChatMessageDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(chatmessage)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten learnprofile-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
@@ -720,7 +720,7 @@ class ChatMessageDeleteOperation(Resource):
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 class LearnGroupListOperations(Resource):
     @studymatch.marshal_list_with(learngroup)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller LearnGroup-Objekte.
         Sollten keine LearnGroup-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -730,7 +730,7 @@ class LearnGroupListOperations(Resource):
 
     @studymatch.marshal_with(learngroup, code=200)
     @studymatch.expect(learngroup)  #Wir erwarten ein learngroup-Objekt von Client-Seite.
-    @secured
+    #@secured
     def post(self):
         """Anlegen eines neuen learngroup-Objekts.
         **ACHTUNG:** Wir fassen die vom Client gesendeten Daten als Vorschlag auf.
@@ -757,7 +757,7 @@ class LearnGroupListOperations(Resource):
 @studymatch.param('id', 'ID der Lerngruppe')
 class LearnGroupOperations(Resource):
     @studymatch.marshal_list_with(learngroup)
-    @secured
+    #@secured
     def get(self):
         """Auslesen aller LearnGroup-Objekte.
         Sollten keine LearnGroup-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
@@ -767,7 +767,7 @@ class LearnGroupOperations(Resource):
 
     @studymatch.marshal_with(learngroup, code=200)
     @studymatch.expect(learngroup)  # Wir erwarten ein learngroup-Objekt von Client-Seite.
-    @secured
+    #@secured
     def put(self, id):
         """Update eines bestimmten learngroup-Objekts."""
         adm = Administration()
@@ -789,7 +789,7 @@ class LearnGroupOperations(Resource):
 class LearnGroupDeleteOperation(Resource):
 
     @studymatch.marshal_with(learngroup)
-    @secured
+    #@secured
     def get(self, id):
         """Auslesen einer bestimmten learngroup.
         Auszulesende learngroup wird durch id bestimmt.
@@ -801,7 +801,7 @@ class LearnGroupDeleteOperation(Resource):
 
 
     @studymatch.marshal_with(learngroup)
-    @secured
+    #@secured
     def delete(self, id):
         """Löschen eines bestimmten learngroup-Objekts.
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
