@@ -82,7 +82,7 @@ export default class AppApi {
    *  fetchAdvanced throws an Error also an server status errors
    */
   #fetchAdvanced = (url, init) =>
-    fetch(url,{credentials: 'include'}, init).then((res) => {
+    fetch(url, init).then((res) => {
       // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
       if (!res.ok) {
         console.log(`${res.status} ${res.statusText} ${res}`);
