@@ -76,10 +76,7 @@ class App extends React.Component {
                  // console.log(profiles)
 
                 this.setAuthStatePositive(user)
-                app.getLearnProfileViaUrl(session_id).then((profile)=>
-                {
-                  console.log(profile)
-                })
+
                 app.getProfileViaUrl(session_id).then((profile)=> 
                 {
 
@@ -90,14 +87,20 @@ class App extends React.Component {
                 {
                   this.setAuthStatePositive(user)
                   
-                  if(learnProfilesAvailabe)
+                  app.getLearnProfileViaUrl(session_id).then((profile)=>
                   {
-                    history.push('/SecondPage/SendMessage');
-                  }
-                  else
-                  {
-                    history.push('/SecondPage/CreateLearnProfile');
-                  }
+                    let learnProfile = profile[0].creation_time
+
+                    if(learnProfile)
+                    {
+                      history.push('/SecondPage/SendMessage');
+                    }
+                    else
+                    {
+                      history.push('/SecondPage/CreateLearnProfile');
+                    }
+                  })
+ 
                 }
                 else{
 
