@@ -98,7 +98,11 @@ grouprequest = api.inherit('GroupRequest', bo, {
 chat = api.inherit('Chat', bo, {
     'learngroup_id': fields.Integer(attribute='_learngroup_id', description='ID de der lerngruppe'),
     
-    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats')
+    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),
+    'sender': fields.String(attribute='_sender', description= 'Inhalt der Nachricht'),
+    'message': fields.String(attribute='_message', description= 'Id eines Chats'),
+    'order': fields.Integer(attribute='_order', description= 'Id einer Person')
+
 
 })
 
@@ -581,7 +585,7 @@ class ChatListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             c = adm.create_chat(proposal.get_learngroup_id(), 
-            proposal.get_is_accepted())
+            proposal.get_is_accepted(), proposal.get_sender(), proposal.get_message(), proposal.get_order())
             return c, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -647,6 +651,19 @@ class ChatDeleteOperation(Resource):
         c = adm.get_chat_by_id(id)
         adm.delete_chat(c)
         return '', 200
+
+#chatbylearngroupid
+@studymatch.route('/chat/<int:learngroup_id>')
+@studymatch.response(500, 'when server has problems')
+class LearnGroupByPersonIdOperations(Resource):
+    @studymatch.marshal_with(chat)
+    #@secured
+    def get(self, learngroup_id):
+        adm = Administration()
+        pe = adm.get_chat_by_learngroup_id(learngroup_id)
+        return pe
+
+
 
 #ChatMessage related
 @studymatch.route('/chatmessages')
@@ -812,6 +829,16 @@ class LearnGroupOperations(Resource):
         else:
             return '', 500
 
+#learngroupbypersonid
+@studymatch.route('/learngroup/<int:person_id>')
+@studymatch.response(500, 'when server has problems')
+class LearnGroupByPersonIdOperations(Resource):
+    @studymatch.marshal_with(learngroup)
+    #@secured
+    def get(self, person_id):
+        adm = Administration()
+        pe = adm.get_learngroup_by_person_id(person_id)
+        return pe
 
 
 @studymatch.route('/learngroup/<int:id>')

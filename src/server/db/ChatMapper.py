@@ -22,12 +22,15 @@ class ChatMapper(Mapper):
         cursor.execute("SELECT * from chat")
         tuples = cursor.fetchall()
 
-        for (id, creation_time,  learngroup_id, is_accepted) in tuples:
+        for (id, creation_time,learngroup_id, is_accepted,sender, message, order) in tuples:
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
             chat.set_learngroup_id(learngroup_id)
             chat.set_is_accepted(is_accepted)
+            chat.set_sender(sender)
+            chat.set_message(message)
+            chat.set_order(order)
             result.append(chat)
            
 
@@ -51,12 +54,15 @@ class ChatMapper(Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id, creation_time, learngroup_id,is_accepted) = tuples[0]
+            (id, creation_time,  learngroup_id, is_accepted,sender, message, order) = tuples[0]
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
             chat.set_learngroup_id(learngroup_id)
             chat.set_is_accepted(is_accepted)
+            chat.set_sender(sender)
+            chat.set_message(message)
+            chat.set_order(order)
        
 
         result = chat
@@ -88,8 +94,8 @@ class ChatMapper(Mapper):
                 chat.set_id(1)
 
 
-        command = "INSERT INTO chat (id, creation_time, learngroup_id,is_accepted) VALUES (%s,%s,%s,%s)"
-        data = (chat.get_id(), chat.get_creation_time(),chat.get_is_accepted(), chat.get_learngroup_id())
+        command = "INSERT INTO chat (id, creation_time, learngroup_id, is_accepted, sender, message, order) VALUES (%s,%s,%s,%s,%s,%s,%s)"
+        data = (chat.get_id(), chat.get_creation_time(),chat.get_is_accepted(), chat.get_learngroup_id(), chat.get_sender(),chat.get_message(),chat.get_order())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -124,6 +130,39 @@ class ChatMapper(Mapper):
         cursor.close()
 
         return chat
+    
+    def find_by_learngroup(self, learngroup_id):
+        result = []
+
+        cursor = self._cnx.cursor()
+        command = " SELECT id, creation_time,  learngroup_id, is_accepted,sender, message, order FROM chat WHERE learngroup_id LIKE '{}'".format(learngroup_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_time,  learngroup_id, is_accepted,sender, message, order) = tuples[0]
+            chat = Chat()
+            chat.set_id(id)
+            chat.set_creation_time(creation_time)
+            chat.set_learngroup_id(learngroup_id)
+            chat.set_is_accepted(is_accepted)
+            chat.set_sender(sender)
+            chat.set_message(message)
+            chat.set_order(order)
+          
+
+            result.append(chat)
+            
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 
 

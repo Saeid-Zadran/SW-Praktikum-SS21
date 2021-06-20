@@ -210,10 +210,13 @@ class Administration(object):
         with ChatMapper() as mapper:
             return mapper.find_all()
 
-    def create_chat(self, learngroup_id, is_accepted):
+    def create_chat(self, learngroup_id, is_accepted,sender, message, order):
         chat = Chat()
         chat.set_learngroup_id(learngroup_id)
         chat.set_is_accepted(is_accepted)
+        chat.set_sender(sender)
+        chat.set_message(message)
+        chat.set_order(order)
         chat.set_id(0) # Warum 0? 1 Richtig?
 
         with ChatMapper() as mapper:
@@ -226,6 +229,13 @@ class Administration(object):
     def get_chat_by_id(self, id):
         with ChatMapper() as mapper:
             return mapper.find_by_key(id)
+
+    def get_chat_by_learngroup_id(self,learngroup_id):
+    
+        with ChatMapper() as mapper:
+            return mapper.find_by_learngroup(learngroup_id)
+
+
 
     def delete_chat(self,chat):
         with ChatMapper() as mapper:
@@ -286,6 +296,11 @@ class Administration(object):
     def delete_learngroup(self,learngroup):
         with LearnGroupMapper() as mapper:
             mapper.delete(learngroup)
+    
+    def get_learngroup_by_person_id(self,person_id):
+        """Die lerngruppe mit der person_id auslesen."""
+        with LearnGroupMapper() as mapper:
+            return mapper.find_by_person(person_id)
 
     """GroupRequest-Methoden"""
 

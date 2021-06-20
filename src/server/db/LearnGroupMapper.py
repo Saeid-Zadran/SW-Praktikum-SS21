@@ -157,12 +157,34 @@ class LearnGroupMapper (Mapper):
         cursor.close()
 
 
-if (__name__ == "__main__"):
-    with LearnGroupMapper() as mapper:
-        learngroup  = LearnGroup()
-        learngroup.set_name("Studymatch")
-        learngroup.set_person_id(1)
-        mapper.insert(learngroup )
+    def find_by_person(self, person_id):
+        result = []
+
+        cursor = self._cnx.cursor()
+        command = " SELECT id, creation_time,name,person_id FROM profile WHERE person_id LIKE '{}'".format(person_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        try:
+            (id, creation_time,name,person_id) = tuples[0]
+            learngroup = LearnGroup()
+            learngroup.set_id(id)
+            learngroup.set_creation_time(creation_time)
+            learngroup.set_name(name)
+            learngroup.set_person_id(person_id)
+
+            result.append(learngroup)
+            
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 
         #mapper.find_by_group_name("profile")
