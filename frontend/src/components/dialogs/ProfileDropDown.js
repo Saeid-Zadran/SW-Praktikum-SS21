@@ -1,5 +1,7 @@
 import React, { Component, createRef } from "react";
 import PropTypes from "prop-types";
+import history from '../../history'
+
 import {
   Popover,
   IconButton,
@@ -67,6 +69,11 @@ class ProfileDropDown extends Component {
     firebase.auth().signOut();
   };
 
+  handleSettingsButtonClicked =() =>
+{
+  history.push("/settings")
+};
+
   /** Renders the profile drop down if a loggin person is given as a prop */
   render() {
     const { classes, person } = this.props;
@@ -116,6 +123,24 @@ class ProfileDropDown extends Component {
                   </Button>
                 </Grid>
               </Grid>
+
+
+              <Divider className={classes.divider} />
+
+              <Grid container justify="center">
+                <Grid item>
+                  <Button
+                    color="primary"
+                    onClick={this.handleSettingsButtonClicked}
+                  >
+                    Settings
+                  </Button>
+                  
+                </Grid>
+                
+              </Grid>
+
+              
             </Paper>
           </ClickAwayListener>
         </Popover>
@@ -129,6 +154,8 @@ function getCookie(name) {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
+
 
 /** Component specific styles */
 const styles = (theme) => ({

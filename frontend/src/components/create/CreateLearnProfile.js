@@ -112,16 +112,7 @@ class CreateLearnProfile extends Component {
               </div>
               <div>
                 <form className={classes.root} onSubmit={this.handleSubmit}>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Gebe deine Profile ID an"
-                      variant="outlined"
-                      name="profile_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
+
                   <div>
                     <FormControl
                       component="fieldset"

@@ -18,6 +18,16 @@ class CreateLearnGroup extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+  
+  async componentDidMount() {
+    
+    let uid = getCookie("uid")
+    let app = new AppApi()
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
+    this.state.person_id = session_id
+}
+  
 
   /** Create LearnGroupProfile*/
   addLearnGroup(name, person_id) {
@@ -77,17 +87,7 @@ class CreateLearnGroup extends Component {
                       onChange={this.handleChange}
                     />
                   </div>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Person ID"
-                      variant="outlined"
-                      type="number"
-                      name="person_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
+
                   <Button
                     type="submit"
                     variant="contained"
@@ -106,8 +106,13 @@ class CreateLearnGroup extends Component {
       </div>
     );
   }
+  
 }
-
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
 const styles = (theme) => ({
   root: {
     "& > *": {
