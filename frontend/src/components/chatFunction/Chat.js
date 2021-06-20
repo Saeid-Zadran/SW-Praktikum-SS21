@@ -8,7 +8,17 @@ class ChatBox extends Component {
 
 
   state = {
-    chat: ['hello', 'hi!', 'do you want to chat?']
+    chat: ['hello', 'hi!', 'do you want to chat?'],
+    chatAdvanced: 
+    [
+        {"txtMessage": "Hello", "userMessage": true, "senderID": "Baybora Gülec"},
+        {"txtMessage": "Hi Wie gehts", "userMessage": false, "senderID": "Saeid"},
+        {"txtMessage": "Oha oha", "userMessage": false, "senderID": "Mertcan"},
+        {"txtMessage": "Ganz gut euch", "userMessage": true, "senderID": "Baybora Gülec"},
+        {"txtMessage": "Easy auch", "userMessage": false, "senderID": "Mertcan"},
+
+    ]
+
   }
 
   
@@ -24,7 +34,7 @@ class ChatBox extends Component {
 
 <div className="column scrollable">
         <div className="hero-body ">
-          <Messages chat={this.state.chat} />
+          <Messages chat={this.state.chatAdvanced} />
         </div>
 
         <div className="hero-foot">
@@ -65,11 +75,19 @@ const Chat = ({ saveMsg }) => (
 const Messages = ({ chat }) => (
   <div style={{ heigth: '100%', width: '100%' }}>
     {chat.map((m, i) => {
-      const msgClass = i === 0 || i % 2 === 0 // for demo purposes, format every other msg
+      const msgClass = m.userMessage // for demo purposes, format every other msg
       return (
-        <p style={{ padding: '.25em', textAlign: msgClass ? 'left' : 'right', overflowWrap: 'normal' }}>
-          <span key={i} className={`tag is-medium ${msgClass ? 'is-success' : 'is-info'}`}>{m}</span>
+          <div >
+                     <p style={{ padding: '.25em', textAlign: msgClass ? 'left' : 'right', overflowWrap: 'normal' }}>
         </p>
+                     <p style={{ padding: '.25em', textAlign: msgClass ? 'left' : 'right', overflowWrap: 'normal' }}>
+                     <span key={i}  className={` is-size-7	 `}>{m.senderID}</span>
+
+                         <div>          <span key={i} className={`tag is-medium ${msgClass ? 'is-success' : 'is-info'}`}>{m.txtMessage}</span>
+</div>
+        </p>
+ 
+        </div>
       )}
     )}
   </div>
