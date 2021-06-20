@@ -49,7 +49,9 @@ export default class AppApi {
   #updateLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #deleteLearnProfileURL = (id) =>`${this.#AppServerBaseURL}/learnprofiles/${id}`;
   #getLearnProfileViaURL  = (id) =>`${this.#AppServerBaseURL}/learnprofile/${id}`;
+
   //Chat
+  #getChatsByLearnGroupIdURL = (learn_group_id) => `${this.#AppServerBaseURL}/chat/learngroup/${learn_group_id}`;
   #getChatsURL = () => `${this.#AppServerBaseURL}/chats`;
   #addChatURL = () => `${this.#AppServerBaseURL}/chats`;
   #updateChatURL = () => `${this.#AppServerBaseURL}/chats`;
@@ -62,10 +64,13 @@ export default class AppApi {
   #deleteChatMessageURL = (id) =>`${this.#AppServerBaseURL}/chatmessages/${id}`;
 
   //LearnGroup
+  #getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupsURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #addLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
+  #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
+
 
   /**
    * Get the Singelton instance
@@ -587,6 +592,16 @@ export default class AppApi {
     });
   }
 
+  getChatsByLearnGroupId(learn_group_id) {
+    return this.#fetchAdvanced(this.#getChatsByLearnGroupIdURL(learn_group_id)).then((responseJSON) => {
+      let chatBOs = ChatBO.fromJSON(responseJSON);
+      // console.info(chatBos);
+      return new Promise(function (resolve) {
+        resolve(chatBOs);
+      })
+    })
+  }
+
   // LearnGroup related
   getLearnGroups() {
     return this.#fetchAdvanced(this.#getLearnGroupsURL()).then(
@@ -661,3 +676,15 @@ export default class AppApi {
     });
   }
 }
+
+getLearnGroupByPersonId(person_id) {
+  return this.#fetchAdvanced(this.#getLearnGroupByPersonIdURL(person_id)).then((responseJSON) => {
+    let learnGroupBOs = LearnGroupBO.fromJSON(responseJSON);
+    // console.info(learnGroupBOs);
+    return new Promise(function (resolve) {
+      resolve(learnGroupBOs);
+    })
+  })
+}
+
+

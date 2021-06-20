@@ -4,10 +4,16 @@ import BusinessObject from './BusinessObject';
 export default class ChatBO extends BusinessObject {
 
 
-  constructor(aLearnGroupId,aIsAccepted) {
+  constructor(aLearnGroupId,aIsAccepted,aSender) {
     super();
     this.learngroup_id = aLearnGroupId;
     this.is_accepted = aIsAccepted;
+    this.sender = aSender
+    this.message = aMessage
+    this.order = aOrder
+
+
+
   }
 
 
@@ -31,6 +37,34 @@ export default class ChatBO extends BusinessObject {
   getIsAccepted() {
     return this.is_accepted;
   }
+
+  setSender(aSender) {
+    this.sender = aSender;
+  }
+
+
+  getSender() {
+    return this.sender;
+  }
+
+  setMessage(aMessage) {
+    this.message = aMessage;
+  }
+
+
+  getMessage() {
+    return this.message;
+  }
+
+  setOrder(aOrder) {
+    this.order = aOrder;
+  }
+
+
+  getOrder() {
+    return this.order;
+  }
+
 
 
 
