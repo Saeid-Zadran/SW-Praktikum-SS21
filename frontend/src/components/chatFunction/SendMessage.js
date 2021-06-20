@@ -5,7 +5,7 @@ import SendIcon from '@material-ui/icons/Send';
 import AppApi from "../../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import ChatMessageBO from "../../api/ChatMessageBO";
+import ChatBO from "../../api/ChatBO";
 import ChatBox from "./Chat"
 
 class SendMessage extends Component {
@@ -13,22 +13,27 @@ class SendMessage extends Component {
     super(props);
 
     this.state = {
-      text: "",
-      person_id: "",
-      chat_id: "",
-      chatmessage: null, //für addLearnGroup
+      learngroup_id:"",
+      is_accepted:"",
+      sender: "",
+      message: "",
+      order: "",
+      chat: null, //für addLearnGroup
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  /** Create ChatMessage*/
-  addChatMessage(text, person_id, chat_id) {
+  /** Create Chat*/
+  addChat(learngroup_id, is_accepted, sender, message, order) {
 
-    var chatmessage = new ChatMessageBO
-    chatmessage.setText(text)
-    chatmessage.setPersonId(person_id)
-    chatmessage.setChatId(chat_id)
+    var chat = new ChatBO
+    chat.setLearnGroupId(learngroup_id)
+    chat.setIsAccepted(is_accepted)
+    chat.setSender(sender)
+    chat.setMessage(message)
+    chat.setOrder(order)
+
 
 
     
@@ -37,14 +42,14 @@ class SendMessage extends Component {
     var api = AppApi.getApi();
     // console.log(api)
     api
-      .addChatMessage(chatmessage)
-      .then((chatmessage) => {
+      .addChat(chat)
+      .then((chat) => {
         // console.log(person)
         this.setState({
-          chatmessage: chatmessage,
+          chat: chat,
         });
       });
-    console.log(this.state.chatmessage);
+    console.log(this.state.chat);
   }
 
   handleChange(e) {
@@ -54,11 +59,12 @@ class SendMessage extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    this.addChatMessage(
-      this.state.text,
-      this.state.person_id,
-      this.state.chat_id,
-
+    this.addChat(
+      this.state.learngroup_id,
+      this.state.is_accepted,
+      this.state.sender,
+      this.state.message,
+      this.state.order
     );
   };
 
@@ -80,27 +86,26 @@ class SendMessage extends Component {
                       id="outlined-basic"
                       label="schreiben..."
                       variant="outlined"
-                      name="text"
+                      name="message"
                       //required
                       onChange={this.handleChange}
                     />
                 
                     <TextField
                       id="outlined-basic"
-                      label="Chat ID"
+                      label="Sender"
                       variant="outlined"
-                      name="chat_id"
-                      type="number"
+                      name="sender"
                       //required
                       onChange={this.handleChange}
                     />
               
                     <TextField
                       id="outlined-basic"
-                      label="Person ID"
+                      label="Order"
                       variant="outlined"
                       type="number"
-                      name="person_id"
+                      name="order"
                       //required
                       onChange={this.handleChange}
                     />
