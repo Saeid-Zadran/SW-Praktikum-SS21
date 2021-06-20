@@ -592,8 +592,8 @@ export default class AppApi {
     });
   }
 
-  getChatsByLearnGroupId(learn_group_id) {
-    return this.#fetchAdvanced(this.#getChatsByLearnGroupIdURL(learn_group_id)).then((responseJSON) => {
+  getChatsByLearnGroupId(learngroup_id) {
+    return this.#fetchAdvanced(this.#getChatsByLearnGroupIdURL(learngroup_id)).then((responseJSON) => {
       let chatBOs = ChatBO.fromJSON(responseJSON);
       // console.info(chatBos);
       return new Promise(function (resolve) {

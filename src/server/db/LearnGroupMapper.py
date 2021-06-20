@@ -161,7 +161,7 @@ class LearnGroupMapper (Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = " SELECT id, creation_time,name,person_id FROM profile WHERE person_id LIKE '{}'".format(person_id)
+        command = " SELECT id, creation_time,name,person_id FROM learngroup WHERE person_id LIKE '{}'".format(person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
