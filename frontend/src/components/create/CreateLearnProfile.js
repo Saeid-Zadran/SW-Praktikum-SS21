@@ -81,25 +81,24 @@ class CreateLearnProfile extends Component {
     console.log(session_id)
     var learnProfile = await app.getLearnProfileViaUrl(session_id)
     learnProfile = learnProfile[0]
+    if(learnProfile)
+    {this.setState({
+      study_status: learnProfile.study_status.toString(),
+      frequency: learnProfile.frequency.toString(),
+      prev_knowledge: learnProfile.prev_knowledge.toString(),
+      group_size: learnProfile.group_size.toString(),
+      extroversion: learnProfile.extroversion.toString(),
+      profile_id: learnProfile.id.toString(),
+      learnprofile: true, //Für addLearnProfile
+    }
+    )}
 
-  this.setState({
-    study_status: learnProfile.study_status.toString(),
-    frequency: learnProfile.frequency.toString(),
-    prev_knowledge: learnProfile.prev_knowledge.toString(),
-    group_size: learnProfile.group_size.toString(),
-    extroversion: learnProfile.extroversion.toString(),
-    profile_id: learnProfile.id.toString(),
-    learnprofile: true, //Für addLearnProfile
-  }
-  )
-
-
+  
     //this.handleChange(target)
     this.forceUpdate()
     console.log(this.state)
 }
   
-
   render() {
     const { classes } = this.props;
     return (
