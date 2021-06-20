@@ -675,7 +675,7 @@ export default class AppApi {
       });
     });
   }
-}
+
 
 getLearnGroupByPersonId(person_id) {
   return this.#fetchAdvanced(this.#getLearnGroupByPersonIdURL(person_id)).then((responseJSON) => {
@@ -686,5 +686,5 @@ getLearnGroupByPersonId(person_id) {
     })
   })
 }
-
+}
 

@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import 'bulma/css/bulma.min.css';
 import ChatSideBar from "./ChatSideBar";
 import './ChatSideBar.css'
+import AppApi from "../../api/AppApi";
 
 class ChatBox extends Component {
 
@@ -10,12 +11,8 @@ class ChatBox extends Component {
     chat: ['hello', 'hi!', 'do you want to chat?']
   }
 
-  saveMsg = (msg) => this.setState({
-    chat: [
-      ...this.state.chat,
-      msg
-    ]
-  })
+  
+
 
   render() {
     return (
@@ -38,7 +35,6 @@ class ChatBox extends Component {
             <Chat saveMsg={this.saveMsg} />
           </footer>
       </section>
-
 
       </div>
     )
