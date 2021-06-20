@@ -33,11 +33,6 @@ class CreateProfile extends Component {
     profile.setSemester(semester)
     profile.setDegreeCourse(degree_course)
     profile.setPersonId(person_id)
-
-
-
-
-    
     
     var api = AppApi.getApi();
     // console.log(api)
@@ -66,6 +61,33 @@ class CreateProfile extends Component {
       this.state.person_id
     );
   };
+  async componentDidMount() {
+    
+    let uid = getCookie("uid")
+    let app = new AppApi()
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
+    console.log(session_id)
+    var learnProfile = await app.getProfileViaUrl(session_id)
+    learnProfile = learnProfile[0]
+    console.log(learnProfile)
+  this.setState({
+    name: learnProfile.name.toString(),
+    age: learnProfile.age.toString(),
+    adress: learnProfile.adress.toString(),
+    semester: learnProfile.semester.toString(),
+    degree_course: learnProfile.degree_course.toString(),
+    person_id: learnProfile.id.toString(),
+    loadingInProgress: true, //Für addLearnProfile
+  }
+  )
+
+
+    //this.handleChange(target)
+    this.forceUpdate()
+    console.log(this.state)
+}
+
 
   render() {
     const { classes } = this.props;
@@ -88,7 +110,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       name="name"
                       type="string"
-                      
+                      value = {this.state.name}
+
                       onChange={this.handleChange}
                     />
                   </div>
@@ -99,6 +122,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       name="age"
                       type="number"
+                      value = {this.state.age}
+
                       //required
                       onChange={this.handleChange}
                     />
@@ -110,6 +135,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       type="string"
                       name="adress"
+                      value = {this.state.adress}
+
                       //required
                       onChange={this.handleChange}
                     />
@@ -121,6 +148,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       type="number"
                       name="semester"
+                      value = {this.state.semester}
+
                       //required
                       onChange={this.handleChange}
                     />
@@ -134,23 +163,14 @@ class CreateProfile extends Component {
                       type="string"
                       name="degree_course"
                       //required
+                      value = {this.state.degree_course}
                       onChange={this.handleChange}
                     />
                   </div>
 
                   
 
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Person ID"
-                      variant="outlined"
-                      type="number"
-                      name="person_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
+                 
                   <Button
                     type="submit"
                     variant="contained"
@@ -169,6 +189,12 @@ class CreateProfile extends Component {
       </div>
     );
   }
+  
+}
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 const styles = (theme) => ({

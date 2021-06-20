@@ -15,10 +15,8 @@ import LearnProfileBO from '../../api/LearnProfileBO';
 
 
 class CreateLearnProfile extends Component {
-  
   constructor(props) {
     super(props);
-
     this.state = {
       study_status: "",
       frequency: "",
@@ -30,23 +28,19 @@ class CreateLearnProfile extends Component {
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.defaultValue = { }
   }
 
   /** Create LearnProfile*/
   addLearnProfile( study_status,frequency,prev_knowledge, group_size, extroversion,profile_id) {
     
-    var learnprofile = new LearnProfileBO
+    var learnprofile = new LearnProfileBO()
     learnprofile.setStudyStatus(study_status)
     learnprofile.setFrequency(frequency)
     learnprofile.setPrevKnowledge(prev_knowledge)
     learnprofile.setGroupSize(group_size)
     learnprofile.setExtroversion(extroversion)
     learnprofile.setProfileId(profile_id)
-
-
-
-
-    
     
     var api = AppApi.getApi();
     // console.log(api)
@@ -77,24 +71,37 @@ class CreateLearnProfile extends Component {
     );
   };
 
-  componentDidMount() {
 
+  async componentDidMount() {
     
     let uid = getCookie("uid")
-    
     let app = new AppApi()
-          /* check if user already exists if not create */ 
-          app.getPersonByGoogleId(uid).then((response) =>
-          {
-          //setUid(response[0].id)
-          })
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
+    console.log(session_id)
+    var learnProfile = await app.getLearnProfileViaUrl(session_id)
+    learnProfile = learnProfile[0]
+
+  this.setState({
+    study_status: learnProfile.study_status.toString(),
+    frequency: learnProfile.frequency.toString(),
+    prev_knowledge: learnProfile.prev_knowledge.toString(),
+    group_size: learnProfile.group_size.toString(),
+    extroversion: learnProfile.extroversion.toString(),
+    profile_id: learnProfile.id.toString(),
+    learnprofile: true, //Für addLearnProfile
   }
+  )
+
+
+    //this.handleChange(target)
+    this.forceUpdate()
+    console.log(this.state)
+}
   
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
-
     return (
       <div className={classes.roott}>
         <Grid container spacing={3}>
@@ -127,7 +134,7 @@ class CreateLearnProfile extends Component {
                         aria-label="study_status"
                         name="study_status"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.study_status }
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -161,9 +168,10 @@ class CreateLearnProfile extends Component {
                         aria-label="frequency"
                         name="frequency"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.frequency}
                         onChange={this.handleChange}
                       >
+
                         <FormControlLabel
                           value="1"
                           control={<Radio />}
@@ -195,7 +203,7 @@ class CreateLearnProfile extends Component {
                         aria-label="prev_knowledge"
                         name="prev_knowledge"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.prev_knowledge}
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -223,7 +231,7 @@ class CreateLearnProfile extends Component {
                         aria-label="Gruppengröße"
                         name="group_size"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.group_size}
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -251,7 +259,7 @@ class CreateLearnProfile extends Component {
                         aria-label="extrovertiert oder introvertiert"
                         name="extroversion"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.extroversion}
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -277,7 +285,6 @@ class CreateLearnProfile extends Component {
                   >
                     Bestätigen
                   </Button>
-
                 </form>
               </div>
             </Paper>
@@ -286,7 +293,6 @@ class CreateLearnProfile extends Component {
       </div>
     );
   }
- 
 }
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -294,11 +300,6 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-function setUid(uid){
-  this.state = {
-    profile_id : uid
-  };
-}
 
 
 
