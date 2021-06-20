@@ -90,9 +90,9 @@ class CreateLearnGroup extends Component {
 
                   <Button
                     type="submit"
-                    variant="contained"
+                    variant="text"
                     color="default"
-                    size="large"
+                    size="small"
                     className={classes.button}
                     startIcon={<SaveIcon />}
                   >

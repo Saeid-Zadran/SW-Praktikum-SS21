@@ -3,6 +3,7 @@ import ChatGroups from "./ChatGroups"
 import 'bulma/css/bulma.min.css';
 import './ChatSideBar.css'
 import AppApi from '../../api/AppApi'
+import CreateLearnGroup from '../create/CreateLearnGroup'
 
 class ChatSideBar extends Component {
 
@@ -50,10 +51,10 @@ class ChatSideBar extends Component {
           Lerngruppen Matches
         </p>
         <ul class="menu-list">
-          <li><a>Payments</a></li>
-          <li><a>Transfers</a></li>
-          <li><a>Balance</a></li>
+
         </ul>
+
+        <CreateLearnGroup></CreateLearnGroup>
       </aside>
        );
        }

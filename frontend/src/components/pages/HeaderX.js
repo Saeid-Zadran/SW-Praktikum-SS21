@@ -41,13 +41,7 @@ class HeaderX extends Component {
             scrollButtons="auto">
 
 
-              <Tab label='Lerngruppe erstellen' component={RouterLink} to={`/SecondPage/CreateLearnGroup`} />
-              <Tab label='Lernprofil erstellen' component={RouterLink} to={`/SecondPage/CreateLearnProfile`} />
-              <Tab label='Lernprofile' component={RouterLink} to={`/SecondPage/LearnProfileList`} />
-              <Tab label='Lerngruppen' component={RouterLink} to={`/SecondPage/LearnGroupList`} />
-              <Tab label='Alle Profile' component={RouterLink} to={`/SecondPage/ProfileList`} />
               <Tab label='Chat' component={RouterLink} to={`/SecondPage/SendMessage`} />
-              <Tab label='Nachricht' component={RouterLink} to={`/SecondPage/MessageList`} />
 
               
             </Tabs>
