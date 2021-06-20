@@ -676,15 +676,23 @@ export default class AppApi {
     });
   }
 
+  
 
-getLearnGroupByPersonId(person_id) {
-  return this.#fetchAdvanced(this.#getLearnGroupByPersonIdURL(person_id)).then((responseJSON) => {
-    let learnGroupBOs = LearnGroupBO.fromJSON(responseJSON);
-    // console.info(learnGroupBOs);
-    return new Promise(function (resolve) {
-      resolve(learnGroupBOs);
+  getLearnGroupByPersonId(person_id) {
+    //console.log(google_user_id)
+    return this.#fetchAdvanced(this.#getLearnGroupByPersonIdURL(person_id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      // We always get an array of PersonBOs.fromJSON, but only need one object
+      let responseLearnGroupByPersonBOs = LearnGroupBO.fromJSON(responseJSON);
+      // console.info(responsePersonBO);
+      return new Promise(function (resolve) {
+        resolve(responseLearnGroupByPersonBOs);
+      })
     })
-  })
+  }
 }
-}
+
+
+
 
