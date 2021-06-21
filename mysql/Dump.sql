@@ -29,7 +29,6 @@ CREATE TABLE `chat` (
   `learngroup_id` int NOT NULL,
   `sender` varchar(45) COLLATE utf8_bin NOT NULL,
   `message` varchar(45) COLLATE utf8_bin NOT NULL,
-  `order` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_chat_learngroup1_idx` (`learngroup_id`),
   CONSTRAINT `fk_chat_learngroup1` FOREIGN KEY (`learngroup_id`) REFERENCES `learngroup` (`id`)
@@ -42,7 +41,7 @@ CREATE TABLE `chat` (
 
 LOCK TABLES `chat` WRITE;
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
-INSERT INTO `chat` VALUES (1,'2021-06-20 16:59:33',1,1,'','',0);
+INSERT INTO `chat` VALUES (1,'2021-06-20 16:59:33',1,1,'',''),(2,'2021-06-21 15:54:17',0,1,'saeid','hallo'),(3,'2021-06-21 15:54:34',0,1,'mertan','hey'),(4,'2021-06-21 15:54:54',1,1,'saeid','waslos'),(5,'2021-06-21 15:55:02',1,1,'saeid','nix'),(6,'2021-06-21 15:55:02',1,1,'saeid','nix'),(7,'2021-06-21 16:11:55',2,1,'karl','habe'),(8,'2021-06-21 16:13:23',1,1,'kenenet','sss'),(9,'2021-06-21 16:14:42',2,1,'sadwd','strdawdwing'),(10,'2021-06-21 16:24:16',2,1,'dawwd','sss'),(11,'2021-06-21 16:24:24',2,1,'dawwd','ssssdawfqqq'),(12,'2021-06-21 16:24:32',2,1,'dawrqrwd','ssswwsdawfqqq');
 /*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +72,7 @@ CREATE TABLE `chatmessage` (
 
 LOCK TABLES `chatmessage` WRITE;
 /*!40000 ALTER TABLE `chatmessage` DISABLE KEYS */;
-INSERT INTO `chatmessage` VALUES (1,'2021-06-20 17:00:15','was geht ',1,1),(2,'2021-06-20 17:18:24','was geht ',1,1);
+INSERT INTO `chatmessage` VALUES (1,'2021-06-20 17:00:15','was geht ',1,1),(2,'2021-06-20 17:18:24','was geht ',1,1),(3,'2021-06-20 19:20:15','wie geht dir',1,1);
 /*!40000 ALTER TABLE `chatmessage` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,7 +129,7 @@ CREATE TABLE `learngroup` (
 
 LOCK TABLES `learngroup` WRITE;
 /*!40000 ALTER TABLE `learngroup` DISABLE KEYS */;
-INSERT INTO `learngroup` VALUES (1,'2021-06-20 16:58:59','string',1);
+INSERT INTO `learngroup` VALUES (1,'2021-06-20 16:58:59','string',1),(2,'2021-06-20 19:20:58','Lerngruppe123',2),(3,'2021-06-20 22:29:06','mathe',2),(4,'2021-06-20 23:16:48','programmiergruppe123',2),(5,'2021-06-20 23:17:03','programmiergruppe123',2),(6,'2021-06-21 12:47:46','ITProjekt',2);
 /*!40000 ALTER TABLE `learngroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,4 +233,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-20 19:09:55
+-- Dump completed on 2021-06-21 16:28:10
