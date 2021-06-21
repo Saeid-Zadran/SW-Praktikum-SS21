@@ -9,7 +9,7 @@ class Chat(bo):
         self._learngroup_id = 0
         self._sender= None
         self._message= None
-        self._order= 0
+
 
 
     def set_learngroup_id(self, learngroup_id):
@@ -36,11 +36,7 @@ class Chat(bo):
     def set_message(self, message):
         self._message = message
 
-    def get_order(self):
-        return self._order
 
-    def set_order(self, order):
-        self._order = order
 
     
     
@@ -65,6 +61,6 @@ class Chat(bo):
         obj.set_is_accepted(dictionary["is_accepted"])
         obj.set_sender(dictionary["sender"])
         obj.set_message(dictionary["message"])
-        obj.set_order(dictionary["order"])
+
 
         return obj

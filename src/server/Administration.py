@@ -210,14 +210,13 @@ class Administration(object):
         with ChatMapper() as mapper:
             return mapper.find_all()
 
-    def create_chat(self, learngroup_id, is_accepted,sender, message, order):
+    def create_chat(self, learngroup_id, is_accepted,sender, message):
         chat = Chat()
         chat.set_learngroup_id(learngroup_id)
         chat.set_is_accepted(is_accepted)
         chat.set_sender(sender)
         chat.set_message(message)
-        chat.set_order(order)
-        chat.set_id(0) # Warum 0? 1 Richtig?
+        chat.set_id(1) # Warum 0? 1 Richtig?
 
         with ChatMapper() as mapper:
             return mapper.insert(chat)

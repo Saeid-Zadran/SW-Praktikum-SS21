@@ -101,7 +101,7 @@ chat = api.inherit('Chat', bo, {
     'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),
     'sender': fields.String(attribute='_sender', description= 'Inhalt der Nachricht'),
     'message': fields.String(attribute='_message', description= 'Id eines Chats'),
-    'order': fields.Integer(attribute='_order', description= 'Id einer Person')
+    
 
 
 })
@@ -585,7 +585,7 @@ class ChatListOperations(Resource):
             wird auch dem Client zurückgegeben. 
             """
             c = adm.create_chat(proposal.get_learngroup_id(), 
-            proposal.get_is_accepted(), proposal.get_sender(), proposal.get_message(), proposal.get_order())
+            proposal.get_is_accepted(), proposal.get_sender(), proposal.get_message())
             return c, 200
         else:
             ''' Wenn irgendetwas schiefgeht, dann geben wir nichts zurück und werfen einen Server-Fehler.'''
@@ -655,7 +655,7 @@ class ChatDeleteOperation(Resource):
 #chatbylearngroupid
 @studymatch.route('/chat/<int:learngroup_id>')
 @studymatch.response(500, 'when server has problems')
-class LearnGroupByPersonIdOperations(Resource):
+class ChatListOperations(Resource):
     @studymatch.marshal_with(chat)
     #@secured
     def get(self, learngroup_id):
@@ -832,7 +832,7 @@ class LearnGroupOperations(Resource):
 #learngroupbypersonid
 @studymatch.route('/learngroup/<int:person_id>')
 @studymatch.response(500, 'when server has problems')
-class LearnGroupByPersonIdOperations(Resource):
+class LearnGroupListOperations(Resource):
     @studymatch.marshal_with(learngroup)
     #@secured
     def get(self, person_id):
