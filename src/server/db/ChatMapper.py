@@ -94,7 +94,7 @@ class ChatMapper(Mapper):
 
 
         command = "INSERT INTO chat (id, creation_time, learngroup_id, is_accepted, sender, message) VALUES (%s,%s,%s,%s,%s,%s)"
-        data = (chat.get_id(), chat.get_creation_time(),chat.get_is_accepted(), chat.get_learngroup_id(), chat.get_sender(),chat.get_message())
+        data = (chat.get_id(), chat.get_creation_time(),chat.get_learngroup_id(),chat.get_is_accepted(),  chat.get_sender(),chat.get_message())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -139,7 +139,7 @@ class ChatMapper(Mapper):
         tuples = cursor.fetchall()
 
        
-        for (id, creation_time,  learngrsoup_id, is_accepted,sender, message) in tuples:
+        for (id, creation_time,  learngroup_id, is_accepted,sender, message) in tuples:
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)

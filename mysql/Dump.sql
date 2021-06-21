@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `chat`;
 CREATE TABLE `chat` (
   `id` int NOT NULL,
   `creation_time` datetime NOT NULL,
-  `is_accepted` tinyint NOT NULL,
   `learngroup_id` int NOT NULL,
+  `is_accepted` tinyint NOT NULL,
   `sender` varchar(45) COLLATE utf8_bin NOT NULL,
   `message` varchar(45) COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`),
@@ -41,7 +41,7 @@ CREATE TABLE `chat` (
 
 LOCK TABLES `chat` WRITE;
 /*!40000 ALTER TABLE `chat` DISABLE KEYS */;
-INSERT INTO `chat` VALUES (1,'2021-06-20 16:59:33',1,1,'',''),(2,'2021-06-21 15:54:17',0,1,'saeid','hallo'),(3,'2021-06-21 15:54:34',0,1,'mertan','hey'),(4,'2021-06-21 15:54:54',1,1,'saeid','waslos'),(5,'2021-06-21 15:55:02',1,1,'saeid','nix'),(6,'2021-06-21 15:55:02',1,1,'saeid','nix'),(7,'2021-06-21 16:11:55',2,1,'karl','habe'),(8,'2021-06-21 16:13:23',1,1,'kenenet','sss'),(9,'2021-06-21 16:14:42',2,1,'sadwd','strdawdwing'),(10,'2021-06-21 16:24:16',2,1,'dawwd','sss'),(11,'2021-06-21 16:24:24',2,1,'dawwd','ssssdawfqqq'),(12,'2021-06-21 16:24:32',2,1,'dawrqrwd','ssswwsdawfqqq');
+INSERT INTO `chat` VALUES (1,'2021-06-20 16:59:33',1,1,'',''),(2,'2021-06-21 15:54:17',1,0,'saeid','hallo'),(3,'2021-06-21 15:54:34',1,0,'mertan','hey'),(4,'2021-06-21 15:54:54',1,1,'saeid','waslos'),(5,'2021-06-21 15:55:02',1,1,'saeid','nix'),(6,'2021-06-21 15:55:02',1,1,'saeid','nix'),(7,'2021-06-21 16:11:55',1,2,'karl','habe'),(8,'2021-06-21 16:13:23',1,1,'kenenet','sss'),(9,'2021-06-21 16:14:42',1,2,'sadwd','strdawdwing'),(10,'2021-06-21 16:24:16',1,2,'dawwd','sss'),(11,'2021-06-21 16:24:24',1,2,'dawwd','ssssdawfqqq'),(12,'2021-06-21 16:24:32',1,2,'dawrqrwd','ssswwsdawfqqq'),(13,'2021-06-21 18:08:50',1,2,'string','string'),(14,'2021-06-21 18:11:14',1,2,'dawwd','striadwfng'),(15,'2021-06-21 18:38:16',2,1,'adwda','strdawaing'),(16,'2021-06-21 18:39:48',2,1,'henry','nudeln');
 /*!40000 ALTER TABLE `chat` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,4 +233,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-21 16:28:10
+-- Dump completed on 2021-06-21 18:42:38

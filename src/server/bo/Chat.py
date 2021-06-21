@@ -5,10 +5,11 @@ class Chat(bo):
 
     def __init__(self):
         super().__init__()
-        self._is_accepted = 0
         self._learngroup_id = 0
+        self._is_accepted = 1
         self._sender= None
         self._message= None
+       
 
 
 
