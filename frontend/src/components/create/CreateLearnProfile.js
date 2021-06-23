@@ -11,6 +11,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import LearnProfileBO from '../../api/LearnProfileBO';
+import history from '../../history'
 
 
 
@@ -50,8 +51,8 @@ class CreateLearnProfile extends Component {
         this.setState({
           learnprofile: learnprofile,
         });
+        history.push('/SecondPage/SendMessage');
       });
-    console.log(this.state.learnprofile);
   }
 
   handleChange(e) {
@@ -81,8 +82,12 @@ class CreateLearnProfile extends Component {
     console.log(session_id)
     var learnProfile = await app.getLearnProfileViaUrl(session_id)
     learnProfile = learnProfile[0]
-    if(learnProfile)
-    {this.setState({
+    if(learnProfile != undefined)
+
+    {      console.log("crimmy")
+
+      this.setState({
+
       study_status: learnProfile.study_status.toString(),
       frequency: learnProfile.frequency.toString(),
       prev_knowledge: learnProfile.prev_knowledge.toString(),
@@ -92,6 +97,14 @@ class CreateLearnProfile extends Component {
       learnprofile: true, //Für addLearnProfile
     }
     )}
+    else
+    {
+
+      this.setState({
+        profile_id: session_id
+      })
+    }
+    console.log(this.setState.session_id)
 
   
     //this.handleChange(target)

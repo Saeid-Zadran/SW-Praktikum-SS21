@@ -91,7 +91,14 @@ class App extends React.Component {
                   
                   app.getLearnProfileViaUrl(session_id).then((profile)=>
                   {
-                    let learnProfile = profile[0].creation_time
+                    let learnProfile = null
+
+                    try{
+                      learnProfile = profile[0].creation_time
+                    }
+                    catch{
+                      learnProfile = null
+                    }
 
                     if(learnProfile)
                     {
