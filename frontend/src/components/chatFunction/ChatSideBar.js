@@ -38,11 +38,10 @@ class ChatSideBar extends Component {
             learnGroups: learngroups,
         })
         console.log(this.state.learnGroups)
-        console.log(this.props)
       
     }
        return (
-        <aside class="menu 	 ">
+        <aside class="menu">
         <p class="menu-label ">
           Laufende Chats
         </p>
