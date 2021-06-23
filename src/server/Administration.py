@@ -230,7 +230,6 @@ class Administration(object):
             return mapper.find_by_key(id)
 
     def get_chat_by_learngroup_id(self,learngroup_id):
-    
         with ChatMapper() as mapper:
             return mapper.find_by_learngroup(learngroup_id)
 
@@ -290,6 +289,7 @@ class Administration(object):
 
     def get_learngroup_by_id(self, id):
         with LearnGroupMapper() as mapper:
+
             return mapper.find_by_key(id)
 
     def delete_learngroup(self,learngroup):

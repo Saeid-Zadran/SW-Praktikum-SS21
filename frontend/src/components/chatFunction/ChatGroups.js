@@ -57,25 +57,13 @@ constructor(props) {
       
     const { classes } = this.props;
     const {title, subtitle} = this.props;
-    const handleClick = () => {
+    const handleClick = async () => {
+      
+      let fetchedChatAdvanced =  await AppApi.getApi().getChatsByLearnGroupId(this.props.id)
+      this.props.getChatWindow(fetchedChatAdvanced, this.props.id)
 
-        
-            localStorage.setItem("selectLearnGroup", "")
-            console.log(localStorage.getItem("selectLearnGroup"), this.props.id.toString())
 
-            localStorage.setItem("selectLearnGroup", this.props.id.toString())
 
-        console.log(localStorage.getItem("selectLearnGroup"), this.props.id.toString())
-        if(localStorage.getItem("selectLearnGroup") === this.props.id.toString())
-        {
-            this.state.selected = true
-        }
-        else
-        {
-            this.state.selected = false
-        
-        }
-    console.log(this.state.selected)
     }
 
     const getRenderingState = () => {

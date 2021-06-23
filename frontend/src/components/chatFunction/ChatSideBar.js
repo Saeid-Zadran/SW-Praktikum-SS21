@@ -19,19 +19,32 @@ class ChatSideBar extends Component {
     this.setState({
         learnGroups: learngroups,
     })
-    console.log(this.state.learnGroups)
   }
+
+ 
 
 
     render(){
+
+      const getNewChats = async (learnGroups) => {
+        let uid = getCookie("uid")
+        let session_id = await AppApi.getApi().getPersonByGoogleId(uid)
+        session_id = session_id[0].id
+        console.log(session_id)
+        let learngroups = await AppApi.getApi().getLearnGroupByPersonId(session_id)
+        this.setState({
+            learnGroups: learngroups,
+        })
+      
+    }
        return (
-        <aside class="menu 	 ">
+        <aside class="menu">
         <p class="menu-label ">
           Laufende Chats
         </p>
         <ul class="menu-list">
           {this.state.learnGroups.map(learngroup => 
-            <ChatGroups title={learngroup.name}></ChatGroups>)}
+            <ChatGroups getChatWindow={this.props.getChatWindow} id={learngroup.id} title={learngroup.name}></ChatGroups>)}
         </ul>
         <p class="menu-label">
           Matches
@@ -54,7 +67,7 @@ class ChatSideBar extends Component {
 
         </ul>
 
-        <CreateLearnGroup></CreateLearnGroup>
+        <CreateLearnGroup getNewChatWindow={getNewChats} ></CreateLearnGroup>
       </aside>
        );
        }

@@ -30,7 +30,7 @@ class CreateLearnGroup extends Component {
   
 
   /** Create LearnGroupProfile*/
-  addLearnGroup(name, person_id) {
+  async addLearnGroup(name, person_id) {
 
     var learnGroup = new LearnGroupBO
     learnGroup.setName(name)
@@ -40,14 +40,12 @@ class CreateLearnGroup extends Component {
 
     var api = AppApi.getApi();
     // console.log(api)
-    api
-      .addLearnGroup(learnGroup)
-      .then((learnGroup) => {
-        this.setState({
-          learnGroup: learnGroup,
-        });
-      });
+    let learnGroups = await api.addLearnGroup(learnGroup)
+    console.log(learnGroups);
+
+    this.props.getNewChatWindow(learnGroups)
     console.log(this.state.learnGroup);
+    
   }
 
   handleChange(e) {
@@ -61,6 +59,9 @@ class CreateLearnGroup extends Component {
       this.state.name,
       this.state.person_id,
     );
+    this.setState({
+      name: ""
+    })
   };
 
   render() {
@@ -83,8 +84,9 @@ class CreateLearnGroup extends Component {
                       label="Wie soll die Lerngruppe heißen?"
                       variant="outlined"
                       name="name"
-                      //required
+                      value={this.state.name}
                       onChange={this.handleChange}
+                      //required
                     />
                   </div>
 

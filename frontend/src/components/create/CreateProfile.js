@@ -5,6 +5,7 @@ import AppApi from "../../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import ProfileBO from "../../api/ProfileBO";
+import history from '../../history'
 
 
 
@@ -41,6 +42,7 @@ class CreateProfile extends Component {
         this.setState({
           profile: profile,
         });
+
       });
     console.log(this.state.profile);
   }
@@ -60,6 +62,8 @@ class CreateProfile extends Component {
       this.state.degree_course,
       this.state.person_id
     );
+    history.push('/SecondPage/CreateLearnProfile');
+
   };
   async componentDidMount() {
     
@@ -70,18 +74,28 @@ class CreateProfile extends Component {
     console.log(session_id)
     var learnProfile = await app.getProfileViaUrl(session_id)
     learnProfile = learnProfile[0]
-    console.log(learnProfile)
-  this.setState({
-    name: learnProfile.name.toString(),
-    age: learnProfile.age.toString(),
-    adress: learnProfile.adress.toString(),
-    semester: learnProfile.semester.toString(),
-    degree_course: learnProfile.degree_course.toString(),
-    person_id: learnProfile.id.toString(),
-    loadingInProgress: true, //Für addLearnProfile
-  }
-  )
-
+    console.log(learnProfile.name)
+    if(learnProfile.name)
+    {
+      this.setState({
+        name: learnProfile.name.toString(),
+        age: learnProfile.age.toString(),
+        adress: learnProfile.adress.toString(),
+        semester: learnProfile.semester.toString(),
+        degree_course: learnProfile.degree_course.toString(),
+        person_id: learnProfile.id.toString(),
+        loadingInProgress: true, //Für addLearnProfile
+      }
+      )
+    
+    }
+    else
+    {
+      this.setState({
+        person_id: session_id
+      })
+    }
+  
 
     //this.handleChange(target)
     this.forceUpdate()

@@ -51,7 +51,7 @@ export default class AppApi {
   #getLearnProfileViaURL  = (id) =>`${this.#AppServerBaseURL}/learnprofile/${id}`;
 
   //Chat
-  #getChatsByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/chat/learngroup/${learngroup_id}`;
+  #getChatsByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/chat/${learngroup_id}`;
   #getChatsURL = () => `${this.#AppServerBaseURL}/chats`;
   #addChatURL = () => `${this.#AppServerBaseURL}/chats`;
   #updateChatURL = () => `${this.#AppServerBaseURL}/chats`;

@@ -98,7 +98,7 @@ grouprequest = api.inherit('GroupRequest', bo, {
 chat = api.inherit('Chat', bo, {
     'learngroup_id': fields.Integer(attribute='_learngroup_id', description='ID de der lerngruppe'),
     
-    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),
+    'is_accepted': fields.Integer(attribute='_is_accepted',description='Anfragestatus eines Chats'),
     'sender': fields.String(attribute='_sender', description= 'Inhalt der Nachricht'),
     'message': fields.String(attribute='_message', description= 'Id eines Chats'),
     
@@ -624,10 +624,10 @@ class ChatOperation(Resource):
         else:
             return '', 500
 
-@studymatch.route('/chat/<int:id>')
+@studymatch.route('/chatnutten/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'id des Chat-Objekts')
-class ChatDeleteOperation(Resource):
+class ChatListOperations(Resource):
 
     @studymatch.marshal_with(chat)
     #@secured
@@ -637,6 +637,7 @@ class ChatDeleteOperation(Resource):
         """
         adm = Administration()
         c = adm.get_chat_by_id(id)
+        print("hurennutten", c)
         return c
 
 
@@ -655,7 +656,7 @@ class ChatDeleteOperation(Resource):
 #chatbylearngroupid
 @studymatch.route('/chat/<int:learngroup_id>')
 @studymatch.response(500, 'when server has problems')
-class ChatListOperations(Resource):
+class ChatListOperation(Resource):
     @studymatch.marshal_with(chat)
     #@secured
     def get(self, learngroup_id):
