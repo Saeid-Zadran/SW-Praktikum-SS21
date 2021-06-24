@@ -19,8 +19,6 @@ class ChatSideBar extends Component {
     this.setState({
         learnGroups: learngroups,
     })
-    console.log(this.state.learnGroups)
-    console.log(this.props)
   }
 
  
@@ -37,7 +35,6 @@ class ChatSideBar extends Component {
         this.setState({
             learnGroups: learngroups,
         })
-        console.log(this.state.learnGroups)
       
     }
        return (
