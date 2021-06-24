@@ -9,7 +9,7 @@ class GroupRequest(bo):
         self._learnprofile_id = 0
 
     def get_learnprofile_id(self):
-        return self.learnprofile
+        return self.learnprofile_id
 
     def set_learnprofile_id(self, value):
         self.learnprofile_id = value
