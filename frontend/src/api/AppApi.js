@@ -65,18 +65,18 @@ export default class AppApi {
   #deleteChatMessageURL = (id) =>`${this.#AppServerBaseURL}/chatmessages/${id}`;
 
   //LearnGroup
-  //#getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
+  #getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupsURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #addLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
-// TODO getLearnGroupByGroupID
 
   //GroupRequest
   #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-/${person_id}`;
   #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
+  #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
 
   //  ==> Vorschläge 
   // Alle learnprofiles werden gefetched im Backend und im Backend bewertet je nachdem wie ähnlich sie einem anderen Lernprofile sind und dann gelisted
@@ -674,6 +674,20 @@ TODO
     );
   }
 
+
+  getLearnGroupById(id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getLearnGroupByIdURL(id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseLearnGroupByIdBOs = LearnGroupBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseLearnGroupByIdBOs);
+      })
+    })
+  }
+
   /**
    * Returns a Promise, which resolves to a ProfileGroupBO
    *
@@ -794,6 +808,19 @@ TODO
       })
     })
   }
+
+  deleteGroupRequestById(id) {
+    return this.#fetchAdvanced(this.#deleteGroupRequestByIdURL(id), {
+      method: "DELETE",
+    }).then((responseJSON) => {
+      // We always get an array of ProfileBO.fromJSON, but only need one object
+      let groupRequestBOs = GroupRequestBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(groupRequestBOs);
+      });
+    });
+  }
+
 
 
 
