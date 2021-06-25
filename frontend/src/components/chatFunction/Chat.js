@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import "bulma/css/bulma.min.css";
-import ChatSideBar from "./ChatSideBar";
-import "./ChatSideBar.css";
-import AppApi from "../../api/AppApi";
-import ChatBO from "../../api/ChatBO";
+import React, { Component } from 'react';
+import 'bulma/css/bulma.min.css';
+import ChatSideBar from './ChatSideBar';
+import './ChatSideBar.css';
+import AppApi from '../../api/AppApi';
+import ChatBO from '../../api/ChatBO';
 
 class ChatBox extends Component {
   async componentDidMount() {
-    let uid = "";
+    let uid = '';
     const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${"uid"}=`);
-    if (parts.length === 2) uid = parts.pop().split(";").shift();
+    const parts = value.split(`; ${'uid'}=`);
+    if (parts.length === 2) uid = parts.pop().split(';').shift();
     let app = new AppApi();
     let session_id = await app.getPersonByGoogleId(uid);
     session_id = session_id[0].id;
@@ -28,13 +28,13 @@ class ChatBox extends Component {
 
   state = {
     learnGroupId: 0,
-    chat: ["hello", "hi!", "do you want to chat?"],
+    chat: ['hello', 'hi!', 'do you want to chat?'],
     chatAdvanced: [
-      { txtMessage: "Hello", userMessage: true, senderID: "Henry" },
-      { txtMessage: "Hi Wie gehts", userMessage: false, senderID: "Saeid" },
-      { txtMessage: "Oha oha", userMessage: false, senderID: "Mertcan" },
-      { txtMessage: "Ganz gut euch", userMessage: true, senderID: "Henry" },
-      { txtMessage: "Easy auch", userMessage: false, senderID: "Mertcan" },
+      { txtMessage: 'Hello', userMessage: true, senderID: 'Henry' },
+      { txtMessage: 'Hi Wie gehts', userMessage: false, senderID: 'Saeid' },
+      { txtMessage: 'Oha oha', userMessage: false, senderID: 'Mertcan' },
+      { txtMessage: 'Ganz gut euch', userMessage: true, senderID: 'Henry' },
+      { txtMessage: 'Easy auch', userMessage: false, senderID: 'Mertcan' },
     ],
   };
 
@@ -51,7 +51,7 @@ class ChatBox extends Component {
     return (
       <div class="columns">
         <div class="column is-one-quarter">
-          <ChatSideBar getChatWindow={updateChatWindow}></ChatSideBar>{" "}
+          <ChatSideBar getChatWindow={updateChatWindow}></ChatSideBar>{' '}
         </div>
 
         <section className="hero  column">
@@ -80,10 +80,10 @@ const Chat = ({ chatAdvanced, learnGroupId, name }) => (
     onSubmit={async (e) => {
       e.preventDefault();
       const value = `; ${document.cookie}`;
-      let parts = value.split(`; ${"uid"}=`);
-      let uid = "";
+      let parts = value.split(`; ${'uid'}=`);
+      let uid = '';
       if (parts.length === 2) {
-        uid = parts.pop().split(";").shift();
+        uid = parts.pop().split(';').shift();
       }
       var api = AppApi.getApi();
       let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
@@ -124,7 +124,7 @@ const Chat = ({ chatAdvanced, learnGroupId, name }) => (
 );
 
 const Messages = ({ chat, name }) => (
-  <div style={{ heigth: "100%", width: "100%" }}>
+  <div style={{ heigth: '100%', width: '100%' }}>
     {chat.map((m, i) => {
       var msgClass = false;
       if (m.sender == name) {
@@ -137,16 +137,16 @@ const Messages = ({ chat, name }) => (
         <div>
           <p
             style={{
-              padding: ".25em",
-              textAlign: msgClass ? "left" : "right",
-              overflowWrap: "normal",
+              padding: '.25em',
+              textAlign: msgClass ? 'left' : 'right',
+              overflowWrap: 'normal',
             }}
           ></p>
           <p
             style={{
-              padding: ".25em",
-              textAlign: msgClass ? "left" : "right",
-              overflowWrap: "normal",
+              padding: '.25em',
+              textAlign: msgClass ? 'left' : 'right',
+              overflowWrap: 'normal',
             }}
           >
             <span key={i} className={` is-size-7	 `}>
@@ -154,11 +154,11 @@ const Messages = ({ chat, name }) => (
             </span>
 
             <div>
-              {" "}
+              {' '}
               <span
                 key={i}
                 className={`tag is-medium ${
-                  msgClass ? "is-success" : "is-info"
+                  msgClass ? 'is-success' : 'is-info'
                 }`}
               >
                 {m.message}

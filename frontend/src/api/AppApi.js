@@ -71,12 +71,64 @@ export default class AppApi {
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
-
+// TODO getLearnGroupByGroupID
 
   //GroupRequest
   #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-/${person_id}`;
   #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
+
+  //  ==> Vorschläge 
+  // Alle learnprofiles werden gefetched im Backend und im Backend bewertet je nachdem wie ähnlich sie einem anderen Lernprofile sind und dann gelisted
+  // diese werden über einen call getMatchesByPersonID() ==> {getLearnProfileById(), getLearnProfiles(), Liste mit Lernprofilen die zurückgegeben wird durchsuchen und die 
+  // Matches bewerten.
+
+  /*
+  getMatchesByLearnProfile() ==> Mertcan rendered Liste aller Lerngruppe die Passen in Matches Page
+  Die einzelnen ListObjekte sind Klickbar 
+  Die ListObjekte haben ein Button Lerngruppe beitreten
+  Wird der Button geklickt wird die Funktion createGroupRequest(person_id, learngroup_id) getriggert
+  Diese Funktion erstellt einen neuen GroupRequest 
+  Diese GroupRequest wird dann bei dem ersteller der Gruppe als Pending angezeigt
+  Diese kann der Ersteller dann annehmen 
+
+  ==> createGroupRequest(learngroup_id, person_id)
+ groupRequest: 
+  - is_accepted: false
+  - learnGroup_id: {learngroup_id}
+  - person_id: {person_id}
+  Wenn chatRequest akzeptiert wird:
+
+
+  getListOfAcceptedGroupRequestsByProfileID(personId):
+
+  SELECT * FROM grouprequest WHERE personId = {personId} AND WHERE is_accepted = 1 
+  
+
+  acceptGroupRequest(learngroup_id)
+  - UPDATE is_accepted :true
+  WHERE  learnGroup_id = learngroup_id
+
+TODO 
+  deleteGroupRequestID(id)
+
+  */
+
+
+
+
+  // ignore
+  // ==> Matchinganfrage
+  // createChatRequestByPersonID(personId, targetId) ==> neue chatRequest 
+  /* 
+  chatRequest: 
+  - is_accepted:false
+  - person_id: 1
+  - target_person_id : 2
+  - GruppenName ==> Chat mit "xx Person"
+  Wenn chatRequest akzeptiert wird:
+  */
+  
 
 
 

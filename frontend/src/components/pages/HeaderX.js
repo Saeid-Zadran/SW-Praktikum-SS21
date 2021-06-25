@@ -42,6 +42,7 @@ class HeaderX extends Component {
 
 
               <Tab label='Chat' component={RouterLink} to={`/SecondPage/SendMessage`} />
+              <Tab label='Matches' component={RouterLink} to={`/SecondPage/MatchingPage`} />
 
               
             </Tabs>
