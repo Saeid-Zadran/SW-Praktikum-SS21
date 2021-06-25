@@ -6,13 +6,14 @@ class GroupRequest(bo):
     def __init__(self):
         super().__init__()
         self._is_accepted = False
-        self._learnprofile_id = 0
+        self._learngroup_id = 0
+        self._person_id = 0
 
-    def get_learnprofile_id(self):
-        return self.learnprofile_id
+    def get_learngroup_id(self):
+        return self.learngroup_id
 
-    def set_learnprofile_id(self, value):
-        self.learnprofile_id = value
+    def set_learngroup_id(self, value):
+        self.learngroup_id = value
 
  
 
@@ -21,6 +22,12 @@ class GroupRequest(bo):
 
     def set_is_accepted(self, value):
         self._is_accepted = value
+    
+    def get_person_id(self):
+        return self._is_accepted
+
+    def set_person_id(self, value):
+        self._person_id = value
 
  
 
@@ -30,7 +37,8 @@ class GroupRequest(bo):
         obj = GroupRequest()
         obj.set_id(dictionary["id"])
         #obj.set_creation_time(dictionary["creation_time"])
-        obj.set_learnprofile_id(dictionary["learnprofile_id"])
+        obj.set_learngroup_id(dictionary["learngroup_id"])
         obj.set_is_accepted(dictionary["is_accepted"])
+        obj.set_person_id(dictionary["person_id"])
 
         return obj

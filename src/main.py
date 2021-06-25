@@ -89,8 +89,10 @@ learngroup = api.inherit('LearnGroup', bo, {
     
 })
 grouprequest = api.inherit('GroupRequest', bo, {
-    'learnprofile_id':fields.Integer(attribute='_learnprofile_id', description='ID des Lernprofil'),
-    'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
+    
+    'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert'),
+    'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Fremschlüssel  der Lerngruppe'),
+    'person_id':fields.Integer(attribute='_person_id', description='Fremschlüssel ID Person')
 })
 
 #BusinessObjekts
@@ -890,7 +892,7 @@ class GroupRequestListOperations(Resource):
  
         if gr is not None:
   
-            s = adm.create_grouprequest(gr.get_learnprofile_id(),gr.get_is_accepted())
+            s = adm.create_grouprequest(gr.get_creation_time(),gr.get_is_accepted(),gr.get_learngroup_id(),gr.get_person_id())
 
             return s, 200
         else:
