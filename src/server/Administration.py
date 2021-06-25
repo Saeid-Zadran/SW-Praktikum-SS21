@@ -342,7 +342,7 @@ class Administration(object):
     def get_grouprequests_person_id(self, person_id):
         with GroupRequestMapper() as mapper:
             return mapper.find_all_group_grouprequests_person_id(person_id)
-
+   
 
 
 

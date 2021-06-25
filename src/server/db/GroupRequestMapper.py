@@ -193,12 +193,12 @@ class GroupRequestMapper(Mapper):
 
       
     
-    def find_all_group_grouprequests_person_id(self,person_id):#funktioniert-auf alle anderen adaptieren!
+    def find_all_group_grouprequests_person_id(self,person_id,is_accepted):#funktioniert-auf alle anderen adaptieren!
 
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE person_id LIKE '{}'".format(person_id)
+        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE person_id = {} AND WHERE is_accepted = 1 ".format(person_id, is_accepted)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
