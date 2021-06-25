@@ -945,14 +945,14 @@ class ChatByTargetOperations(Resource):
         return grouprequest_by_learn_group_id
 
 
-@studymatch.route('/grouprequest-by-/<int:person_id>')
+@studymatch.route('/grouprequest-by-/<int:person_id><int:is_accepted>')
 @studymatch.response(500, 'when server has problems')
 class GroupRequestByTargetOperations(Resource):
     @studymatch.marshal_list_with(grouprequest)
-    def get(self, person_id):
+    def get(self, person_id,is_accepted):
     
         adm = Administration()
-        grouprequest_person_id = adm.get_grouprequests_person_id(person_id)
+        grouprequest_person_id = adm.get_grouprequests_person_id(person_id,is_accepted)
         return grouprequest_person_id
 
 @studymatch.route('/grouprequest-by-accepted/<int:is_accepted>')
