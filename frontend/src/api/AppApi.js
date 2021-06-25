@@ -1,5 +1,6 @@
 import ChatBO from "./ChatBO";
 import ChatMessageBO from "./ChatMessageBO";
+import GroupRequestBO from "./GroupRequestBO";
 import LearnGroupBO from "./LearnGroupBO";
 import LearnProfileBO from "./LearnProfileBO";
 import PersonBO from "./PersonBO";
@@ -64,12 +65,19 @@ export default class AppApi {
   #deleteChatMessageURL = (id) =>`${this.#AppServerBaseURL}/chatmessages/${id}`;
 
   //LearnGroup
-  #getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
+  //#getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupsURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #addLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
+
+
+  //GroupRequest
+  #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-/${person_id}`;
+  #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
+  #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
+
 
 
   /**
@@ -691,6 +699,64 @@ export default class AppApi {
       })
     })
   }
+
+
+
+  //GroupRequest
+
+  getGroupRequestByPersonId(person_id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getGroupRequestByPersonIdURL(person_id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseGroupRequestByPersonBOs = GroupRequestBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestByPersonBOs);
+      })
+    })
+  }
+
+  getGroupRequestByLearnGroupId(learngroup_id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getGroupRequestByLearnGroupIdURL(learngroup_id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseGroupRequestByLearnGroupBOs = GroupRequestBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestByLearnGroupBOs);
+      })
+    })
+  }
+
+  getGroupRequestByAccepted(is_accepted) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getGroupRequestByAcceptedURL(is_accepted)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responsegetGroupRequestByAcceptedBOs = GroupRequestBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responsegetGroupRequestByAcceptedBOs);
+      })
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
