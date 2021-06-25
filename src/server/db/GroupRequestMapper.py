@@ -167,30 +167,83 @@ class GroupRequestMapper(Mapper):
     
     def find_all_grouprequests_by_learngroup_id(self, learngroup_id):#funktioniert-auf alle anderen adaptieren!
 
-        result = None
+        result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time, learnprofile_id, is_accepted FROM grouprequest WHERE learngroup_id LIKE '{}'".format(learngroup_id)
+        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE learngroup_id LIKE '{}'".format(learngroup_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id, creation_time, learnprofile_id, is_accepted ) in tuples:
+        for (id, creation_time,is_accepted,learngroup_id, person_id) in tuples:
             grouprequest = GroupRequest()
             grouprequest.set_id(id)
             grouprequest.set_creation_time(creation_time)
-            grouprequest.set_learnprofile_id(learnprofile_id)
             grouprequest.set_is_accepted(is_accepted)
+            grouprequest.set_learngroup_id(learngroup_id)
+            grouprequest.set_person_id(person_id)
+
          
-        result = grouprequest
+            result.append(grouprequest)
 
 
         self._cnx.commit()
         cursor.close()
 
         return result
-    
 
-  
+      
+    
+    def find_all_group_grouprequests_person_id(self,person_id):#funktioniert-auf alle anderen adaptieren!
+
+        result = []
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE person_id LIKE '{}'".format(person_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_time,is_accepted,learngroup_id, person_id) in tuples:
+            grouprequest = GroupRequest()
+            grouprequest.set_id(id)
+            grouprequest.set_creation_time(creation_time)
+            grouprequest.set_is_accepted(is_accepted)
+            grouprequest.set_learngroup_id(learngroup_id)
+            grouprequest.set_person_id(person_id)
+
+         
+            result.append(grouprequest)
+
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+
+    def find_all_group_grouprequests_is_accepted(self, is_accepted):#funktioniert-auf alle anderen adaptieren!
+
+        result = []
+
+        cursor = self._cnx.cursor()
+        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE learngroup_id LIKE '{}'".format(is_accepted)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_time,is_accepted,learngroup_id, person_id) in tuples:
+            grouprequest = GroupRequest()
+            grouprequest.set_id(id)
+            grouprequest.set_creation_time(creation_time)
+            grouprequest.set_is_accepted(is_accepted)
+            grouprequest.set_learngroup_id(learngroup_id)
+            grouprequest.set_person_id(person_id)
+
+         
+            result.append(grouprequest)
+
+
+        self._cnx.commit()
+        cursor.close()
+
+        return result
 
 if (__name__ == "__main__"):
     with GroupInvitationMapper() as mapper:

@@ -941,28 +941,29 @@ class ChatByTargetOperations(Resource):
     def get(self, learngroup_id):
        
         adm = Administration()
-        grouprequest_by_learn_group_id = adm.get_grouprequest_by_learn_group_id(learngroup_id)
+        grouprequest_by_learn_group_id = adm.get_grouprequest_by_learngroup_id(learngroup_id)
         return grouprequest_by_learn_group_id
 
 
-@studymatch.route('/grouprequest-by-target-id/<int:target_id>')
+@studymatch.route('/grouprequest-by-/<int:person_id>')
 @studymatch.response(500, 'when server has problems')
 class GroupRequestByTargetOperations(Resource):
     @studymatch.marshal_list_with(grouprequest)
-    def get(self, target_id):
+    def get(self, person_id):
     
         adm = Administration()
-        grouprequest_target_id = adm.get_grouprequest_by_target_id(target_id)
-        return grouprequest_target_id
-@studymatch.route('/grouprequest-by-source-id/<int:source_id>')
+        grouprequest_person_id = adm.get_grouprequests_person_id(person_id)
+        return grouprequest_person_id
+
+@studymatch.route('/grouprequest-by-accepted/<int:is_accepted>')
 @studymatch.response(500, 'when server has problems')
 class GroupRequestBySourceOperations(Resource):
     @studymatch.marshal_list_with(grouprequest)
-    def get(self, source_id):
+    def get(self, is_accepted):
   
         adm = Administration()
-        grouprequest_source_id = adm.get_grouprequests_by_source_id(source_id)
-        return grouprequest_source_id
+        grouprequest_is_accepted = adm.get_grouprequests_by_is_accepted(is_accepted)
+        return grouprequest_is_accepted
 if __name__ == '__main__':
     app.run(debug=True)
 

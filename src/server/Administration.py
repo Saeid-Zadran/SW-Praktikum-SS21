@@ -335,13 +335,13 @@ class Administration(object):
         with GroupRequestMapper() as mapper:
             return mapper.find_all_grouprequests_by_learngroup_id(learngroup_id)
 
-    def get_grouprequests_by_source_id(self, source_id):
+    def get_grouprequests_by_is_accepted(self, is_accepted):
         with GroupRequestMapper() as mapper:
-            return mapper.find_all_group_grouprequests_by_source_id(source_id)
+            return mapper.find_all_group_grouprequests_is_accepted(is_accepted)
 
-    def get_grouprequests_by_target_id(self, target_id):
+    def get_grouprequests_person_id(self, person_id):
         with GroupRequestMapper() as mapper:
-            return mapper.find_all_group_grouprequests_by_target_id(target_id)
+            return mapper.find_all_group_grouprequests_person_id(person_id)
 
 
 
