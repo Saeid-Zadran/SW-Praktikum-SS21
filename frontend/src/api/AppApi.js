@@ -78,6 +78,14 @@ export default class AppApi {
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
   #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
 
+  //matches
+  #getMatchesByPersonURL = (id) => `${this.#AppServerBaseURL}/person-matching/${id}`;
+  #getMatchesByLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroup-matching/${id}`;
+
+ 
+
+
+
   //  ==> Vorschläge 
   // Alle learnprofiles werden gefetched im Backend und im Backend bewertet je nachdem wie ähnlich sie einem anderen Lernprofile sind und dann gelisted
   // diese werden über einen call getMatchesByPersonID() ==> {getLearnProfileById(), getLearnProfiles(), Liste mit Lernprofilen die zurückgegeben wird durchsuchen und die 
@@ -801,10 +809,10 @@ TODO
     return this.#fetchAdvanced(this.#getGroupRequestByAcceptedURL(is_accepted)).then((responseJSON) => {
       // console.log(responseJSON)
       
-      let responsegetGroupRequestByAcceptedBOs = GroupRequestBO.fromJSON(responseJSON);
+      let responseGroupRequestByAcceptedBOs = GroupRequestBO.fromJSON(responseJSON);
       // console.info();
       return new Promise(function (resolve) {
-        resolve(responsegetGroupRequestByAcceptedBOs);
+        resolve(responseGroupRequestByAcceptedBOs);
       })
     })
   }
@@ -819,6 +827,36 @@ TODO
         resolve(groupRequestBOs);
       });
     });
+  }
+
+
+  //matches
+
+  getMatchesByPersonURL(id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getMatchesByPersonURL(id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseMatchesByPersonBOs = PersonBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseMatchesByPersonBOs);
+      })
+    })
+  }
+
+  
+  getMatchesByLearnGroup(id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getMatchesByLearnGroupURL(id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseMatchesByLearnGroupBOs = LearnGroupBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseMatchesByLearnGroupBOs);
+      })
+    })
   }
 
 
