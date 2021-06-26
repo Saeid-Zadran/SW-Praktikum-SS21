@@ -4,6 +4,14 @@ import ChatSideBar from './ChatSideBar';
 import './ChatSideBar.css';
 import AppApi from '../../api/AppApi';
 import ChatBO from '../../api/ChatBO';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import CardActions from '@material-ui/core/CardActions';
+import { Link as RouterLink } from 'react-router-dom';
+
+
 
 class ChatBox extends Component {
   async componentDidMount() {
@@ -20,22 +28,25 @@ class ChatBox extends Component {
     learnProfile = learnProfile[0];
     profile = profile[0];
     console.log(learnProfile);
-    let fetchedChatAdvanced = await app.getChatsByLearnGroupId(1);
-    this.setState({ chatAdvanced: fetchedChatAdvanced });
+    let fetchedChatAdvanced = await app.getChatsByLearnGroupId(session_id);
+    let learngroups = await app.getLearnGroupByPersonId(session_id);
+    this.setState({ learngroups: learngroups })
     this.setState({ personId: session_id });
     this.setState({ name: profile.name });
+    console.log(learngroups)
+    // wennn die Lerngruppen nicht leer sind 
+    if(fetchedChatAdvanced.length > 0)
+    {
+      // lade den ersten chat ins chatfenster
+      this.setState({chatAdvanced: fetchedChatAdvanced[0]})
+    }
   }
 
   state = {
     learnGroupId: 0,
-    chat: ['hello', 'hi!', 'do you want to chat?'],
     chatAdvanced: [
-      { txtMessage: 'Hello', userMessage: true, senderID: 'Henry' },
-      { txtMessage: 'Hi Wie gehts', userMessage: false, senderID: 'Saeid' },
-      { txtMessage: 'Oha oha', userMessage: false, senderID: 'Mertcan' },
-      { txtMessage: 'Ganz gut euch', userMessage: true, senderID: 'Henry' },
-      { txtMessage: 'Easy auch', userMessage: false, senderID: 'Mertcan' },
     ],
+    learngroups: []
   };
 
   render() {
@@ -48,6 +59,32 @@ class ChatBox extends Component {
       this.setState({ chatAdvanced: chatAdvanced, learnGroupId: learnGroupId });
       console.log(this.state);
     };
+
+    let informationForChats;
+
+    if(this.state.learngroups.length == 0)
+    {
+      console.log(this.state.learngroups)
+      informationForChats = 
+      <Card >
+        <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+            Du hast noch keinen Chat!
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Gehe auf die Matches Page und trete Gruppen bei oder suche verwandte Lernprofile um einen Chat zu starten.
+          </Typography>
+        </CardContent>
+        <CardActions>
+        <Button  component={RouterLink} to={`/SecondPage/MatchingPage`} 
+ variant="outlined" size="small" color="primary">
+          Zu den Matches
+        </Button>
+
+      </CardActions>
+      </Card>
+
+    }
     return (
       <div class="columns">
         <div class="column is-one-third">
@@ -57,7 +94,8 @@ class ChatBox extends Component {
         <section className="hero  column">
           <div className="column scrollable">
             <div className="hero-body ">
-              <Messages name={this.state.name} chat={this.state.chatAdvanced} />
+              {informationForChats}
+              <Messages  name={this.state.name} chat={this.state.chatAdvanced} />
             </div>
 
             <div className="hero-foot"></div>
