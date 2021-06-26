@@ -50,7 +50,7 @@ class ChatBox extends Component {
     };
     return (
       <div class="columns">
-        <div class="column is-one-quarter">
+        <div class="column is-one-third">
           <ChatSideBar getChatWindow={updateChatWindow}></ChatSideBar>{' '}
         </div>
 

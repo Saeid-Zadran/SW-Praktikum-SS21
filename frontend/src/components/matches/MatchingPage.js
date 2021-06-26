@@ -15,10 +15,10 @@ import { withRouter } from 'react-router-dom';
 import AppApi from '../../api/AppApi';
 import ContextErrorMessage from '../dialogs/ContextErrorMessage';
 import LoadingProgress from '../dialogs/LoadingProgress';
-
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import GroupProposal from '../matches/GroupProposal';
 
 class MatchingPage extends Component {
   constructor(props) {
@@ -32,15 +32,28 @@ class MatchingPage extends Component {
 
     // Init an empty state
     this.state = {
-      learnGroup: [],
-      filteredLearnGroup: [],
-      LearnGroupFilter: '',
+      learnGroup: [
+          {
+              "learnGroup_id": 0,
+              "name": "Die fleißigen Lerner"
+          },
+          {
+            "learnGroup_id": 1,
+            "name": "Anfänger"
+        },
+        {
+            "learnGroup_id": 2,
+            "name": "Almans"
+        },
+      ],
       error: null,
       loadingInProgress: false,
       expandedProfileID: expandedID,
       showProfileForm: false,
+      
     };
   }
+  
 
 
   getLearnGroups = () => {
@@ -75,32 +88,7 @@ class MatchingPage extends Component {
 
   
 
-  filterFieldValueChange = (event) => {
-    const value = event.target.value.toLowerCase();
-    this.setState({
-      filteredLearnGroup: this.state.learnGroup.filter((learnGroup) => {
-        let NameContainsValue = learnGroup
-          .getName()
-          .toLowerCase()
-          .includes(value);
-        let PersonIDContainsValue = learnGroup
-          .getPersonId()
-          .toLowerCase()
-          .includes(value);
-
-        return NameContainsValue || PersonIDContainsValue;
-      }),
-      learnGroupFilter: value,
-    });
-  };
-
-  clearFilterFieldButtonClicked = () => {
-    this.setState({
-      filteredLearnGroup: [...this.state.learnGroup],
-      LearnGroupFilter: '',
-    });
-  };
-
+  
   render() {
     const { classes } = this.props;
     const { learnGroup, loadingInProgress, error } = this.state;
@@ -116,7 +104,7 @@ class MatchingPage extends Component {
       };
     return (
       <div>
-        <Grid container className={classes.root} spacing={2}>
+        <Grid  container className={classes.root} spacing={2}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={5}>
               <Grid item>
@@ -129,21 +117,23 @@ class MatchingPage extends Component {
                     >
                       Deine persöhnlichen Lernprofil
                     </Typography>
-                    <Typography variant="h5" component="h2">
+                    <Typography  variant="h5" component="h2">
                      Vorschläge
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                     </Typography>
-                    <Typography variant="body2" component="p">
+                    <Typography  m={5} variant="body2" component="p">
                       Hier kannst du Personen finden die ein
                       <br/> ähnliches Lernprofil haben wie du!
 
                       <br />
                     </Typography>
+                    {learnGroup.map((learnGroup) => (
+                    <GroupProposal  title={learnGroup.name} ></GroupProposal>
+
+        ))}
                   </CardContent>
-                  <CardActions>
-                    <Button   onClick={handleClick}  size="small">Unser Test Button</Button>
-                  </CardActions>
+       
                 </Card>{' '}
               </Grid>
               <Grid item>

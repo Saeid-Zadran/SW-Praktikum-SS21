@@ -4,6 +4,7 @@ import 'bulma/css/bulma.min.css';
 import './ChatSideBar.css';
 import AppApi from '../../api/AppApi';
 import CreateLearnGroup from '../create/CreateLearnGroup';
+import ChatRequest from '../chatFunction/ChatRequest';
 
 class ChatSideBar extends Component {
   state = {
@@ -33,7 +34,7 @@ class ChatSideBar extends Component {
       });
     };
     return (
-      <aside class="menu">
+      <aside class="menu mt-5">
         <p class="menu-label ">Laufende Chats</p>
         <ul class="menu-list">
           {this.state.learnGroups.map((learngroup) => (
@@ -44,25 +45,13 @@ class ChatSideBar extends Component {
             ></ChatGroups>
           ))}
         </ul>
-        <p class="menu-label">Matches</p>
+        <p class="menu-label">Offene Anfragen</p>
         <ul class="menu-list">
-          <li>
-            <a class="is-active">React native</a>
-            <ul>
-              <li>
-                <a>Saed</a>
-              </li>
-              <li>
-                <a>Jimmy</a>
-              </li>
-              <li>
-                <a>Mertcan</a>
-              </li>
-            </ul>
-          </li>
+          <ChatRequest title="Das ist eine Lernruppe"></ChatRequest>
+          <ChatRequest title="Ich bin eine kleine Lernnutte"></ChatRequest>
+          <ChatRequest></ChatRequest>
         </ul>
-        <p class="menu-label">Lerngruppen Matches</p>
-        <ul class="menu-list"></ul>
+        <p class="menu-label">Neue Lerngruppe </p>
 
         <CreateLearnGroup getNewChatWindow={getNewChats}></CreateLearnGroup>
       </aside>

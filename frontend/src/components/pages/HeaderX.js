@@ -18,13 +18,12 @@ class HeaderX extends Component {
 
   handleTabChange = (e, value) => {
     this.setState({
-      value
+      value: value
     })
   };
 
   render() {
     const { person } = this.props;
-    const { value } = this.state
 
     return (
       <Paper variant='outlined' >
@@ -33,15 +32,14 @@ class HeaderX extends Component {
         </Typography>
         <AppBar position="static" color="default">
         <Tabs
-            value={value}
-            onChange={this.handleChange}
+            value={this.state.value}
+            onChange={this.handleTabChange}
             indicatorColor="primary"
             textColor="primary"
             variant="scrollable"
             scrollButtons="auto">
 
-
-              <Tab label='Chat' component={RouterLink} to={`/SecondPage/SendMessage`} />
+              <Tab  label='Chat' component={RouterLink} to={`/SecondPage/SendMessage`} />
               <Tab label='Matches' component={RouterLink} to={`/SecondPage/MatchingPage`} />
 
               

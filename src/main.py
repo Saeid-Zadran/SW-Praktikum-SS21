@@ -889,7 +889,7 @@ class GroupRequestListOperations(Resource):
      
         adm = Administration()
         gr = GroupRequest.from_dict(api.payload)
- 
+        
         if gr is not None:
   
             s = adm.create_grouprequest(gr.get_creation_time(),gr.get_is_accepted(),gr.get_learngroup_id(),gr.get_person_id())
@@ -945,14 +945,14 @@ class ChatByTargetOperations(Resource):
         return grouprequest_by_learn_group_id
 
 
-@studymatch.route('/grouprequest-by-/<int:person_id><int:is_accepted>')
+@studymatch.route('/grouprequest-by-/<int:person_id>')
 @studymatch.response(500, 'when server has problems')
 class GroupRequestByTargetOperations(Resource):
     @studymatch.marshal_list_with(grouprequest)
-    def get(self, person_id,is_accepted):
+    def get(self, person_id):
     
         adm = Administration()
-        grouprequest_person_id = adm.get_grouprequests_person_id(person_id,is_accepted)
+        grouprequest_person_id = adm.get_grouprequests_person_id(person_id)
         return grouprequest_person_id
 
 @studymatch.route('/grouprequest-by-accepted/<int:is_accepted>')
