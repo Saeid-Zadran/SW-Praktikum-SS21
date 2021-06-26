@@ -73,7 +73,7 @@ export default class AppApi {
   #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
 
   //GroupRequest
-  #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-/${person_id}`;
+  #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
   #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
   #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
@@ -100,7 +100,7 @@ export default class AppApi {
   Wenn chatRequest akzeptiert wird:
 
 
-  getListOfAcceptedGroupRequestsByProfileID(personId):
+  getListOfAcceptedGroupRequestsByPersonID(personId):
 
   SELECT * FROM grouprequest WHERE personId = {personId} AND WHERE is_accepted = 1 
   

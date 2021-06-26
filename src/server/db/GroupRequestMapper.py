@@ -198,7 +198,7 @@ class GroupRequestMapper(Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM grouprequest WHERE person_id = {} AND  is_accepted = 1".format(person_id)
+        command = "SELECT * FROM grouprequest WHERE person_id LIKE '{}'".format(person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
