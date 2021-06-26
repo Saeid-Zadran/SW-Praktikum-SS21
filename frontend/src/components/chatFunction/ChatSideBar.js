@@ -5,6 +5,7 @@ import './ChatSideBar.css';
 import AppApi from '../../api/AppApi';
 import CreateLearnGroup from '../create/CreateLearnGroup';
 import ChatRequest from '../chatFunction/ChatRequest';
+import Paper from '@material-ui/core/Paper';
 
 class ChatSideBar extends Component {
   state = {
@@ -20,6 +21,8 @@ class ChatSideBar extends Component {
     });
   }
 
+  executeScroll = () => this.myRef.scrollIntoView();
+
   render() {
     const getNewChats = async (learnGroups) => {
       let uid = getCookie('uid');
@@ -32,25 +35,39 @@ class ChatSideBar extends Component {
       this.setState({
         learnGroups: learngroups,
       });
+      this.chatGroupBox.scrollIntoView({ block: 'start', behavior: 'smooth' });
     };
+
     return (
       <aside class="menu mt-5">
-        <p class="menu-label ">Laufende Chats</p>
-        <ul class="menu-list">
-          {this.state.learnGroups.map((learngroup) => (
-            <ChatGroups
-              getChatWindow={this.props.getChatWindow}
-              id={learngroup.id}
-              title={learngroup.name}
-            ></ChatGroups>
-          ))}
-        </ul>
-        <p class="menu-label">Offene Anfragen</p>
+        <p class="menu-label ">
+          Laufende Chats ({this.state.learnGroups.length})
+        </p>
+
+        <Paper elevation={0} style={{ maxHeight: 200, overflow: 'auto' }}>
+          <ul class="menu-list">
+            {this.state.learnGroups.map((learngroup) => (
+              <ChatGroups
+                getChatWindow={this.props.getChatWindow}
+                id={learngroup.id}
+                title={learngroup.name}
+              ></ChatGroups>
+            ))}
+            <div ref={(ref) => (this.chatGroupBox = ref)} />
+          </ul>
+        </Paper>
+        <p class="menu-label">Offene Anfragen ({}) </p>
+
+        <Paper elevation={0} style={{ maxHeight: 200, overflow: 'auto' }}>
+
         <ul class="menu-list">
           <ChatRequest title="Das ist eine Lernruppe"></ChatRequest>
-          <ChatRequest title="Ich bin eine kleine Lernnutte"></ChatRequest>
+          <ChatRequest title="Ich bin eine Gruppe"></ChatRequest>
           <ChatRequest></ChatRequest>
         </ul>
+        <div ref={(ref) => (this.openRequestsBox = ref)} />
+
+        </Paper>
         <p class="menu-label">Neue Lerngruppe </p>
 
         <CreateLearnGroup getNewChatWindow={getNewChats}></CreateLearnGroup>

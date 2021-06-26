@@ -165,6 +165,7 @@ const Messages = ({ chat, name }) => (
               </span>
             </div>
           </p>
+
         </div>
       );
     })}

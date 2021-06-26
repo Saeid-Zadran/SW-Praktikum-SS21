@@ -30,6 +30,7 @@ import SendMessage from './components/chatFunction/SendMessage';
 import Header from './components/pages/Header';
 import MessageList from './components/chatFunction/MessageList';
 import MatchingPage from './components/matches/MatchingPage';
+import './App.css' // Tell webpack that Button.js uses these styles
 
 import history from './history';
 
@@ -47,6 +48,7 @@ class App extends React.Component {
     };
   }
 
+  
   static getDerivedStateFromError(error) {
     return { appError: error };
   }
@@ -172,16 +174,18 @@ class App extends React.Component {
     firebase.auth().languageCode = 'en';
     firebase.auth().onAuthStateChanged(this.handleAuthStateChange);
   }
+  
 
   /** Renders the whole app */
   render() {
     const { currentUser, appError, authError, authLoading } = this.state;
 
     return (
+      <Container className="App" maxWidth="md">
+
       <Router history={history}>
         <ThemeProvider theme={Theme}>
           {/* Global CSS reset and browser normalization. CssBaseline kickstarts an elegant, consistent, and simple baseline to build upon. */}
-          <Container maxWidth="md">
             <Header user={currentUser} />
 
             {
@@ -246,9 +250,10 @@ class App extends React.Component {
               error={appError}
               contextErrorMsg={`Something went wrong inside the app. Please reload the page.`}
             />
-          </Container>
         </ThemeProvider>
       </Router>
+      </Container>
+
     );
   }
 }

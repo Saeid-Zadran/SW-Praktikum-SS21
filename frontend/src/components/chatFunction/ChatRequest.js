@@ -13,8 +13,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
 const styles = (theme) => ({
   root: {
-    width: '100%',
-    maxWidth: '36ch',
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
@@ -87,7 +85,6 @@ class ChatRequest extends Component {
             dense
             className={classes.insetListItemText}
             size="small"
-            variant="outlined"
           />
           <ListItemSecondaryAction>
             <Button size="small" variant="outlined">
