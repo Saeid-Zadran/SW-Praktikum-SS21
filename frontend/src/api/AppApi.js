@@ -77,6 +77,7 @@ export default class AppApi {
   #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
   #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
+  #addGroupRequestURL = () => `${this.#AppServerBaseURL}/grouprequests`;
 
   //matches
   #getMatchesByPersonURL = (id) => `${this.#AppServerBaseURL}/person-matching/${id}`;
@@ -825,6 +826,26 @@ TODO
       let groupRequestBOs = GroupRequestBO.fromJSON(responseJSON)[0];
       return new Promise(function (resolve) {
         resolve(groupRequestBOs);
+      });
+    });
+  }
+
+  addGroupRequest(groupRequest) {
+
+    return this.#fetchAdvanced(this.#addGroupRequestURL(), {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(groupRequest),
+    }).then((responseJSON) => {
+      console.log(responseJSON);
+      // We always get an array of ProfileBOs.fromJSON, but only need one object
+      let responseGroupRequestBO = GroupRequestBO.fromJSON(responseJSON)[0];
+      // console.info(responseGroupRequestBO);
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestBO)
       });
     });
   }
