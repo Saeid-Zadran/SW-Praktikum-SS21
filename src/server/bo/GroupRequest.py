@@ -10,10 +10,10 @@ class GroupRequest(bo):
         self._person_id = 0
 
     def get_learngroup_id(self):
-        return self.learngroup_id
+        return self._learngroup_id
 
     def set_learngroup_id(self, learngroup_id):
-        self.learngroup_id = learngroup_id
+        self._learngroup_id = learngroup_id
 
  
 
