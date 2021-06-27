@@ -303,13 +303,14 @@ class Administration(object):
 
     """GroupRequest-Methoden"""
 
-    def create_grouprequest(self,creation_time, learngroup_id ,is_accepted,person_id):
+    def create_grouprequest(self,creation_time,is_accepted, learngroup_id ,person_id):
         grouprequest = GroupRequest()
         grouprequest.set_creation_time(creation_time)
-        grouprequest.set_learngroup_id(learngroup_id)
         grouprequest.set_is_accepted(is_accepted)
+        grouprequest.set_learngroup_id(learngroup_id)
         grouprequest.set_person_id(person_id)
         grouprequest.set_id(1)
+     
 
         with GroupRequestMapper() as mapper:
             return mapper.insert(grouprequest)

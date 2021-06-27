@@ -920,7 +920,7 @@ class GroupRequestnOperations(Resource):
         if gl is not None:
            gl.set_id(id)
            adm.save_grouprequest(gl)
-           return '', 200
+           return gl, 200
         
         else:
          
