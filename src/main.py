@@ -915,11 +915,11 @@ class GroupRequestnOperations(Resource):
     @studymatch.expect(grouprequest, validate=True) 
     def put(self, id):
         adm = Administration()
-        grouprequest = GroupRequest.from_dict(api.payload)
+        gl = GroupRequest.from_dict(api.payload)
 
-        if grouprequest is not None:
-           grouprequest.set_id(id)
-           adm.save_grouprequest(grouprequest)
+        if gl is not None:
+           gl.set_id(id)
+           adm.save_grouprequest(gl)
            return '', 200
         
         else:

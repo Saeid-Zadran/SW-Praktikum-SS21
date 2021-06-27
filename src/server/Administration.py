@@ -342,7 +342,9 @@ class Administration(object):
     def get_grouprequests_person_id(self, person_id):
         with GroupRequestMapper() as mapper:
             return mapper.find_all_group_grouprequests_person_id(person_id)
-   
+
+
+    
 
 
 
@@ -369,6 +371,57 @@ class Administration(object):
 
 
    #def get_learn_profile_by_matching(self,):
+
+
+    
+
+
+    
+    def get_learnprofile_by_person_id(self, person_id):
+       with LearnProfileMapper() as mapper:
+          return mapper.find_by_person_id(person_id)
+          return mapper.find_all(person_id) 
+
+    
+    def match(self, learnprofilea, learnprofileb):
+    
+        
+        learnprofilea = mapper.find_by_key(person_id)
+        learnprofileb = mapper.find_by_key(person_id)
+
+
+        count=0
+        total=4
+
+        if learnprofilea.get_study_status() == learnprofileb.get_study_status():
+            return 1
+            count
+
+        if learnprofilea.get_frequency() == learnprofileb.get_frequency():
+            return 1
+            
+        if learnprofilea.get_prev_knowledge() == learnprofileb.get_prev_knowledge():
+            return 1
+        
+        if learnprofilea.get_group_size() == learnprofileb.get_group_size():
+            return 1
+        
+        if learnprofilea.get_extroversion() == learnprofileb.get_extroversion():
+            return 1
+
+                        
+                        
+        return count/total*100
+    
+
+
+ 
+    
+
+    
+
+
+
 
 
     

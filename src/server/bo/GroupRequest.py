@@ -12,22 +12,22 @@ class GroupRequest(bo):
     def get_learngroup_id(self):
         return self.learngroup_id
 
-    def set_learngroup_id(self, value):
-        self.learngroup_id = value
+    def set_learngroup_id(self, learngroup_id):
+        self.learngroup_id = learngroup_id
 
  
 
     def get_is_accepted(self):
         return self._is_accepted
 
-    def set_is_accepted(self, value):
-        self._is_accepted = value
+    def set_is_accepted(self, is_accepted):
+        self._is_accepted = is_accepted
     
     def get_person_id(self):
-        return self._is_accepted
+        return self._person_id
 
-    def set_person_id(self, value):
-        self._person_id = value
+    def set_person_id(self, person_id):
+        self._person_id = person_id
 
  
 
