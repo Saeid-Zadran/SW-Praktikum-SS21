@@ -41,7 +41,7 @@ export default class ChatMessageBO extends BusinessObject {
     return this.chat_id;
   }
 
-  
+
 
 
 
@@ -49,7 +49,7 @@ export default class ChatMessageBO extends BusinessObject {
     let result = [];
 
     if (Array.isArray(chatMessages)) {
-        chatMessages.forEach((m) => {
+      chatMessages.forEach((m) => {
         Object.setPrototypeOf(m, ChatMessageBO.prototype);
         result.push(m);
       })

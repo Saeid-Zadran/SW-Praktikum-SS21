@@ -8,7 +8,6 @@ import AppApi from "../../api/AppApi";
 import ContextErrorMessage from "../dialogs/ContextErrorMessage";
 import LoadingProgress from "../dialogs/LoadingProgress";
 import MessageListEntry from "./MessageListEntry";
-import ChatBox from "./Chat"
 class MessageList extends Component {
   constructor(props) {
     super(props); 

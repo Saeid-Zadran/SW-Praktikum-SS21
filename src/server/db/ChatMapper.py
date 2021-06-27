@@ -45,15 +45,13 @@ class ChatMapper(Mapper):
         :return Modul-Objekt, das dem übergebenen Schlüssel entspricht, None bei
         nicht vorhandenem DB-Tupel
         """
-        result = None
+        result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM chat WHERE id={}".format(key)
+        command = "SELECT * FROM chat WHERE learngroup_id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
-
-        if tuples[0] is not None:
-            (id, creation_time,  learngroup_id, is_accepted,sender, message) = tuples[0]
+        for (id, creation_time,learngroup_id, is_accepted,sender, message, ) in tuples:
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)
@@ -61,14 +59,10 @@ class ChatMapper(Mapper):
             chat.set_is_accepted(is_accepted)
             chat.set_sender(sender)
             chat.set_message(message)
- 
-       
-
-        result = chat
-
+            result.append(chat)
+    
         self._cnx.commit()
         cursor.close()
-
         return result
 
     def insert(self, chat):
@@ -108,8 +102,8 @@ class ChatMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE chat SET learngroup_id=%s  WHERE id=%s"
-        data = (chat.get_learngroup_id(), chat.get_id())
+        command = "UPDATE chat SET learngroup_id=%s,is_accepted=%s, sender=%s, message=%s  WHERE id=%s"
+        data = (chat.get_learngroup_id(),chat.get_is_accepted(),chat.get_sender(),chat.get_message(), chat.get_id())
 
         cursor.execute(command, data)
 

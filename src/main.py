@@ -89,8 +89,10 @@ learngroup = api.inherit('LearnGroup', bo, {
     
 })
 grouprequest = api.inherit('GroupRequest', bo, {
-    'learnprofile_id':fields.Integer(attribute='_learnprofile_id', description='ID des Lernprofil'),
-    'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert')
+    
+    'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert'),
+    'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Fremschlüssel  der Lerngruppe'),
+    'person_id':fields.Integer(attribute='_person_id', description='Fremschlüssel ID Person')
 })
 
 #BusinessObjekts
@@ -98,7 +100,7 @@ grouprequest = api.inherit('GroupRequest', bo, {
 chat = api.inherit('Chat', bo, {
     'learngroup_id': fields.Integer(attribute='_learngroup_id', description='ID de der lerngruppe'),
     
-    'is_accepted': fields.Boolean(attribute='_is_accepted',description='Anfragestatus eines Chats'),
+    'is_accepted': fields.Integer(attribute='_is_accepted',description='Anfragestatus eines Chats'),
     'sender': fields.String(attribute='_sender', description= 'Inhalt der Nachricht'),
     'message': fields.String(attribute='_message', description= 'Id eines Chats'),
     
@@ -624,10 +626,10 @@ class ChatOperation(Resource):
         else:
             return '', 500
 
-@studymatch.route('/chat/<int:id>')
+@studymatch.route('/chatnutten/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'id des Chat-Objekts')
-class ChatDeleteOperation(Resource):
+class ChatListOperations(Resource):
 
     @studymatch.marshal_with(chat)
     #@secured
@@ -637,6 +639,7 @@ class ChatDeleteOperation(Resource):
         """
         adm = Administration()
         c = adm.get_chat_by_id(id)
+        print("hurennutten", c)
         return c
 
 
@@ -655,7 +658,7 @@ class ChatDeleteOperation(Resource):
 #chatbylearngroupid
 @studymatch.route('/chat/<int:learngroup_id>')
 @studymatch.response(500, 'when server has problems')
-class ChatListOperations(Resource):
+class ChatListOperation(Resource):
     @studymatch.marshal_with(chat)
     #@secured
     def get(self, learngroup_id):
@@ -886,10 +889,10 @@ class GroupRequestListOperations(Resource):
      
         adm = Administration()
         gr = GroupRequest.from_dict(api.payload)
- 
+        
         if gr is not None:
   
-            s = adm.create_grouprequest(gr.get_learnprofile_id(),gr.get_is_accepted())
+            s = adm.create_grouprequest(gr.get_creation_time(),gr.get_is_accepted(),gr.get_learngroup_id(),gr.get_person_id())
 
             return s, 200
         else:
@@ -912,11 +915,11 @@ class GroupRequestnOperations(Resource):
     @studymatch.expect(grouprequest, validate=True) 
     def put(self, id):
         adm = Administration()
-        grouprequest = GroupRequest.from_dict(api.payload)
+        gl = GroupRequest.from_dict(api.payload)
 
-        if grouprequest is not None:
-           grouprequest.set_id(id)
-           adm.save_grouprequest(grouprequest)
+        if gl is not None:
+           gl.set_id(id)
+           adm.save_grouprequest(gl)
            return '', 200
         
         else:
@@ -938,28 +941,56 @@ class ChatByTargetOperations(Resource):
     def get(self, learngroup_id):
        
         adm = Administration()
-        grouprequest_by_learn_group_id = adm.get_grouprequest_by_learn_group_id(learngroup_id)
+        grouprequest_by_learn_group_id = adm.get_grouprequest_by_learngroup_id(learngroup_id)
         return grouprequest_by_learn_group_id
 
 
-@studymatch.route('/grouprequest-by-target-id/<int:target_id>')
+@studymatch.route('/grouprequest-by-person_id/<int:person_id>')
 @studymatch.response(500, 'when server has problems')
 class GroupRequestByTargetOperations(Resource):
     @studymatch.marshal_list_with(grouprequest)
-    def get(self, target_id):
+    def get(self, person_id):
     
         adm = Administration()
-        grouprequest_target_id = adm.get_grouprequest_by_target_id(target_id)
-        return grouprequest_target_id
-@studymatch.route('/grouprequest-by-source-id/<int:source_id>')
+        grouprequest_person_id = adm.get_grouprequests_person_id(person_id)
+        return grouprequest_person_id
+
+@studymatch.route('/grouprequest-by-accepted/<int:is_accepted>')
 @studymatch.response(500, 'when server has problems')
 class GroupRequestBySourceOperations(Resource):
     @studymatch.marshal_list_with(grouprequest)
-    def get(self, source_id):
+    def get(self, is_accepted):
   
         adm = Administration()
-        grouprequest_source_id = adm.get_grouprequests_by_source_id(source_id)
-        return grouprequest_source_id
+        grouprequest_is_accepted = adm.get_grouprequests_by_is_accepted(is_accepted)
+        return grouprequest_is_accepted
+
+
+
+@studymatch.route('/person-matching/<int:id>')
+@studymatch.response(500, 'Internal Server Error')
+@studymatch.param('id', 'ID der Person')
+class PersonMatchOperations(Resource):
+    @studymatch.marshal_with(person)
+    def get(self, id):
+
+        adm = Administration()
+        matchmakingList = adm.get_match(id)
+        return matchmakingList[0]
+
+# Gruppe matchen
+@studymatch.route('/learngroup-matching/<int:id>')
+@studymatch.response(500, 'Internal Server Error')
+@studymatch.param('id', 'ID der Lerngruppe')
+class LearnGroupMa(Resource):
+    @studymatch.marshal_with(learngroup)
+    def get(self, id):
+       
+        adm = Administration()
+        matchmakingList = adm.get_match(id)
+        return matchmakingList[1]
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 

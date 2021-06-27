@@ -9,10 +9,10 @@ import { withStyles } from '@material-ui/styles';
 import AppApi from '../../api/AppApi';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Button from '@material-ui/core/Button';
 const styles = (theme) => ({
   root: {
-    width: '100%',
-    maxWidth: '36ch',
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
@@ -26,26 +26,29 @@ const styles = (theme) => ({
     height: theme.spacing(2),
     width: theme.spacing(2),
   },
+  insetListItemText: {
+    padding: theme.spacing(2),
+  },
 });
 
-class ChatGroups extends Component {
+class ChatRequest extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       learngroups: null,
       selected: false,
-      anchorEl: "",
+      anchorEl: '',
     };
   }
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    console.log("right clicked")
-    e.preventDefault()
+    console.log('right clicked');
+    e.preventDefault();
     this.setState({
-      anchorEl: e.currentTarget
-    })
-  }
+      anchorEl: e.currentTarget,
+    });
+  };
   render() {
     const { classes } = this.props;
     const { title, subtitle } = this.props;
@@ -56,36 +59,21 @@ class ChatGroups extends Component {
       this.props.getChatWindow(fetchedChatAdvanced, this.props.id);
     };
 
-    const getRenderingState = () => {};
-
-  
     const handleClose = () => {
       this.setState({
-        anchorEl: null
-      })
+        anchorEl: null,
+      });
     };
 
     return (
       <List className={classes.root}>
         <ListItem
-          button
           selected={this.state.selected}
           onClick={handleClick}
           alignItems="flex-start"
           onContextMenu={this.someEvenetHandler}
         >
-           <Menu
-        id="simple-menu"
-        anchorEl={this.state.anchorEl}
-        keepMounted
-        open={Boolean(this.state.anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
-          <ListItemAvatar small>
+          <ListItemAvatar size="small">
             <Avatar
               className={classes.sizeAvatar}
               alt=""
@@ -93,16 +81,22 @@ class ChatGroups extends Component {
             />
           </ListItemAvatar>
           <ListItemText
-            primary={title}
-            secondary={<React.Fragment>{subtitle}</React.Fragment>}
+            secondary={title}
+            dense
+            className={classes.insetListItemText}
+            size="small"
           />
-        
+          <ListItemSecondaryAction>
+            <Button size="small" variant="outlined">
+              Join
+            </Button>
+          </ListItemSecondaryAction>
         </ListItem>
-      
+
         <Divider variant="inset" component="li" />
       </List>
     );
   }
 }
 
-export default withStyles(styles)(ChatGroups);
+export default withStyles(styles)(ChatRequest);

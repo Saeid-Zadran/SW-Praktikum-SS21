@@ -30,7 +30,7 @@ class LearnGroup(bo):
 
     @staticmethod
     def from_dict(dictionary=dict()):
-        """Umwandeln eines Python dict() in ein Rating()."""
+        """Umwandeln eines Python dict() in ein LearnGroup()."""
         obj = LearnGroup()
         """print(dictionary)"""
         obj.set_id(dictionary["id"])  # eigentlich Teil von BusinessObject !

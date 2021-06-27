@@ -1,5 +1,6 @@
 import ChatBO from "./ChatBO";
 import ChatMessageBO from "./ChatMessageBO";
+import GroupRequestBO from "./GroupRequestBO";
 import LearnGroupBO from "./LearnGroupBO";
 import LearnProfileBO from "./LearnProfileBO";
 import PersonBO from "./PersonBO";
@@ -51,7 +52,7 @@ export default class AppApi {
   #getLearnProfileViaURL  = (id) =>`${this.#AppServerBaseURL}/learnprofile/${id}`;
 
   //Chat
-  #getChatsByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/chat/learngroup/${learngroup_id}`;
+  #getChatsByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/chat/${learngroup_id}`;
   #getChatsURL = () => `${this.#AppServerBaseURL}/chats`;
   #addChatURL = () => `${this.#AppServerBaseURL}/chats`;
   #updateChatURL = () => `${this.#AppServerBaseURL}/chats`;
@@ -70,6 +71,73 @@ export default class AppApi {
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
+
+  //GroupRequest
+  #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
+  #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
+  #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
+  #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
+
+  //matches
+  #getMatchesByPersonURL = (id) => `${this.#AppServerBaseURL}/person-matching/${id}`;
+  #getMatchesByLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroup-matching/${id}`;
+
+ 
+
+
+
+  //  ==> Vorschläge 
+  // Alle learnprofiles werden gefetched im Backend und im Backend bewertet je nachdem wie ähnlich sie einem anderen Lernprofile sind und dann gelisted
+  // diese werden über einen call getMatchesByPersonID() ==> {getLearnProfileById(), getLearnProfiles(), Liste mit Lernprofilen die zurückgegeben wird durchsuchen und die 
+  // Matches bewerten.
+
+  /*
+  getMatchesByLearnProfile() ==> Mertcan rendered Liste aller Lerngruppe die Passen in Matches Page
+  Die einzelnen ListObjekte sind Klickbar 
+  Die ListObjekte haben ein Button Lerngruppe beitreten
+  Wird der Button geklickt wird die Funktion createGroupRequest(person_id, learngroup_id) getriggert
+  Diese Funktion erstellt einen neuen GroupRequest 
+  Diese GroupRequest wird dann bei dem ersteller der Gruppe als Pending angezeigt
+  Diese kann der Ersteller dann annehmen 
+
+  ==> createGroupRequest(learngroup_id, person_id)
+ groupRequest: 
+  - is_accepted: false
+  - learnGroup_id: {learngroup_id}
+  - person_id: {person_id}
+  Wenn chatRequest akzeptiert wird:
+
+
+  getListOfAcceptedGroupRequestsByPersonID(personId):
+
+  SELECT * FROM grouprequest WHERE personId = {personId} AND WHERE is_accepted = 1 
+  
+
+  acceptGroupRequest(learngroup_id)
+  - UPDATE is_accepted :true
+  WHERE  learnGroup_id = learngroup_id
+
+TODO 
+  deleteGroupRequestID(id)
+
+  */
+
+
+
+
+  // ignore
+  // ==> Matchinganfrage
+  // createChatRequestByPersonID(personId, targetId) ==> neue chatRequest 
+  /* 
+  chatRequest: 
+  - is_accepted:false
+  - person_id: 1
+  - target_person_id : 2
+  - GruppenName ==> Chat mit "xx Person"
+  Wenn chatRequest akzeptiert wird:
+  */
+  
+
 
 
   /**
@@ -614,6 +682,20 @@ export default class AppApi {
     );
   }
 
+
+  getLearnGroupById(id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getLearnGroupByIdURL(id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseLearnGroupByIdBOs = LearnGroupBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseLearnGroupByIdBOs);
+      })
+    })
+  }
+
   /**
    * Returns a Promise, which resolves to a ProfileGroupBO
    *
@@ -691,6 +773,107 @@ export default class AppApi {
       })
     })
   }
+
+
+
+  //GroupRequest
+
+  getGroupRequestByPersonId(person_id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getGroupRequestByPersonIdURL(person_id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseGroupRequestByPersonBOs = GroupRequestBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestByPersonBOs);
+      })
+    })
+  }
+
+  getGroupRequestByLearnGroupId(learngroup_id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getGroupRequestByLearnGroupIdURL(learngroup_id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseGroupRequestByLearnGroupBOs = GroupRequestBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestByLearnGroupBOs);
+      })
+    })
+  }
+
+  getGroupRequestByAccepted(is_accepted) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getGroupRequestByAcceptedURL(is_accepted)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseGroupRequestByAcceptedBOs = GroupRequestBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestByAcceptedBOs);
+      })
+    })
+  }
+
+  deleteGroupRequestById(id) {
+    return this.#fetchAdvanced(this.#deleteGroupRequestByIdURL(id), {
+      method: "DELETE",
+    }).then((responseJSON) => {
+      // We always get an array of ProfileBO.fromJSON, but only need one object
+      let groupRequestBOs = GroupRequestBO.fromJSON(responseJSON)[0];
+      return new Promise(function (resolve) {
+        resolve(groupRequestBOs);
+      });
+    });
+  }
+
+
+  //matches
+
+  getMatchesByPersonURL(id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getMatchesByPersonURL(id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseMatchesByPersonBOs = PersonBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseMatchesByPersonBOs);
+      })
+    })
+  }
+
+  
+  getMatchesByLearnGroup(id) {
+    //console.log()
+    return this.#fetchAdvanced(this.#getMatchesByLearnGroupURL(id)).then((responseJSON) => {
+      // console.log(responseJSON)
+      
+      let responseMatchesByLearnGroupBOs = LearnGroupBO.fromJSON(responseJSON);
+      // console.info();
+      return new Promise(function (resolve) {
+        resolve(responseMatchesByLearnGroupBOs);
+      })
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

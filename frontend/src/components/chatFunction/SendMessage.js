@@ -34,7 +34,7 @@ class SendMessage extends Component {
     chat.setMessage(message)
     chat.setOrder(order)
 
-
+    console.log(learngroup_id)
 
     
 
@@ -57,16 +57,7 @@ class SendMessage extends Component {
     // console.log({ [e.target.name]: e.target.value })
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault(); //r: verhindert ein neuladen der seite bei unberechtigten aufruf der funktion
-    this.addChat(
-      this.state.learngroup_id,
-      this.state.is_accepted,
-      this.state.sender,
-      this.state.message,
-      this.state.order
-    );
-  };
+  
 
   render() {
     const { classes } = this.props;
@@ -79,49 +70,7 @@ class SendMessage extends Component {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Paper className={classes.paper}>
-              <div>
-                <form className={classes.root} onSubmit={this.handleSubmit}>
-                  
-                    <TextField
-                      id="outlined-basic"
-                      label="schreiben..."
-                      variant="outlined"
-                      name="message"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                
-                    <TextField
-                      id="outlined-basic"
-                      label="Sender"
-                      variant="outlined"
-                      name="sender"
-                      //required
-                      onChange={this.handleChange}
-                    />
-              
-                    <TextField
-                      id="outlined-basic"
-                      label="Order"
-                      variant="outlined"
-                      type="number"
-                      name="order"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                    className={classes.button}
-                    startIcon={<SendIcon />}
-                  >
-                    Senden
-                  </Button>
-                </form>
-              </div>
+
             </Paper>
           </Grid>
         </Grid>

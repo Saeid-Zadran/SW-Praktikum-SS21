@@ -230,7 +230,6 @@ class Administration(object):
             return mapper.find_by_key(id)
 
     def get_chat_by_learngroup_id(self,learngroup_id):
-    
         with ChatMapper() as mapper:
             return mapper.find_by_learngroup(learngroup_id)
 
@@ -290,6 +289,7 @@ class Administration(object):
 
     def get_learngroup_by_id(self, id):
         with LearnGroupMapper() as mapper:
+
             return mapper.find_by_key(id)
 
     def delete_learngroup(self,learngroup):
@@ -303,10 +303,12 @@ class Administration(object):
 
     """GroupRequest-Methoden"""
 
-    def create_grouprequest(self,learnprofile_id ,is_accepted):
+    def create_grouprequest(self,creation_time, learngroup_id ,is_accepted,person_id):
         grouprequest = GroupRequest()
-        grouprequest.set_learnprofile_id(learnprofile_id)
+        grouprequest.set_creation_time(creation_time)
+        grouprequest.set_learngroup_id(learngroup_id)
         grouprequest.set_is_accepted(is_accepted)
+        grouprequest.set_person_id(person_id)
         grouprequest.set_id(1)
 
         with GroupRequestMapper() as mapper:
@@ -329,18 +331,20 @@ class Administration(object):
         with GroupRequestMapper() as mapper:
             return mapper.find_by_key(id)
     
-    def get_grouprequest_by_learn_group_id(self, learngroup_id):
+    def get_grouprequest_by_learngroup_id(self, learngroup_id):
         with GroupRequestMapper() as mapper:
-            return mapper.find_all_grouprequests_by_LearnGroup(learngroup_id)
+            return mapper.find_all_grouprequests_by_learngroup_id(learngroup_id)
 
-    def get_grouprequests_by_source_id(self, source_id):
+    def get_grouprequests_by_is_accepted(self, is_accepted):
         with GroupRequestMapper() as mapper:
-            return mapper.find_all_group_grouprequests_by_source_id(source_id)
+            return mapper.find_all_group_grouprequests_is_accepted(is_accepted)
 
-    def get_grouprequests_by_target_id(self, target_id):
+    def get_grouprequests_person_id(self, person_id):
         with GroupRequestMapper() as mapper:
-            return mapper.find_all_group_grouprequests_by_target_id(target_id)
+            return mapper.find_all_group_grouprequests_person_id(person_id)
 
+
+    
 
 
 
@@ -367,6 +371,57 @@ class Administration(object):
 
 
    #def get_learn_profile_by_matching(self,):
+
+
+    
+
+
+    
+    def get_learnprofile_by_person_id(self, person_id):
+       with LearnProfileMapper() as mapper:
+          return mapper.find_by_person_id(person_id)
+          return mapper.find_all(person_id) 
+
+    
+    def match(self, learnprofilea, learnprofileb):
+    
+        
+        learnprofilea = mapper.find_by_key(person_id)
+        learnprofileb = mapper.find_by_key(person_id)
+
+
+        count=0
+        total=4
+
+        if learnprofilea.get_study_status() == learnprofileb.get_study_status():
+            return 1
+            count
+
+        if learnprofilea.get_frequency() == learnprofileb.get_frequency():
+            return 1
+            
+        if learnprofilea.get_prev_knowledge() == learnprofileb.get_prev_knowledge():
+            return 1
+        
+        if learnprofilea.get_group_size() == learnprofileb.get_group_size():
+            return 1
+        
+        if learnprofilea.get_extroversion() == learnprofileb.get_extroversion():
+            return 1
+
+                        
+                        
+        return count/total*100
+    
+
+
+ 
+    
+
+    
+
+
+
 
 
     
