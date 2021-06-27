@@ -193,7 +193,7 @@ class GroupRequestMapper(Mapper):
 
       
     
-    def find_all_group_grouprequests_person_id(self,person_id):#funktioniert-auf alle anderen adaptieren!
+    def find_all_grouprequests_person_id(self,person_id):#funktioniert-auf alle anderen adaptieren!
 
         result = []
 
