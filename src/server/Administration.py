@@ -378,56 +378,53 @@ class Administration(object):
 
 
     
-    def get_learnprofile_by_person_id(self, person_id):
+    def match(self, person):
+
+
        with LearnProfileMapper() as mapper:
-          return mapper.find_by_person_id(person_id)
-          return mapper.find_all(person_id) 
+         CurrentProfile   = mapper.find_by_person_id(person_id)
+         LearnProfileList = mapper.find_all(person_id) 
 
     
-    def match(self, learnprofilea, learnprofileb):
+    result = []
+    LearnProfileList = []
+    learngroupList = []
+
     
+    learnprofile= LearnProfile()
+
+    for learnprofile in LearnProfileList:
         
-        learnprofilea = mapper.find_by_key(person_id)
-        learnprofileb = mapper.find_by_key(person_id)
+        if learnprofile.person != person:
+            value = 0 
+            total = 5
 
 
-        count=0
-        total=4
+    
 
-        if learnprofilea.get_study_status() == learnprofileb.get_study_status():
-            return 1
-            count
+            if learnprofile.get_study_status() == CurrentProfile.get_study_status():
+                value +=1
+            if learnprofile.get_frequency() == CurrentProfile.get_frequency():
+                value +=1
+            if learnprofile.get_prev_knowledge() == CurrentProfile.get_prev_knowledge():
+                value +=2
 
-        if learnprofilea.get_frequency() == learnprofileb.get_frequency():
-            return 1
+            if learnprofile.get_group_size() == CurrentProfile.get_group_size():
+                value +=2
             
-        if learnprofilea.get_prev_knowledge() == learnprofileb.get_prev_knowledge():
-            return 1
-        
-        if learnprofilea.get_group_size() == learnprofileb.get_group_size():
-            return 1
-        
-        if learnprofilea.get_extroversion() == learnprofileb.get_extroversion():
-            return 1
+            if learnprofile.get_extroversion() == CurrentProfile.get_extroversion():
+                value +=1
+            
+            else:
+                value +=0
+            value = total/100
+            if value >= 60:
+                result.append(learnprofile)
 
-                        
-                        
-        return count/total*100
-    
+    for learnprofile in result:
+        personList.append(learnprofile)
 
 
- 
-    
-
-    
-
-
-
-
-
-    
-
-
-
-
-
+        for learngroup in learngroupList:
+            with LearnGroupMapper() as mapper:
+                """if person_id in mapper.find_by_person_id(learnprofile.get_id()"""
