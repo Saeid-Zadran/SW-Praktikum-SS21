@@ -807,13 +807,13 @@ class LearnGroupListOperations(Resource):
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'ID der Lerngruppe')
 class LearnGroupOperations(Resource):
-    @studymatch.marshal_list_with(learngroup)
+    @studymatch.marshal_with(learngroup)
     #@secured
-    def get(self):
+    def get(self,id):
         """Auslesen aller LearnGroup-Objekte.
         Sollten keine LearnGroup-Objekte verfügbar sein, so wird eine leere Sequenz zurückgegeben."""
         adm = Administration()
-        lp = adm.get_learngroup_by_id()
+        lp = adm.get_learngroup_by_id(id)
         return lp
 
     @studymatch.marshal_with(learngroup, code=200)
@@ -835,7 +835,7 @@ class LearnGroupOperations(Resource):
 #learngroupbypersonid
 @studymatch.route('/learngroup/<int:person_id>')
 @studymatch.response(500, 'when server has problems')
-class LearnGroupListOperations(Resource):
+class LearnGroupListByPersonOperations(Resource):
     @studymatch.marshal_with(learngroup)
     #@secured
     def get(self, person_id):
@@ -844,20 +844,7 @@ class LearnGroupListOperations(Resource):
         return pe
 
 
-@studymatch.route('/learngroup/<int:id>')
-@studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
-@studymatch.param('id', 'id des LearnGroup-Objekts')
-class LearnGroupDeleteOperation(Resource):
 
-    @studymatch.marshal_with(learngroup)
-    #@secured
-    def get(self, id):
-        """Auslesen einer bestimmten learngroup.
-        Auszulesende learngroup wird durch id bestimmt.
-        """
-        adm = Administration()
-        lg = adm.get_learngroup_by_id(id)
-        return lg
 
 
 

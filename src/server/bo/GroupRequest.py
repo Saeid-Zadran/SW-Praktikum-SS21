@@ -36,7 +36,6 @@ class GroupRequest(bo):
         """Umwandeln eines Python dict() in eine GroupRequest()."""
         obj = GroupRequest()
         obj.set_id(dictionary["id"])
-        #obj.set_creation_time(dictionary["creation_time"])
         obj.set_is_accepted(dictionary["is_accepted"])
         obj.set_learngroup_id(dictionary["learngroup_id"])
         obj.set_person_id(dictionary["person_id"])

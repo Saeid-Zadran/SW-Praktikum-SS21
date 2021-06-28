@@ -144,11 +144,13 @@ class GroupRequestMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = ("UPDATE grouprequest SET  is_accepted=1  WHERE id=4").format()
+        command = ("UPDATE grouprequest SET  is_accepted=%s, learngroup_id=%s,person_id=%s  WHERE id=%s")
+        data = (grouprequest.get_is_accepted(),
+                grouprequest.get_learngroup_id(),grouprequest.get_person_id(),grouprequest.get_id())
 
-
-        cursor.execute(command)
+        cursor.execute(command, data)
         cursor.close()
+
 
     def delete(self, grouprequest):
         """Löschen des Objekts in der Datenbank
@@ -222,7 +224,7 @@ class GroupRequestMapper(Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE person_id LIKE '{}' AND is_accepted = 1".format(is_accepted)
+        command = "SELECT id, creation_time,is_accepted,learngroup_id, person_id FROM grouprequest WHERE learngroup_id LIKE '{}'".format(is_accepted)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
