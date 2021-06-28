@@ -45,7 +45,7 @@ class LearnGroupMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learngroup WHERE id={}".format(key)
+        command = "SELECT id, creation_time, name, person_id FROM learngroup WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
