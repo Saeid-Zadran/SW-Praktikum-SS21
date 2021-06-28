@@ -89,7 +89,7 @@ learngroup = api.inherit('LearnGroup', bo, {
     
 })
 grouprequest = api.inherit('GroupRequest', bo, {
-    
+    'id_person':fields.Integer(attribute='_id_person', description='Fremschlüssel ID Person'),
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert'),
     'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Fremschlüssel  der Lerngruppe'),
     'person_id':fields.Integer(attribute='_person_id', description='Fremschlüssel ID Person')
@@ -870,11 +870,12 @@ class GroupRequestListOperations(Resource):
         grouprequests = adm.get_all_grouprequests()
         return grouprequests
 
-    @studymatch.marshal_with(grouprequest, code=200)
+    @studymatch.marshal_with(grouprequest)
     @studymatch.expect(grouprequest)  
     def post(self):
      
         adm = Administration()
+        
         gr = GroupRequest.from_dict(api.payload)
         
         if gr is not None:
@@ -898,27 +899,38 @@ class GroupRequestnOperations(Resource):
         grouprequest = adm.get_grouprequest_by_id(id)
         return grouprequest
 
-    @studymatch.marshal_with(grouprequest)
-    @studymatch.expect(grouprequest, validate=True) 
-    def put(self, id):
-        adm = Administration()
-        gl = GroupRequest.from_dict(api.payload)
-
-        if gl is not None:
-           gl.set_id(id)
-           adm.save_grouprequest(gl)
-           return gl, 200
-        
-        else:
-         
-            return '', 500
-
+    
 
     def delete(self, id):
         adm = Administration()
         grouprequest= adm.get_person_by_id(id)
         adm.delete_grouprequest(grouprequest)
         return '', 200
+
+
+@studymatch.route('/grouprequest-update/<int:is_accepted>/<int:id_person>')
+@studymatch.response(500, 'when server has problems')
+@studymatch.param('is_accepted', 'ID der Gruppenanfrage')
+
+class GroupRequestUpdateOperations(Resource):    
+    @studymatch.marshal_with(grouprequest)
+    @studymatch.expect(grouprequest) 
+    def put(self,id_person,is_accepted):
+        adm = Administration()
+        print(api.payload)
+        gle = GroupRequest.from_dict(api.payload)
+
+        if gle is not None:
+           gle.set_id(id_person)
+           gle.set_is_accepted(is_accepted)
+           adm.save_grouprequest(id_person,is_accepted)
+
+           return gle, 200
+        
+        else:
+         
+            return '', 500
+
 
 
 @studymatch.route('/grouprequest-by-learngroup_id/<int:learngroup_id>')

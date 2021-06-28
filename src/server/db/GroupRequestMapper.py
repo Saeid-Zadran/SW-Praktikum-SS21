@@ -137,14 +137,16 @@ class GroupRequestMapper(Mapper):
         cursor.close()
         return grouprequest
 
-    def update(self, grouprequest):
+    def update(self,id_person, is_accepted):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
         :param grouprequest das Objekt, das in die DB geschrieben werden soll
         """
 
         cursor = self._cnx.cursor()
 
-        command = ( "UPDATE grouprequest SET is_accepted=0 WHERE id=4")
+        command = "UPDATE grouprequest SET is_accepted={} WHERE  id={}".format(id_person,is_accepted)
+        
+
 
         print(cursor.execute(command))
         self._cnx.commit()
