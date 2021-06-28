@@ -76,8 +76,7 @@ class ChatBox extends Component {
           </Typography>
         </CardContent>
         <CardActions>
-        <Button  component={RouterLink} to={`/SecondPage/MatchingPage`} 
- variant="outlined" size="small" color="primary">
+        <Button  component={RouterLink} to={`/SecondPage/MatchingPage`} variant="outlined" size="small" color="primary">
           Zu den Matches
         </Button>
 

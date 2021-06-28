@@ -9,6 +9,8 @@ import { withStyles } from '@material-ui/styles';
 import AppApi from '../../api/AppApi';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
+
 const styles = (theme) => ({
   root: {
     width: '100%',
@@ -56,9 +58,7 @@ class ChatGroups extends Component {
       this.props.getChatWindow(fetchedChatAdvanced, this.props.id);
     };
 
-    const getRenderingState = () => {};
 
-  
     const handleClose = () => {
       this.setState({
         anchorEl: null
