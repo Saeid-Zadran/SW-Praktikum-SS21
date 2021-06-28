@@ -129,7 +129,7 @@ class MatchingPage extends Component {
                       <br />
                     </Typography>
                     {learnGroup.map((learnGroup) => (
-                    <GroupProposal  title={learnGroup.name} ></GroupProposal>
+                    <GroupProposal  title={learnGroup.name} id={learnGroup.id} ></GroupProposal>
 
         ))}
                   </CardContent>

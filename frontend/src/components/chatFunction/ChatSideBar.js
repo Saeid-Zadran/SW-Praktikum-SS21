@@ -16,9 +16,17 @@ class ChatSideBar extends Component {
     let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
     session_id = session_id[0].id;
     let learngroups = await AppApi.getApi().getLearnGroupByPersonId(session_id);
-    let groupRequests = await AppApi.getApi().getGroupRequestByPersonId(3)
+    let groupRequests = await AppApi.getApi().getGroupRequestByAccepted(session_id)
+    console.log(groupRequests)
+    for (var key in groupRequests) {
+      console.log(groupRequests[key])
+      let groupRequest = groupRequests[key]
+      console.log(groupRequest.learngroup_id)
+      let learnGroup = await AppApi.getApi().getLearnGroupById(groupRequest.learngroup_id)
+    }    
+    console.log(learngroups, groupRequests)
     this.setState({
-      learnGroups: learngroups,
+      learnGroups: learngroups
     });
     console.log(groupRequests)
     

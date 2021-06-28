@@ -53,12 +53,28 @@ class GroupProposal extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { title, subtitle } = this.props;
+    const { title, subtitle, id,  } = this.props;
     const handleClick = async () => {
-      let fetchedChatAdvanced = await AppApi.getApi().getChatsByLearnGroupId(
-        this.props.id
+      let uid = '';
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${'uid'}=`);
+      
+      if (parts.length === 2) uid = parts.pop().split(';').shift();
+      let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
+      session_id = session_id[0].id;
+      let request_json =     {
+        "id": 0,
+        "creation_time": "2021-06-28T19:41:33.064Z",
+        "is_accepted": false,
+        "learngroup_id": this.props.id,
+        "person_id": session_id
+      }
+      console.log(request_json)
+
+      let fetchedChatAdvanced = await AppApi.getApi().addGroupRequest(
+        request_json
       );
-      this.props.getChatWindow(fetchedChatAdvanced, this.props.id);
+      
     };
 
     return (
@@ -75,7 +91,7 @@ class GroupProposal extends Component {
             <ListItemText primary={title} />
           </ListItem>
           <ListItem>
-            <Button variant="outlined">Gruppe beitreten</Button>
+            <Button onClick={handleClick} variant="outlined">Gruppe beitreten</Button>
           </ListItem>
         </List>
       </Card>
