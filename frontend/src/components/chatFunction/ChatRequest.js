@@ -11,6 +11,12 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import StarBorder from '@material-ui/icons/StarBorder';
+
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -39,8 +45,20 @@ class ChatRequest extends Component {
       learngroups: null,
       selected: false,
       anchorEl: '',
+      open: false
     };
   }
+
+  async componentDidMount() {
+    let learnGroup = await AppApi.getApi().getLearnGroupById(this.props.learngroup_id)
+    let personProfile = await AppApi.getApi().getProfileViaUrl(this.props.person_id)
+    console.log(personProfile)
+    this.setState({ groupName : learnGroup[0].name,
+      profileName : "Anfefragt durch: " + personProfile[0].name
+
+    })
+  }
+
   localStorageUpdated() {}
   someEventHandler = (e) => {
     console.log('right clicked');
@@ -53,47 +71,46 @@ class ChatRequest extends Component {
     const { classes } = this.props;
     const { title, subtitle } = this.props;
     const handleClick = async () => {
-      let fetchedChatAdvanced = await AppApi.getApi().getChatsByLearnGroupId(
-        this.props.id
-      );
-      this.props.getChatWindow(fetchedChatAdvanced, this.props.id);
+      this.setState({open: !this.state.open});
     };
-
-    const handleClose = () => {
-      this.setState({
-        anchorEl: null,
-      });
+    const join = async () => {
+     console.log(await AppApi.getApi().updateGroupRequestURL(this.props.person_id, 1)) 
     };
-
+    
     return (
       <List className={classes.root}>
-        <ListItem
+        
+        <ListItem button
+
           selected={this.state.selected}
           onClick={handleClick}
           alignItems="flex-start"
           onContextMenu={this.someEvenetHandler}
         >
-          <ListItemAvatar size="small">
-            <Avatar
-              className={classes.sizeAvatar}
-              alt=""
-              src={`https://eu.ui-avatars.com/api/?name=${title}`}
-            />
-          </ListItemAvatar>
+          {this.state.open ? <ExpandLess             size="small"
+ /> : <ExpandMore />}
+
           <ListItemText
-            secondary={title}
+            secondary={this.state.groupName}
             dense
             className={classes.insetListItemText}
             size="small"
           />
           <ListItemSecondaryAction>
-            <Button size="small" variant="outlined">
-              Join
+            <Button onClick={join} size="small" variant="outlined">
+              Accept
             </Button>
           </ListItemSecondaryAction>
         </ListItem>
 
         <Divider variant="inset" component="li" />
+        <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem button className={classes.nested}>
+            <ListItemText primary={this.state.profileName} />
+          </ListItem>
+        </List>
+      </Collapse>
       </List>
     );
   }

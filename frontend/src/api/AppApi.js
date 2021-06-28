@@ -78,6 +78,7 @@ export default class AppApi {
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
   #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
   #addGroupRequestURL = () => `${this.#AppServerBaseURL}/grouprequests`;
+  #updateGroupRequestURL = (is_accepted, id_person) => `${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id_person}`;
 
   //matches
   #getMatchesByPersonURL = (id) => `${this.#AppServerBaseURL}/person-matching/${id}`;
@@ -839,6 +840,28 @@ TODO
         "Content-type": "application/json",
       },
       body: JSON.stringify(groupRequest),
+    }).then((responseJSON) => {
+      console.log(responseJSON);
+      // We always get an array of ProfileBOs.fromJSON, but only need one object
+      let responseGroupRequestBO = GroupRequestBO.fromJSON(responseJSON)[0];
+      // console.info(responseGroupRequestBO);
+      return new Promise(function (resolve) {
+        resolve(responseGroupRequestBO)
+      });
+    });
+  }
+
+  updateGroupRequestURL(is_accepted, id_person) {
+
+    return this.#fetchAdvanced(this.#updateGroupRequestURL(is_accepted, id_person), {
+      method: "PUT",
+      headers: {
+        Accept: "application/json, text/plain",
+        "Content-type": "application/json",
+        
+      },
+      body: JSON.stringify(is_accepted, id_person),
+
     }).then((responseJSON) => {
       console.log(responseJSON);
       // We always get an array of ProfileBOs.fromJSON, but only need one object

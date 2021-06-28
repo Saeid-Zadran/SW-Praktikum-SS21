@@ -34,34 +34,34 @@ class SendMessage extends Component {
     chat.setMessage(message)
     chat.setOrder(order)
 
-    console.log(learngroup_id)
+    
 
     
 
 
     var api = AppApi.getApi();
-    // console.log(api)
+    // 
     api
       .addChat(chat)
       .then((chat) => {
-        // console.log(person)
+        // 
         this.setState({
           chat: chat,
         });
       });
-    console.log(this.state.chat);
+    
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    // console.log({ [e.target.name]: e.target.value })
+    // 
   }
 
   
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
+    
 
     return (
       <div className={classes.roott}>

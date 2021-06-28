@@ -45,7 +45,7 @@ class GroupProposal extends Component {
   }
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    console.log('right clicked');
+    
     e.preventDefault();
     this.setState({
       anchorEl: e.currentTarget,
@@ -69,7 +69,7 @@ class GroupProposal extends Component {
         "learngroup_id": this.props.id,
         "person_id": session_id
       }
-      console.log(request_json)
+      
 
       let fetchedChatAdvanced = await AppApi.getApi().addGroupRequest(
         request_json

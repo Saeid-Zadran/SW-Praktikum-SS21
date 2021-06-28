@@ -44,10 +44,10 @@ class CreateLearnProfile extends Component {
     learnprofile.setProfileId(profile_id)
     
     var api = AppApi.getApi();
-    // console.log(api)
+    // 
     api
       .addLearnProfile(learnprofile).then((learnprofile) => {
-        // console.log(person)
+        // 
         this.setState({
           learnprofile: learnprofile,
         });
@@ -57,7 +57,7 @@ class CreateLearnProfile extends Component {
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    // console.log({ [e.target.name]: e.target.value })
+    // 
   }
 
   handleSubmit = (event) => {
@@ -79,12 +79,12 @@ class CreateLearnProfile extends Component {
     let app = new AppApi()
     let session_id = await app.getPersonByGoogleId(uid)
     session_id = session_id[0].id
-    console.log(session_id)
+    
     var learnProfile = await app.getLearnProfileViaUrl(session_id)
     learnProfile = learnProfile[0]
     if(learnProfile != undefined)
 
-    {      console.log("crimmy")
+    {      
 
       this.setState({
 
@@ -104,12 +104,12 @@ class CreateLearnProfile extends Component {
         profile_id: session_id
       })
     }
-    console.log(this.setState.session_id)
+    
 
   
     //this.handleChange(target)
     this.forceUpdate()
-    console.log(this.state)
+    
 }
   
   render() {

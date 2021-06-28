@@ -42,7 +42,7 @@ class ChatGroups extends Component {
   }
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    console.log("right clicked")
+    
     e.preventDefault()
     this.setState({
       anchorEl: e.currentTarget

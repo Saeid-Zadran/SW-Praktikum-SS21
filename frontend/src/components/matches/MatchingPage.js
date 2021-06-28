@@ -33,28 +33,25 @@ class MatchingPage extends Component {
     // Init an empty state
     this.state = {
       learnGroup: [
-          {
-              "learnGroup_id": 0,
-              "name": "Die fleißigen Lerner"
-          },
-          {
-            "learnGroup_id": 1,
-            "name": "Anfänger"
+        {
+          learnGroup_id: 0,
+          name: 'Die fleißigen Lerner',
         },
         {
-            "learnGroup_id": 2,
-            "name": "Almans"
+          learnGroup_id: 1,
+          name: 'Anfänger',
+        },
+        {
+          learnGroup_id: 2,
+          name: 'Almans',
         },
       ],
       error: null,
       loadingInProgress: false,
       expandedProfileID: expandedID,
       showProfileForm: false,
-      
     };
   }
-  
-
 
   getLearnGroups = () => {
     AppApi.getApi()
@@ -65,7 +62,7 @@ class MatchingPage extends Component {
           filteredLearnGroup: [...learnGroupBOs],
           loadingInProgress: false,
           error: null,
-          testState: ""
+          testState: '',
         });
       })
       .catch((e) =>
@@ -79,6 +76,7 @@ class MatchingPage extends Component {
     this.setState({
       loadingInProgress: true,
       error: null,
+      person_id: -1,
     });
   };
 
@@ -86,25 +84,20 @@ class MatchingPage extends Component {
     this.getLearnGroups();
   }
 
-  
-
-  
   render() {
     const { classes } = this.props;
     const { learnGroup, loadingInProgress, error } = this.state;
     const handleClick = async () => {
+      let testVariable = await AppApi.getApi().getGroupRequestByPersonId(1);
 
-
-        let testVariable = await  AppApi.getApi().getGroupRequestByPersonId(1)
-
-        console.log(testVariable)
-        this.setState({
-            testState: "jimmy"
-          })
-      };
+      
+      this.setState({
+        testState: 'jimmy',
+      });
+    };
     return (
       <div>
-        <Grid  container className={classes.root} spacing={2}>
+        <Grid container className={classes.root} spacing={2}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={5}>
               <Grid item>
@@ -117,23 +110,25 @@ class MatchingPage extends Component {
                     >
                       Deine persöhnlichen Lernprofil
                     </Typography>
-                    <Typography  variant="h5" component="h2">
-                     Vorschläge
+                    <Typography variant="h5" component="h2">
+                      Vorschläge
                     </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                    </Typography>
-                    <Typography  m={5} variant="body2" component="p">
+                    <Typography
+                      className={classes.pos}
+                      color="textSecondary"
+                    ></Typography>
+                    <Typography m={5} variant="body2" component="p">
                       Hier kannst du Personen finden die ein
-                      <br/> ähnliches Lernprofil haben wie du!
-
+                      <br /> ähnliches Lernprofil haben wie du!
                       <br />
                     </Typography>
                     {learnGroup.map((learnGroup) => (
-                    <GroupProposal  title={learnGroup.name} id={learnGroup.id} ></GroupProposal>
-
-        ))}
+                      <GroupProposal
+                        title={learnGroup.name}
+                        id={learnGroup.id}
+                      ></GroupProposal>
+                    ))}
                   </CardContent>
-       
                 </Card>{' '}
               </Grid>
               <Grid item>

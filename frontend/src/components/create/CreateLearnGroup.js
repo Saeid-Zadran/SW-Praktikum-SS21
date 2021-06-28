@@ -35,17 +35,17 @@ class CreateLearnGroup extends Component {
     learnGroup.setPersonId(person_id);
 
     var api = AppApi.getApi();
-    // console.log(api)
+    // 
     let learnGroups = await api.addLearnGroup(learnGroup);
-    console.log(learnGroups);
+    
 
     this.props.getNewChatWindow(learnGroups);
-    console.log(this.state.learnGroup);
+    
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    console.log({ [e.target.name]: e.target.value })
+    
   }
 
   handleClick = (event) => {
@@ -67,7 +67,7 @@ class CreateLearnGroup extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
+    
 
     return (
       <Card elevation={0}  className={classes.paper}>
