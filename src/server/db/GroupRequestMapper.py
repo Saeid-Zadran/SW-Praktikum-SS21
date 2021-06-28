@@ -144,11 +144,10 @@ class GroupRequestMapper(Mapper):
 
         cursor = self._cnx.cursor()
 
-        command = ("UPDATE grouprequest SET  is_accepted=%s, learngroup_id=%s,person_id=%s  WHERE id=%s")
-        data = (grouprequest.get_is_accepted(),
-                grouprequest.get_learngroup_id(),grouprequest.get_person_id(),grouprequest.get_id())
+        command = ( "UPDATE grouprequest SET is_accepted=0 WHERE id=4")
 
-        cursor.execute(command, data)
+        print(cursor.execute(command))
+        self._cnx.commit()
         cursor.close()
 
 
