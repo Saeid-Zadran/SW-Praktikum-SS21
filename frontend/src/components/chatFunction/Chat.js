@@ -38,15 +38,15 @@ class ChatBox extends Component {
     if(fetchedChatAdvanced.length > 0)
     {
       // lade den ersten chat ins chatfenster
-      this.setState({chatAdvanced: fetchedChatAdvanced[0]})
+      //this.setState({chatAdvanced: fetchedChatAdvanced[0]})
     }
   }
 
   state = {
     learnGroupId: 0,
-    chatAdvanced: [
-    ],
-    learngroups: []
+    chatAdvanced: [],
+    learngroups: [],
+    chat: []
   };
 
   render() {
