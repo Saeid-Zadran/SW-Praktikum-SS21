@@ -78,7 +78,7 @@ export default class AppApi {
   #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
   #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
   #addGroupRequestURL = () => `${this.#AppServerBaseURL}/grouprequests`;
-  #updateGroupRequestURL = (is_accepted, id_person) => `${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id_person}`;
+  #updateGroupRequestURL = (is_accepted, id) => `${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id}`;
 
   //matches
   #getMatchesByPersonURL = (id) => `${this.#AppServerBaseURL}/person-matching/${id}`;
@@ -851,16 +851,16 @@ TODO
     });
   }
 
-  updateGroupRequestURL(is_accepted, id_person) {
+  updateGroupRequest(is_accepted, id) {
 
-    return this.#fetchAdvanced(this.#updateGroupRequestURL(is_accepted, id_person), {
+    return this.#fetchAdvanced(this.#updateGroupRequestURL(is_accepted, id), {
       method: "PUT",
       headers: {
         Accept: "application/json, text/plain",
         "Content-type": "application/json",
         
       },
-      body: JSON.stringify(is_accepted, id_person),
+      body: JSON.stringify(is_accepted, id),
 
     }).then((responseJSON) => {
       console.log(responseJSON);
