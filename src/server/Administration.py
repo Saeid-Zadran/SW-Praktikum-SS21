@@ -319,9 +319,9 @@ class Administration(object):
         with GroupRequestMapper() as mapper:
             return mapper.find_all()
 
-    def save_grouprequest(self,id_person, is_accepted):
+    def save_grouprequest(self,id, is_accepted):
         with GroupRequestMapper() as mapper:
-            mapper.update(is_accepted,id_person)
+            mapper.update(is_accepted,id)
 
     def delete_grouprequest(self, grouprequest):
   

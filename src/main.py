@@ -89,7 +89,7 @@ learngroup = api.inherit('LearnGroup', bo, {
     
 })
 grouprequest = api.inherit('GroupRequest', bo, {
-    'id_person':fields.Integer(attribute='_id_person', description='Fremschlüssel ID Person'),
+    'id':fields.Integer(attribute='_id', description='Fremschlüssel ID Person'),
     'is_accepted':fields.Boolean(attribute='_is_accepted', description='Akzeptiert'),
     'learngroup_id':fields.Integer(attribute='_learngroup_id', description='Fremschlüssel  der Lerngruppe'),
     'person_id':fields.Integer(attribute='_person_id', description='Fremschlüssel ID Person')
@@ -908,22 +908,22 @@ class GroupRequestnOperations(Resource):
         return '', 200
 
 
-@studymatch.route('/grouprequest-update/<int:is_accepted>/<int:id_person>')
+@studymatch.route('/grouprequest-update/<int:is_accepted>/<int:id>')
 @studymatch.response(500, 'when server has problems')
 @studymatch.param('is_accepted', 'ID der Gruppenanfrage')
 
 class GroupRequestUpdateOperations(Resource):    
     @studymatch.marshal_with(grouprequest)
     @studymatch.expect(grouprequest) 
-    def put(self,id_person,is_accepted):
+    def put(self,id,is_accepted):
         adm = Administration()
         print(api.payload)
         gle = GroupRequest.from_dict(api.payload)
 
         if gle is not None:
-           gle.set_id(id_person)
+           gle.set_id(id)
            gle.set_is_accepted(is_accepted)
-           adm.save_grouprequest(id_person,is_accepted)
+           adm.save_grouprequest(id,is_accepted)
 
            return gle, 200
         
