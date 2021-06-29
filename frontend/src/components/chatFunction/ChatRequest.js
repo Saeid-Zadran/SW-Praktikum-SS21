@@ -74,9 +74,9 @@ class ChatRequest extends Component {
       this.setState({open: !this.state.open});
     };
     const join = async () => {
-     console.log(await AppApi.getApi().updateGroupRequestURL(this.props.person_id, 1)) 
-    };
-    
+     console.log(await AppApi.getApi().updateGroupRequest( 1, this.props.id,)) 
+    };  
+
     return (
       <List className={classes.root}>
         

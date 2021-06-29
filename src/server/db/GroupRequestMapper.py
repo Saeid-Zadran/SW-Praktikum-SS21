@@ -143,14 +143,15 @@ class GroupRequestMapper(Mapper):
         """
 
         cursor = self._cnx.cursor()
-
         command = "UPDATE grouprequest SET is_accepted={} WHERE  id={}".format(id,is_accepted)
-        
-
-
         print(cursor.execute(command))
         self._cnx.commit()
+        command2 = "SELECT * FROM grouprequest WHERE id={}".format(is_accepted)
+        cursor.execute(command2)
+        return_value =  cursor.fetchall()
+        print(return_value, "return")
         cursor.close()
+        return return_value
 
 
     def delete(self, grouprequest):

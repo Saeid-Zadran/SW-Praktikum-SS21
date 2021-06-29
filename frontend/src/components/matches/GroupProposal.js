@@ -45,7 +45,7 @@ class GroupProposal extends Component {
   }
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    
+    console.log('right clicked');
     e.preventDefault();
     this.setState({
       anchorEl: e.currentTarget,
@@ -69,7 +69,7 @@ class GroupProposal extends Component {
         "learngroup_id": this.props.id,
         "person_id": session_id
       }
-      
+      console.log(request_json)
 
       let fetchedChatAdvanced = await AppApi.getApi().addGroupRequest(
         request_json
@@ -88,7 +88,7 @@ class GroupProposal extends Component {
                 src={`https://eu.ui-avatars.com/api/?background=random&color=fff&name=${title}`}
               />
             </ListItemAvatar>
-            <ListItemText primary={title} />
+            <ListItemText primary={title} secondary="Matched zu 88%" />
           </ListItem>
           <ListItem>
             <Button onClick={handleClick} variant="outlined">Gruppe beitreten</Button>

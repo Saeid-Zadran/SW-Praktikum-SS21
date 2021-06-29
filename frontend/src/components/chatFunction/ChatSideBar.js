@@ -10,26 +10,44 @@ import Paper from '@material-ui/core/Paper';
 class ChatSideBar extends Component {
   state = {
     learnGroups: [],
+    openRequests: [],
   };
   async componentDidMount() {
     let uid = getCookie('uid');
     let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
     session_id = session_id[0].id;
     let learngroups = await AppApi.getApi().getLearnGroupByPersonId(session_id);
-    let groupRequests = await AppApi.getApi().getGroupRequestByAccepted(session_id)
-    console.log(groupRequests)
-    for (var key in groupRequests) {
-      console.log(groupRequests[key])
-      let groupRequest = groupRequests[key]
-      console.log(groupRequest.learngroup_id)
-      let learnGroup = await AppApi.getApi().getLearnGroupById(groupRequest.learngroup_id)
-    }    
-    console.log(learngroups, groupRequests)
-    this.setState({
-      learnGroups: learngroups
-    });
-    console.log(groupRequests)
+    let groupRequests = await AppApi.getApi().getGroupRequestByAccepted(
+      session_id
+    );
+    let openGroupRequests = await AppApi.getApi().getGroupRequestByPersonId(
+      session_id
+    );
     
+    console.log(openGroupRequests, session_id);
+
+    // filter alle offenen GruppenRequests nach is_accepted === false
+    openGroupRequests = openGroupRequests.filter(
+      (openRequest) => openRequest.is_accepted === false
+    );
+    console.log(openGroupRequests, session_id);
+
+    openGroupRequests = openGroupRequests.filter(
+      (openRequest) => openRequest.person_id === session_id
+    );
+    console.log(openGroupRequests);
+
+    for (var key in groupRequests) {
+      let groupRequest = groupRequests[key];
+      let learnGroup = await AppApi.getApi().getLearnGroupById(
+        groupRequest.learngroup_id
+      );
+      learngroups.push(learnGroup[0]);
+    }
+    this.setState({
+      learnGroups: learngroups,
+      openRequests: openGroupRequests,
+    });
   }
 
   executeScroll = () => this.myRef.scrollIntoView();
@@ -39,7 +57,6 @@ class ChatSideBar extends Component {
       let uid = getCookie('uid');
       let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
       session_id = session_id[0].id;
-      console.log(session_id);
       let learngroups = await AppApi.getApi().getLearnGroupByPersonId(
         session_id
       );
@@ -67,17 +84,19 @@ class ChatSideBar extends Component {
             <div ref={(ref) => (this.chatGroupBox = ref)} />
           </ul>
         </Paper>
-        <p class="menu-label">Offene Anfragen ({}) </p>
+        <p class="menu-label">Offene Anfragen ({this.state.openRequests.length}) </p>
 
         <Paper elevation={0} style={{ maxHeight: 200, overflow: 'auto' }}>
-
-        <ul class="menu-list">
-          <ChatRequest title="Das ist eine Lernruppe"></ChatRequest>
-          <ChatRequest title="Ich bin eine Gruppe"></ChatRequest>
-          <ChatRequest></ChatRequest>
-        </ul>
-        <div ref={(ref) => (this.openRequestsBox = ref)} />
-
+          <ul class="menu-list">
+            {this.state.openRequests.map((openrequest) => (
+              <ChatRequest
+                learngroup_id={openrequest.learngroup_id}
+                person_id={openrequest.person_id}
+                id = {openrequest.id}
+              ></ChatRequest>
+            ))}
+          </ul>
+          <div ref={(ref) => (this.openRequestsBox = ref)} />
         </Paper>
         <p class="menu-label">Neue Lerngruppe </p>
 

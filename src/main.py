@@ -917,15 +917,9 @@ class GroupRequestUpdateOperations(Resource):
     @studymatch.expect(grouprequest) 
     def put(self,id,is_accepted):
         adm = Administration()
-        print(api.payload)
-        gle = GroupRequest.from_dict(api.payload)
-
-        if gle is not None:
-           gle.set_id(id)
-           gle.set_is_accepted(is_accepted)
-           adm.save_grouprequest(id,is_accepted)
-
-           return gle, 200
+        updated = adm.save_grouprequest(id,is_accepted)
+        if  updated != None:
+            return updated, 200
         
         else:
          
@@ -970,12 +964,10 @@ class GroupRequestBySourceOperations(Resource):
 @studymatch.response(500, 'Internal Server Error')
 @studymatch.param('id', 'ID der Person')
 class PersonMatchOperations(Resource):
-    @studymatch.marshal_with(person)
     def get(self, id):
-
         adm = Administration()
         matchmakingList = adm.get_match(id)
-        return matchmakingList[0]
+        return matchmakingList
 
 # Gruppe matchen
 @studymatch.route('/learngroup-matching/<int:id>')
