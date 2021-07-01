@@ -639,7 +639,6 @@ class ChatListOperations(Resource):
         """
         adm = Administration()
         c = adm.get_chat_by_id(id)
-        print("hurennutten", c)
         return c
 
 
@@ -831,6 +830,17 @@ class LearnGroupOperations(Resource):
 
         else:
             return '', 500
+    
+    @studymatch.marshal_with(learngroup)
+    #@secured
+    def delete(self, id):
+        """Löschen eines bestimmten learngroup-Objekts.
+        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
+        """
+        adm = Administration()
+        lg = adm.get_learngroup_by_id(id)
+        adm.delete_learngroup(lg)
+        return '', 200
 
 #learngroupbypersonid
 @studymatch.route('/learngroup/<int:person_id>')
@@ -848,16 +858,7 @@ class LearnGroupListByPersonOperations(Resource):
 
 
 
-    @studymatch.marshal_with(learngroup)
-    #@secured
-    def delete(self, id):
-        """Löschen eines bestimmten learngroup-Objekts.
-        Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
-        """
-        adm = Administration()
-        lg = adm.get_learngroup_by_id(id)
-        adm.delete_learngroup(lg)
-        return '', 200
+    
 
 #----GroupRequest--------
 

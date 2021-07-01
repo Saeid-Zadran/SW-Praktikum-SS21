@@ -22,7 +22,7 @@ class ChatMapper(Mapper):
         cursor.execute("SELECT * from chat")
         tuples = cursor.fetchall()
 
-        for (id, creation_time,learngroup_id, is_accepted,sender, message, ) in tuples:
+        for (id, creation_time,learngroup_id, is_accepted,sender, message ) in tuples:
             chat = Chat()
             chat.set_id(id)
             chat.set_creation_time(creation_time)

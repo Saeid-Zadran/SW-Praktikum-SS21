@@ -77,7 +77,7 @@ class Administration(object):
         with PersonMapper() as mapper:
             mapper.delete(person)
 
-    def create_profile(self, age, name, adress, semester, degree_course, person_id):
+    def create_profile(self, name,age,  adress, semester, degree_course, person_id):
         """Ein Profil anlegen"""
 
         profile = Profile()

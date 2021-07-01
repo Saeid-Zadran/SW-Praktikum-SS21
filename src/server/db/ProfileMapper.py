@@ -141,8 +141,8 @@ class ProfileMapper(Mapper):
         :param profile das Objekt, das in die DB geschrieben werden soll
         """
         cursor = self._cnx.cursor()
-        command = "UPDATE profile  SET creation_time=%s, age=%s, adress=%s, semester=%s, degree_course=%s  WHERE id=%s"
-        data = (profile.get_creation_time(),profile.get_age(),profile.get_adress(),profile.get_semester(), profile.get_degree_course(), profile.get_id())
+        command = "UPDATE profile  SET creation_time=%s, age=%s, adress=%s, semester=%s, degree_course=%s,person_id=%s  WHERE id=%s"
+        data = (profile.get_creation_time(),profile.get_age(),profile.get_adress(),profile.get_semester(), profile.get_degree_course(),profile.get_person_id(),profile.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
