@@ -1,11 +1,11 @@
-import ChatBO from "./ChatBO";
-import ChatMessageBO from "./ChatMessageBO";
-import GroupRequestBO from "./GroupRequestBO";
-import LearnGroupBO from "./LearnGroupBO";
-import LearnProfileBO from "./LearnProfileBO";
-import PersonBO from "./PersonBO";
-import ProfileBO from "./ProfileBO";
-import SuggestionBO from "./SuggestionBO";
+import ChatBO from './ChatBO';
+import ChatMessageBO from './ChatMessageBO';
+import GroupRequestBO from './GroupRequestBO';
+import LearnGroupBO from './LearnGroupBO';
+import LearnProfileBO from './LearnProfileBO';
+import PersonBO from './PersonBO';
+import ProfileBO from './ProfileBO';
+import SuggestionBO from './SuggestionBO';
 
 /**
  * Abstracts the REST interface of the Python backend with convenient access methods.
@@ -16,16 +16,18 @@ export default class AppApi {
   static #api = null;
 
   // Local Python backend
-  #AppServerBaseURL = "http://localhost:5000/app";
+  #AppServerBaseURL = 'http://localhost:5000/app';
 
   // Local http-fake-backend
   // #AppServerBaseURL = '/AppApi/app';
 
   //Person Related
   #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
-  #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person-by-google-user-id/${google_user_id}`;
+  #getPersonURL = (google_user_id) =>
+    `${this.#AppServerBaseURL}/person-by-google-user-id/${google_user_id}`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-  #updatePersonURL = (google_user_id) =>`${this.#AppServerBaseURL}/persons/${google_user_id}`;
+  #updatePersonURL = (google_user_id) =>
+    `${this.#AppServerBaseURL}/persons/${google_user_id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
 
   //Profile
@@ -34,9 +36,8 @@ export default class AppApi {
   #addProfileURL = () => `${this.#AppServerBaseURL}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
-  #getProfileViaURL = (id) => `${this.#AppServerBaseURL}/profile-by-person-id/${id}`;
-
- 
+  #getProfileViaURL = (id) =>
+    `${this.#AppServerBaseURL}/profile-by-person-id/${id}`;
 
   //Suggestion
   #getSuggestionsURL = () => `${this.#AppServerBaseURL}/suggestions`;
@@ -48,11 +49,14 @@ export default class AppApi {
   #getLearnProfilesURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #addLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #updateLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
-  #deleteLearnProfileURL = (id) =>`${this.#AppServerBaseURL}/learnprofiles/${id}`;
-  #getLearnProfileViaURL  = (id) =>`${this.#AppServerBaseURL}/learnprofile/${id}`;
+  #deleteLearnProfileURL = (id) =>
+    `${this.#AppServerBaseURL}/learnprofiles/${id}`;
+  #getLearnProfileViaURL = (id) =>
+    `${this.#AppServerBaseURL}/learnprofile/${id}`;
 
   //Chat
-  #getChatsByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/chat/${learngroup_id}`;
+  #getChatsByLearnGroupIdURL = (learngroup_id) =>
+    `${this.#AppServerBaseURL}/chat/${learngroup_id}`;
   #getChatsURL = () => `${this.#AppServerBaseURL}/chats`;
   #addChatURL = () => `${this.#AppServerBaseURL}/chats`;
   #updateChatURL = () => `${this.#AppServerBaseURL}/chats`;
@@ -62,7 +66,8 @@ export default class AppApi {
   #getChatMessagesURL = () => `${this.#AppServerBaseURL}/chatmessages`;
   #addChatMessageURL = () => `${this.#AppServerBaseURL}/chatmessages`;
   #updateChatMessageURL = () => `${this.#AppServerBaseURL}/chatmessages`;
-  #deleteChatMessageURL = (id) =>`${this.#AppServerBaseURL}/chatmessages/${id}`;
+  #deleteChatMessageURL = (id) =>
+    `${this.#AppServerBaseURL}/chatmessages/${id}`;
 
   //LearnGroup
   #getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
@@ -70,27 +75,31 @@ export default class AppApi {
   #addLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
-  #getLearnGroupByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
+  #getLearnGroupByPersonIdURL = (person_id) =>
+    `${this.#AppServerBaseURL}/learngroup/${person_id}`;
 
   //GroupRequest
-  #getGroupRequestByPersonIdURL = (person_id) => `${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
-  #getGroupRequestByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
-  #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
-  #deleteGroupRequestByIdURL = (id) => `${this.#AppServerBaseURL}/grouprequest/${id}`;
+  #getGroupRequestByPersonIdURL = (person_id) =>
+    `${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
+  #getGroupRequestByLearnGroupIdURL = (learngroup_id) =>
+    `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
+  #getGroupRequestByAcceptedURL = (is_accepted) =>
+    `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
+  #deleteGroupRequestByIdURL = (id) =>
+    `${this.#AppServerBaseURL}/grouprequest/${id}`;
   #addGroupRequestURL = () => `${this.#AppServerBaseURL}/grouprequests`;
-  #updateGroupRequestURL = (is_accepted, id) => `${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id}`;
+  #updateGroupRequestURL = (is_accepted, id) =>
+    `${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id}`;
 
   //matches
-  #getMatchesByPersonURL = (id) => `${this.#AppServerBaseURL}/person-matching/${id}`;
-  #getMatchesByLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroup-matching/${id}`;
+  #getMatchesByPersonURL = (id) =>
+    `${this.#AppServerBaseURL}/person-matching/${id}`;
+  #getMatchesByLearnGroupURL = (id) =>
+    `${this.#AppServerBaseURL}/learngroup-matching/${id}`;
 
- 
-
-
-
-  //  ==> Vorschläge 
+  //  ==> Vorschläge
   // Alle learnprofiles werden gefetched im Backend und im Backend bewertet je nachdem wie ähnlich sie einem anderen Lernprofile sind und dann gelisted
-  // diese werden über einen call getMatchesByPersonID() ==> {getLearnProfileById(), getLearnProfiles(), Liste mit Lernprofilen die zurückgegeben wird durchsuchen und die 
+  // diese werden über einen call getMatchesByPersonID() ==> {getLearnProfileById(), getLearnProfiles(), Liste mit Lernprofilen die zurückgegeben wird durchsuchen und die
   // Matches bewerten.
 
   /*
@@ -124,12 +133,9 @@ TODO
 
   */
 
-
-
-
   // ignore
   // ==> Matchinganfrage
-  // createChatRequestByPersonID(personId, targetId) ==> neue chatRequest 
+  // createChatRequestByPersonID(personId, targetId) ==> neue chatRequest
   /* 
   chatRequest: 
   - is_accepted:false
@@ -138,15 +144,12 @@ TODO
   - GruppenName ==> Chat mit "xx Person"
   Wenn chatRequest akzeptiert wird:
   */
-  
-
-
 
   /**
    * Get the Singelton instance
    *
    * @public
-   * 
+   *
    */
   static getApi() {
     if (this.#api == null) {
@@ -159,12 +162,11 @@ TODO
    *  Returns a Promise which resolves to a json object.
    *  The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
    *  fetchAdvanced throws an Error also an server status errors
-   * 
-   * 
+   *
+   *
    * add this to the decorator TODO
    * {credentials: 'include'},
    */
-
 
   #fetchAdvanced = (url, init) =>
     fetch(url, init).then((res) => {
@@ -193,30 +195,32 @@ TODO
    * @public
    */
 
-   getPersonByGoogleId(person) {
+  getPersonByGoogleId(person) {
     //console.log(google_user_id)
-    return this.#fetchAdvanced(this.#getPersonURL(person)).then((responseJSON) => {
-      // console.log(responseJSON)
-      
-      // We always get an array of PersonBOs.fromJSON, but only need one object
-      let responsePersonBO = PersonBO.fromJSON(responseJSON);
-      // console.info(responsePersonBO);
-      return new Promise(function (resolve) {
-        resolve(responsePersonBO);
-      })
-    })
+    return this.#fetchAdvanced(this.#getPersonURL(person)).then(
+      (responseJSON) => {
+        // console.log(responseJSON)
+
+        // We always get an array of PersonBOs.fromJSON, but only need one object
+        let responsePersonBO = PersonBO.fromJSON(responseJSON);
+        // console.info(responsePersonBO);
+        return new Promise(function (resolve) {
+          resolve(responsePersonBO);
+        });
+      }
+    );
   }
 
   createPerson(plainName, googleMail, googleUserId) {
     let p = new PersonBO();
     p.setGoogleMail(googleMail);
     p.setGoogleUserId(googleUserId);
-    p.setName(plainName)
+    p.setName(plainName);
     return this.#fetchAdvanced(this.#addPersonURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(p),
     }).then((responseJSON) => {
@@ -232,10 +236,10 @@ TODO
     return this.#fetchAdvanced(
       this.#updatePersonURL(personBO.getGoogleUserId()),
       {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          Accept: "application/json, text/plain",
-          "Content-type": "application/json",
+          Accept: 'application/json, text/plain',
+          'Content-type': 'application/json',
         },
         body: JSON.stringify(personBO),
       }
@@ -258,7 +262,7 @@ TODO
    */
   deletePerson(id) {
     return this.#fetchAdvanced(this.#deletePersonURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of ParticipationBO.fromJSON, but only need one object
       let personBOs = PersonBO.fromJSON(responseJSON)[0];
@@ -280,28 +284,29 @@ TODO
 
   // Profile related
   getProfileViaUrl(sessionId) {
-    return this.#fetchAdvanced(this.#getProfileViaURL(sessionId)).then((responseJSON) => {
-      console.log(responseJSON, "response")
-      let profileBOs = ProfileBO.fromJSON(responseJSON);
-      return new Promise(function (resolve) {
-        resolve(profileBOs);
-      });
-    });
+    return this.#fetchAdvanced(this.#getProfileViaURL(sessionId)).then(
+      (responseJSON) => {
+        console.log(responseJSON, 'response');
+        let profileBOs = ProfileBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(profileBOs);
+        });
+      }
+    );
   }
-
 
   // Profile related
   getLearnProfileViaUrl(sessionId) {
-    return this.#fetchAdvanced(this.#getLearnProfileViaURL(sessionId)).then((responseJSON) => {
-      console.log(responseJSON, "response")
-      let profileBOs = ProfileBO.fromJSON(responseJSON);
-      return new Promise(function (resolve) {
-        resolve(profileBOs);
-      });
-    });
+    return this.#fetchAdvanced(this.#getLearnProfileViaURL(sessionId)).then(
+      (responseJSON) => {
+        console.log(responseJSON, 'response');
+        let profileBOs = ProfileBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(profileBOs);
+        });
+      }
+    );
   }
-
-
 
   /**
    * Returns a Promise, which resolves to a ProfileBO
@@ -311,12 +316,11 @@ TODO
    */
 
   addProfile(profile) {
-
     return this.#fetchAdvanced(this.#addProfileURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(profile),
     }).then((responseJSON) => {
@@ -325,17 +329,17 @@ TODO
       let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
       // console.info(ProfileBOs);
       return new Promise(function (resolve) {
-        resolve(responseProfileBO)
+        resolve(responseProfileBO);
       });
     });
   }
 
   updateProfile(id) {
     return this.#fetchAdvanced(this.#updateProfileURL(id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(id),
     }).then((responseJSON) => {
@@ -356,7 +360,7 @@ TODO
    */
   deleteProfile(id) {
     return this.#fetchAdvanced(this.#deleteProfileURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of ProfileBO.fromJSON, but only need one object
       let profileBOs = ProfileBO.fromJSON(responseJSON)[0];
@@ -365,7 +369,6 @@ TODO
       });
     });
   }
-
 
   // Suggestion related
   getSuggestions() {
@@ -388,10 +391,10 @@ TODO
 
   addSuggestion(suggestion) {
     return this.#fetchAdvanced(this.#addSuggestionURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(suggestion),
     }).then((responseJSON) => {
@@ -407,10 +410,10 @@ TODO
 
   updateSuggestion(id) {
     return this.#fetchAdvanced(this.#updateSuggestionURL(id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(id),
     }).then((responseJSON) => {
@@ -431,7 +434,7 @@ TODO
    */
   deleteSuggestion(id) {
     return this.#fetchAdvanced(this.#deleteSuggestionURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of SuggestionBO.fromJSON, but only need one object
       let suggestionBOs = SuggestionBO.fromJSON(responseJSON)[0];
@@ -462,10 +465,10 @@ TODO
 
   addLearnProfile(learnProfile) {
     return this.#fetchAdvanced(this.#addLearnProfileURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(learnProfile),
     }).then((responseJSON) => {
@@ -481,10 +484,10 @@ TODO
 
   updateLearnProfile(id) {
     return this.#fetchAdvanced(this.#updateLearnProfileURL(id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(id),
     }).then((responseJSON) => {
@@ -505,7 +508,7 @@ TODO
    */
   deleteLearnProfile(id) {
     return this.#fetchAdvanced(this.#deleteLearnProfileURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of LearnProfileBO.fromJSON, but only need one object
       let learnProfileBOs = LearnProfileBO.fromJSON(responseJSON)[0];
@@ -534,10 +537,10 @@ TODO
 
   addChat(chat) {
     return this.#fetchAdvanced(this.#addChatURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(chat),
     }).then((responseJSON) => {
@@ -553,10 +556,10 @@ TODO
 
   updateChat(id) {
     return this.#fetchAdvanced(this.#updateChatURL(id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(id),
     }).then((responseJSON) => {
@@ -577,7 +580,7 @@ TODO
    */
   deleteChat(id) {
     return this.#fetchAdvanced(this.#deleteChatURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of ChatBO.fromJSON, but only need one object
       let chatBOs = ChatBO.fromJSON(responseJSON)[0];
@@ -609,10 +612,10 @@ TODO
 
   addChatMessage(chatmessage) {
     return this.#fetchAdvanced(this.#addChatMessageURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(chatmessage),
     }).then((responseJSON) => {
@@ -628,10 +631,10 @@ TODO
 
   updateChatMessage(id) {
     return this.#fetchAdvanced(this.#updateChatMessageURL(id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(id),
     }).then((responseJSON) => {
@@ -652,7 +655,7 @@ TODO
    */
   deleteChatMessage(id) {
     return this.#fetchAdvanced(this.#deleteChatMessageURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of ChatBO.fromJSON, but only need one object
       let chatmessageBOs = ChatMessageBO.fromJSON(responseJSON)[0];
@@ -663,13 +666,15 @@ TODO
   }
 
   getChatsByLearnGroupId(learngroup_id) {
-    return this.#fetchAdvanced(this.#getChatsByLearnGroupIdURL(learngroup_id)).then((responseJSON) => {
+    return this.#fetchAdvanced(
+      this.#getChatsByLearnGroupIdURL(learngroup_id)
+    ).then((responseJSON) => {
       let chatBOs = ChatBO.fromJSON(responseJSON);
       // console.info(chatBos);
       return new Promise(function (resolve) {
         resolve(chatBOs);
-      })
-    })
+      });
+    });
   }
 
   // LearnGroup related
@@ -684,18 +689,19 @@ TODO
     );
   }
 
-
   getLearnGroupById(id) {
     //console.log()
-    return this.#fetchAdvanced(this.#getLearnGroupByIdURL(id)).then((responseJSON) => {
-      // console.log(responseJSON)
-      
-      let responseLearnGroupByIdBOs = LearnGroupBO.fromJSON(responseJSON);
-      // console.info();
-      return new Promise(function (resolve) {
-        resolve(responseLearnGroupByIdBOs);
-      })
-    })
+    return this.#fetchAdvanced(this.#getLearnGroupByIdURL(id)).then(
+      (responseJSON) => {
+        // console.log(responseJSON)
+
+        let responseLearnGroupByIdBOs = LearnGroupBO.fromJSON(responseJSON);
+        // console.info();
+        return new Promise(function (resolve) {
+          resolve(responseLearnGroupByIdBOs);
+        });
+      }
+    );
   }
 
   /**
@@ -707,10 +713,10 @@ TODO
 
   addLearnGroup(learnGroup) {
     return this.#fetchAdvanced(this.#addLearnGroupURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(learnGroup),
     }).then((responseJSON) => {
@@ -726,10 +732,10 @@ TODO
 
   updateLearnGroup(id) {
     return this.#fetchAdvanced(this.#updateLearnGroupURL(id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(id),
     }).then((responseJSON) => {
@@ -750,7 +756,7 @@ TODO
    */
   deleteLearnGroup(id) {
     return this.#fetchAdvanced(this.#deleteLearnGroupURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of LearnGroupBO.fromJSON, but only need one object
       let learnGroupBOs = LearnGroupBO.fromJSON(responseJSON)[0];
@@ -760,68 +766,75 @@ TODO
     });
   }
 
-  
-
   getLearnGroupByPersonId(person_id) {
     //console.log(google_user_id)
-    return this.#fetchAdvanced(this.#getLearnGroupByPersonIdURL(person_id)).then((responseJSON) => {
+    return this.#fetchAdvanced(
+      this.#getLearnGroupByPersonIdURL(person_id)
+    ).then((responseJSON) => {
       // console.log(responseJSON)
-      
+
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseLearnGroupByPersonBOs = LearnGroupBO.fromJSON(responseJSON);
       // console.info(responsePersonBO);
       return new Promise(function (resolve) {
         resolve(responseLearnGroupByPersonBOs);
-      })
-    })
+      });
+    });
   }
-
-
 
   //GroupRequest
 
   getGroupRequestByPersonId(person_id) {
     //console.log()
-    return this.#fetchAdvanced(this.#getGroupRequestByPersonIdURL(person_id)).then((responseJSON) => {
+    return this.#fetchAdvanced(
+      this.#getGroupRequestByPersonIdURL(person_id)
+    ).then((responseJSON) => {
       // console.log(responseJSON)
-      
-      let responseGroupRequestByPersonBOs = GroupRequestBO.fromJSON(responseJSON);
+
+      let responseGroupRequestByPersonBOs =
+        GroupRequestBO.fromJSON(responseJSON);
       // console.info();
       return new Promise(function (resolve) {
         resolve(responseGroupRequestByPersonBOs);
-      })
-    })
+      });
+    });
   }
 
   getGroupRequestByLearnGroupId(learngroup_id) {
     //console.log()
-    return this.#fetchAdvanced(this.#getGroupRequestByLearnGroupIdURL(learngroup_id)).then((responseJSON) => {
+    return this.#fetchAdvanced(
+      this.#getGroupRequestByLearnGroupIdURL(learngroup_id)
+    ).then((responseJSON) => {
       // console.log(responseJSON)
-      
-      let responseGroupRequestByLearnGroupBOs = GroupRequestBO.fromJSON(responseJSON);
+
+      let responseGroupRequestByLearnGroupBOs =
+        GroupRequestBO.fromJSON(responseJSON);
       // console.info();
       return new Promise(function (resolve) {
         resolve(responseGroupRequestByLearnGroupBOs);
-      })
-    })
+      });
+    });
   }
 
   getGroupRequestByAccepted(is_accepted) {
     //console.log()
-    return this.#fetchAdvanced(this.#getGroupRequestByAcceptedURL(is_accepted)).then((responseJSON) => {
+    return this.#fetchAdvanced(
+      this.#getGroupRequestByAcceptedURL(is_accepted)
+    ).then((responseJSON) => {
       // console.log(responseJSON)
-      
-      let responseGroupRequestByAcceptedBOs = GroupRequestBO.fromJSON(responseJSON);
+
+      let responseGroupRequestByAcceptedBOs =
+        GroupRequestBO.fromJSON(responseJSON);
       // console.info();
       return new Promise(function (resolve) {
         resolve(responseGroupRequestByAcceptedBOs);
-      })
-    })
+      });
+    });
   }
 
   deleteGroupRequestById(id) {
     return this.#fetchAdvanced(this.#deleteGroupRequestByIdURL(id), {
-      method: "DELETE",
+      method: 'DELETE',
     }).then((responseJSON) => {
       // We always get an array of ProfileBO.fromJSON, but only need one object
       let groupRequestBOs = GroupRequestBO.fromJSON(responseJSON)[0];
@@ -832,12 +845,11 @@ TODO
   }
 
   addGroupRequest(groupRequest) {
-
     return this.#fetchAdvanced(this.#addGroupRequestURL(), {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(groupRequest),
     }).then((responseJSON) => {
@@ -846,80 +858,60 @@ TODO
       let responseGroupRequestBO = GroupRequestBO.fromJSON(responseJSON)[0];
       // console.info(responseGroupRequestBO);
       return new Promise(function (resolve) {
-        resolve(responseGroupRequestBO)
+        resolve(responseGroupRequestBO);
       });
     });
   }
 
   updateGroupRequest(is_accepted, id) {
-
     return this.#fetchAdvanced(this.#updateGroupRequestURL(is_accepted, id), {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json, text/plain",
-        "Content-type": "application/json",
-        
+        Accept: 'application/json, text/plain',
+        'Content-type': 'application/json',
       },
       body: JSON.stringify(is_accepted, id),
-
     }).then((responseJSON) => {
       console.log(responseJSON);
       // We always get an array of ProfileBOs.fromJSON, but only need one object
       let responseGroupRequestBO = GroupRequestBO.fromJSON(responseJSON)[0];
       // console.info(responseGroupRequestBO);
       return new Promise(function (resolve) {
-        resolve(responseGroupRequestBO)
+        resolve(responseGroupRequestBO);
       });
     });
   }
-
 
   //matches
 
   getMatchesByPersonURL(id) {
     //console.log()
-    return this.#fetchAdvanced(this.#getMatchesByPersonURL(id)).then((responseJSON) => {
-      // console.log(responseJSON)
-      
-      let responseMatchesByPersonBOs = PersonBO.fromJSON(responseJSON);
-      // console.info();
-      return new Promise(function (resolve) {
-        resolve(responseMatchesByPersonBOs);
-      })
-    })
+    return this.#fetchAdvanced(this.#getMatchesByPersonURL(id)).then(
+      (responseJSON) => {
+        // console.log(responseJSON)
+
+        let responseMatchesByPersonBOs = responseJSON;
+        // console.info();
+        return new Promise(function (resolve) {
+          resolve(responseMatchesByPersonBOs);
+        });
+      }
+    );
   }
 
-  
   getMatchesByLearnGroup(id) {
     //console.log()
-    return this.#fetchAdvanced(this.#getMatchesByLearnGroupURL(id)).then((responseJSON) => {
-      // console.log(responseJSON)
-      
-      let responseMatchesByLearnGroupBOs = LearnGroupBO.fromJSON(responseJSON);
-      // console.info();
-      return new Promise(function (resolve) {
-        resolve(responseMatchesByLearnGroupBOs);
-      })
-    })
+    return this.#fetchAdvanced(this.#getMatchesByLearnGroupURL(id)).then(
+      (responseJSON) => {
+        // console.log(responseJSON)
+
+        let responseMatchesByLearnGroupBOs =
+          LearnGroupBO.fromJSON(responseJSON);
+        // console.info();
+        return new Promise(function (resolve) {
+          resolve(responseMatchesByLearnGroupBOs);
+        });
+      }
+    );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-

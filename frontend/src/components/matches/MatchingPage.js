@@ -19,6 +19,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import GroupProposal from '../matches/GroupProposal';
+import './Matching.css';
 
 class MatchingPage extends Component {
   constructor(props) {
@@ -36,14 +37,17 @@ class MatchingPage extends Component {
         {
           learnGroup_id: 0,
           name: 'Die fleißigen Lerner',
+          percent: 60,
         },
         {
           learnGroup_id: 1,
           name: 'Anfänger',
+          percent: 20,
         },
         {
           learnGroup_id: 2,
           name: 'Almans',
+          percent: 15,
         },
       ],
       error: null,
@@ -53,10 +57,32 @@ class MatchingPage extends Component {
     };
   }
 
-  getLearnGroups = () => {
-    AppApi.getApi()
-      .getLearnGroups()
-      .then((learnGroupBOs) => {
+  async getLearnGroups() {
+    let uid = '';
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${'uid'}=`);
+
+    if (parts.length === 2) uid = parts.pop().split(';').shift();
+    let app = new AppApi();
+    let session_id = await app.getPersonByGoogleId(uid);
+    session_id = session_id[0].id;
+    let matchedLearnprofiles = await AppApi.getApi().getMatchesByPersonURL(
+      session_id
+    );
+    let matches = [];
+    for (var variable in matchedLearnprofiles) {
+      let learnProfile = await AppApi.getApi().getProfileViaUrl(variable);
+      let matchObject = {
+        learnGroup_id: variable,
+        name: learnProfile[0].name,
+        percent: matchedLearnprofiles[variable],
+        id: learnProfile[0].id
+      };
+      matches.push(matchObject);
+    }
+    this.setState({ learnGroup: matches });
+
+    /*
         this.setState({
           learnGroup: learnGroupBOs,
           filteredLearnGroup: [...learnGroupBOs],
@@ -64,21 +90,8 @@ class MatchingPage extends Component {
           error: null,
           testState: '',
         });
-      })
-      .catch((e) =>
-        this.setState({
-          learnGroup: [],
-          loadingInProgress: false,
-          error: e,
-        })
-      );
-
-    this.setState({
-      loadingInProgress: true,
-      error: null,
-      person_id: -1,
-    });
-  };
+*/
+  }
 
   componentDidMount() {
     this.getLearnGroups();
@@ -90,7 +103,7 @@ class MatchingPage extends Component {
     const handleClick = async () => {
       let testVariable = await AppApi.getApi().getGroupRequestByPersonId(1);
 
-      
+      console.log(testVariable);
       this.setState({
         testState: 'jimmy',
       });
@@ -101,7 +114,7 @@ class MatchingPage extends Component {
           <Grid item xs={12}>
             <Grid container justify="center" spacing={5}>
               <Grid item>
-                <Card flat className={classes.root}>
+                <Card flat className="scrollable">
                   <CardContent>
                     <Typography
                       className={classes.title}
@@ -126,6 +139,7 @@ class MatchingPage extends Component {
                       <GroupProposal
                         title={learnGroup.name}
                         id={learnGroup.id}
+                        percent={learnGroup.percent}
                       ></GroupProposal>
                     ))}
                   </CardContent>

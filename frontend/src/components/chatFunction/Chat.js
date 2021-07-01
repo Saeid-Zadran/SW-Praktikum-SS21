@@ -18,23 +18,23 @@ class ChatBox extends Component {
     let uid = '';
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${'uid'}=`);
-
+    
     if (parts.length === 2) uid = parts.pop().split(';').shift();
     let app = new AppApi();
     let session_id = await app.getPersonByGoogleId(uid);
     session_id = session_id[0].id;
-    
+    console.log(session_id);
     var learnProfile = await app.getLearnProfileViaUrl(session_id);
     let profile = await app.getProfileViaUrl(session_id);
     learnProfile = learnProfile[0];
     profile = profile[0];
-    
+    console.log(learnProfile);
     let fetchedChatAdvanced = await app.getChatsByLearnGroupId(session_id);
     let learngroups = await app.getLearnGroupByPersonId(session_id);
     this.setState({ learngroups: learngroups })
     this.setState({ personId: session_id });
     this.setState({ name: profile.name });
-    
+    console.log(learngroups)
     // wennn die Lerngruppen nicht leer sind 
     if(fetchedChatAdvanced.length > 0)
     {
@@ -58,14 +58,14 @@ class ChatBox extends Component {
     };
     const updateChatWindow = (chatAdvanced, learnGroupId) => {
       this.setState({ chatAdvanced: chatAdvanced, learnGroupId: learnGroupId });
-      
+      console.log(this.state);
     };
 
     let informationForChats;
 
-    if(this.state.learngroups.length == 0)
+    if(this.state.chatAdvance == false)
     {
-      
+      console.log(this.state.learngroups)
       informationForChats = 
       <Card >
         <CardContent>
@@ -128,18 +128,18 @@ const Chat = ({ chatAdvanced, learnGroupId, name }) => (
       session_id = session_id[0].id;
       // let learngroup_id = await AppApi.getApi().learngr(session_id)
       parts = value.splt;
-      
+      console.log(session_id);
       var chat = new ChatBO();
       chat.setLearnGroupId(learnGroupId);
       chat.setIsAccepted(true);
       chat.setSender(name);
       chat.setMessage(e.target.elements.userInput.value);
-      // 
+      // console.log(api)
       let response = await api.addChat(chat);
       let fetchedChatAdvanced = await api.getChatsByLearnGroupId(learnGroupId);
       chatAdvanced(fetchedChatAdvanced);
-      
-      
+      console.log(chatAdvanced);
+      console.log(fetchedChatAdvanced);
 
       //saveMsg(e.target.elements.userInput.value);
       e.target.reset();

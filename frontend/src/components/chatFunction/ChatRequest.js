@@ -45,18 +45,22 @@ class ChatRequest extends Component {
       learngroups: null,
       selected: false,
       anchorEl: '',
-      open: false
+      open: false,
     };
   }
 
   async componentDidMount() {
-    let learnGroup = await AppApi.getApi().getLearnGroupById(this.props.learngroup_id)
-    let personProfile = await AppApi.getApi().getProfileViaUrl(this.props.person_id)
-    console.log(personProfile)
-    this.setState({ groupName : learnGroup[0].name,
-      profileName : "Anfefragt durch: " + personProfile[0].name
-
-    })
+    let learnGroup = await AppApi.getApi().getLearnGroupById(
+      this.props.learngroup_id
+    );
+    let personProfile = await AppApi.getApi().getProfileViaUrl(
+      this.props.person_id
+    );
+    console.log(personProfile);
+    this.setState({
+      groupName: learnGroup[0].name,
+      profileName: 'Anfefragt durch: ' + personProfile[0].name,
+    });
   }
 
   localStorageUpdated() {}
@@ -71,24 +75,22 @@ class ChatRequest extends Component {
     const { classes } = this.props;
     const { title, subtitle } = this.props;
     const handleClick = async () => {
-      this.setState({open: !this.state.open});
+      this.setState({ open: !this.state.open });
     };
     const join = async () => {
-     console.log(await AppApi.getApi().updateGroupRequest( 1, this.props.id,)) 
-    };  
+      await AppApi.getApi().updateGroupRequest(1, this.props.id);
+    };
 
     return (
       <List className={classes.root}>
-        
-        <ListItem button
-
+        <ListItem
+          button
           selected={this.state.selected}
           onClick={handleClick}
           alignItems="flex-start"
           onContextMenu={this.someEvenetHandler}
         >
-          {this.state.open ? <ExpandLess             size="small"
- /> : <ExpandMore />}
+          {this.state.open ? <ExpandLess size="small" /> : <ExpandMore />}
 
           <ListItemText
             secondary={this.state.groupName}
@@ -105,12 +107,12 @@ class ChatRequest extends Component {
 
         <Divider variant="inset" component="li" />
         <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemText primary={this.state.profileName} />
-          </ListItem>
-        </List>
-      </Collapse>
+          <List component="div" disablePadding>
+            <ListItem button className={classes.nested}>
+              <ListItemText primary={this.state.profileName} />
+            </ListItem>
+          </List>
+        </Collapse>
       </List>
     );
   }
