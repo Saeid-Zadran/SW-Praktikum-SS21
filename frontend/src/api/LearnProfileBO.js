@@ -1,5 +1,9 @@
 import NamedBusinessObject from './NamedBusinessObject';
 
+/**
+ * Represents an learnProfile object of a Profile.
+ */
+
 
 export default class LearnProfileBO extends NamedBusinessObject {
 
