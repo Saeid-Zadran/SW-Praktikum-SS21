@@ -11,14 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import { Link as RouterLink } from 'react-router-dom';
 
-
-
 class ChatBox extends Component {
   async componentDidMount() {
     let uid = '';
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${'uid'}=`);
-    
+
     if (parts.length === 2) uid = parts.pop().split(';').shift();
     let app = new AppApi();
     let session_id = await app.getPersonByGoogleId(uid);
@@ -29,17 +27,20 @@ class ChatBox extends Component {
     learnProfile = learnProfile[0];
     profile = profile[0];
     console.log(learnProfile);
-    let fetchedChatAdvanced = await app.getChatsByLearnGroupId(session_id);
     let learngroups = await app.getLearnGroupByPersonId(session_id);
-    this.setState({ learngroups: learngroups })
+    let fetchedChatAdvanced = [];
+    let chatName = ""
+    if (learngroups.length > 0) fetchedChatAdvanced = await app.getChatsByLearnGroupId(learngroups[0].id);
+    if (learngroups.length > 0) chatName = learngroups[0].name
+
+    this.setState({ learngroups: learngroups });
     this.setState({ personId: session_id });
     this.setState({ name: profile.name });
-    console.log(learngroups)
-    // wennn die Lerngruppen nicht leer sind 
-    if(fetchedChatAdvanced.length > 0)
-    {
-      // lade den ersten chat ins chatfenster
-      //this.setState({chatAdvanced: fetchedChatAdvanced[0]})
+    this.setState({ chatName: chatName})
+    console.log(fetchedChatAdvanced);
+    // wennn die Lerngruppen nicht leer sind
+    if (fetchedChatAdvanced.length > 0) {
+      this.setState({ chatAdvanced: fetchedChatAdvanced });
     }
   }
 
@@ -47,7 +48,8 @@ class ChatBox extends Component {
     learnGroupId: 0,
     chatAdvanced: [],
     learngroups: [],
-    chat: []
+    chat: [],
+    chatName: ""
   };
 
   render() {
@@ -56,34 +58,40 @@ class ChatBox extends Component {
 
       // Do something with your array of strings in here
     };
-    const updateChatWindow = (chatAdvanced, learnGroupId) => {
-      this.setState({ chatAdvanced: chatAdvanced, learnGroupId: learnGroupId });
+    const updateChatWindow = (chatAdvanced, learnGroupId, chatName) => {
+      console.log(chatName)
+      this.setState({ chatAdvanced: chatAdvanced, learnGroupId: learnGroupId, chatName: chatName });
       console.log(this.state);
     };
 
     let informationForChats;
 
-    if(this.state.chatAdvance == false)
-    {
-      console.log(this.state.learngroups)
-      informationForChats = 
-      <Card >
-        <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-            Du hast noch keinen Chat!
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Gehe auf die Matches Page und trete Gruppen bei oder suche verwandte Lernprofile um einen Chat zu starten.
-          </Typography>
-        </CardContent>
-        <CardActions>
-        <Button  component={RouterLink} to={`/SecondPage/MatchingPage`} variant="outlined" size="small" color="primary">
-          Zu den Matches
-        </Button>
-
-      </CardActions>
-      </Card>
-
+    if (this.state.chatAdvance == false) {
+      console.log(this.state.learngroups);
+      informationForChats = (
+        <Card>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              Du hast noch keinen Chat!
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              Gehe auf die Matches Page und trete Gruppen bei oder suche
+              verwandte Lernprofile um einen Chat zu starten.
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button
+              component={RouterLink}
+              to={`/SecondPage/MatchingPage`}
+              variant="outlined"
+              size="small"
+              color="primary"
+            >
+              Zu den Matches
+            </Button>
+          </CardActions>
+        </Card>
+      );
     }
     return (
       <div class="columns">
@@ -92,10 +100,12 @@ class ChatBox extends Component {
         </div>
 
         <section className="hero  column">
+        <p >{this.state.chatName}</p>
+
           <div className="column scrollable">
             <div className="hero-body ">
               {informationForChats}
-              <Messages  name={this.state.name} chat={this.state.chatAdvanced} />
+              <Messages name={this.state.name} chat={this.state.chatAdvanced} />
             </div>
 
             <div className="hero-foot"></div>
@@ -203,7 +213,6 @@ const Messages = ({ chat, name }) => (
               </span>
             </div>
           </p>
-
         </div>
       );
     })}

@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 import AppApi from '../../api/AppApi';
 import Button from '@material-ui/core/Button';
@@ -65,6 +63,8 @@ class GroupProposal extends Component {
     return learnGroups
   }
 
+  
+
   render() {
     const { classes } = this.props;
     const { title, subtitle, id } = this.props;
@@ -97,7 +97,6 @@ class GroupProposal extends Component {
         <List>
           <ListItem selected={this.state.selected}>
             <LinearProgress determinate color="secondary" value={0.7} />
-
             <ListItemAvatar small>
               <Avatar
                 className={classes.sizeAvatar}

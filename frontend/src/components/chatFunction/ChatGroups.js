@@ -42,7 +42,7 @@ class ChatGroups extends Component {
   }
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    
+    console.log("right clicked")
     e.preventDefault()
     this.setState({
       anchorEl: e.currentTarget
@@ -55,7 +55,8 @@ class ChatGroups extends Component {
       let fetchedChatAdvanced = await AppApi.getApi().getChatsByLearnGroupId(
         this.props.id
       );
-      this.props.getChatWindow(fetchedChatAdvanced, this.props.id);
+      let learnGroup = await AppApi.getApi().getLearnGroupById(this.props.id)
+      this.props.getChatWindow(fetchedChatAdvanced, this.props.id, learnGroup[0].name );
     };
 
 
