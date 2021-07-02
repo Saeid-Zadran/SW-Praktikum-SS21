@@ -18,132 +18,71 @@ export default class AppApi {
   // Local Python backend
   #AppServerBaseURL = 'http://localhost:5000/app';
 
-  // Local http-fake-backend
+  
   // #AppServerBaseURL = '/AppApi/app';
 
   //Person Related
   #getPersonsURL = () => `${this.#AppServerBaseURL}/persons`;
-  #getPersonURL = (google_user_id) =>
-    `${this.#AppServerBaseURL}/person-by-google-user-id/${google_user_id}`;
+  #getPersonURL = (google_user_id) => `${this.#AppServerBaseURL}/person-by-google-user-id/${google_user_id}`;
   #addPersonURL = () => `${this.#AppServerBaseURL}/persons`;
-  #updatePersonURL = (google_user_id) =>
-    `${this.#AppServerBaseURL}/persons/${google_user_id}`;
+  #updatePersonURL = (google_user_id) =>`${this.#AppServerBaseURL}/persons/${google_user_id}`;
   #deletePersonURL = (id) => `${this.#AppServerBaseURL}/persons/${id}`;
 
-  //Profile
+  //Profile Related
 
   #getProfilesURL = () => `${this.#AppServerBaseURL}/profiles`;
   #addProfileURL = () => `${this.#AppServerBaseURL}/profile`;
   #updateProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
   #deleteProfileURL = (id) => `${this.#AppServerBaseURL}/profile/${id}`;
-  #getProfileViaURL = (id) =>
-    `${this.#AppServerBaseURL}/profile-by-person-id/${id}`;
+  #getProfileViaURL = (id) => `${this.#AppServerBaseURL}/profile-by-person-id/${id}`;
 
-  //Suggestion
+  //Suggestion Related
   #getSuggestionsURL = () => `${this.#AppServerBaseURL}/suggestions`;
   #addSuggestionURL = () => `${this.#AppServerBaseURL}/suggestions`;
   #updateSuggestionURL = () => `${this.#AppServerBaseURL}/suggestions`;
   #deleteSuggestionURL = (id) => `${this.#AppServerBaseURL}/suggestions/${id}`;
 
-  //LearnProfile
+  //LearnProfile Related
   #getLearnProfilesURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #addLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #updateLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
-  #deleteLearnProfileURL = (id) =>
-    `${this.#AppServerBaseURL}/learnprofiles/${id}`;
-  #getLearnProfileViaURL = (id) =>
-    `${this.#AppServerBaseURL}/learnprofile/${id}`;
+  #deleteLearnProfileURL = (id) => `${this.#AppServerBaseURL}/learnprofiles/${id}`;
+  #getLearnProfileViaURL = (id) => `${this.#AppServerBaseURL}/learnprofile/${id}`;
 
-  //Chat
-  #getChatsByLearnGroupIdURL = (learngroup_id) =>
-    `${this.#AppServerBaseURL}/chat/${learngroup_id}`;
+  //Chat Related
+  #getChatsByLearnGroupIdURL = (learngroup_id) => `${this.#AppServerBaseURL}/chat/${learngroup_id}`;
   #getChatsURL = () => `${this.#AppServerBaseURL}/chats`;
   #addChatURL = () => `${this.#AppServerBaseURL}/chats`;
   #updateChatURL = () => `${this.#AppServerBaseURL}/chats`;
   #deleteChatURL = (id) => `${this.#AppServerBaseURL}/chats/${id}`;
 
-  //ChatMessage
+  //ChatMessage Related
   #getChatMessagesURL = () => `${this.#AppServerBaseURL}/chatmessages`;
   #addChatMessageURL = () => `${this.#AppServerBaseURL}/chatmessages`;
   #updateChatMessageURL = () => `${this.#AppServerBaseURL}/chatmessages`;
-  #deleteChatMessageURL = (id) =>
-    `${this.#AppServerBaseURL}/chatmessages/${id}`;
+  #deleteChatMessageURL = (id) =>`${this.#AppServerBaseURL}/chatmessages/${id}`;
 
-  //LearnGroup
+  //LearnGroup Related
   #getLearnGroupByIdURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupsURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #addLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
-  #getLearnGroupByPersonIdURL = (person_id) =>
-    `${this.#AppServerBaseURL}/learngroup/${person_id}`;
+  #getLearnGroupByPersonIdURL = (person_id) =>`${this.#AppServerBaseURL}/learngroup/${person_id}`;
 
-  //GroupRequest
-  #getGroupRequestByPersonIdURL = (person_id) =>
-    `${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
-  #getGroupRequestByLearnGroupIdURL = (learngroup_id) =>
-    `${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
-  #getGroupRequestByAcceptedURL = (is_accepted) =>
-    `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
-  #deleteGroupRequestByIdURL = (id) =>
-    `${this.#AppServerBaseURL}/grouprequest/${id}`;
+  //GroupRequest Related
+  #getGroupRequestByPersonIdURL = (person_id) =>`${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
+  #getGroupRequestByLearnGroupIdURL = (learngroup_id) =>`${this.#AppServerBaseURL}/grouprequest-by-learngroup_id/${learngroup_id}`;
+  #getGroupRequestByAcceptedURL = (is_accepted) => `${this.#AppServerBaseURL}/grouprequest-by-accepted/${is_accepted}`;
+  #deleteGroupRequestByIdURL = (id) =>`${this.#AppServerBaseURL}/grouprequest/${id}`;
   #addGroupRequestURL = () => `${this.#AppServerBaseURL}/grouprequests`;
-  #updateGroupRequestURL = (is_accepted, id) =>
-    `${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id}`;
+  #updateGroupRequestURL = (is_accepted, id) =>`${this.#AppServerBaseURL}/grouprequest-update/${is_accepted}/${id}`;
 
-  //matches
-  #getMatchesByPersonURL = (id) =>
-    `${this.#AppServerBaseURL}/person-matching/${id}`;
-  #getMatchesByLearnGroupURL = (id) =>
-    `${this.#AppServerBaseURL}/learngroup-matching/${id}`;
+  //matches Related
+  #getMatchesByPersonURL = (id) =>`${this.#AppServerBaseURL}/person-matching/${id}`;
+  #getMatchesByLearnGroupURL = (id) =>`${this.#AppServerBaseURL}/learngroup-matching/${id}`;
 
-  //  ==> Vorschläge
-  // Alle learnprofiles werden gefetched im Backend und im Backend bewertet je nachdem wie ähnlich sie einem anderen Lernprofile sind und dann gelisted
-  // diese werden über einen call getMatchesByPersonID() ==> {getLearnProfileById(), getLearnProfiles(), Liste mit Lernprofilen die zurückgegeben wird durchsuchen und die
-  // Matches bewerten.
-
-  /*
-  getMatchesByLearnProfile() ==> Mertcan rendered Liste aller Lerngruppe die Passen in Matches Page
-  Die einzelnen ListObjekte sind Klickbar 
-  Die ListObjekte haben ein Button Lerngruppe beitreten
-  Wird der Button geklickt wird die Funktion createGroupRequest(person_id, learngroup_id) getriggert
-  Diese Funktion erstellt einen neuen GroupRequest 
-  Diese GroupRequest wird dann bei dem ersteller der Gruppe als Pending angezeigt
-  Diese kann der Ersteller dann annehmen 
-
-  ==> createGroupRequest(learngroup_id, person_id)
- groupRequest: 
-  - is_accepted: false
-  - learnGroup_id: {learngroup_id}
-  - person_id: {person_id}
-  Wenn chatRequest akzeptiert wird:
-
-
-  getListOfAcceptedGroupRequestsByPersonID(personId):
-
-  SELECT * FROM grouprequest WHERE personId = {personId} AND WHERE is_accepted = 1 
   
-
-  acceptGroupRequest(learngroup_id)
-  - UPDATE is_accepted :true
-  WHERE  learnGroup_id = learngroup_id
-
-TODO 
-  deleteGroupRequestID(id)
-
-  */
-
-  // ignore
-  // ==> Matchinganfrage
-  // createChatRequestByPersonID(personId, targetId) ==> neue chatRequest
-  /* 
-  chatRequest: 
-  - is_accepted:false
-  - person_id: 1
-  - target_person_id : 2
-  - GruppenName ==> Chat mit "xx Person"
-  Wenn chatRequest akzeptiert wird:
-  */
 
   /**
    * Get the Singelton instance
@@ -178,6 +117,13 @@ TODO
     });
 
   // Person related
+
+   /**
+   * Returns a Promise, which resolves to an Array of PersonBOs (Multiple Persons)
+   * 
+   * @public
+   */
+  
   getPersons() {
     return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
       let personBOs = PersonBO.fromJSON(responseJSON);
@@ -189,7 +135,7 @@ TODO
   }
 
   /**
-   * Returns a Promise, which resolves to a PersonBO
+   * Returns a Promise, which resolves to a PersonBO  
    *
    * @param {Number} personID to be retrieved
    * @public
@@ -211,6 +157,13 @@ TODO
     );
   }
 
+  /**
+   * Returns a Promise, which resolves to a PersonBO and creates a New PersonBO
+   *
+   * @param {String} plainName googleMail googleUserId to be retrieved
+   * @public
+   */
+
   createPerson(plainName, googleMail, googleUserId) {
     let p = new PersonBO();
     p.setGoogleMail(googleMail);
@@ -231,6 +184,13 @@ TODO
       });
     });
   }
+
+  /**
+   * Updates a person and returns a Promise, which resolves to a PersonBOs.
+   * 
+   * @param {personBOs} PersonBO to be updated
+   * @public
+   */
 
   updatePerson(personBO) {
     return this.#fetchAdvanced(
@@ -255,7 +215,7 @@ TODO
   }
 
   /**
-   * Deletes the given participation and returns a Promise, which resolves to an ParticipationBO
+   * Deletes the given person and returns a Promise, which resolves to an PersonBO
    *
    * @param id to be deleted
    * @public
@@ -273,6 +233,13 @@ TODO
   }
 
   // Profile related
+
+  /**
+   * Returns a Promise, which resolves to an Array of ProfileBOs (Multiple Profiles)
+   * 
+   * @public
+   */
+  
   getProfiles() {
     return this.#fetchAdvanced(this.#getProfilesURL()).then((responseJSON) => {
       let profileBOs = ProfileBO.fromJSON(responseJSON);
@@ -282,7 +249,14 @@ TODO
     });
   }
 
-  // Profile related
+  /**
+   * Returns a Promise, which resolves to a ProfileBO (The Person posseses a sessionId and pass the sessionId of the Person to the Profile. 
+   * That means that the Person who is creating the Profile, is the only one that have an access to this Profile)  
+   *
+   * @param {Number} sessionId to be retrieved
+   * @public
+   */
+  
   getProfileViaUrl(sessionId) {
     return this.#fetchAdvanced(this.#getProfileViaURL(sessionId)).then(
       (responseJSON) => {
@@ -295,23 +269,12 @@ TODO
     );
   }
 
-  // Profile related
-  getLearnProfileViaUrl(sessionId) {
-    return this.#fetchAdvanced(this.#getLearnProfileViaURL(sessionId)).then(
-      (responseJSON) => {
-        console.log(responseJSON, 'response');
-        let profileBOs = ProfileBO.fromJSON(responseJSON);
-        return new Promise(function (resolve) {
-          resolve(profileBOs);
-        });
-      }
-    );
-  }
-
-  /**
-   * Returns a Promise, which resolves to a ProfileBO
-   *
-   * @param {Number} profileID to be retrieved
+  
+   /**
+   * Adds a Profile and returns a Promise, which resolves to a new ProfileBO which was create by a PersonBO 
+   * object.
+   * 
+   * @param {ProfileBO} profileBO to be added. The profile of the new Profile is set by the backend
    * @public
    */
 
@@ -334,6 +297,14 @@ TODO
     });
   }
 
+
+   /**
+   * Updates a profile and returns a Promise, which resolves to a ProfileBOs.
+   * 
+   * @param {profileBOs} ProfileBO to be updated
+   * @public
+   */
+  
   updateProfile(id) {
     return this.#fetchAdvanced(this.#updateProfileURL(id), {
       method: 'PUT',
@@ -353,7 +324,7 @@ TODO
   }
 
   /**
-   * Deletes the given profile and returns a Promise, which resolves to an ParticipationBO
+   * Deletes the given profile and returns a Promise, which resolves to an ProfileBO
    *
    * @param id to be deleted
    * @public
@@ -371,6 +342,13 @@ TODO
   }
 
   // Suggestion related
+   
+  /**
+   * Returns a Promise, which resolves to an Array of SuggestionBO (Multiple Suggestions)
+   * 
+   * @public
+   */
+  
   getSuggestions() {
     return this.#fetchAdvanced(this.#getSuggestionsURL()).then(
       (responseJSON) => {
@@ -382,10 +360,11 @@ TODO
     );
   }
 
-  /**
-   * Returns a Promise, which resolves to a SuggestionBO
-   *
-   * @param {Number} suggestionID to be retrieved
+ /**
+   * Adds a Suggestion and returns a Promise, which resolves to a new SugestionBO which was create by a PersonBO 
+   * object.
+   * 
+   * @param {SuggestionBO} suggestionBO to be added.  
    * @public
    */
 
@@ -408,6 +387,14 @@ TODO
     });
   }
 
+  
+  /**
+   * Updates a suggestions and returns a Promise, which resolves to a SuggestionBOs.
+   * 
+   * @param {suggestionBOs} SuggestionBO to be updated
+   * @public
+   */
+  
   updateSuggestion(id) {
     return this.#fetchAdvanced(this.#updateSuggestionURL(id), {
       method: 'PUT',
@@ -427,7 +414,7 @@ TODO
   }
 
   /**
-   * Deletes the given Suggestion and returns a Promise, which resolves to an ParticipationBO
+   * Deletes the given Suggestion and returns a Promise, which resolves to an SuggestionBO
    *
    * @param id to be deleted
    * @public
@@ -445,6 +432,13 @@ TODO
   }
 
   // LearnProfile related
+
+  /**
+   * Returns a Promise, which resolves to an Array of LearnProfilesBOs
+   * 
+   * @public
+   */
+  
   getLearnProfiles() {
     return this.#fetchAdvanced(this.#getLearnProfilesURL()).then(
       (responseJSON) => {
@@ -457,9 +451,31 @@ TODO
   }
 
   /**
-   * Returns a Promise, which resolves to a ProfileBO
+   * Returns a Promise, which resolves to a LearnProfileBO (The Profile posseses a sessionId and pass the sessionId of the Person to the LearnProfile. 
+   * That means that the Person who is creating the Profile, is the only one that have an access to this LearnProfile)  
    *
-   * @param {Number} learnProfileID to be retrieved
+   * @param {Number} sessionId to be retrieved
+   * @public
+   */
+  
+  
+  getLearnProfileViaUrl(sessionId) {
+    return this.#fetchAdvanced(this.#getLearnProfileViaURL(sessionId)).then(
+      (responseJSON) => {
+        console.log(responseJSON, 'response');
+        let profileBOs = ProfileBO.fromJSON(responseJSON);
+        return new Promise(function (resolve) {
+          resolve(profileBOs);
+        });
+      }
+    );
+  }
+
+  /**
+   * Adds a LearnProfile and returns a Promise, which resolves to a new LearnProfileBO which was create by a PersonBO 
+   * object.
+   * 
+   * @param {LearnProfileBO} LearnProfileBO to be added. The learnprofile of the new LearnProfile is set by the backend
    * @public
    */
 
@@ -482,6 +498,13 @@ TODO
     });
   }
 
+  /**
+   * Updates a learnprofile and returns a Promise, which resolves to a learnProfileBOs.
+   * 
+   * @param {learnprofileBOs} learnProfileBO to be updated
+   * @public
+   */
+  
   updateLearnProfile(id) {
     return this.#fetchAdvanced(this.#updateLearnProfileURL(id), {
       method: 'PUT',
@@ -501,7 +524,7 @@ TODO
   }
 
   /**
-   * Deletes the given profile and returns a Promise, which resolves to an ParticipationBO
+   * Deletes the given learnprofile and returns a Promise, which resolves to an LearnProfileBO
    *
    * @param id to be deleted
    * @public
@@ -519,6 +542,13 @@ TODO
   }
 
   // Chat
+
+  /**
+   * Returns a Promise, which resolves to an Array of ChatBOs
+   * 
+   * @public
+   */
+
   getChats() {
     return this.#fetchAdvanced(this.#getChatsURL()).then((responseJSON) => {
       let chatBOs = ChatBO.fromJSON(responseJSON);
@@ -528,13 +558,12 @@ TODO
     });
   }
 
-  /**
-   * Returns a Promise, which resolves to a ChatBO
-   *
-   * @param {Number} chatID to be retrieved
+    /**
+   * Returns a Promise, which resolves to an ChatBOs
+   * 
+   * @param {Number} personID for which the the person should be added to
    * @public
    */
-
   addChat(chat) {
     return this.#fetchAdvanced(this.#addChatURL(), {
       method: 'POST',
@@ -554,6 +583,14 @@ TODO
     });
   }
 
+  
+  /**
+   * Updates a chat and returns a Promise, which resolves to a ChatBO.
+   * 
+   * @param {ChatBO} chatBO to be updated
+   * @public
+   */
+  
   updateChat(id) {
     return this.#fetchAdvanced(this.#updateChatURL(id), {
       method: 'PUT',
@@ -592,6 +629,12 @@ TODO
 
   //ChatMessage
 
+  /**
+   * Returns a Promise, which resolves to an Array of ChatMessageBOs
+   * 
+   * @public
+   */
+  
   getChatMessages() {
     return this.#fetchAdvanced(this.#getChatMessagesURL()).then(
       (responseJSON) => {
@@ -604,9 +647,9 @@ TODO
   }
 
   /**
-   * Returns a Promise, which resolves to a ChatBO
+   * Returns a Promise, which resolves to a ChatMessageBO
    *
-   * @param {Number} chatmessageID to be retrieved
+   * @param {Number} chatmessage to be retrieved
    * @public
    */
 
@@ -629,6 +672,13 @@ TODO
     });
   }
 
+  /**
+   * Updates a ChatMessage and returns a Promise, which resolves to a ChatMessageBO.
+   * 
+   * @param {ChatMessageBO} chatMessageBO to be updated
+   * @public
+   */
+  
   updateChatMessage(id) {
     return this.#fetchAdvanced(this.#updateChatMessageURL(id), {
       method: 'PUT',
@@ -665,6 +715,16 @@ TODO
     });
   }
 
+  
+  /**
+   * Returns a Promise, which resolves to an Array of ChatBOs
+   * 
+   * @param {Number} learngroupId for which the the Chats should be retrieved
+   * @public
+   */
+  
+  
+  
   getChatsByLearnGroupId(learngroup_id) {
     return this.#fetchAdvanced(
       this.#getChatsByLearnGroupIdURL(learngroup_id)
@@ -678,6 +738,13 @@ TODO
   }
 
   // LearnGroup related
+  
+  /**
+   * Returns a Promise, which resolves to an Array of LearnGroupBOs
+   * 
+   * @public
+   */
+  
   getLearnGroups() {
     return this.#fetchAdvanced(this.#getLearnGroupsURL()).then(
       (responseJSON) => {
@@ -689,6 +756,16 @@ TODO
     );
   }
 
+  
+  /**
+   * Returns a Promise, which resolves to a LearnGroupBO
+   *
+   * @param {Number} id to be retrieved
+   * @public
+   */
+  
+  
+  
   getLearnGroupById(id) {
     //console.log()
     return this.#fetchAdvanced(this.#getLearnGroupByIdURL(id)).then(
@@ -705,9 +782,9 @@ TODO
   }
 
   /**
-   * Returns a Promise, which resolves to a ProfileGroupBO
-   *
-   * @param {Number} learnGroupID to be retrieved
+   * Adds a LearnGroup and returns a Promise, which resolves to a new LearnGroupBO object 
+   * 
+   * @param {LearnGroupBO} learnGroupBO to be added. The ID of the new learnGroup is set by the backend
    * @public
    */
 
@@ -730,6 +807,13 @@ TODO
     });
   }
 
+  /**
+   * Updates a LearnGroup and returns a Promise, which resolves to a LearnGroupBO.
+   * 
+   * @param {LearnGroupBO} learnGroupBO to be updated
+   * @public
+   */
+  
   updateLearnGroup(id) {
     return this.#fetchAdvanced(this.#updateLearnGroupURL(id), {
       method: 'PUT',
@@ -749,7 +833,7 @@ TODO
   }
 
   /**
-   * Deletes the given profileGroup and returns a Promise, which resolves to an ParticipationBO
+   * Deletes the given learnGroup and returns a Promise, which resolves to an learnGroupBO
    *
    * @param id to be deleted
    * @public
@@ -766,6 +850,15 @@ TODO
     });
   }
 
+
+
+  /**
+   * Returns a Promise, which resolves to an Array of LearnGroupBOs
+   * 
+   * @param {Number} personId for which the the LearnGroup should be retrieved
+   * @public
+   */
+  
   getLearnGroupByPersonId(person_id) {
     //console.log(google_user_id)
     return this.#fetchAdvanced(
@@ -784,6 +877,14 @@ TODO
 
   //GroupRequest
 
+
+  /**
+   * Returns a Promise, which resolves to an Array of GroupRequestBOs
+   * 
+   * @param {Number} personId for which the the GroupRequest should be retrieved
+   * @public
+   */
+
   getGroupRequestByPersonId(person_id) {
     //console.log()
     return this.#fetchAdvanced(
@@ -799,6 +900,15 @@ TODO
       });
     });
   }
+
+
+
+  /**
+   * Returns a Promise, which resolves to an Array of GroupRequestBOs
+   * 
+   * @param {Number} learngroupId for which the the GroupRequest should be retrieved
+   * @public
+   */
 
   getGroupRequestByLearnGroupId(learngroup_id) {
     //console.log()
@@ -816,6 +926,15 @@ TODO
     });
   }
 
+  
+  
+  /**
+   * Returns a Promise, which resolves to an Array of GroupRequestBOs
+   * 
+   * @param {Boollean} isAccepted for which the the GroupRequest should be retrieved
+   * @public
+   */
+  
   getGroupRequestByAccepted(is_accepted) {
     //console.log()
     return this.#fetchAdvanced(
@@ -832,6 +951,15 @@ TODO
     });
   }
 
+  
+  
+   /**
+   * Deletes the given GroupRequest and returns a Promise, which resolves to an GroupRequestBO
+   * 
+   * @param id to be deleted
+   * @public
+   */
+  
   deleteGroupRequestById(id) {
     return this.#fetchAdvanced(this.#deleteGroupRequestByIdURL(id), {
       method: 'DELETE',
@@ -844,6 +972,15 @@ TODO
     });
   }
 
+  
+  
+   /**
+   * Adds a GroupRequest and returns a Promise
+   * 
+   * @param {GroupRequestBO} groupRequestBO to be added. The ID of the new GroupRequest is set by the backend
+   * @public
+   */
+  
   addGroupRequest(groupRequest) {
     return this.#fetchAdvanced(this.#addGroupRequestURL(), {
       method: 'POST',
@@ -862,6 +999,17 @@ TODO
       });
     });
   }
+
+
+
+
+  
+  /**
+   * Updates a GroupRequest and returns a Promise, which resolves to a GroupRequestBO.
+   * 
+   * @param {GroupRequestBO} groupRequestBO to be updated
+   * @public
+   */
 
   updateGroupRequest(is_accepted, id) {
     return this.#fetchAdvanced(this.#updateGroupRequestURL(is_accepted, id), {
@@ -884,6 +1032,13 @@ TODO
 
   //matches
 
+  /**
+   * Returns a Promise, which resolves to an Array of MatchesBOs
+   * 
+   * @param {Number} ID for which the the Matches should be retrieved
+   * @public
+   */
+  
   getMatchesByPersonURL(id) {
     //console.log()
     return this.#fetchAdvanced(this.#getMatchesByPersonURL(id)).then(
@@ -899,6 +1054,19 @@ TODO
     );
   }
 
+  
+  
+  
+  
+   /**
+   * Returns a Promise, which resolves to an Array of MatchesBOs
+   * 
+   * @param {Number} ID for which the the Matches should be retrieved
+   * @public
+   */
+  
+  
+  
   getMatchesByLearnGroup(id) {
     //console.log()
     return this.#fetchAdvanced(this.#getMatchesByLearnGroupURL(id)).then(
