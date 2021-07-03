@@ -35,21 +35,22 @@ class CreateProfile extends Component {
     profile.setDegreeCourse(degree_course)
     profile.setPersonId(person_id)
     
+    console.log(this.state.profile);
+
     var api = AppApi.getApi();
-    // 
+    // console.log(api)
     api.addProfile(profile).then((profile) => {
-        // 
+        // console.log(person)
         this.setState({
           profile: profile,
         });
 
       });
-    
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    // 
+    // console.log({ [e.target.name]: e.target.value })
   }
 
   handleSubmit = (event) => {
@@ -62,6 +63,8 @@ class CreateProfile extends Component {
       this.state.degree_course,
       this.state.person_id
     );
+
+
     history.push('/SecondPage/CreateLearnProfile');
 
   };
@@ -71,10 +74,10 @@ class CreateProfile extends Component {
     let app = new AppApi()
     let session_id = await app.getPersonByGoogleId(uid)
     session_id = session_id[0].id
-    
+    console.log(session_id)
     var learnProfile = await app.getProfileViaUrl(session_id)
     learnProfile = learnProfile[0]
-    
+    console.log(learnProfile.name)
     if(learnProfile.name)
     {
       this.setState({
@@ -99,13 +102,13 @@ class CreateProfile extends Component {
 
     //this.handleChange(target)
     this.forceUpdate()
-    
+    console.log(this.state)
 }
 
 
   render() {
     const { classes } = this.props;
-    
+    console.log(this.state);
 
     return (
       <div className={classes.roott}>

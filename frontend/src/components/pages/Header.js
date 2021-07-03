@@ -24,21 +24,21 @@ class Header extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
         
-          <Toolbar>
+          <Toolbar >
             
             <IconButton component={RouterLink} to={`/SecondPage/SendMessage`} edge="start" className={classes.menuButton} aria-label="menu">
                 <HomeIcon fontSize="large" />
             </IconButton>
             
-            <Typography variant="h5" className={classes.title}>
+            <Typography style={{flexGrow: 1}} variant="h5" className={classes.title}>
               <div>StudyMatch - Hochschule der Medien</div>
                        
             </Typography>
             
             <Button color="inherit"></Button>
-            
+            <ProfileDropDown person={person} />
+
           </Toolbar>
-          <ProfileDropDown person={person} />
         </AppBar>
       </div>
     );
