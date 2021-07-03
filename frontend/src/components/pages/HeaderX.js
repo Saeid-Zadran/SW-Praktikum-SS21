@@ -30,7 +30,7 @@ class HeaderX extends Component {
         <ProfileDropDown person={person} />
         <Typography variant='h3' component='h1' align='center'>
         </Typography>
-        <AppBar position="static" color="default">
+        <AppBar border={0}  elevation={0} position="static" color="default">
         <Tabs
             value={this.state.value}
             onChange={this.handleTabChange}

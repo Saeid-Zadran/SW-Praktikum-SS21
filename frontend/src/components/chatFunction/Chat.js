@@ -5,11 +5,26 @@ import './ChatSideBar.css';
 import AppApi from '../../api/AppApi';
 import ChatBO from '../../api/ChatBO';
 import Card from '@material-ui/core/Card';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 import CardActions from '@material-ui/core/CardActions';
 import { Link as RouterLink } from 'react-router-dom';
+import { withStyles } from '@material-ui/styles';
+import { blue } from '@material-ui/core/colors';
+
+const styles = (theme) => ({
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+});
 
 class ChatBox extends Component {
   state = {
@@ -56,12 +71,16 @@ class ChatBox extends Component {
     }
   }
   render() {
+    const { classes } = this.props;
+
     const doSomething = (inputArray) => {
       this.setState({ chatAdvanced: inputArray });
 
       // Do something with your array of strings in here
     };
-    const loadFreshPage = function(){this.loadChatPage()}
+    const loadFreshPage = function () {
+      this.loadChatPage();
+    };
     const updateChatWindow = (chatAdvanced, learnGroupId, chatName) => {
       console.log(chatName);
       this.setState({
@@ -102,13 +121,20 @@ class ChatBox extends Component {
       );
     }
     return (
-      <div class="columns">
-        <div class="column is-one-third">
-          <ChatSideBar  getChatWindow={updateChatWindow}></ChatSideBar>{' '}
+      <div class="columns  is-fullheight">
+        <div class="column is-fullheight is-one-third">
+          <ChatSideBar getChatWindow={updateChatWindow}></ChatSideBar>{' '}
         </div>
 
         <section className="hero  column">
-          <p>{this.state.chatName}</p>
+          <AppBar border={0} elevation={0} position="static" color="default">
+            <Toolbar variant="dense">
+              <Typography color="gray" className={classes.title}>
+                {this.state.chatName}
+              </Typography>
+              <Button color="primary">Chat verlassen</Button>
+            </Toolbar>
+          </AppBar>
 
           <div className="column scrollable">
             <div className="hero-body ">
@@ -163,7 +189,7 @@ const Chat = ({ chatAdvanced, learnGroupId, name }) => (
       e.target.reset();
     }}
   >
-    <div className="field has-addons">
+    <div className="field  has-addons">
       <div className="control is-expanded">
         <input
           className="input"
@@ -180,7 +206,7 @@ const Chat = ({ chatAdvanced, learnGroupId, name }) => (
 );
 
 const Messages = ({ chat, name }) => (
-  <div style={{ heigth: '100%', width: '100%' }}>
+  <div className="is-danger" style={{ heigth: '100%', width: '100%' }}>
     {chat.map((m, i) => {
       var msgClass = false;
       if (m.sender == name) {
@@ -227,4 +253,4 @@ const Messages = ({ chat, name }) => (
   </div>
 );
 
-export default ChatBox;
+export default withStyles(styles)(ChatBox);

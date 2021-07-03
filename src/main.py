@@ -627,7 +627,7 @@ class ChatOperation(Resource):
         else:
             return '', 500
 
-@studymatch.route('/chatnutten/<int:id>')
+@studymatch.route('/chats/<int:id>')
 @studymatch.response(500, 'Falls es zu einem Server-seitigen Fehler kommt.')
 @studymatch.param('id', 'id des Chat-Objekts')
 class ChatListOperations(Resource):
