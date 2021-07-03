@@ -11,13 +11,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import LearnProfileBO from '../../api/LearnProfileBO';
+import history from '../../history'
 
 
 
 class CreateLearnProfile extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       study_status: "",
       frequency: "",
@@ -29,39 +29,35 @@ class CreateLearnProfile extends Component {
       loadingInProgress: false,
     };
     this.handleChange = this.handleChange.bind(this);
+    this.defaultValue = { }
   }
 
   /** Create LearnProfile*/
   addLearnProfile( study_status,frequency,prev_knowledge, group_size, extroversion,profile_id) {
     
-    var learnprofile = new LearnProfileBO
+    var learnprofile = new LearnProfileBO()
     learnprofile.setStudyStatus(study_status)
     learnprofile.setFrequency(frequency)
     learnprofile.setPrevKnowledge(prev_knowledge)
     learnprofile.setGroupSize(group_size)
     learnprofile.setExtroversion(extroversion)
     learnprofile.setProfileId(profile_id)
-
-
-
-
-    
     
     var api = AppApi.getApi();
-    // console.log(api)
+    // 
     api
       .addLearnProfile(learnprofile).then((learnprofile) => {
-        // console.log(person)
+        // 
         this.setState({
           learnprofile: learnprofile,
         });
+        history.push('/SecondPage/SendMessage');
       });
-    console.log(this.state.learnprofile);
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    // console.log({ [e.target.name]: e.target.value })
+    // 
   }
 
   handleSubmit = (event) => {
@@ -76,10 +72,48 @@ class CreateLearnProfile extends Component {
     );
   };
 
+
+  async componentDidMount() {
+    
+    let uid = getCookie("uid")
+    let app = new AppApi()
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
+    
+    var learnProfile = await app.getLearnProfileViaUrl(session_id)
+    learnProfile = learnProfile[0]
+    if(learnProfile != undefined)
+
+    {      
+
+      this.setState({
+
+      study_status: learnProfile.study_status.toString(),
+      frequency: learnProfile.frequency.toString(),
+      prev_knowledge: learnProfile.prev_knowledge.toString(),
+      group_size: learnProfile.group_size.toString(),
+      extroversion: learnProfile.extroversion.toString(),
+      profile_id: learnProfile.id.toString(),
+      learnprofile: true, //Für addLearnProfile
+    }
+    )}
+    else
+    {
+
+      this.setState({
+        profile_id: session_id
+      })
+    }
+    
+
+  
+    //this.handleChange(target)
+    this.forceUpdate()
+    
+}
+  
   render() {
     const { classes } = this.props;
-    console.log(this.state);
-
     return (
       <div className={classes.roott}>
         <Grid container spacing={3}>
@@ -90,16 +124,7 @@ class CreateLearnProfile extends Component {
               </div>
               <div>
                 <form className={classes.root} onSubmit={this.handleSubmit}>
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Gebe deine Profile ID an"
-                      variant="outlined"
-                      name="profile_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
+
                   <div>
                     <FormControl
                       component="fieldset"
@@ -112,7 +137,7 @@ class CreateLearnProfile extends Component {
                         aria-label="study_status"
                         name="study_status"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.study_status }
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -146,9 +171,10 @@ class CreateLearnProfile extends Component {
                         aria-label="frequency"
                         name="frequency"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.frequency}
                         onChange={this.handleChange}
                       >
+
                         <FormControlLabel
                           value="1"
                           control={<Radio />}
@@ -180,7 +206,7 @@ class CreateLearnProfile extends Component {
                         aria-label="prev_knowledge"
                         name="prev_knowledge"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.prev_knowledge}
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -208,7 +234,7 @@ class CreateLearnProfile extends Component {
                         aria-label="Gruppengröße"
                         name="group_size"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.group_size}
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -236,7 +262,7 @@ class CreateLearnProfile extends Component {
                         aria-label="extrovertiert oder introvertiert"
                         name="extroversion"
                         className={classes.group}
-                        value={this.state.value}
+                        value={this.state.extroversion}
                         onChange={this.handleChange}
                       >
                         <FormControlLabel
@@ -262,7 +288,6 @@ class CreateLearnProfile extends Component {
                   >
                     Bestätigen
                   </Button>
-
                 </form>
               </div>
             </Paper>
@@ -272,6 +297,14 @@ class CreateLearnProfile extends Component {
     );
   }
 }
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+
+
 
 const styles = (theme) => ({
   root: {
@@ -295,5 +328,7 @@ const styles = (theme) => ({
     },
   },
 });
+
+
 
 export default withStyles(styles)(CreateLearnProfile);

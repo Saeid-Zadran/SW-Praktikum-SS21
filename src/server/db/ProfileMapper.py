@@ -73,19 +73,15 @@ class ProfileMapper(Mapper):
         return result
 
     def find_by_person_id(self, person_id):
-        """Auslesen aller Module anhand des Namen.
+        result = []
 
-        :param person_id Teilnahme-ID des zugehörigen profiles.
-        :return profile-Objekt, das der übergebenen Teilnahme-ID entspricht, None bei
-        nicht vorhandenem DB-Tupel
-        """
-        result = None
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM profile WHERE person_id={} ORDER BY id".format(person_id)
+        command = " SELECT id, creation_time, name, age, adress, semester, degree_course, person_id FROM profile WHERE person_id LIKE '{}'".format(person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,creation_time, name, age,adress,semester, degree_course, person_id) in tuples:
+        try:
+            (id, creation_time, name, age, adress, semester, degree_course, person_id) = tuples[0]
             profile = Profile()
             profile.set_id(id)
             profile.set_creation_time(creation_time)
@@ -96,7 +92,13 @@ class ProfileMapper(Mapper):
             profile.set_degree_course(degree_course)
             profile.set_person_id(person_id)
 
-            result = profile
+            result.append(profile)
+            
+
+        except IndexError:
+            """Der IndexError wird oben beim Zugriff auf tuples[0] auftreten, wenn der vorherige SELECT-Aufruf
+            keine Tupel liefert, sondern tuples = cursor.fetchall() eine leere Sequenz zurück gibt."""
+            result = None
 
         self._cnx.commit()
         cursor.close()
@@ -139,8 +141,8 @@ class ProfileMapper(Mapper):
         :param profile das Objekt, das in die DB geschrieben werden soll
         """
         cursor = self._cnx.cursor()
-        command = "UPDATE profile  SET creation_time=%s, age=%s, adress=%s, semester=%s, degree_course=%s  WHERE id=%s"
-        data = (profile.get_creation_time(),profile.get_age(),profile.get_adress(),profile.get_semester(), profile.get_degree_course(), profile.get_id())
+        command = "UPDATE profile  SET creation_time=%s, age=%s, adress=%s, semester=%s, degree_course=%s,person_id=%s  WHERE id=%s"
+        data = (profile.get_creation_time(),profile.get_age(),profile.get_adress(),profile.get_semester(), profile.get_degree_course(),profile.get_person_id(),profile.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()

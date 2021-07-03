@@ -45,7 +45,7 @@ class LearnGroupMapper (Mapper):
         result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learngroup WHERE id={}".format(key)
+        command = "SELECT id, creation_time, name, person_id FROM learngroup WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
@@ -157,12 +157,30 @@ class LearnGroupMapper (Mapper):
         cursor.close()
 
 
-if (__name__ == "__main__"):
-    with LearnGroupMapper() as mapper:
-        learngroup  = LearnGroup()
-        learngroup.set_name("Studymatch")
-        learngroup.set_person_id(1)
-        mapper.insert(learngroup )
+    def find_by_person(self, person_id):
+        result = []
+
+        cursor = self._cnx.cursor()
+        command = " SELECT id, creation_time,name,person_id FROM learngroup WHERE person_id ={} ORDER BY id".format(person_id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        for (id, creation_time, name, person_id) in tuples:
+            learngroup = LearnGroup()
+            learngroup.set_id(id)
+            learngroup.set_creation_time(creation_time)
+            learngroup.set_name(name)
+            learngroup.set_person_id(person_id)
+            result.append(learngroup)
+           
+        
+        self._cnx.commit()
+        cursor.close()
+
+        return result
+            
+
+
 
 
         #mapper.find_by_group_name("profile")

@@ -2290,7 +2290,7 @@
                       .then(function (e) {
                         var t = ve.fromJSON(e);
                         return (
-                          console.log(t),
+                          
                           new Promise(function (e) {
                             e(t);
                           })
@@ -9299,7 +9299,7 @@
                       switch ((e.prev = e.next)) {
                         case 0:
                           return (
-                            console.log(n.props.currentUserMail),
+                            
                             (e.next = 3),
                             Mt.getApi()
                               .getStudentByMail(n.props.currentUserMail)
@@ -9336,7 +9336,7 @@
                                   error: e,
                                 });
                               }),
-                            console.log(n.state);
+                            
                         case 6:
                         case "end":
                           return e.stop();
@@ -9556,7 +9556,7 @@
                                   error: e,
                                 });
                               }),
-                            console.log(n.state);
+                            
                         case 5:
                         case "end":
                           return e.stop();

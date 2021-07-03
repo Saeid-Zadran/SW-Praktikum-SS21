@@ -1,5 +1,9 @@
 import NamedBusinessObject from './NamedBusinessObject';
 
+/**
+ * Represents an learnProfile object of a Profile.
+ */
+
 
 export default class LearnProfileBO extends NamedBusinessObject {
 
@@ -11,7 +15,7 @@ export default class LearnProfileBO extends NamedBusinessObject {
     this.prev_knowledge = aPrevKnowledge;
     this.group_size = aGroupSize;
     this.extroversion = aExtroversion;
-    this.profile_id = aProfileId;
+    this.person_id = aProfileId;
   }
 
 
@@ -62,12 +66,12 @@ export default class LearnProfileBO extends NamedBusinessObject {
 
 
   setProfileId(aProfileId) {
-    this.profile_id = aProfileId;
+    this.person_id = aProfileId;
   }
 
 
   getProfileId() {
-    return this.profile_id;
+    return this.person_id;
   }
 
 

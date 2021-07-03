@@ -5,6 +5,7 @@ import AppApi from "../../api/AppApi";
 import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import ProfileBO from "../../api/ProfileBO";
+import history from '../../history'
 
 
 
@@ -33,26 +34,22 @@ class CreateProfile extends Component {
     profile.setSemester(semester)
     profile.setDegreeCourse(degree_course)
     profile.setPersonId(person_id)
-
-
-
-
-    
     
     var api = AppApi.getApi();
-    // console.log(api)
+    // 
     api.addProfile(profile).then((profile) => {
-        // console.log(person)
+        // 
         this.setState({
           profile: profile,
         });
+
       });
-    console.log(this.state.profile);
+    
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    // console.log({ [e.target.name]: e.target.value })
+    // 
   }
 
   handleSubmit = (event) => {
@@ -65,11 +62,50 @@ class CreateProfile extends Component {
       this.state.degree_course,
       this.state.person_id
     );
+    history.push('/SecondPage/CreateLearnProfile');
+
   };
+  async componentDidMount() {
+    
+    let uid = getCookie("uid")
+    let app = new AppApi()
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
+    
+    var learnProfile = await app.getProfileViaUrl(session_id)
+    learnProfile = learnProfile[0]
+    
+    if(learnProfile.name)
+    {
+      this.setState({
+        name: learnProfile.name.toString(),
+        age: learnProfile.age.toString(),
+        adress: learnProfile.adress.toString(),
+        semester: learnProfile.semester.toString(),
+        degree_course: learnProfile.degree_course.toString(),
+        person_id: learnProfile.id.toString(),
+        loadingInProgress: true, //Für addLearnProfile
+      }
+      )
+    
+    }
+    else
+    {
+      this.setState({
+        person_id: session_id
+      })
+    }
+  
+
+    //this.handleChange(target)
+    this.forceUpdate()
+    
+}
+
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
+    
 
     return (
       <div className={classes.roott}>
@@ -88,7 +124,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       name="name"
                       type="string"
-                      
+                      value = {this.state.name}
+
                       onChange={this.handleChange}
                     />
                   </div>
@@ -99,6 +136,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       name="age"
                       type="number"
+                      value = {this.state.age}
+
                       //required
                       onChange={this.handleChange}
                     />
@@ -110,6 +149,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       type="string"
                       name="adress"
+                      value = {this.state.adress}
+
                       //required
                       onChange={this.handleChange}
                     />
@@ -121,6 +162,8 @@ class CreateProfile extends Component {
                       variant="outlined"
                       type="number"
                       name="semester"
+                      value = {this.state.semester}
+
                       //required
                       onChange={this.handleChange}
                     />
@@ -134,23 +177,14 @@ class CreateProfile extends Component {
                       type="string"
                       name="degree_course"
                       //required
+                      value = {this.state.degree_course}
                       onChange={this.handleChange}
                     />
                   </div>
 
                   
 
-                  <div>
-                    <TextField
-                      id="outlined-basic"
-                      label="Person ID"
-                      variant="outlined"
-                      type="number"
-                      name="person_id"
-                      //required
-                      onChange={this.handleChange}
-                    />
-                  </div>
+                 
                   <Button
                     type="submit"
                     variant="contained"
@@ -169,6 +203,12 @@ class CreateProfile extends Component {
       </div>
     );
   }
+  
+}
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
 const styles = (theme) => ({

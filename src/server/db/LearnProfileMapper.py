@@ -19,10 +19,11 @@ class LearnProfileMapper(Mapper):
 
         result = []
         cursor = self._cnx.cursor()
-        cursor.execute("SELECT id, creation_time, study_status,frequency, prev_knowledge, group_size, extroversion, profile_id FROM learnprofile")
+        cursor.execute(
+            "SELECT id, creation_time, study_status,frequency, prev_knowledge, group_size, extroversion, person_id FROM learnprofile")
         tuples = cursor.fetchall()
 
-        for (id, creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) in tuples:
+        for (id, creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, person_id) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
@@ -31,7 +32,7 @@ class LearnProfileMapper(Mapper):
             learnprofile.set_prev_knowledge(prev_knowledge)
             learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
-            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_person_id(person_id)
 
             result.append(learnprofile)
 
@@ -39,7 +40,6 @@ class LearnProfileMapper(Mapper):
         cursor.close()
 
         return result
-
 
     def find_by_key(self, key):
         """Auslesen aller Projekte anhand der ID,
@@ -56,7 +56,8 @@ class LearnProfileMapper(Mapper):
         tuples = cursor.fetchall()
 
         if tuples[0] is not None:
-            (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) = tuples[0]
+            (id, creation_time, study_status, frequency, prev_knowledge,
+             group_size, extroversion, person_id) = tuples[0]
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
@@ -65,7 +66,7 @@ class LearnProfileMapper(Mapper):
             learnprofile.set_prev_knowledge(prev_knowledge)
             learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
-            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_person_id(person_id)
 
         result = learnprofile
 
@@ -74,7 +75,7 @@ class LearnProfileMapper(Mapper):
 
         return result
 
-    def find_by_person_id(self, person_id):
+    def find_by_person(self, person_id):
         """Auslesen aller Projekte anhand der Person_ID.
         :param person_id Person_ID der zugehörigen Projekte.
         :return eine Sammlung mit Projekt-Objekten, die sämtliche Projekte
@@ -83,11 +84,12 @@ class LearnProfileMapper(Mapper):
         result = []
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learnprofile WHERE person_id={}".format(person_id)
+        command = "SELECT * FROM learnprofile WHERE person_id={}".format(
+            person_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for(id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, profile_id) in tuples:
+        for(id, creation_time, study_status, frequency, prev_knowledge, group_size, extroversion, person_id) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
@@ -96,7 +98,7 @@ class LearnProfileMapper(Mapper):
             learnprofile.set_prev_knowledge(prev_knowledge)
             learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
-            learnprofile.set_profile_id(profile_id)
+            learnprofile.set_person_id(person_id)
 
             result.append(learnprofile)
 
@@ -126,10 +128,10 @@ class LearnProfileMapper(Mapper):
                 davon aus, dass die Tabelle leer ist und wir mit der ID 1 beginnen können."""
                 learnprofile.set_id(1)
 
-        command = "INSERT INTO learnprofile (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion,profile_id) " \
+        command = "INSERT INTO learnprofile (id,creation_time, study_status, frequency, prev_knowledge, group_size, extroversion,person_id) " \
                   "VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        data = (learnprofile.get_id(),learnprofile.get_creation_time(), learnprofile.get_study_status(), learnprofile.get_frequency(),
-                learnprofile.get_prev_knowledge(), learnprofile.get_group_size() ,learnprofile.get_extroversion(),learnprofile.get_profile_id())
+        data = (learnprofile.get_id(), learnprofile.get_creation_time(), learnprofile.get_study_status(), learnprofile.get_frequency(),
+                learnprofile.get_prev_knowledge(), learnprofile.get_group_size(), learnprofile.get_extroversion(), learnprofile.get_person_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -142,10 +144,10 @@ class LearnProfileMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "UPDATE learnprofile SET study_status=%s, frequency=%s, prev_knowledge=%s, group_size=%s,extroversion=%s,profile_id=%s WHERE id=%s"
+        command = "UPDATE learnprofile SET study_status=%s, frequency=%s, prev_knowledge=%s, group_size=%s,extroversion=%s,person_id=%s WHERE id=%s"
         data = (learnprofile.get_study_status(), learnprofile.get_frequency(),
                 learnprofile.get_prev_knowledge(), learnprofile.get_group_size(),
-                learnprofile.get_extroversion(),learnprofile.get_profile_id(),learnprofile.get_id())
+                learnprofile.get_extroversion(), learnprofile.get_person_id(), learnprofile.get_id())
         cursor.execute(command, data)
 
         self._cnx.commit()
@@ -157,7 +159,8 @@ class LearnProfileMapper(Mapper):
         """
         cursor = self._cnx.cursor()
 
-        command = "DELETE FROM learnprofile WHERE id={}".format(learnprofile.get_id())
+        command = "DELETE FROM learnprofile WHERE id={}".format(
+            learnprofile.get_id())
         cursor.execute(command)
 
         self._cnx.commit()
@@ -172,21 +175,23 @@ class LearnProfileMapper(Mapper):
         :return Projekt-Objekt, das dem übergebenen Namen entspricht, None bei
         nicht vorhandenem DB-Tupel
         """
-        result = None
+        result =  None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM learnprofile WHERE name LIKE '{}'".format(name)
+        command = "SELECT * FROM learnprofile WHERE name LIKE '{}'".format(
+            name)
         cursor.execute(command)
         tuples = cursor.fetchall()
 
-        for (id,creation_time, study_status, frequency, profile_id, group_size, extroversion, prev_knowledge) in tuples:
+        for (id, creation_time, study_status, frequency, profile_id, group_size, extroversion, prev_knowledge) in tuples:
             learnprofile = LearnProfile()
             learnprofile.set_id(id)
             learnprofile.set_creation_time(creation_time)
             learnprofile.set_study_status(study_status)
             learnprofile.set_frequency(frequency)
             learnprofile.set_profile_id(profile_id)
-            learnprofile.set_group_size(group_size)             # Warum war hier Name???
+            # Warum war hier Name???
+            learnprofile.set_group_size(group_size)
             learnprofile.set_extroversion(extroversion)
             learnprofile.set_prev_knowledge(prev_knowledge)
 
@@ -197,8 +202,38 @@ class LearnProfileMapper(Mapper):
 
         return result
 
+    def get_matches(self, CurrentProfile, LearnProfileList):
+        print(CurrentProfile, "aktuelles Profil")
+        print(LearnProfileList, "lernprofil Liste")
+        for learnprofile in LearnProfileList:
+            print(learnprofile, "learnprofile")
+        result =  {}
 
-  
+        compareProfile = LearnProfile()
+        for learnprofile in LearnProfileList:
+            if(learnprofile.get_person_id() == CurrentProfile):
+                compareProfile = learnprofile
 
-
-
+        for learnprofile in LearnProfileList:
+            if learnprofile.get_person_id() != compareProfile.get_person_id():
+                value = 0
+                total = 5
+                if learnprofile.get_study_status() == compareProfile.get_study_status():
+                    value += 1
+                if learnprofile.get_frequency() == compareProfile.get_frequency():
+                    value += 1
+                if learnprofile.get_prev_knowledge() == compareProfile.get_prev_knowledge():
+                    value += 1
+                if learnprofile.get_group_size() == compareProfile.get_group_size():
+                    value += 1
+                if learnprofile.get_extroversion() == compareProfile.get_extroversion():
+                    value += 1
+                else:
+                    value += 0
+                value = value/total
+                value = value * 100
+                result[learnprofile.get_person_id()] = value
+            else:
+                value = 0
+            print(result)
+        return  result

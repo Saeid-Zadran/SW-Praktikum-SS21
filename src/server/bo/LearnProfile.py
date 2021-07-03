@@ -9,7 +9,7 @@ class LearnProfile(bo):
         self._prev_knowledge = 0
         self._groupsize = 0
         self._extroversion = 0
-        self._profile_id = 0
+        self._person_id = 0
 
 
     def set_study_status(self, study_status):
@@ -42,11 +42,11 @@ class LearnProfile(bo):
     def get_extroversion(self):
         return self._extroversion
 
-    def set_profile_id(self, profile_id):
-        self._profile_id = profile_id
+    def set_person_id(self, person_id):
+        self._person_id = person_id
 
-    def get_profile_id(self):
-        return self._profile_id
+    def get_person_id(self):
+        return self._person_id
 
 
 
@@ -61,6 +61,6 @@ class LearnProfile(bo):
         obj.set_prev_knowledge(dictionary["prev_knowledge"])
         obj.set_group_size(dictionary["group_size"])
         obj.set_extroversion(dictionary["extroversion"])
-        obj.set_profile_id(dictionary["profile_id"])
+        obj.set_person_id(dictionary["person_id"])
 
         return obj
