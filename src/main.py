@@ -853,7 +853,7 @@ class LearnGroupListByPersonOperations(Resource):
         adm = Administration()
         pe = adm.get_learngroup_by_person_id(person_id)
         return pe
-
+    
     def put(self, id):
         ''' Eine Gruppe verlassen '''
         adm = Administration()

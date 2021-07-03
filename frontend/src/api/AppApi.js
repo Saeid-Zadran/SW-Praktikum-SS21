@@ -69,6 +69,7 @@ export default class AppApi {
   #updateLearnGroupURL = () => `${this.#AppServerBaseURL}/learngroups`;
   #deleteLearnGroupURL = (id) => `${this.#AppServerBaseURL}/learngroups/${id}`;
   #getLearnGroupByPersonIdURL = (person_id) =>`${this.#AppServerBaseURL}/learngroup/${person_id}`;
+  #LeaveLearnGroupURL = (person_id) => `${this.#AppServerBaseURL}/learngroup/${person_id}`;
 
   //GroupRequest Related
   #getGroupRequestByPersonIdURL = (person_id) =>`${this.#AppServerBaseURL}/grouprequest-by-person_id/${person_id}`;
@@ -873,6 +874,19 @@ export default class AppApi {
         resolve(responseLearnGroupByPersonBOs);
       });
     });
+  }
+
+  updateLeaveLearnGroup(person_id) {
+    // Lerngruppe verlassen
+    return this.#fetchAdvanced(this.#LeaveLearnGroupURL(person_id), {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain',
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify({'learngroup': learnGroupBO, 'person': personBO})
+      
+    })
   }
 
   //GroupRequest
