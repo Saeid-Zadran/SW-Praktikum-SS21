@@ -22,13 +22,10 @@ def secured(function):
 
     def wrapper(*args, **kwargs):
         # Verify Firebase auth.
-        print(request.headers)
-        id_token = request.headers.get("token")
-        print(id_token)
+        id_token = request.cookies.get("token")
         error_message = None
         claims = None
         objects = None
-        #print("token",id_token)
         if id_token:
             try:
                 

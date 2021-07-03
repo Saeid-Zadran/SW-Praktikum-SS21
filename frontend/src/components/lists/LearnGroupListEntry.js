@@ -35,10 +35,7 @@ class LearnGroupListEntry extends Component {
               <Grid item>
                 <Typography variant='body1' className={classes.heading}>
                   Name:           {learnGroup.getName()}<br></br>
-                  Teilnehmer:     {learnGroup.getParticipant()}<br></br>
-                  ProfileID:      {learnGroup.getProfileId()}<br></br>
-                  Gruppen Anfrage Lern Profile Id: {learnGroup.getGroupRequestLearnProfileId()}<br></br>
-
+                  Person ID:      {learnGroup.getPersonId()}<br></br>
                 </Typography>
               </Grid>
               <Grid item>

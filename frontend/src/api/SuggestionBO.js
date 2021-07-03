@@ -7,7 +7,7 @@ export default class SuggestionBO extends NamedBusinessObject {
   constructor(aPersonId, aLernGroupId) {
     super();
     this.person_id = aPersonId;
-    this.learn_group_id = aLernGroupId;
+    this.learngroup_id = aLernGroupId;
 
   }
 
@@ -23,12 +23,12 @@ export default class SuggestionBO extends NamedBusinessObject {
 
 
   setLernGroupId(aLernGroupId) {
-    this.learn_group_id = aLernGroupId;
+    this.learngroup_id = aLernGroupId;
   }
 
 
   getLernGroupId() {
-    return this.learn_group_id;
+    return this.learngroup_id;
   }
 
 

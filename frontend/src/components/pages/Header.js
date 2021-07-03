@@ -26,7 +26,7 @@ class Header extends React.Component {
         
           <Toolbar>
             
-            <IconButton component={RouterLink} to={`/start`} edge="start" className={classes.menuButton} aria-label="menu">
+            <IconButton component={RouterLink} to={`/SecondPage/SendMessage`} edge="start" className={classes.menuButton} aria-label="menu">
                 <HomeIcon fontSize="large" />
             </IconButton>
             
