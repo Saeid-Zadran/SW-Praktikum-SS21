@@ -56,6 +56,9 @@ class MatchingPage extends Component {
       showProfileForm: false,
     };
   }
+  checkIfRequestIsAccPending(matchedLearnprofiles) {
+
+  }
 
   async getLearnGroups() {
     let uid = '';
@@ -70,16 +73,41 @@ class MatchingPage extends Component {
       session_id
     );
     let matches = [];
+
+
     for (var variable in matchedLearnprofiles) {
+
       let learnProfile = await AppApi.getApi().getProfileViaUrl(variable);
-      let matchObject = {
+      let allGroupRequests =   await AppApi.getApi().getGroupRequestByPersonId(variable)
+      console.log(allGroupRequests, variable, session_id)
+      let requestStatus = ""
+      for (var grouRequestKey in allGroupRequests) {
+        let groupRequest = allGroupRequests[grouRequestKey]
+        let learnGroup = null
+        if(groupRequest.person_id == variable)
+        {
+          learnGroup = await AppApi.getApi().getLearnGroupById(groupRequest.person_id)
+          console.log(learnGroup)
+          if(learnGroup[0].person_id == session_id)
+          {
+            
+            requestStatus = groupRequest.is_accepted
+          }
+        }
+      }
+
+      let matchObject =  {
         learnGroup_id: variable,
         name: learnProfile[0].name,
         percent: matchedLearnprofiles[variable],
-        id: learnProfile[0].id
+        id: learnProfile[0].id,
+        requestStatus :requestStatus
       };
       matches.push(matchObject);
+      //let learnGroupToBeFiltered = await AppApi.getApi().getLearnGroupById(allGroupRequests[0])
+ 
     }
+    console.log(matches)
     this.setState({ learnGroup: matches });
 
     /*
@@ -135,12 +163,14 @@ class MatchingPage extends Component {
                       <br /> ähnliches Lernprofil haben wie du!
                       <br />
                     </Typography>
-                    {learnGroup.map((learnGroup) => (
+                    {learnGroup.map( learner => (
                       <GroupProposal
-                        title={learnGroup.name}
-                        id={learnGroup.id}
-                        percent={learnGroup.percent}
+                        title={learner.name}
+                        id={learner.id}
+                        percent={learner.percent}
+                        is_accepted ={learner.requestStatus}
                       ></GroupProposal>
+                      
                     ))}
                   </CardContent>
                 </Card>{' '}

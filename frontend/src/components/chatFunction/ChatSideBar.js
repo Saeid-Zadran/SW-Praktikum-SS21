@@ -80,12 +80,12 @@ class ChatSideBar extends Component {
     }
 
     return (
-      <aside class="menu mt-5">
+      <aside  class="menu mt-5">
         <p class="menu-label ">
           Laufende Chats ({this.state.learnGroups.length})
         </p>
 
-        <Paper elevation={0} style={{ maxHeight: 200, overflow: 'auto' }}>
+        <Paper elevation={0} style={{minHeight:200, maxHeight: 200, overflow: 'auto' }}>
           <ul class="menu-list">
             {this.state.learnGroups.map((learngroup) => (
               <ChatGroups
@@ -101,7 +101,7 @@ class ChatSideBar extends Component {
           Offene Anfragen ({this.state.openRequests.length}){' '}
         </p>
 
-        <Paper elevation={0} style={{ maxHeight: 200, overflow: 'auto' }}>
+        <Paper elevation={0} style={{ minHeight:200, maxHeight: 200, overflow: 'auto' }}>
           <ul class="menu-list">
             {this.state.openRequests.map((openrequest) => (
               <ChatRequest

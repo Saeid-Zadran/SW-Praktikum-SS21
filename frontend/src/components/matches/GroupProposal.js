@@ -44,8 +44,10 @@ class GroupProposal extends Component {
       anchorEl: '',
     };
   }
-  localStorageUpdated() {}
-  checkIfRequestIsAvailabel() {}
+  componentDidMount() {
+   console.log(this.props)
+  }
+
   someEventHandler = (e) => {
     console.log('right clicked');
     e.preventDefault();
@@ -64,9 +66,10 @@ class GroupProposal extends Component {
     return learnGroups;
   }
 
+
   render() {
     const { classes } = this.props;
-    const { title, subtitle, id } = this.props;
+    const { title, subtitle, id, is_accepted } = this.props;
 
     const handleClick = async () => {
       let uid = '';
@@ -95,6 +98,7 @@ class GroupProposal extends Component {
     };
 
     return (
+      this.props.is_accepted !== true ? 
       <Card className={classes.proposals} m="2rem" pt={3}>
         <List>
           <ListItem selected={this.state.selected}>
@@ -112,12 +116,14 @@ class GroupProposal extends Component {
             />
           </ListItem>
           <ListItem>
-            <Button onClick={handleClick} variant="outlined">
-              Anfrage verschicken
+            <Button  disabled={(is_accepted === false)} onClick={handleClick} variant="outlined">
+              {is_accepted !== false ? "Anfrage verschicken" : "Warten auf Annahme"}
             </Button>
           </ListItem>
         </List>
       </Card>
+      :
+      <div></div>
     );
   }
 }
