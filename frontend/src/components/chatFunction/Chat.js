@@ -12,7 +12,18 @@ import CardActions from '@material-ui/core/CardActions';
 import { Link as RouterLink } from 'react-router-dom';
 
 class ChatBox extends Component {
-  async componentDidMount() {
+  state = {
+    learnGroupId: 0,
+    chatAdvanced: [],
+    learngroups: [],
+    chat: [],
+    chatName: '',
+  };
+  componentDidMount() {
+    this.loadChatPage();
+  }
+
+  async loadChatPage() {
     let uid = '';
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${'uid'}=`);
@@ -29,38 +40,35 @@ class ChatBox extends Component {
     console.log(learnProfile);
     let learngroups = await app.getLearnGroupByPersonId(session_id);
     let fetchedChatAdvanced = [];
-    let chatName = ""
-    if (learngroups.length > 0) fetchedChatAdvanced = await app.getChatsByLearnGroupId(learngroups[0].id);
-    if (learngroups.length > 0) chatName = learngroups[0].name
+    let chatName = '';
+    if (learngroups.length > 0)
+      fetchedChatAdvanced = await app.getChatsByLearnGroupId(learngroups[0].id);
+    if (learngroups.length > 0) chatName = learngroups[0].name;
 
     this.setState({ learngroups: learngroups });
     this.setState({ personId: session_id });
     this.setState({ name: profile.name });
-    this.setState({ chatName: chatName})
+    this.setState({ chatName: chatName });
     console.log(fetchedChatAdvanced);
     // wennn die Lerngruppen nicht leer sind
     if (fetchedChatAdvanced.length > 0) {
       this.setState({ chatAdvanced: fetchedChatAdvanced });
     }
   }
-
-  state = {
-    learnGroupId: 0,
-    chatAdvanced: [],
-    learngroups: [],
-    chat: [],
-    chatName: ""
-  };
-
   render() {
     const doSomething = (inputArray) => {
       this.setState({ chatAdvanced: inputArray });
 
       // Do something with your array of strings in here
     };
+    const loadFreshPage = function(){this.loadChatPage()}
     const updateChatWindow = (chatAdvanced, learnGroupId, chatName) => {
-      console.log(chatName)
-      this.setState({ chatAdvanced: chatAdvanced, learnGroupId: learnGroupId, chatName: chatName });
+      console.log(chatName);
+      this.setState({
+        chatAdvanced: chatAdvanced,
+        learnGroupId: learnGroupId,
+        chatName: chatName,
+      });
       console.log(this.state);
     };
 
@@ -96,11 +104,11 @@ class ChatBox extends Component {
     return (
       <div class="columns">
         <div class="column is-one-third">
-          <ChatSideBar getChatWindow={updateChatWindow}></ChatSideBar>{' '}
+          <ChatSideBar  getChatWindow={updateChatWindow}></ChatSideBar>{' '}
         </div>
 
         <section className="hero  column">
-        <p >{this.state.chatName}</p>
+          <p>{this.state.chatName}</p>
 
           <div className="column scrollable">
             <div className="hero-body ">

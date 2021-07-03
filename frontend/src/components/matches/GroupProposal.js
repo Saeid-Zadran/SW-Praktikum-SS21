@@ -45,6 +45,7 @@ class GroupProposal extends Component {
     };
   }
   localStorageUpdated() {}
+  checkIfRequestIsAvailabel() {}
   someEventHandler = (e) => {
     console.log('right clicked');
     e.preventDefault();
@@ -60,24 +61,25 @@ class GroupProposal extends Component {
     var api = AppApi.getApi();
     // console.log(api)
     let learnGroups = await api.addLearnGroup(learnGroup);
-    return learnGroups
+    return learnGroups;
   }
-
-  
 
   render() {
     const { classes } = this.props;
     const { title, subtitle, id } = this.props;
+
     const handleClick = async () => {
       let uid = '';
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${'uid'}=`);
-
       if (parts.length === 2) uid = parts.pop().split(';').shift();
       let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
       session_id = session_id[0].id;
-      console.log(this.props.id)
-      let learngroup_id = await this.addLearnGroup("test Chat mit Saed", session_id )
+      console.log(this.props.id);
+      let learngroup_id = await this.addLearnGroup(
+        `Chat mit ${title}`,
+        session_id
+      );
       let request_json = {
         id: 0,
         creation_time: '2021-06-28T19:41:33.064Z',
