@@ -7,7 +7,6 @@ class GroupRequestMapper(Mapper):
     def __init__(self):
         super().__init__()
 
-
     def find_all(self):
         """Auslesen aller GroupRequest.
         :return Eine Sammlung mit GroupRequest-Objekten, die sämtliche GroupRequest
@@ -27,18 +26,11 @@ class GroupRequestMapper(Mapper):
             grouprequest.set_person_id(person_id)
 
             result.append(grouprequest)
-             
            
         self._cnx.commit()
         cursor.close()
 
-        return result   
-        
-            
-
-           
-
-        
+        return result
 
     def find_by_key(self, key):
         """Auslesen aller GroupRequest anhand der ID,
@@ -62,8 +54,6 @@ class GroupRequestMapper(Mapper):
             grouprequest.set_is_accepted(is_accepted)
             grouprequest.set_learngroup_id(learngroup_id)
             grouprequest.set_person_id(person_id)
-           
-            
 
         result = grouprequest
 
@@ -71,7 +61,6 @@ class GroupRequestMapper(Mapper):
         cursor.close()
 
         return result
-
 
     def find_by_name(self, name):
         """Auslesen aller Semester anhand des Semesternamens.
@@ -95,8 +84,6 @@ class GroupRequestMapper(Mapper):
             grouprequest.set_is_accepted(is_accepted)
             grouprequest.set_learngroup_id(learngroup_id)
             grouprequest.set_person_id(person_id)
- 
-           
 
         result = grouprequest
 
@@ -104,7 +91,6 @@ class GroupRequestMapper(Mapper):
         cursor.close()
 
         return result
-
 
     def insert(self, grouprequest):
         """Einfügen eines profile-Objekts in die Datenbank.
@@ -137,7 +123,7 @@ class GroupRequestMapper(Mapper):
         cursor.close()
         return grouprequest
 
-    def update(self,id, is_accepted):
+    def update(self, id, is_accepted):
         """Wiederholtes Schreiben eines Objekts in die Datenbank.
         :param grouprequest das Objekt, das in die DB geschrieben werden soll
         """
@@ -153,7 +139,6 @@ class GroupRequestMapper(Mapper):
         cursor.close()
         return return_value
 
-
     def delete(self, grouprequest):
         """Löschen des Objekts in der Datenbank
         :param grouprequest das zu löschende "Objekt"
@@ -163,6 +148,15 @@ class GroupRequestMapper(Mapper):
 
         command = ("DELETE FROM grouprequest WHERE id={}".format(grouprequest.get_id()))
         cursor.execute(command)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def delete_by_learngroup_id(self, learngroup_id):
+        ''' Anfragen an eine Gruppe löschen, wenn die Gruppe gelöscht wird '''
+        cursor = self._cnx.cursor()
+
+        cursor.execute("DELETE FROM grouprequest WHERE learngroup_id={}".format(learngroup_id))
 
         self._cnx.commit()
         cursor.close()
@@ -184,16 +178,12 @@ class GroupRequestMapper(Mapper):
             grouprequest.set_learngroup_id(learngroup_id)
             grouprequest.set_person_id(person_id)
 
-         
             result.append(grouprequest)
-
 
         self._cnx.commit()
         cursor.close()
 
         return result
-
-      
     
     def find_all_grouprequests_person_id(self,person_id):#funktioniert-auf alle anderen adaptieren!
 
@@ -212,9 +202,7 @@ class GroupRequestMapper(Mapper):
             grouprequest.set_learngroup_id(learngroup_id)
             grouprequest.set_person_id(person_id)
 
-         
             result.append(grouprequest)
-
 
         self._cnx.commit()
         cursor.close()
@@ -238,24 +226,22 @@ class GroupRequestMapper(Mapper):
             grouprequest.set_learngroup_id(learngroup_id)
             grouprequest.set_person_id(person_id)
 
-         
             result.append(grouprequest)
-
 
         self._cnx.commit()
         cursor.close()
 
         return result
 
-if (__name__ == "__main__"):
-    with GroupInvitationMapper() as mapper:
-        #Nach mapper jegliche Methode dieser Klasse
-
-        invi = GroupInvitation()
-        invi.set_id(1)
-        invi.set_is_accepted(0)
-        invi.set_source_id(1)
-        invi.set_target_id(3)
-        invi.set_grouprequest_id(3)
-        mapper.insert(invi)
+# if (__name__ == "__main__"):
+#     with GroupInvitationMapper() as mapper:
+#         #Nach mapper jegliche Methode dieser Klasse
+#
+#         invi = GroupInvitation()
+#         invi.set_id(1)
+#         invi.set_is_accepted(0)
+#         invi.set_source_id(1)
+#         invi.set_target_id(3)
+#         invi.set_grouprequest_id(3)
+#         mapper.insert(invi)
 

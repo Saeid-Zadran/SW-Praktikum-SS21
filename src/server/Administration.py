@@ -270,6 +270,21 @@ class Administration(object):
         with LearnGroupMapper() as mapper:
             mapper.delete(learngroup)
 
+    def leave_group(self, learngroup, person):
+        with LearnGroupMapper() as mapper:
+            mapper.remove_member(learngroup.get_id(), person.get_id())
+            result = mapper.check_learngroup(learngroup.get_id())
+
+        # wenn die Gruppe leer ist, soll sie mit dem zugehörigen Profil gelöscht werden
+        if result == False:
+            with ChatMapper() as mapper:
+                mapper.delete(learngroup.get_id())
+            with GroupRequestMapper() as mapper:
+                mapper.delete_by_learngroup_id(group.get_id())
+            with LearnGroupMapper() as mapper:
+                mapper.delete(learngroup.get_id())
+            self.delete_profile(learngroup.get_profile_by_id())
+
     def get_learngroup_by_person_id(self, person_id):
         """Die lerngruppe mit der person_id auslesen."""
         with LearnGroupMapper() as mapper:

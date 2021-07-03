@@ -854,12 +854,17 @@ class LearnGroupListByPersonOperations(Resource):
         pe = adm.get_learngroup_by_person_id(person_id)
         return pe
 
+    def put(self, id):
+        ''' Eine Gruppe verlassen '''
+        adm = Administration()
+        learngroup = LearnGroup.from_dict(api.payload['learngroup'])
+        person = Person.from_dict(api.payload['person'])
+        if group and person:
+            adm.leave_group(learngroup, person)
+            return '', 200
+        else:
+            return '', 500
 
-
-
-
-
-    
 
 #----GroupRequest--------
 

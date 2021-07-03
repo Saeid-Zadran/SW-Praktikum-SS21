@@ -1,6 +1,7 @@
 from server.bo.LearnGroup import LearnGroup
 from server.db.DBMapper import Mapper
 
+
 class LearnGroupMapper (Mapper):
     """Mapper-Klasse, die Student-Objekte auf eine relationale
     Datenbank abbildet. Hierzu wird eine Reihe von Methoden zur Verfügung
@@ -64,7 +65,6 @@ class LearnGroupMapper (Mapper):
 
         return result
 
-
     def find_by_name(self, name):
         """Auslesen aller Semester anhand des Semesternamens.
 
@@ -86,7 +86,6 @@ class LearnGroupMapper (Mapper):
             learngroup.set_creation_time(creation_time)
             learngroup.set_name(name)
             learngroup.set_person_id(person_id)
-          
 
         result = learngroup
 
@@ -95,12 +94,11 @@ class LearnGroupMapper (Mapper):
 
         return result
 
-
     def insert(self, learngroup):
-        """Einfügen eines profile-Objekts in die Datenbank.
+        """Einfügen eines learngroup-Objekts in die Datenbank.
         Dabei wird auch der Primärschlüssel des übergebenen Objekts geprüft und ggf.
         berichtigt.
-        :param profile das zu speichernde Objekt
+        :param learngroup das zu speichernde Objekt
         :return das bereits übergebene Objekt, jedoch mit ggf. korrigierter ID.
         """
         cursor = self._cnx.cursor()
@@ -120,7 +118,6 @@ class LearnGroupMapper (Mapper):
         command = "INSERT INTO learngroup (id, creation_time,name,person_id) VALUES " \
                   "(%s,%s,%s,%s)"
         data = (learngroup.get_id(),learngroup.get_creation_time(),learngroup.get_name(),learngroup.get_person_id())
-            
 
         cursor.execute(command, data)
 
@@ -142,7 +139,6 @@ class LearnGroupMapper (Mapper):
         cursor.execute(command, data)
         cursor.close()
 
-
     def delete(self, learngroup):
         """Löschen des Objekts in der Datenbank
         :param learngroup das zu löschende "Objekt"
@@ -155,7 +151,6 @@ class LearnGroupMapper (Mapper):
 
         self._cnx.commit()
         cursor.close()
-
 
     def find_by_person(self, person_id):
         result = []
@@ -172,16 +167,39 @@ class LearnGroupMapper (Mapper):
             learngroup.set_name(name)
             learngroup.set_person_id(person_id)
             result.append(learngroup)
-           
         
         self._cnx.commit()
         cursor.close()
 
         return result
-            
+
+    def remove_member(self, id, person_id):
+        ''' Eine Person aus einer Gruppe entfernen '''
+
+        cursor = self._cnx.cursor()
+        command = "DELETE FROM learngroup WHERE id=%s AND person_id=%s"
+        data = (id, person_id)
+        cursor.execute(command, data)
+
+        self._cnx.commit()
+        cursor.close()
+
+    def check_group(self, id):
+        ''' Check, ob eine Gruppe noch Mitglieder hat '''
+
+        cursor = self._cnx.cursor()
+        command = "SELECT * FROM learngroup WHERE id={}".format(id)
+        cursor.execute(command)
+        tuples = cursor.fetchall()
+
+        self._cnx.commit()
+        cursor.close()
+
+        if len(tuples) > 0:
+            return True
+        else:
+            return False
 
 
-
-
-        #mapper.find_by_group_name("profile")
-        print(mapper)
+        # #mapper.find_by_group_name("profile")
+        # print(mapper)
