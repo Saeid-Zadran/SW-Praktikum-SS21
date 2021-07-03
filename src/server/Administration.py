@@ -211,7 +211,7 @@ class Administration(object):
 
     def get_chat_by_learngroup_id(self, learngroup_id):
         with ChatMapper() as mapper:
-            return mapper.find_by_learngroup(learngroup_id)
+            return mapper.find_by_learngroup_id(learngroup_id)
 
     def delete_chat(self, chat):
         with ChatMapper() as mapper:

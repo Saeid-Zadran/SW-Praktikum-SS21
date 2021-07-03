@@ -13,9 +13,9 @@ class ChatMapper(Mapper):
         super().__init__()
 
     def find_all(self):
-        """Auslesen aller Chat.
+        """Auslesen aller Chats.
 
-        :return Eine Sammlung mit Modul-Objekten, die sämtliche Chat repräsentieren.
+        :return Eine Sammlung mit Chat-Objekten, die sämtliche Chats repräsentieren.
         """
         result = []
         cursor = self._cnx.cursor()
@@ -31,7 +31,6 @@ class ChatMapper(Mapper):
             chat.set_sender(sender)
             chat.set_message(message)
             result.append(chat)
-           
 
         self._cnx.commit()
         cursor.close()
@@ -39,16 +38,16 @@ class ChatMapper(Mapper):
         return result
 
     def find_by_key(self, key):
-        """Auslesen aller conversation anhand der ID,
+        """Auslesen aller Chats anhand der ID,
         da diese vorgegeben ist, wird genau ein Objekt zurückgegeben.
         :param key Primärschlüsselattribut
-        :return Modul-Objekt, das dem übergebenen Schlüssel entspricht, None bei
+        :return Chat-Objekt, das dem übergebenen Schlüssel entspricht, None bei
         nicht vorhandenem DB-Tupel
         """
-        result = []
+        result = None
 
         cursor = self._cnx.cursor()
-        command = "SELECT * FROM chat WHERE learngroup_id={}".format(key)
+        command = "SELECT * FROM chat WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
         for (id, creation_time,learngroup_id, is_accepted,sender, message, ) in tuples:
@@ -59,7 +58,8 @@ class ChatMapper(Mapper):
             chat.set_is_accepted(is_accepted)
             chat.set_sender(sender)
             chat.set_message(message)
-            result.append(chat)
+
+        result = chat
     
         self._cnx.commit()
         cursor.close()
@@ -124,14 +124,13 @@ class ChatMapper(Mapper):
 
         return chat
     
-    def find_by_learngroup(self, learngroup_id):
+    def find_by_learngroup_id(self, learngroup_id):
         result = []
 
         cursor = self._cnx.cursor()
         command = " SELECT id, creation_time,  learngroup_id, is_accepted,sender, message FROM chat WHERE learngroup_id ={} ORDER BY id".format(learngroup_id)
         cursor.execute(command)
         tuples = cursor.fetchall()
-
        
         for (id, creation_time,  learngroup_id, is_accepted,sender, message) in tuples:
             chat = Chat()
@@ -142,9 +141,6 @@ class ChatMapper(Mapper):
             chat.set_sender(sender)
             chat.set_message(message)
             result.append(chat)
-
-           
-            
 
         self._cnx.commit()
         cursor.close()
