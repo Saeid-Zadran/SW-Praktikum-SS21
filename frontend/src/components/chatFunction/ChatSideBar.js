@@ -68,9 +68,11 @@ class ChatSideBar extends Component {
     });
   }
 
-  executeScroll = () => this.myRef.scrollIntoView();
 
   render() {
+    const refreshSideBar = () =>{
+      console.log("hi")
+    }
     const getNewChats = async (learnGroups) => {
       let uid = getCookie('uid');
       let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
@@ -81,7 +83,6 @@ class ChatSideBar extends Component {
       this.setState({
         learnGroups: learngroups,
       });
-      this.chatGroupBox.scrollIntoView({ block: 'start', behavior: 'smooth' });
     };
     const pageRefresh = () => {
       this.refreshThePage()

@@ -3,16 +3,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/styles';
 import AppApi from '../../api/AppApi';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearOutlined from '@material-ui/icons/ClearOutlined';
 
@@ -59,7 +53,7 @@ class ChatRequest extends Component {
     let personProfile = await AppApi.getApi().getProfileViaUrl(
       this.props.person_id
     );
-    
+
     this.setState({
       groupName: learnGroup[0].name,
       profileName: 'Anfefragt durch: ' + personProfile[0].name,
@@ -68,7 +62,6 @@ class ChatRequest extends Component {
 
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    
     e.preventDefault();
     this.setState({
       anchorEl: e.currentTarget,
@@ -76,22 +69,20 @@ class ChatRequest extends Component {
   };
   render() {
     const { classes } = this.props;
-    const { title, subtitle,  loadFreshPage} = this.props;
+    const { title, subtitle, loadFreshPage } = this.props;
     const handleClick = async () => {
       this.setState({ open: !this.state.open });
     };
     const join = async () => {
       await AppApi.getApi().updateGroupRequest(1, this.props.id);
-      this.props.loadFreshPage()
-
+      this.props.loadFreshPage();
     };
     const reject = async () => {
       // TODO delete the groupRequest
       // TODO delete the LearnGroup
-      
-      await AppApi.getApi().deleteGroupRequestById(this.props.id)
-      this.props.loadFreshPage()
 
+      await AppApi.getApi().deleteGroupRequestById(this.props.id);
+      this.props.loadFreshPage();
     };
 
     return (
@@ -112,14 +103,25 @@ class ChatRequest extends Component {
             size="small"
           />
           <ListItemSecondaryAction>
-
-            <IconButton     style={{
-        color: "#21b6ae"}} onClick={join} color="green" variant="">
+            <IconButton
+              style={{
+                color: '#21b6ae',
+              }}
+              onClick={join}
+              color="green"
+              variant=""
+            >
               <CheckIcon />
             </IconButton>
 
-            <IconButton     style={{
-        color: "#ef5350"}} onClick={reject} color="green" variant="">
+            <IconButton
+              style={{
+                color: '#ef5350',
+              }}
+              onClick={reject}
+              color="green"
+              variant=""
+            >
               <ClearOutlined />
             </IconButton>
           </ListItemSecondaryAction>

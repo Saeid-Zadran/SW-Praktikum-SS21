@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useRef } from 'react';
 import 'bulma/css/bulma.min.css';
 import ChatSideBar from './ChatSideBar';
 import './ChatSideBar.css';
@@ -10,12 +10,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import CardActions from '@material-ui/core/CardActions';
 import { Link as RouterLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/styles';
-import { blue } from '@material-ui/core/colors';
+
+/* 
+Auf dieser Seite ist die gesamte Chat Seite.
+Hier gibt es die Chat Form und die einzelnen Messages, weche in der ChatBox gerendert werden. 
+Die ChatSideBar beinhaltet laufende Chats und offene Chatanfragen. Zudem kann über CreateLearnGroup (unten "Neue Lerngruppe") eine neue Lerngruppe erstellt werden.
+*/
 
 const styles = (theme) => ({
   menuButton: {
@@ -27,6 +30,10 @@ const styles = (theme) => ({
 });
 
 class ChatBox extends Component {
+  constructor(props) {
+    super(props);
+    this.childRef = React.createRef();
+  }
   state = {
     learnGroupId: 0,
     chatAdvanced: [],
@@ -34,43 +41,47 @@ class ChatBox extends Component {
     chat: [],
     chatName: '',
   };
+
   componentDidMount() {
     this.loadChatPage();
   }
 
   async loadChatPage() {
+    // cookie aus dem store holen
     let uid = '';
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${'uid'}=`);
-
     if (parts.length === 2) uid = parts.pop().split(';').shift();
     let app = new AppApi();
+    // session id anhand der Google UID aus der Datenbank holen
     let session_id = await app.getPersonByGoogleId(uid);
     session_id = session_id[0].id;
-    
+    // das aktuelle LearnProfil beziehen
     var learnProfile = await app.getLearnProfileViaUrl(session_id);
     let profile = await app.getProfileViaUrl(session_id);
     learnProfile = learnProfile[0];
     profile = profile[0];
-    let groupOwner = false
-
+    // determinierung des GroupOwners (wichtig für die Löschfunktion ist man der GroupOwner
+    // so wird die gesammte Gruppe gelöscht, ist man nur ein Teilnehmer verlässt man diese nur )
+    let groupOwner = false;
     let learngroups = await app.getLearnGroupByPersonId(session_id);
     let fetchedChatAdvanced = [];
     let chatName = '';
-    if (learngroups.length > 0)
-    {
+    if (learngroups.length > 0) {
       fetchedChatAdvanced = await app.getChatsByLearnGroupId(learngroups[0].id);
       if (learngroups.length > 0) chatName = learngroups[0].name;
-      if(learngroups[0].person_id == session_id) groupOwner = true
+      if (learngroups[0].person_id == session_id) groupOwner = true;
     }
-      
+    // Alle geladenen Ressourcen in den State integrieren
+
     this.setState({ learngroups: learngroups });
     this.setState({ personId: session_id });
     this.setState({ name: profile.name });
     this.setState({ chatName: chatName });
-        if (learngroups.length > 0) this.setState({ learnGroupId: learngroups[0].id})
-    this.setState({groupOwner : groupOwner})
-    this.setState({session_id: session_id})
+    if (learngroups.length > 0)
+      this.setState({ learnGroupId: learngroups[0].id });
+    this.setState({ groupOwner: groupOwner });
+    this.setState({ session_id: session_id });
 
     // wennn die Lerngruppen nicht leer sind
     if (fetchedChatAdvanced.length > 0) {
@@ -83,7 +94,6 @@ class ChatBox extends Component {
     const doSomething = (inputArray) => {
       this.setState({ chatAdvanced: inputArray });
 
-      // Do something with your array of strings in here
     };
     const loadFreshPage = function () {
       this.loadChatPage();
@@ -91,49 +101,49 @@ class ChatBox extends Component {
     const leaveChat = async () => {
       let app = new AppApi();
 
-      if(this.state.groupOwner)
-      {
-       app.deleteLearnGroup(this.state.learnGroupId) 
-       this.loadChatPage()
-
-      }
-      else
-      {
-        console.log("asdasdsad")
-        let allGroupRequests  =  await app.getGroupRequestByPersonId(this.state.session_id)
-        console.log(allGroupRequests)
-        for(var key in allGroupRequests)
-        {
-          console.log(allGroupRequests[key], this.state.learnGroupId)
-          let grouprequest = allGroupRequests[key]
-          if(grouprequest.learngroup_id == this.state.learnGroupId)
-          {
-            console.log(grouprequest.id)
-            await app.deleteGroupRequestById(grouprequest.id)
-            this.loadChatPage()
+      if (this.state.groupOwner) {
+        await app.deleteLearnGroup(this.state.learnGroupId);
+        this.loadChatPage();
+        if (this.childRef) {
+          this.childRef.refreshSideBar();
+        }
+      } else {
+        console.log('asdasdsad');
+        let allGroupRequests = await app.getGroupRequestByPersonId(
+          this.state.session_id
+        );
+        console.log(allGroupRequests);
+        for (var key in allGroupRequests) {
+          console.log(allGroupRequests[key], this.state.learnGroupId);
+          let grouprequest = allGroupRequests[key];
+          if (grouprequest.learngroup_id == this.state.learnGroupId) {
+            console.log(grouprequest.id);
+            await app.deleteGroupRequestById(grouprequest.id);
+            this.loadChatPage();
           }
         }
       }
-
     };
-    const updateChatWindow = (chatAdvanced, learnGroupId, chatName, learnGroupProfileID) => {
-      
-      let groupOwner = false
-      if(learnGroupProfileID == this.state.session_id) groupOwner = true
+    const updateChatWindow = (
+      chatAdvanced,
+      learnGroupId,
+      chatName,
+      learnGroupProfileID
+    ) => {
+      let groupOwner = false;
+      if (learnGroupProfileID == this.state.session_id) groupOwner = true;
 
       this.setState({
         chatAdvanced: chatAdvanced,
         learnGroupId: learnGroupId,
         chatName: chatName,
-        groupOwner: groupOwner
+        groupOwner: groupOwner,
       });
-      
     };
 
     let informationForChats;
 
     if (this.state.chatAdvance == false) {
-      
       informationForChats = (
         <Card>
           <CardContent>
@@ -162,7 +172,10 @@ class ChatBox extends Component {
     return (
       <div class="columns  is-fullheight">
         <div class="column is-fullheight is-one-third">
-          <ChatSideBar getChatWindow={updateChatWindow}></ChatSideBar>{' '}
+          <ChatSideBar
+            ref={this.childRef}
+            getChatWindow={updateChatWindow}
+          ></ChatSideBar>{' '}
         </div>
 
         <section className="hero  column">
@@ -171,7 +184,9 @@ class ChatBox extends Component {
               <Typography color="gray" className={classes.title}>
                 {this.state.chatName}
               </Typography>
-              <Button onClick={leaveChat} color="primary">{!this.state.groupOwner  ?   "Chat Verlassen": "Chat auflösen"  }</Button>
+              <Button onClick={leaveChat} color="primary">
+                {!this.state.groupOwner ? 'Chat Verlassen' : 'Chat auflösen'}
+              </Button>
             </Toolbar>
           </AppBar>
 
@@ -211,18 +226,16 @@ const Chat = ({ chatAdvanced, learnGroupId, name }) => (
       session_id = session_id[0].id;
       // let learngroup_id = await AppApi.getApi().learngr(session_id)
       parts = value.splt;
-      
+
       var chat = new ChatBO();
       chat.setLearnGroupId(learnGroupId);
       chat.setIsAccepted(true);
       chat.setSender(name);
       chat.setMessage(e.target.elements.userInput.value);
-      // 
+      //
       let response = await api.addChat(chat);
       let fetchedChatAdvanced = await api.getChatsByLearnGroupId(learnGroupId);
       chatAdvanced(fetchedChatAdvanced);
-      
-      
 
       //saveMsg(e.target.elements.userInput.value);
       e.target.reset();
