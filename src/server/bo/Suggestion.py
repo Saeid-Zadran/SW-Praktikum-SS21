@@ -1,5 +1,6 @@
 from server.bo.BusinessObject import BusinessObject as bo
 
+
 class Suggestion(bo):
 
     def __init__(self):

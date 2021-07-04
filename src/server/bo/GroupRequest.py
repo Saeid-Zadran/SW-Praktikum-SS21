@@ -10,23 +10,27 @@ class GroupRequest(bo):
         self._person_id = 0
 
     def get_learngroup_id(self):
+        """Auslesen der Lerngruppen ID"""
         return self._learngroup_id
 
     def set_learngroup_id(self, learngroup_id):
+        """Setzen der Lerngruppen ID"""
         self._learngroup_id = learngroup_id
 
- 
-
     def get_is_accepted(self):
+        """Auslesen ob die Anfrage akzeptiert wurde"""
         return self._is_accepted
 
     def set_is_accepted(self, is_accepted):
+        """Anfrage als Akzeptert setzen"""
         self._is_accepted = is_accepted
     
     def get_person_id(self):
+        """Auslesen der Person ID"""
         return self._person_id
 
     def set_person_id(self, person_id):
+        """Setzen der Person ID"""
         self._person_id = person_id
 
  

@@ -8,7 +8,6 @@ class ChatMessage(bo):
         self._text = None
         self._chat_id = None
         self._person_id = None
-       
 
     def set_text(self, text):
         self._text = text

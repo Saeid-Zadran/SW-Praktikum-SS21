@@ -9,32 +9,37 @@ class Chat(bo):
         self._is_accepted = 1
         self._sender= None
         self._message= None
-       
-
-
 
     def set_learngroup_id(self, learngroup_id):
+        """Setzen der Lerngruppen ID"""
         self._learngroup_id = learngroup_id
 
     def get_learngroup_id(self):
+        """Auslesen der Lerngruppen ID"""
         return self._learngroup_id
 
     def get_is_accepted(self):
+        """Auslesen ob die Anfrage akzeptiert wurde"""
         return self._is_accepted
 
     def set_is_accepted(self, is_accepted):
+        """Anfrage als Akzeptert setzen"""
         self._is_accepted = is_accepted
     
     def get_sender(self):
+        """Sender auslesen """
         return self._sender
 
     def set_sender(self, sender):
+        """Sender setzen"""
         self._sender = sender
 
     def get_message(self):
+        """Nachricht Auslesen"""
         return self._message
 
     def set_message(self, message):
+        """Nachricht setzen"""
         self._message = message
 
 
