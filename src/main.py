@@ -980,13 +980,12 @@ class PersonMatchOperations(Resource):
 @studymatch.route('/learngroup-matching/<int:id>')
 @studymatch.response(500, 'Internal Server Error')
 @studymatch.param('id', 'ID der Lerngruppe')
-class LearnGroupMa(Resource):
-    @studymatch.marshal_with(learngroup)
+class LearnGroupMatchOperations(Resource):
     def get(self, id):
-       
         adm = Administration()
-        matchmakingList = adm.get_match(id)
-        return matchmakingList[1]
+        matchmakingList = adm.get_match_learngroup(id)
+        print(matchmakingList)
+        return matchmakingList
 
 
 if __name__ == '__main__':

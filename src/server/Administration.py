@@ -355,7 +355,15 @@ class Administration(object):
    # def get_learn_profile_by_matching(self,):
 
     def get_match(self, person):
-        with LearnProfileMapper() as mapper:
+        with LearnProfileMapper() as mapper :
             LearnProfileList = mapper.find_all()
             Matches = mapper.get_matches(person, LearnProfileList)
             return Matches
+            
+    def get_match_learngroup(self, person):
+        with LearnGroupMapper() as mapper:
+            with LearnProfileMapper() as learn_mapper:
+                LearnProfileList = learn_mapper.find_all()
+                LearnGroupList = mapper.find_all()
+                Matches = mapper.get_matches_learngroup(person, LearnProfileList, LearnGroupList)
+                return Matches

@@ -45,11 +45,9 @@ class GroupProposal extends Component {
     };
   }
   componentDidMount() {
-   console.log(this.props)
   }
 
   someEventHandler = (e) => {
-    console.log('right clicked');
     e.preventDefault();
     this.setState({
       anchorEl: e.currentTarget,
@@ -78,7 +76,6 @@ class GroupProposal extends Component {
       if (parts.length === 2) uid = parts.pop().split(';').shift();
       let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
       session_id = session_id[0].id;
-      console.log(this.props.id);
       let learngroup_id = await this.addLearnGroup(
         `Chat mit ${title}`,
         session_id
@@ -90,7 +87,6 @@ class GroupProposal extends Component {
         learngroup_id: learngroup_id.id,
         person_id: id,
       };
-      console.log(request_json);
 
       let fetchedChatAdvanced = await AppApi.getApi().addGroupRequest(
         request_json

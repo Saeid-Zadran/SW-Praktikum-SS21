@@ -1,0 +1,10 @@
+.scrollable {
+    max-height: 100vh;
+    display: flex;
+    overflow-y: auto;
+    flex-direction: column;
+  }
+  
+  .content {
+    display: inline-block;
+  }

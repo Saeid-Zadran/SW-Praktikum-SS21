@@ -1,6 +1,6 @@
 from server.bo.LearnGroup import LearnGroup
 from server.db.DBMapper import Mapper
-
+from server.bo.LearnProfile import LearnProfile
 
 class LearnGroupMapper (Mapper):
     """Mapper-Klasse, die Student-Objekte auf eine relationale
@@ -199,6 +199,61 @@ class LearnGroupMapper (Mapper):
             return True
         else:
             return False
+
+    def get_matches_learngroup(self, person_id, learnprofile_list, learngroup_list):
+        CurrentProfile = person_id
+        LearnProfileList = learnprofile_list
+        LearnGroupList = learngroup_list
+
+        learngroup_dict = {}
+        result =  {}
+
+        compareProfile = LearnProfile()
+        for learnprofile in LearnProfileList:
+            if(learnprofile.get_person_id() == CurrentProfile):
+                compareProfile = learnprofile
+        for learngroup in LearnGroupList:
+            learngroup_dict[learngroup.get_id()] = learngroup.get_person_id()
+        for learnprofile in LearnProfileList:
+            if learnprofile.get_person_id() != compareProfile.get_person_id():
+                value = 0
+                total = 5
+                if learnprofile.get_study_status() == compareProfile.get_study_status():
+                    value += 1
+                if learnprofile.get_frequency() == compareProfile.get_frequency():
+                    value += 1
+                if learnprofile.get_prev_knowledge() == compareProfile.get_prev_knowledge():
+                    value += 1
+                if learnprofile.get_group_size() == compareProfile.get_group_size():
+                    value += 1
+                if learnprofile.get_extroversion() == compareProfile.get_extroversion():
+                    value += 1
+                else:
+                    value += 0
+                value = value/total
+                value = value * 100
+                result[learnprofile.get_person_id()] = value
+            else:
+                value = 0
+
+        
+        #print(result, learngroup_dict)
+        #for learnGroup in learngroup_dict:
+        #    print(learnGroup, learngroup_dict[learnGroup])
+        #    learnProfile = learngroup_dict[learnGroup]
+        #    matchingResult = result[learnProfile]
+        #    learngroup_dict[learnGroup] = matchingResult
+        #print(learngroup_dict)
+        final_result  ={}
+        for learnGroup in learngroup_dict:
+            learnprofile = learngroup_dict[learnGroup]
+            if learnprofile in result:
+                learngroup_dict[learnGroup] = result[learnprofile]
+                final_result[learnGroup] = result[learnprofile]
+            else:
+                learngroup_dict[learnGroup] = None
+        print(final_result)
+        return  final_result
 
 
         # #mapper.find_by_group_name("profile")

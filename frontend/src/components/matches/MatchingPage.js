@@ -34,33 +34,20 @@ class MatchingPage extends Component {
     // Init an empty state
     this.state = {
       learnGroup: [
-        {
-          learnGroup_id: 0,
-          name: 'Die fleißigen Lerner',
-          percent: 60,
-        },
-        {
-          learnGroup_id: 1,
-          name: 'Anfänger',
-          percent: 20,
-        },
-        {
-          learnGroup_id: 2,
-          name: 'Almans',
-          percent: 15,
-        },
       ],
+      matchedLearnGroups: 
+    [
+
+    ],
       error: null,
       loadingInProgress: false,
       expandedProfileID: expandedID,
       showProfileForm: false,
     };
   }
-  checkIfRequestIsAccPending(matchedLearnprofiles) {
+  checkIfRequestIsAccPending(matchedLearnprofiles) {}
 
-  }
-
-  async getLearnGroups() {
+  async getChatGroups() {
     let uid = '';
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${'uid'}=`);
@@ -74,60 +61,79 @@ class MatchingPage extends Component {
     );
     let matches = [];
 
-
     for (var variable in matchedLearnprofiles) {
-
       let learnProfile = await AppApi.getApi().getProfileViaUrl(variable);
-      let allGroupRequests =   await AppApi.getApi().getGroupRequestByPersonId(variable)
-      console.log(allGroupRequests, variable, session_id)
-      let requestStatus = ""
+      let allGroupRequests = await AppApi.getApi().getGroupRequestByPersonId(
+        variable
+      );
+      let requestStatus = '';
       for (var grouRequestKey in allGroupRequests) {
-        let groupRequest = allGroupRequests[grouRequestKey]
-        let learnGroup = null
-        if(groupRequest.person_id == variable)
-        {
-          learnGroup = await AppApi.getApi().getLearnGroupById(groupRequest.person_id)
-          console.log(learnGroup)
-          if(learnGroup[0].person_id == session_id)
-          {
-            
-            requestStatus = groupRequest.is_accepted
+        let groupRequest = allGroupRequests[grouRequestKey];
+        let learnGroup = null;
+        if (groupRequest.person_id == variable) {
+          learnGroup = await AppApi.getApi().getLearnGroupById(
+            groupRequest.person_id
+          );
+          if (learnGroup[0].person_id == session_id) {
+            requestStatus = groupRequest.is_accepted;
           }
         }
       }
-
-      let matchObject =  {
+      let matchObject = {
         learnGroup_id: variable,
         name: learnProfile[0].name,
         percent: matchedLearnprofiles[variable],
         id: learnProfile[0].id,
-        requestStatus :requestStatus
+        requestStatus: requestStatus,
       };
       matches.push(matchObject);
-      //let learnGroupToBeFiltered = await AppApi.getApi().getLearnGroupById(allGroupRequests[0])
- 
+    }
+    this.setState({ learnGroup: matches });
+  }
+
+
+  async getLearnGroups() {
+    let uid = '';
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${'uid'}=`);
+
+    if (parts.length === 2) uid = parts.pop().split(';').shift();
+    let app = new AppApi();
+    let session_id = await app.getPersonByGoogleId(uid);
+    session_id = session_id[0].id;
+    let matchedLearnprofiles = await AppApi.getApi().getMatchesByLearnGroup(
+      session_id
+    );
+    console.log(matchedLearnprofiles)
+    let matches = [];
+    console.log(matchedLearnprofiles)
+    for (var variable in matchedLearnprofiles) {
+      let learnGroup = await AppApi.getApi().getLearnGroupById(variable);
+      console.log(learnGroup)
+      let allGroupRequests = await AppApi.getApi().getGroupRequestByPersonId(
+        variable
+      );
+      let matchObject = {
+        learnGroup_id: variable,
+        name: learnGroup[0].name,
+        percent: matchedLearnprofiles[variable],
+        id: "learnProfile[0].id",
+      };
+      matches.push(matchObject);
     }
     console.log(matches)
-    this.setState({ learnGroup: matches });
 
-    /*
-        this.setState({
-          learnGroup: learnGroupBOs,
-          filteredLearnGroup: [...learnGroupBOs],
-          loadingInProgress: false,
-          error: null,
-          testState: '',
-        });
-*/
+    this.setState({ matchedLearnGroups: matches });
   }
 
   componentDidMount() {
+    this.getChatGroups();
     this.getLearnGroups();
   }
 
   render() {
     const { classes } = this.props;
-    const { learnGroup, loadingInProgress, error } = this.state;
+    const { learnGroup, loadingInProgress, error, matchedLearnGroups } = this.state;
     const handleClick = async () => {
       let testVariable = await AppApi.getApi().getGroupRequestByPersonId(1);
 
@@ -163,14 +169,13 @@ class MatchingPage extends Component {
                       <br /> ähnliches Lernprofil haben wie du!
                       <br />
                     </Typography>
-                    {learnGroup.map( learner => (
+                    {learnGroup.map((learner) => (
                       <GroupProposal
                         title={learner.name}
                         id={learner.id}
                         percent={learner.percent}
-                        is_accepted ={learner.requestStatus}
+                        is_accepted={learner.requestStatus}
                       ></GroupProposal>
-                      
                     ))}
                   </CardContent>
                 </Card>{' '}
@@ -183,19 +188,23 @@ class MatchingPage extends Component {
                       color="textSecondary"
                       gutterBottom
                     >
-                      Word of the Day
+                      Dies sind empfohlene Lerngruppen basierend auf deinem Lernprofil!
                     </Typography>
                     <Typography variant="h5" component="h2">
-                      {this.state.testState}
+                      Vorschläge
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                       adjective
                     </Typography>
-                    <Typography variant="body2" component="p">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
+                   
+                    {matchedLearnGroups.map((learner) => (
+                      <GroupProposal
+                        title={learner.name}
+                        id={learner.id}
+                        percent={learner.percent}
+                        is_accepted={learner.requestStatus}
+                      ></GroupProposal>
+                    ))}
                   </CardContent>
                   <CardActions>
                     <Button size="small">Learn More</Button>

@@ -875,7 +875,7 @@ export default class AppApi {
       });
     });
   }
-
+/*
   updateLeaveLearnGroup(person_id) {
     // Lerngruppe verlassen
     return this.#fetchAdvanced(this.#LeaveLearnGroupURL(person_id), {
@@ -888,7 +888,7 @@ export default class AppApi {
       
     })
   }
-
+*/
   //GroupRequest
 
 
@@ -1087,13 +1087,15 @@ export default class AppApi {
       (responseJSON) => {
         // console.log(responseJSON)
 
-        let responseMatchesByLearnGroupBOs =
-          LearnGroupBO.fromJSON(responseJSON);
+        let responseMatchesByPersonBOs = responseJSON;
         // console.info();
+        console.log(responseJSON)
+
         return new Promise(function (resolve) {
-          resolve(responseMatchesByLearnGroupBOs);
+          resolve(responseMatchesByPersonBOs);
         });
       }
     );
   }
+
 }
