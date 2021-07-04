@@ -13,7 +13,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import LearnProfileBO from '../../api/LearnProfileBO';
 import history from '../../history';
 
-class CreateLearnProfile extends Component {
+class UpdateLearnProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +31,7 @@ class CreateLearnProfile extends Component {
   }
 
   /** Create LearnProfile*/
-  addLearnProfile(
+  async addLearnProfile(
     study_status,
     frequency,
     prev_knowledge,
@@ -40,27 +40,32 @@ class CreateLearnProfile extends Component {
     profile_id
   ) {
     var learnprofile = new LearnProfileBO();
+    learnprofile.setID(0)
     learnprofile.setStudyStatus(study_status);
     learnprofile.setFrequency(frequency);
     learnprofile.setPrevKnowledge(prev_knowledge);
     learnprofile.setGroupSize(group_size);
     learnprofile.setExtroversion(extroversion);
-    learnprofile.setProfileId(profile_id);
 
+    let uid = getCookie('uid');
+    let app = new AppApi();
+    let session_id = await app.getPersonByGoogleId(uid);
+    session_id = session_id[0].id;
+    learnprofile.setProfileId(session_id);
     var api = AppApi.getApi();
-    //
-    api.addLearnProfile(learnprofile).then((learnprofile) => {
-      //
+    // 
+
+    api.updateLearnProfile(session_id, learnprofile).then((learnprofile) => {
+      // 
       this.setState({
         learnprofile: learnprofile,
       });
-      history.push('/SecondPage/SendMessage');
     });
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
-    //
+    // 
   }
 
   handleSubmit = (event) => {
@@ -80,27 +85,32 @@ class CreateLearnProfile extends Component {
     let app = new AppApi();
     let session_id = await app.getPersonByGoogleId(uid);
     session_id = session_id[0].id;
-
+    
     var learnProfile = await app.getLearnProfileViaUrl(session_id);
     learnProfile = learnProfile[0];
     if (learnProfile != undefined) {
+      
+
       this.setState({
         study_status: learnProfile.study_status.toString(),
         frequency: learnProfile.frequency.toString(),
         prev_knowledge: learnProfile.prev_knowledge.toString(),
         group_size: learnProfile.group_size.toString(),
         extroversion: learnProfile.extroversion.toString(),
-        profile_id: learnProfile.id.toString(),
+        profile_id: learnProfile.id,
         learnprofile: true, //Für addLearnProfile
+
       });
     } else {
       this.setState({
         profile_id: session_id,
       });
     }
+    
 
     //this.handleChange(target)
     this.forceUpdate();
+    
   }
 
   render() {
@@ -116,7 +126,7 @@ class CreateLearnProfile extends Component {
                 </center>
               </div>
               <div>
-                <form required className={classes.root} onSubmit={this.handleSubmit}>
+                <form className={classes.root} onSubmit={this.handleSubmit}>
                   <div>
                     <FormControl
                       component="fieldset"
@@ -131,22 +141,18 @@ class CreateLearnProfile extends Component {
                         className={classes.group}
                         value={this.state.study_status}
                         onChange={this.handleChange}
-                        required
                       >
                         <FormControlLabel
                           value="1"
-                          required
                           control={<Radio />}
                           label="Online (Zoom, Discord, Skype, etc)"
                         />
                         <FormControlLabel
-                          required
                           value="2"
                           control={<Radio />}
                           label="Offline/Präsenz"
                         />
                         <FormControlLabel
-                          required
                           value="3"
                           control={<Radio />}
                           label="Egal"
@@ -158,7 +164,6 @@ class CreateLearnProfile extends Component {
                   <div>
                     <FormControl
                       component="fieldset"
-                      required
                       className={classes.formControl}
                     >
                       <FormLabel component="legend">
@@ -199,7 +204,6 @@ class CreateLearnProfile extends Component {
                         Hast du bereits Vorkenntnise?
                       </FormLabel>
                       <RadioGroup
-                      required
                         aria-label="prev_knowledge"
                         name="prev_knowledge"
                         className={classes.group}
@@ -323,4 +327,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(CreateLearnProfile);
+export default withStyles(styles)(UpdateLearnProfile);

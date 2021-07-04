@@ -6,10 +6,10 @@ import { TextField, Button, Grid } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import ProfileBO from "../../api/ProfileBO";
 import history from '../../history'
+import firebase from "firebase/app";
 
 
-
-class CreateProfile extends Component {
+class UpdateProfile extends Component {
   constructor(props) {
     super(props);
 
@@ -25,21 +25,27 @@ class CreateProfile extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  addProfile( name, age, adress,semester, degree_course,person_id) {
+  async addProfile( name, age, adress,semester, degree_course,person_id) {
     
     var profile = new ProfileBO
+    profile.setID(0)
     profile.setName(name)
     profile.setAge(age)
     profile.setAdress(adress)
     profile.setSemester(semester)
     profile.setDegreeCourse(degree_course)
-    profile.setPersonId(person_id)
+    let uid = getCookie("uid")
+    let app = new AppApi()
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
     
+    profile.setPersonId(session_id)
     
+
 
     var api = AppApi.getApi();
     // 
-    api.addProfile(profile).then((profile) => {
+    api.updateProfile(session_id, profile).then((profile) => {
         // 
         this.setState({
           profile: profile,
@@ -61,11 +67,19 @@ class CreateProfile extends Component {
       this.state.adress,
       this.state.semester,
       this.state.degree_course,
-      this.state.person_id
     );
 
 
-    history.push('/SecondPage/CreateLearnProfile');
+  };
+  async handleClick () {
+
+    let uid = getCookie("uid")
+    let app = new AppApi()
+    let session_id = await app.getPersonByGoogleId(uid)
+    session_id = session_id[0].id
+    
+    let profileDeleteSuccesful = await  app.deleteProfile(session_id)
+     firebase.auth().signOut();
 
   };
   async componentDidMount() {
@@ -122,7 +136,6 @@ class CreateProfile extends Component {
                 <form className={classes.root} onSubmit={this.handleSubmit}>
                   <div>
                     <TextField
-                    required
                       id="outlined-basic"
                       label="Name"
                       variant="outlined"
@@ -135,7 +148,6 @@ class CreateProfile extends Component {
                   </div>
                   <div>
                     <TextField
-                    required
                       id="outlined-basic"
                       label="Alter"
                       variant="outlined"
@@ -149,7 +161,6 @@ class CreateProfile extends Component {
                   </div>
                   <div>
                     <TextField
-                    required
                       id="outlined-basic"
                       label="Adresse"
                       variant="outlined"
@@ -163,7 +174,6 @@ class CreateProfile extends Component {
                   </div>
                   <div>
                     <TextField
-                    required
                       id="outlined-basic"
                       label="Semester"
                       variant="outlined"
@@ -178,7 +188,6 @@ class CreateProfile extends Component {
 
                   <div>
                     <TextField
-                    required
                       id="outlined-basic"
                       label="Studiengang"
                       variant="outlined"
@@ -202,6 +211,16 @@ class CreateProfile extends Component {
                     startIcon={<SaveIcon />}
                   >
                     Bestätigen
+                  </Button>
+                                
+                  <Button
+                    variant="contained"
+                    color="default"
+                    size="large"
+                    onClick={this.handleClick}
+                    className={classes.button}
+                  >
+                    Profil Löschen
                   </Button>
                 </form>
               </div>
@@ -239,4 +258,4 @@ const styles = (theme) => ({
   },
 });
 
-export default withStyles(styles)(CreateProfile);
+export default withStyles(styles)(UpdateProfile);

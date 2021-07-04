@@ -45,7 +45,7 @@ export default class AppApi {
   //LearnProfile Related
   #getLearnProfilesURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
   #addLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
-  #updateLearnProfileURL = () => `${this.#AppServerBaseURL}/learnprofiles`;
+  #updateLearnProfileURL = (id) => `${this.#AppServerBaseURL}/learnprofiles/${id}`;
   #deleteLearnProfileURL = (id) => `${this.#AppServerBaseURL}/learnprofiles/${id}`;
   #getLearnProfileViaURL = (id) => `${this.#AppServerBaseURL}/learnprofile/${id}`;
 
@@ -112,7 +112,7 @@ export default class AppApi {
     fetch(url, init).then((res) => {
       // The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500.
       if (!res.ok) {
-        console.log(`${res.status} ${res.statusText} ${res}`);
+        
       }
       return res.json();
     });
@@ -128,7 +128,7 @@ export default class AppApi {
   getPersons() {
     return this.#fetchAdvanced(this.#getPersonsURL()).then((responseJSON) => {
       let personBOs = PersonBO.fromJSON(responseJSON);
-      console.log(responseJSON);
+      
       return new Promise(function (resolve) {
         resolve(personBOs);
       });
@@ -143,10 +143,10 @@ export default class AppApi {
    */
 
   getPersonByGoogleId(person) {
-    //console.log(google_user_id)
+    //
     return this.#fetchAdvanced(this.#getPersonURL(person)).then(
       (responseJSON) => {
-        // console.log(responseJSON)
+        // 
 
         // We always get an array of PersonBOs.fromJSON, but only need one object
         let responsePersonBO = PersonBO.fromJSON(responseJSON);
@@ -261,7 +261,7 @@ export default class AppApi {
   getProfileViaUrl(sessionId) {
     return this.#fetchAdvanced(this.#getProfileViaURL(sessionId)).then(
       (responseJSON) => {
-        console.log(responseJSON, 'response');
+        
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(profileBOs);
@@ -288,7 +288,7 @@ export default class AppApi {
       },
       body: JSON.stringify(profile),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of ProfileBOs.fromJSON, but only need one object
       let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
       // console.info(ProfileBOs);
@@ -306,14 +306,14 @@ export default class AppApi {
    * @public
    */
   
-  updateProfile(id) {
+  updateProfile(id, profile) {
     return this.#fetchAdvanced(this.#updateProfileURL(id), {
       method: 'PUT',
       headers: {
         Accept: 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(id),
+      body: JSON.stringify(profile),
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseProfileBO = ProfileBO.fromJSON(responseJSON)[0];
@@ -378,7 +378,7 @@ export default class AppApi {
       },
       body: JSON.stringify(suggestion),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of SuggestionBOs.fromJSON, but only need one object
       let responseSuggestionBO = SuggestionBO.fromJSON(responseJSON)[0];
       // console.info(SuggestionBOs);
@@ -463,7 +463,7 @@ export default class AppApi {
   getLearnProfileViaUrl(sessionId) {
     return this.#fetchAdvanced(this.#getLearnProfileViaURL(sessionId)).then(
       (responseJSON) => {
-        console.log(responseJSON, 'response');
+        
         let profileBOs = ProfileBO.fromJSON(responseJSON);
         return new Promise(function (resolve) {
           resolve(profileBOs);
@@ -489,7 +489,7 @@ export default class AppApi {
       },
       body: JSON.stringify(learnProfile),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of LearnProfileBOs.fromJSON, but only need one object
       let responseLearnProfileBO = LearnProfileBO.fromJSON(responseJSON)[0];
       // console.info(ProfileBOs);
@@ -506,14 +506,14 @@ export default class AppApi {
    * @public
    */
   
-  updateLearnProfile(id) {
+  updateLearnProfile(id, learnProfile) {
     return this.#fetchAdvanced(this.#updateLearnProfileURL(id), {
       method: 'PUT',
       headers: {
         Accept: 'application/json, text/plain',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(id),
+      body: JSON.stringify(learnProfile),
     }).then((responseJSON) => {
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseLearnProfileBO = LearnProfileBO.fromJSON(responseJSON)[0];
@@ -574,7 +574,7 @@ export default class AppApi {
       },
       body: JSON.stringify(chat),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of ChatBOs.fromJSON, but only need one object
       let responseChatBO = ChatBO.fromJSON(responseJSON)[0];
       // console.info(ChatBOs);
@@ -663,7 +663,7 @@ export default class AppApi {
       },
       body: JSON.stringify(chatmessage),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of ChatGroupBOs.fromJSON, but only need one object
       let responeChatMessageBO = ChatMessageBO.fromJSON(responseJSON)[0];
       // console.info(ChatBOs);
@@ -768,10 +768,10 @@ export default class AppApi {
   
   
   getLearnGroupById(id) {
-    //console.log()
+    //
     return this.#fetchAdvanced(this.#getLearnGroupByIdURL(id)).then(
       (responseJSON) => {
-        // console.log(responseJSON)
+        // 
 
         let responseLearnGroupByIdBOs = LearnGroupBO.fromJSON(responseJSON);
         // console.info();
@@ -798,7 +798,7 @@ export default class AppApi {
       },
       body: JSON.stringify(learnGroup),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of LearnProfileBOs.fromJSON, but only need one object
       let responseLearnGroupBO = LearnGroupBO.fromJSON(responseJSON)[0];
       // console.info(ProfileBOs);
@@ -861,11 +861,11 @@ export default class AppApi {
    */
   
   getLearnGroupByPersonId(person_id) {
-    //console.log(google_user_id)
+    //
     return this.#fetchAdvanced(
       this.#getLearnGroupByPersonIdURL(person_id)
     ).then((responseJSON) => {
-      // console.log(responseJSON)
+      // 
 
       // We always get an array of PersonBOs.fromJSON, but only need one object
       let responseLearnGroupByPersonBOs = LearnGroupBO.fromJSON(responseJSON);
@@ -900,11 +900,11 @@ export default class AppApi {
    */
 
   getGroupRequestByPersonId(person_id) {
-    //console.log()
+    //
     return this.#fetchAdvanced(
       this.#getGroupRequestByPersonIdURL(person_id)
     ).then((responseJSON) => {
-      // console.log(responseJSON)
+      // 
 
       let responseGroupRequestByPersonBOs =
         GroupRequestBO.fromJSON(responseJSON);
@@ -925,11 +925,11 @@ export default class AppApi {
    */
 
   getGroupRequestByLearnGroupId(learngroup_id) {
-    //console.log()
+    //
     return this.#fetchAdvanced(
       this.#getGroupRequestByLearnGroupIdURL(learngroup_id)
     ).then((responseJSON) => {
-      // console.log(responseJSON)
+      // 
 
       let responseGroupRequestByLearnGroupBOs =
         GroupRequestBO.fromJSON(responseJSON);
@@ -950,11 +950,11 @@ export default class AppApi {
    */
   
   getGroupRequestByAccepted(is_accepted) {
-    //console.log()
+    //
     return this.#fetchAdvanced(
       this.#getGroupRequestByAcceptedURL(is_accepted)
     ).then((responseJSON) => {
-      // console.log(responseJSON)
+      // 
 
       let responseGroupRequestByAcceptedBOs =
         GroupRequestBO.fromJSON(responseJSON);
@@ -1004,7 +1004,7 @@ export default class AppApi {
       },
       body: JSON.stringify(groupRequest),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of ProfileBOs.fromJSON, but only need one object
       let responseGroupRequestBO = GroupRequestBO.fromJSON(responseJSON)[0];
       // console.info(responseGroupRequestBO);
@@ -1034,7 +1034,7 @@ export default class AppApi {
       },
       body: JSON.stringify(is_accepted, id),
     }).then((responseJSON) => {
-      console.log(responseJSON);
+      
       // We always get an array of ProfileBOs.fromJSON, but only need one object
       let responseGroupRequestBO = GroupRequestBO.fromJSON(responseJSON)[0];
       // console.info(responseGroupRequestBO);
@@ -1054,10 +1054,10 @@ export default class AppApi {
    */
   
   getMatchesByPersonURL(id) {
-    //console.log()
+    //
     return this.#fetchAdvanced(this.#getMatchesByPersonURL(id)).then(
       (responseJSON) => {
-        // console.log(responseJSON)
+        // 
 
         let responseMatchesByPersonBOs = responseJSON;
         // console.info();
@@ -1082,14 +1082,14 @@ export default class AppApi {
   
   
   getMatchesByLearnGroup(id) {
-    //console.log()
+    //
     return this.#fetchAdvanced(this.#getMatchesByLearnGroupURL(id)).then(
       (responseJSON) => {
-        // console.log(responseJSON)
+        // 
 
         let responseMatchesByPersonBOs = responseJSON;
         // console.info();
-        console.log(responseJSON)
+        
 
         return new Promise(function (resolve) {
           resolve(responseMatchesByPersonBOs);

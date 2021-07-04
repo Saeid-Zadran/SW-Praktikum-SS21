@@ -325,8 +325,8 @@ class ProfileDeleteOperation(Resource):
         Das zu löschende Objekt wird durch die ```id``` in dem URI bestimmt.
         """
         adm = Administration()
-        p = adm.get_profile_by_id(id)
-        adm.delete_profile(p)
+        #p = adm.get_profile_by_id(id)
+        adm.delete_profile(id)
         return '', 200
     
     @studymatch.marshal_with(profile)
@@ -910,7 +910,7 @@ class GroupRequestnOperations(Resource):
 
     def delete(self, id):
         adm = Administration()
-        grouprequest= adm.get_person_by_id(id)
+        grouprequest= adm.get_grouprequest_by_id(id)
         adm.delete_grouprequest(grouprequest)
         return '', 200
 

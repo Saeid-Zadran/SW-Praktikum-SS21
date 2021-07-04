@@ -49,7 +49,7 @@ class LearnGroupMapper (Mapper):
         command = "SELECT id, creation_time, name, person_id FROM learngroup WHERE id={}".format(key)
         cursor.execute(command)
         tuples = cursor.fetchall()
-
+        print(tuples)
         if tuples[0] is not None:
             (id, creation_time, name, person_id) = tuples[0]
             learngroup = LearnGroup()
@@ -145,6 +145,15 @@ class LearnGroupMapper (Mapper):
         """
 
         cursor = self._cnx.cursor()
+        print(learngroup.get_id())
+        command = "DELETE chat  FROM chat  INNER JOIN learngroup ON chat.learngroup_id=learngroup.id  WHERE learngroup.id = {}".format(learngroup.get_id())
+        cursor.execute(command)
+
+        try:
+            command = "DELETE grouprequest  FROM grouprequest  INNER JOIN learngroup ON grouprequest.learngroup_id=learngroup.id  WHERE learngroup.id ={}".format(learngroup.get_id())
+        finally:
+            print("no groups to be deleted")
+        cursor.execute(command)
 
         command = ("DELETE FROM learngroup WHERE id={}".format(learngroup.get_id()))
         cursor.execute(command)

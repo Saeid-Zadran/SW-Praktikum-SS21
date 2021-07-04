@@ -59,7 +59,7 @@ class GroupProposal extends Component {
     learnGroup.setPersonId(person_id);
 
     var api = AppApi.getApi();
-    // console.log(api)
+    // 
     let learnGroups = await api.addLearnGroup(learnGroup);
     return learnGroups;
   }
@@ -67,7 +67,7 @@ class GroupProposal extends Component {
 
   render() {
     const { classes } = this.props;
-    const { title, subtitle, id, is_accepted } = this.props;
+    const { title, subtitle, id, is_accepted, refresh_page } = this.props;
 
     const handleClick = async () => {
       let uid = '';
@@ -78,19 +78,22 @@ class GroupProposal extends Component {
       session_id = session_id[0].id;
       let learngroup_id = await this.addLearnGroup(
         `Chat mit ${title}`,
-        session_id
+        id
       );
+      console.log(id, session_id)
       let request_json = {
         id: 0,
         creation_time: '2021-06-28T19:41:33.064Z',
         is_accepted: false,
         learngroup_id: learngroup_id.id,
-        person_id: id,
+        person_id: session_id,
       };
 
       let fetchedChatAdvanced = await AppApi.getApi().addGroupRequest(
         request_json
       );
+      console.log(this.props)
+      refresh_page()
     };
 
     return (

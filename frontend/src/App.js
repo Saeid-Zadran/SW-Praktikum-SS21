@@ -61,7 +61,7 @@ class App extends React.Component {
       user
         .getIdToken()
         .then((token) => {
-          console.log(user);
+          
           document.cookie = `token=${token};path=/`;
           document.cookie = `email=${user.email};path=/`;
           document.cookie = `name=${user.displayName};path=/`;
@@ -72,18 +72,18 @@ class App extends React.Component {
             try {
               let personObj = response[0];
               if (personObj.name) {
-                console.log('existing', personObj);
+                
                 let session_id = personObj.id;
-                console.log(session_id);
+                
                 // wenn dieser call positiv ist und ein profil erstellt folgt zweiter call
                 //app.getProfileByID(session_id).then((profiles)=>
                 //{
-                // console.log(profiles)
+                // 
 
                 this.setAuthStatePositive(user);
 
                 app.getProfileViaUrl(session_id).then((profile) => {
-                  console.log();
+                  
                   //})
                   let learnProfilesAvailabe = false;
                   if (profile[0].adress) {
@@ -109,11 +109,11 @@ class App extends React.Component {
                   }
                 });
               } else {
-                console.log('new created', personObj.name);
+                
                 app
                   .createPerson(user.displayName, user.email, user.uid)
                   .then((person) => {
-                    console.log(person);
+                    
                   });
                 this.setState({
                   currentUser: user,

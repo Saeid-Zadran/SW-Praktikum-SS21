@@ -47,7 +47,7 @@ class ProfileDeleteDialog extends Component {
 
   /** Handles the close / cancel button click event */
   handleClose = () => {
-    // console.log(event);
+    // 
     this.props.onClose(null);
   }
 

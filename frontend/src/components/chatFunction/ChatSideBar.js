@@ -26,26 +26,34 @@ class ChatSideBar extends Component {
     let session_id = await AppApi.getApi().getPersonByGoogleId(uid);
     session_id = session_id[0].id;
     let learngroups = await AppApi.getApi().getLearnGroupByPersonId(session_id);
-    console.log(learngroups);
+    
     let groupRequests = await AppApi.getApi().getGroupRequestByAccepted(
       session_id
     );
-    let openGroupRequests = await AppApi.getApi().getGroupRequestByPersonId(
-      session_id
-    );
 
-    console.log(openGroupRequests, session_id);
+    
+    let openGroupRequests = []
+    for(var key in learngroups)
+    {
+      let learnGroup = learngroups[key]
+      let openGroupRequest = await AppApi.getApi().getGroupRequestByLearnGroupId(learnGroup.id)
+      console.log(openGroupRequest)
+      for (var openKey in openGroupRequest)
+      {        
+        openGroupRequests.push(openGroupRequest[openKey])
+      }
 
+    }
+    console.log(openGroupRequests)
+
+
+    
     // filter alle offenen GruppenRequests nach is_accepted === false
     openGroupRequests = openGroupRequests.filter(
       (openRequest) => openRequest.is_accepted === false
     );
-    console.log(openGroupRequests, session_id);
-
-    openGroupRequests = openGroupRequests.filter(
-      (openRequest) => openRequest.person_id === session_id
-    );
-    console.log(openGroupRequests);
+    
+  
 
     for (var key in groupRequests) {
       let groupRequest = groupRequests[key];
@@ -109,6 +117,7 @@ class ChatSideBar extends Component {
                 learngroup_id={openrequest.learngroup_id}
                 person_id={openrequest.person_id}
                 id={openrequest.id}
+                key={openrequest.id}
               ></ChatRequest>
             ))}
           </ul>

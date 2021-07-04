@@ -232,6 +232,7 @@ class LearnProfileMapper(Mapper):
                     value += 0
                 value = value/total
                 value = value * 100
+                #if value > 15:
                 result[learnprofile.get_person_id()] = value
             else:
                 value = 0

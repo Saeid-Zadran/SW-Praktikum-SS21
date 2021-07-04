@@ -59,7 +59,7 @@ class ChatRequest extends Component {
     let personProfile = await AppApi.getApi().getProfileViaUrl(
       this.props.person_id
     );
-    console.log(personProfile);
+    
     this.setState({
       groupName: learnGroup[0].name,
       profileName: 'Anfefragt durch: ' + personProfile[0].name,
@@ -68,7 +68,7 @@ class ChatRequest extends Component {
 
   localStorageUpdated() {}
   someEventHandler = (e) => {
-    console.log('right clicked');
+    
     e.preventDefault();
     this.setState({
       anchorEl: e.currentTarget,
@@ -88,7 +88,8 @@ class ChatRequest extends Component {
     const reject = async () => {
       // TODO delete the groupRequest
       // TODO delete the LearnGroup
-      console.log("delete")
+      
+      await AppApi.getApi().deleteGroupRequestById(this.props.id)
       this.props.loadFreshPage()
 
     };

@@ -19,6 +19,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import GroupProposal from '../matches/GroupProposal';
+import PersonProposal from '../matches/PersonProposal';
 import './Matching.css';
 
 class MatchingPage extends Component {
@@ -33,12 +34,8 @@ class MatchingPage extends Component {
 
     // Init an empty state
     this.state = {
-      learnGroup: [
-      ],
-      matchedLearnGroups: 
-    [
-
-    ],
+      learnGroup: [],
+      matchedLearnGroups: [],
       error: null,
       loadingInProgress: false,
       expandedProfileID: expandedID,
@@ -66,31 +63,38 @@ class MatchingPage extends Component {
       let allGroupRequests = await AppApi.getApi().getGroupRequestByPersonId(
         variable
       );
+      console.log(variable);
+
       let requestStatus = '';
       for (var grouRequestKey in allGroupRequests) {
         let groupRequest = allGroupRequests[grouRequestKey];
         let learnGroup = null;
+        console.log(groupRequest.person_id, variable);
         if (groupRequest.person_id == variable) {
+          console.log(groupRequest.person_id);
           learnGroup = await AppApi.getApi().getLearnGroupById(
-            groupRequest.person_id
+            groupRequest.learngroup_id
           );
+          console.log(groupRequest.person_id);
+          console.log(learnGroup);
           if (learnGroup[0].person_id == session_id) {
             requestStatus = groupRequest.is_accepted;
           }
+
         }
       }
       let matchObject = {
         learnGroup_id: variable,
         name: learnProfile[0].name,
         percent: matchedLearnprofiles[variable],
-        id: learnProfile[0].id,
+        id: learnProfile[0].person_id,
         requestStatus: requestStatus,
       };
       matches.push(matchObject);
     }
+
     this.setState({ learnGroup: matches });
   }
-
 
   async getLearnGroups() {
     let uid = '';
@@ -104,25 +108,50 @@ class MatchingPage extends Component {
     let matchedLearnprofiles = await AppApi.getApi().getMatchesByLearnGroup(
       session_id
     );
-    console.log(matchedLearnprofiles)
+
     let matches = [];
-    console.log(matchedLearnprofiles)
+
     for (var variable in matchedLearnprofiles) {
       let learnGroup = await AppApi.getApi().getLearnGroupById(variable);
-      console.log(learnGroup)
+
       let allGroupRequests = await AppApi.getApi().getGroupRequestByPersonId(
         variable
       );
+      for (var key in allGroupRequests) {
+        let groupRequest = allGroupRequests[key];
+        console.log(groupRequest);
+
+        if (groupRequest.person_id == session_id) {
+          console.log(groupRequest);
+        }
+      }
+      let requestStatus = '';
+
+      let openGroupRequests = await AppApi.getApi().getGroupRequestByLearnGroupId(learnGroup[0].id)
+      for(var key in openGroupRequests)
+      { 
+        let openGroupRequest = openGroupRequests[key]
+        console.log(openGroupRequest)
+
+        if(openGroupRequest.person_id == session_id)
+        {
+          requestStatus = openGroupRequest.is_accepted
+        }
+      }
+
+
       let matchObject = {
         learnGroup_id: variable,
         name: learnGroup[0].name,
         percent: matchedLearnprofiles[variable],
-        id: "learnProfile[0].id",
+        id: learnGroup[0].id,
+        requestStatus: requestStatus
       };
-      matches.push(matchObject);
-    }
-    console.log(matches)
 
+      if (learnGroup[0].name.includes('Chat mit') == false) {
+        matches.push(matchObject);
+      }
+    }
     this.setState({ matchedLearnGroups: matches });
   }
 
@@ -131,24 +160,28 @@ class MatchingPage extends Component {
     this.getLearnGroups();
   }
 
+  refreshMatchPage = () => {
+    this.getChatGroups();
+    this.getLearnGroups();
+  };
   render() {
     const { classes } = this.props;
-    const { learnGroup, loadingInProgress, error, matchedLearnGroups } = this.state;
+    const { learnGroup, loadingInProgress, error, matchedLearnGroups } =
+      this.state;
     const handleClick = async () => {
       let testVariable = await AppApi.getApi().getGroupRequestByPersonId(1);
 
-      console.log(testVariable);
       this.setState({
         testState: 'jimmy',
       });
     };
     return (
-      <div>
+      <div className="scrollable">
         <Grid container className={classes.root} spacing={2}>
           <Grid item xs={12}>
             <Grid container justify="center" spacing={5}>
               <Grid item>
-                <Card flat className="scrollable">
+                <Card elevation={0} flat className="scrollable">
                   <CardContent>
                     <Typography
                       className={classes.title}
@@ -175,40 +208,44 @@ class MatchingPage extends Component {
                         id={learner.id}
                         percent={learner.percent}
                         is_accepted={learner.requestStatus}
+                        refresh_page={this.refreshMatchPage}
                       ></GroupProposal>
                     ))}
                   </CardContent>
                 </Card>{' '}
               </Grid>
               <Grid item>
-                <Card className={classes.root}>
+                <Card elevation={0} className={classes.root}>
                   <CardContent>
                     <Typography
                       className={classes.title}
                       color="textSecondary"
                       gutterBottom
                     >
-                      Dies sind empfohlene Lerngruppen basierend auf deinem Lernprofil!
+                      Dies sind empfohlene Lerngruppen basierend auf deinem
+                      Lernprofil!
                     </Typography>
                     <Typography variant="h5" component="h2">
                       Vorschläge
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                      adjective
+                      Hier kannst du Lerngruppen finden die zu deinem Profil
+                      passen.
                     </Typography>
-                   
+
                     {matchedLearnGroups.map((learner) => (
-                      <GroupProposal
+                      <PersonProposal
                         title={learner.name}
                         id={learner.id}
+                        person_id={learner.person_id}
                         percent={learner.percent}
                         is_accepted={learner.requestStatus}
-                      ></GroupProposal>
+                        refresh_page={this.refreshMatchPage}
+
+                      ></PersonProposal>
                     ))}
                   </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
+                  <CardActions></CardActions>
                 </Card>
               </Grid>
               <Grid item></Grid>

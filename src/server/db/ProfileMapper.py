@@ -153,9 +153,34 @@ class ProfileMapper(Mapper):
         :param profile das aus der DB zu löschende "Objekt"
         """
         cursor = self._cnx.cursor()
+        try:
+            command = "DELETE chat  FROM chat INNER JOIN learngroup ON chat.learngroup_id=learngroup.id  WHERE learngroup.person_id ={}".format(profile)
+            cursor.execute(command)
+            tuples = cursor.fetchall()
+            for chat in tuples:
+                print(chat)
+        finally:
+            print("nothing to delete")
 
-        command = "DELETE FROM profile WHERE id={}".format(profile.get_id())
+    
+
+        try:
+            command = "DELETE grouprequest  FROM grouprequest  INNER JOIN learngroup ON grouprequest.learngroup_id=learngroup.id  WHERE learngroup.person_id ={}".format(profile)
+        finally:
+            print("no groups to be deleted")
         cursor.execute(command)
+
+
+        command = "DELETE FROM learngroup WHERE person_id={}".format(profile)
+        cursor.execute(command)
+
+
+        command = "DELETE FROM learnprofile WHERE person_id={}".format(profile)
+        cursor.execute(command)
+
+  
+        command = "DELETE FROM profile WHERE id={}".format(profile)
+        cursor.execute(command) 
 
         self._cnx.commit()
         cursor.close()
